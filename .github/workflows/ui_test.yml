@@ -1,0 +1,61 @@
+# Run UI test automation
+
+name: Dashboard UI test run
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        default: "http://tyk-analytics.master.dev.tyk.technology:3000/"
+        description: "Environment URL run against; like http://tyk-analytics.${branch_name}.dev.tyk.technology:3000/"
+        required: true
+
+env:
+  URL: ${{ github.event.inputs.url }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test:
+    name: test run
+
+    strategy:
+      matrix:
+        arch: [amd64]
+        node-version: [12.x] # stick to latest LTS
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # https://blog.npmjs.org/post/171556855892/introducing-npm-ci-for-faster-more-reliable
+      - run: npm ci
+        working-directory: ./test/dashboard_ui_tests
+
+      - run: npm run headless-test
+        working-directory: ./test/dashboard_ui_tests
+        env:
+          URL: ${{ env.URL }}
+
+      - name: Archive UI test report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: ui-test-report
+          path: test/dashboard_ui_tests/results/report/index.html
+  
+      - name: Slack notify
+        if: ${{ always() }}
+        run: npm run notify-slack
+        working-directory: ./test/dashboard_ui_tests
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
