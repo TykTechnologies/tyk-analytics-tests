@@ -1,0 +1,13 @@
+# Node
+node_modules/
+
+# Don't keep recordings from test runs
+results/
+*.log
+
+# Env files
+.env*
+
+#IDE settings
+.idea/
+.vscode/*

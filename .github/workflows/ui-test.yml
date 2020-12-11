@@ -1,0 +1,85 @@
+# Run UI test automation
+
+name: Scheduled UI test run
+
+on:
+  workflow_dispatch:
+    inputs:
+      test-env:
+        default: "staging"
+        description: "Environment to run against; one of [ 'staging', 'testing' ]"
+        required: true
+      test-spec:
+        description: "Optional test spec file to run; leave blank for all"
+        required: false
+
+env:
+  WDIO_BASIC_PASSWORD: ${{ secrets.STAGING_AUTH }}
+  WDIO_BASIC_USERNAME: artem
+  WDIO_TEST_ENV: ${{ github.event.inputs.test-env }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test:
+    name: test run
+
+    strategy:
+      matrix:
+        arch: [amd64]
+        node-version: [12.x] # stick to latest LTS
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Initialize workflow variables
+        id: vars
+        run: |
+          # Check if test spec was given
+          if [ -n "${{ github.event.inputs.test-spec }}" ]; then
+            echo "::set-output name=HAS_TEST_SPEC::true"
+          else
+            echo "::set-output name=HAS_TEST_SPEC::false"
+          fi
+
+      - name: Checkout ${{ github.repository }}
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # https://blog.npmjs.org/post/171556855892/introducing-npm-ci-for-faster-more-reliable
+      - run: npm ci
+        working-directory: ./test/ara-ui-tests
+
+      # If test spec is given, run just that spec
+      - if: ${{ steps.vars.outputs.HAS_TEST_SPEC == 'true' }}
+        run: WDIO_HEADLESS=1 npm test -- --spec ./test/specs/${{ github.event.inputs.test-spec }}
+        working-directory: ./test/ara-ui-tests
+        env:
+          WDIO_TEST_ENV: ${{ env.WDIO_TEST_ENV }}
+
+      # If no test spec is given, run everything
+      - if: ${{ steps.vars.outputs.HAS_TEST_SPEC == 'false' }}
+        run: npm run headless-test
+        working-directory: ./test/ara-ui-tests
+        env:
+          WDIO_TEST_ENV: ${{ env.WDIO_TEST_ENV }}
+
+      - name: Archive UI test report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: ui-test-report
+          path: test/ara-ui-tests/results/report/index.html
+  
+      - name: Slack notify
+        if: ${{ always() }}
+        run: npm run notify-slack
+        working-directory: ./test/ara-ui-tests
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

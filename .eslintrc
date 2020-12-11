@@ -1,0 +1,37 @@
+{
+    "parser": "babel-eslint",
+    "env": {
+      "es6": true
+    },
+    "rules": {
+      "semi": 2,
+      "strict": 2,
+      "block-scoped-var": 2,
+      "complexity": 1,
+      "consistent-return": 2,
+      "curly": 2,
+      "default-case": 2,
+      "dot-notation": 2,
+      "eqeqeq": 2,
+      "guard-for-in": 2,
+      "no-else-return": 2,
+      "no-labels": 2,
+      "no-eq-null": 2,
+      "no-eval": 2,
+      "no-implied-eval": 2,
+      "no-lone-blocks": 2,
+      "no-loop-func": 2,
+      "no-multi-spaces": 2,
+      "no-native-reassign": 2,
+      "no-new": 2,
+      "no-octal": 0,
+      "no-process-env": 0,
+      "no-proto": 2,
+      "no-redeclare": 2,
+      "no-with": 2,
+      "radix": 2,
+      "vars-on-top": 2,
+      "wrap-iife": 2,
+      "yoda": 2
+    }
+  }
