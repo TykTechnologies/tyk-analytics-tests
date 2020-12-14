@@ -56,6 +56,14 @@ exports.config = {
         maxInstances: 5,
         //
         browserName: 'chrome',
+        "goog:chromeOptions": {
+            args: [
+              ...(process.env.WDIO_HEADLESS ? ['--headless', "--window-size=1440, 900"] : []),
+              '--incognito',
+              '--disable-web-security',
+              '--allow-running-insecure-content'
+            ]
+        },
         acceptInsecureCerts: true
         // If outputDir is provided WebdriverIO can capture driver session logs
         // it is possible to configure which logTypes to include/exclude.
@@ -69,7 +77,7 @@ exports.config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'info',
+    logLevel: 'warn',
     //
     // Set specific log levels per logger
     // loggers:
@@ -209,6 +217,7 @@ exports.config = {
         const chai = require('chai');
         global.expect = chai.expect;
         browser.maximizeWindow();
+        // browser.setWindowSize(1440, 900);
     },
     /**
      * Runs before a WebdriverIO command gets executed.
@@ -291,8 +300,10 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {<Object>} results object containing test results
      */
-    // onComplete: function(exitCode, config, capabilities, results) {
-    // },
+    onComplete: function(exitCode, config, capabilities, results) {
+        const mergeResults = require('wdio-json-reporter/mergeResults');
+        mergeResults('./results/json', 'wdio-*','wdio-merged.json');
+    },
     /**
     * Gets executed when a refresh happens.
     * @param {String} oldSessionId session ID of the old session
