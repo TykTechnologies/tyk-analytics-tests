@@ -1,7 +1,6 @@
-
 import { login_page } from '../../../lib/pom/Login_page';
-import { main_page } from '../../../lib/pom/Main_Page';
 import { apis_page } from '../../../lib/pom/Apis_page';
+import { main_page } from '../../../lib/pom/Main_page';
 
 describe('Create simple API', () => {
   const apiDetails = {
@@ -24,7 +23,7 @@ describe('Create simple API', () => {
     apis_page.SAVE_BUTTON.click();
   });
 
-  it('New api should be visible in table', () => {
+  it('New API should be visible in table', () => {
     $apiTableElement = $(`a=${apiDetails.name}`);  
     wdioExpect($apiTableElement).toBeClickable();
   });
