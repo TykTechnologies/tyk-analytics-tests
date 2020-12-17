@@ -12,7 +12,7 @@ const policyDetails = {
   keyEpiryTimeUpdateValue: "6 hours"
 };
 
-describe('Create/update/delete policie', () => {
+describe('Create/update/delete policies', () => {
   const dashboard_connection = new Dashboard_connection();
   let envDetails;
 
@@ -22,7 +22,7 @@ describe('Create/update/delete policie', () => {
     login_page.login(envDetails.userEmail, envDetails.userPassword);
   });
 
-  it('Prerequisits - creating API definition via dashboard API', () => {
+  it('Prerequisits: creating API definition via dashboard API', () => {
     const apiDefinition = newAPIdefinitionWithDefaults({"name":policyDetails.apiName});
     dashboard_connection.createAPI(apiDefinition, envDetails.userSecret);
   });
