@@ -59,6 +59,7 @@ describe('Create/update/delete policie', () => {
     policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyNameUpdate);
     policies_page.DELETE_BUTTON.click();
     policies_page.DELETE_CONFIRMATION_BUTTON.click();
+    main_page.openPolicies();
     const wasPolicyDeleted = policies_page.POLICY_TABLE.isCellWithTextNotDisplayed(policyDetails.policyNameUpdate);
     expect(wasPolicyDeleted).to.be.true;
   });
