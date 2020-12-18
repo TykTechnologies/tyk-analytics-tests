@@ -1,24 +1,25 @@
 import { login_page } from '../../../lib/pom/Login_page';
 import { apis_page } from '../../../lib/pom/Apis_page';
 import { main_page } from '../../../lib/pom/Main_page';
-const config_variables = require('../../../config_variables');
+import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
+import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
+import config_variables, { URL, LANDING_PAGE_PATH } from './../../../config_variables';
 
 describe('Test Landing Page', () => {
-  const apiDetails = {
-    name: "landingtest"
-  };
-  let $apiTableElement;
+  const testedURL = config_variables.URL + config_variables.LANDING_PAGE_PATH;
+  const dashboard_connection = new Dashboard_connection();
+  let envDetails;
 
   before(() => {
-    const envDetails = setUpEnv();
+    envDetails = setUpEnv();
     login_page.open();
     login_page.login(envDetails.userEmail, envDetails.userPassword);
   });
 
   it('User should see landing page after loggin in with 0 APIs', () => {
-    browser.url(config_variables.URL + config_variables.LANDING_PAGE_ENDPOINT); //TO BE REMOVED WHEN RELEASED
+    browser.url(config_variables.URL + config_variables.LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
     
-    wdioExpect(browser).toHaveUrl(config_variables.URL + config_variables.LANDING_PAGE_ENDPOINT);
+    wdioExpect(browser).toHaveUrl(testedURL);
     wdioExpect(apis_page.DESIGN_API_BOX).toBeDisplayed();
     wdioExpect(apis_page.IMPORT_API_BOX).toBeDisplayed();
     wdioExpect(apis_page.TRY_DEMO_BOX).toBeDisplayed();
@@ -27,26 +28,31 @@ describe('Test Landing Page', () => {
   it('User should see landing page when navigating with 0 APIs', () => {
     main_page.KEYS_NAVIAGTION_BUTTON.click();
     main_page.APIs_NAVIAGTION_BUTTON.click();
-    browser.url(config_variables.URL + config_variables.LANDING_PAGE_ENDPOINT); //TO BE REMOVED WHEN RELEASED
-    
-    wdioExpect(browser).toHaveUrl(config_variables.URL + config_variables.LANDING_PAGE_ENDPOINT);
+    browser.url(config_variables.URL + config_variables.LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
+
+    wdioExpect(browser).toHaveUrl(testedURL);
     wdioExpect(apis_page.DESIGN_API_BOX).toBeDisplayed();
     wdioExpect(apis_page.IMPORT_API_BOX).toBeDisplayed();
     wdioExpect(apis_page.TRY_DEMO_BOX).toBeDisplayed();
   });
 
   it('User should see API listing page when loggin in with 1 API', () => {
-    //$apiTableElement.click();
-    //apis_page.OPTIONS_BUTTON.click();
-    //apis_page.DELETE_BUTTON.click();
-    //apis_page.DELETE_API_BUTTON.click();
+    main_page.logOut();
+    const apiDefinition = newAPIdefinitionWithDefaults();
+    dashboard_connection.createAPI(apiDefinition, envDetails.userSecret);
+    login_page.login(envDetails.userEmail, envDetails.userPassword);
+    
+    wdioExpect(browser).not.toHaveUrl(testedURL);
+    wdioExpect(apis_page.DESIGN_API_BOX).not.toBeDisplayed();
+    wdioExpect(apis_page.IMPORT_API_BOX).not.toBeDisplayed();
+    wdioExpect(apis_page.TRY_DEMO_BOX).not.toBeDisplayed();
   });
 
   it('User should see API listing page when navigating with 1 API', () => {
       //wdioExpect($apiTableElement).not.toBeDisplayed();
   });
 
-  it('User should see landing page after loggin in if all APIs were deleted', () => {
+  it('User should see landing page after after all APIs were deleted', () => {
     //wdioExpect($apiTableElement).not.toBeDisplayed();
   });
 
