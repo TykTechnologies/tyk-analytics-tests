@@ -18,4 +18,7 @@ module.exports = {
     
     ORG_API_PATH: "organisations/",
     USERS_API_PATH: "users/",
+
+    LANDING_PAGE_PATH: "apis2/",
+    LOGOUT_PATH: "logout/",
 };
