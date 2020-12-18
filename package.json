@@ -24,11 +24,11 @@
     "chromedriver": "^87.0.1",
     "eslint": "^7.3.1",
     "eslint-plugin-wdio": "^6.0.12",
+    "timediff": "^1.1.1",
+    "ui_test_automation": "git+https://github.com/TykTechnologies/ui_test_automation.git#main",
     "wdio-chromedriver-service": "^6.0.4",
     "wdio-json-reporter": "^2.0.0",
-    "wdio-spec-reporter": "^0.1.5",
-    "timediff": "^1.1.1",
-    "ui_test_automation": "git+https://github.com/TykTechnologies/ui_test_automation.git#main"
+    "wdio-spec-reporter": "^0.1.5"
   },
   "dependencies": {
     "babel-eslint": "^10.1.0",
