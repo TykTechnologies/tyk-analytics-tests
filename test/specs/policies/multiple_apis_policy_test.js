@@ -6,7 +6,7 @@ import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_desi
 
 const policyDetails = {
   policyName: 'multiple_apis',
-  keyEpiryTime: "1 hour",
+  keyExpiryTime: "1 hour",
 };
 
 const basicAuthApisDetails = [
@@ -63,7 +63,7 @@ describe('Multiple APIs policies', () => {
     policies_page.API_TABLE.clickCellWithText(basicAuthApisDetails[1].name);
     policies_page.CONFIGURATIONS_TAB_BUTTON.click();
     policies_page.NAME_INPUT.setValue(policyDetails.policyName);
-    policies_page.KEY_EXPIRY_AFTER_DROPDOWN.selectOption(policyDetails.keyEpiryTime);
+    policies_page.KEY_EXPIRY_AFTER_DROPDOWN.selectOption(policyDetails.keyExpiryTime);
     policies_page.CREATE_POLICY_BUTTON.click();
   });
 
