@@ -39,7 +39,7 @@ describe('Test Landing Page', () => {
     wdioExpect(apis_page.TRY_DEMO_BOX).toBeDisplayed();
   });
 
-  it('User should see API listing page when loggin in with 1 API', () => {
+  it('User should not see Landing Page when loggin in with 1 API', () => {
     main_page.logOut();
     apiDefinition = newAPIdefinitionWithDefaults({"name":apiName});
     dashboard_connection.createAPI(apiDefinition, envDetails.userSecret);
@@ -51,7 +51,7 @@ describe('Test Landing Page', () => {
     wdioExpect(apis_page.TRY_DEMO_BOX).not.toBeDisplayed();
   });
 
-  it('User should see API listing page when navigating with 1 API', () => {
+  it('User should not see Landing Page when navigating with 1 API', () => {
     main_page.KEYS_NAVIAGTION_BUTTON.click();
     main_page.APIs_NAVIAGTION_BUTTON.click();
 
@@ -61,7 +61,7 @@ describe('Test Landing Page', () => {
     wdioExpect(apis_page.TRY_DEMO_BOX).not.toBeDisplayed();
   });
 
-  it('User should see landing page after all APIs were deleted', () => {
+  it('User should see Landing Page after all APIs were deleted', () => {
     $apiTableElement = $(`a=${apiName}`).click();
     apis_page.OPTIONS_BUTTON.click();
     apis_page.DELETE_BUTTON.click();
