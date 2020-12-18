@@ -20,7 +20,7 @@
           }
       },
       "proxy": {
-          "listen_path": "/test1/",
+          "listen_path": "",
           "target_url": "http://httpbin.org/",
           "strip_listen_path": true
       },
