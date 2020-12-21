@@ -37,6 +37,10 @@ describe('Create/update/delete policies', () => {
     policies_page.CREATE_POLICY_BUTTON.click();
   });
 
+  it('Confirmation popup should be displayed', () => {
+    expect(policies_page.isPolicyCreatedPopUpDisplayed()).to.be.true;
+  });
+
   it('User should be able to edit created Policy', () => {
     main_page.openPolicies();
     policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
