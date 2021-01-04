@@ -5,11 +5,6 @@ name: Dashboard UI test run
 on:
   schedule:
     - cron: "0 */12 * * *" # every 12 hours
-    inputs:
-    url:
-      default: "http://tyk-analytics.master.dev.tyk.technology:3000/"
-      description: "Environment URL run against; like http://tyk-analytics.BRANCH_NAME.dev.tyk.technology:3000/"
-      required: true
   workflow_dispatch:
     inputs:
       url:
