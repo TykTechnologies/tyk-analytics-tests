@@ -42,10 +42,12 @@ jobs:
       # https://blog.npmjs.org/post/171556855892/introducing-npm-ci-for-faster-more-reliable
       - run: npm ci
 
-      - run: npm run headless-test
+      - name: setEnv
         if: github.event.schedule=='0 */12 * * *'   # set env value
         run: |
           echo "::set-env name=URL::http://tyk-analytics.master.dev.tyk.technology:3000/"
+
+      - run: npm run headless-test
         env:
           URL: ${{ env.URL }}
 
