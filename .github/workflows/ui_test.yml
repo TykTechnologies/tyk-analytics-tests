@@ -11,6 +11,9 @@ on:
         default: "http://tyk-analytics.master.dev.tyk.technology:3000/"
         description: "Environment URL run against; like http://tyk-analytics.BRANCH_NAME.dev.tyk.technology:3000/"
         required: true
+  push:
+    branches:
+      - master
 
 env:
   URL: ${{ github.event.inputs.url }}
@@ -42,12 +45,13 @@ jobs:
       # https://blog.npmjs.org/post/171556855892/introducing-npm-ci-for-faster-more-reliable
       - run: npm ci
 
-      - name: setEnv
-        if: github.event.schedule=='0 */12 * * *'   # set env value
+      - name: executeTests
         run: |
-          echo "::set-env name=URL::http://tyk-analytics.master.dev.tyk.technology:3000/"
-
-      - run: npm run headless-test
+          if [[ "${{ env.URL }}" == "" ]]; then
+            URL='http://tyk-analytics.master.dev.tyk.technology:3000/' npm run headless-test
+          else
+            npm run headless-test
+          fi
         env:
           URL: ${{ env.URL }}
 
