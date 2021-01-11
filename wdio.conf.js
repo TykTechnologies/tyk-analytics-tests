@@ -254,8 +254,9 @@ exports.config = {
      */
     afterTest: function(test, context, { error, result, duration, passed, retries }) {
         if (error !== undefined) {
-            console.log(`>> ERROR: ${error}`);
-            browser.debug();
+            console.error(`>> ERROR: ${error}`);
+            const $$errorPopUps = $$('.tyk-message--danger');            
+            console.error(`Errors displaed on Dashboard: ${$$errorPopUps.map(popup => popup.getText())}`);
         }
     },
 
