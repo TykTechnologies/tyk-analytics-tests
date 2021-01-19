@@ -19,14 +19,14 @@ describe('Test Landing Page', () => {
   });
 
   it('User should see Landing Page after loggin in with 0 APIs', () => {
-    browser.url(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
+    browser.navigateTo(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
     checkBoxesAreDisplayed();
   });
 
   it('User should see Landing Page when navigating with 0 APIs', () => {
     main_page.KEYS_NAVIAGTION_BUTTON.click();
     main_page.APIs_NAVIAGTION_BUTTON.click();
-    browser.url(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
+    browser.navigateTo(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
     checkBoxesAreDisplayed();
   });
 
@@ -49,15 +49,12 @@ describe('Test Landing Page', () => {
     apis_page.OPTIONS_BUTTON.click();
     apis_page.DELETE_BUTTON.click();
     apis_page.DELETE_API_BUTTON.click();
-    browser.url(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
+    browser.navigateTo(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
     checkBoxesAreDisplayed();
   });
 
 function checkBoxesAreDisplayed() {
   wdioExpect(browser).toHaveUrl(testedURL);
-  //workaround for temporary problem with not loading landing page from URL on env
-  browser.pause(2000);
-  browser.refresh();
   wdioExpect(apis_page.DESIGN_API_BOX).toBeDisplayed();
   wdioExpect(apis_page.IMPORT_API_BOX).toBeDisplayed();
   wdioExpect(apis_page.TRY_DEMO_BOX).toBeDisplayed();
