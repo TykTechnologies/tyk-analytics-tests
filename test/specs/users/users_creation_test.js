@@ -7,7 +7,7 @@ let envDetails;
 const userDetails = {
   firstName: "user_name",
   lastName: "user_last_name",
-  emailAdress: randomEmail(),
+  emailAdress: randomEmail({ domain: 'example.com' }),
   password: "test123",
   isUserAnAdmin: true
 };
@@ -62,7 +62,7 @@ describe('Users creation', () => {
     let userForPermissionsTest = {
       firstName: "user_permissions",
       lastName: "user_last_name",
-      emailAdress: randomEmail(),
+      emailAdress: randomEmail({ domain: 'example.com' }),
       password: "test123",
     };
     fillUserData(userForPermissionsTest);

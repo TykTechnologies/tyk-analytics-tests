@@ -7,7 +7,7 @@ const userDetails = {
   firstName: "crud_user_name",
   firstNameUpdate: "crud_user_name_update",
   lastName: "crud_user_last_name",
-  emailAdress: randomEmail(),
+  emailAdress: randomEmail({ domain: 'example.com' }),
   password: "test123"
 };
 
