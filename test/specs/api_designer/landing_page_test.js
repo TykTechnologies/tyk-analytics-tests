@@ -55,6 +55,9 @@ describe('Test Landing Page', () => {
 
 function checkBoxesAreDisplayed() {
   wdioExpect(browser).toHaveUrl(testedURL);
+  //workaround for temporary problem with not loading landing page from URL on env
+  browser.pause(2000);
+  browser.refresh();
   wdioExpect(apis_page.DESIGN_API_BOX).toBeDisplayed();
   wdioExpect(apis_page.IMPORT_API_BOX).toBeDisplayed();
   wdioExpect(apis_page.TRY_DEMO_BOX).toBeDisplayed();
