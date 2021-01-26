@@ -68,7 +68,8 @@ describe('Users creation', () => {
     fillUserData(userForPermissionsTest);
     users_page.selectReadAccessForPermission('analytics');
     users_page.SAVE_BUTTON.click();
-
+    
+    expect(users_page.isUserCreatedPopUpDisplayed()).to.be.true;
     main_page.openUsers();
     users_page.USERS_TABLE.clickCellWithText(userForPermissionsTest.firstName);
     wdioExpect(users_page.PERMISSIONS_ANALYTICS_ROW).toHaveValue('read');
