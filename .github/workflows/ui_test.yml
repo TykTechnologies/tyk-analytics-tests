@@ -46,14 +46,9 @@ jobs:
       - run: npm ci
 
       - name: executeTests
-        run: |
-          if [[ "${{ env.URL }}" == "" ]]; then
-            URL='http://tyk-analytics.master.dev.tyk.technology:3000/' npm run headless-test
-          else
-            npm run headless-test
-          fi
+        run: npm run headless-test
         env:
-          URL: ${{ env.URL }}
+          URL: ${{ env.URL || 'http://tyk-analytics.master.dev.tyk.technology:3000/' }}
 
       - name: Archive UI test report
         if: ${{ always() }}
@@ -67,4 +62,4 @@ jobs:
         run: npm run notify-slack
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          WDIO_TEST_ENV: ${{ env.URL }}
+          WDIO_TEST_ENV: ${{ env.URL || 'http://tyk-analytics.master.dev.tyk.technology:3000/' }}
