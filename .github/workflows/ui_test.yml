@@ -10,8 +10,11 @@ on:
       url:
         default: "http://tyk-analytics.master.dev.tyk.technology:3000/"
         description: "Environment URL run against; like http://tyk-analytics.BRANCH_NAME.dev.tyk.technology:3000/"
-        required: true
+        required: false
   push:
+    branches:
+      - master
+  pull_request:
     branches:
       - master
 
@@ -46,9 +49,14 @@ jobs:
       - run: npm ci
 
       - name: executeTests
-        run: npm run headless-test
+        run: |
+          if [[ "${{ env.URL }}" == "" ]]; then
+            URL='http://tyk-analytics.master.dev.tyk.technology:3000/' npm run headless-test
+          else
+            npm run headless-test
+          fi
         env:
-          URL: ${{ env.URL || 'http://tyk-analytics.master.dev.tyk.technology:3000/' }}
+          URL: ${{ env.URL}}
 
       - name: Archive UI test report
         if: ${{ always() }}
@@ -59,7 +67,17 @@ jobs:
   
       - name: Slack notify
         if: ${{ always() }}
-        run: npm run notify-slack
+        run: |
+          if [[ "${{ env.URL }}" == "" ]]; then
+            WDIO_TEST_ENV='http://tyk-analytics.master.dev.tyk.technology:3000/' npm run notify-slack
+          else
+            npm run notify-slack
+          fi
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          WDIO_TEST_ENV: ${{ env.URL || 'http://tyk-analytics.master.dev.tyk.technology:3000/' }}
+          WDIO_TEST_ENV: ${{ env.URL }}
+          FRAMEWORK_REPO: ${{ github.repository }}
+          EVENT_TRIGGER: ${{ github.event_name }}
+          JOB_RUN_ID: ${{ github.run_id }}
+          JOB_NAME: ${{ github.job }}
+          GIT_BRANCH: ${{ github.ref }}
