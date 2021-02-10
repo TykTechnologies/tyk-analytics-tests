@@ -9,6 +9,7 @@ const policyDetails = {
   policyName: 'policy_tag',
   tagName: 'original_tag',
   updatedTagName: 'updated_tag',
+  anotherTagName: 'multi_works_fine',
   keyEpiryTime: "1 hour",
 };
 
@@ -83,6 +84,27 @@ describe('Create/update/delete tags on policy', () => {
 
   it('Confirmation popup should be displayed', () => {
     expect(policies_page.isPolicyUpdatedPopUpDisplayed()).to.be.true;
+  });
+
+  it('User should be able to add multiple tags on Policy', () => {
+    main_page.openPolicies();
+    policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
+    policies_page.CONFIGURATIONS_TAB_BUTTON.click();
+    policies_page.MAIN_TAG_INPUT.setValue(policyDetails.tagName);
+    policies_page.TAG_ADD_BUTTON.click();
+    policies_page.MAIN_TAG_INPUT.setValue(policyDetails.updatedTagName);
+    policies_page.TAG_ADD_BUTTON.click();
+    policies_page.MAIN_TAG_INPUT.setValue(policyDetails.anotherTagName);
+    policies_page.TAG_ADD_BUTTON.click();
+    policies_page.UPDATE_POLICY_BUTTON.click();
+    policies_page.UPDATE_CONFIRMATION_BUTTON.click();
+  });
+
+  it(`Three tags should be displayed after policy reload`, () => {
+    main_page.openPolicies();
+    policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
+    policies_page.CONFIGURATIONS_TAB_BUTTON.click();
+    wdioExpect(policies_page.TAG_ELEMENTS).toHaveChildren({ gte: 3 });
   });
 
 });
