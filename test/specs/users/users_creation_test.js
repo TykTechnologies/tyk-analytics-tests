@@ -1,13 +1,13 @@
 import { login_page } from '../../../lib/pom/Login_page';
 import { main_page } from '../../../lib/pom/Main_page';
 import { users_page } from '../../../lib/pom/Users_page';
-const randomEmail = require('random-email');
+import { generateRandomEmail } from '../../../lib/utils/utils';
 
 let envDetails;
 const userDetails = {
   firstName: "user_name",
   lastName: "user_last_name",
-  emailAdress: randomEmail({ domain: 'example.com' }),
+  emailAdress: generateRandomEmail(),
   password: "test123",
   isUserAnAdmin: true
 };
@@ -62,7 +62,7 @@ describe('Users creation', () => {
     let userForPermissionsTest = {
       firstName: "user_permissions",
       lastName: "user_last_name",
-      emailAdress: randomEmail({ domain: 'example.com' }),
+      emailAdress: generateRandomEmail(),
       password: "test123",
     };
     fillUserData(userForPermissionsTest);

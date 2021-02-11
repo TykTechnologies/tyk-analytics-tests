@@ -1,13 +1,13 @@
 import { login_page } from '../../../lib/pom/Login_page';
 import { main_page } from '../../../lib/pom/Main_page';
 import { users_page } from '../../../lib/pom/Users_page';
-const randomEmail = require('random-email');
+import { generateRandomEmail } from '../../../lib/utils/utils';
 
 const userDetails = {
   firstName: "crud_user_name",
   firstNameUpdate: "crud_user_name_update",
   lastName: "crud_user_last_name",
-  emailAdress: randomEmail({ domain: 'example.com' }),
+  emailAdress: generateRandomEmail(),
   password: "test123"
 };
 
