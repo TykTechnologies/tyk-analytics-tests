@@ -10,7 +10,7 @@ const policyDetails = {
   keyEpiryTime: "1 hour",
 };
 
-describe('Create/update/delete tags on policy', () => {
+describe('Create/update/delete metadata on policy', () => {
   const dashboard_connection = new Dashboard_connection();
   let envDetails;
 
