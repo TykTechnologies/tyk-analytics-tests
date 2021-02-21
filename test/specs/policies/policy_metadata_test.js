@@ -42,7 +42,7 @@ describe('Create/update/delete tags on policy', () => {
     expect(policies_page.isPolicyCreatedPopUpDisplayed()).to.be.true;
   });
 
-  it(`Tag: should be displayed after policy reload`, () => {
+  it(`Metadata should be displayed after policy reload`, () => {
     main_page.openPolicies();
     policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
     policies_page.CONFIGURATIONS_TAB_BUTTON.click();
@@ -67,7 +67,7 @@ describe('Create/update/delete tags on policy', () => {
     expect(policies_page.isPolicyUpdatedPopUpDisplayed()).to.be.true;
   });
 
-  it(`Updated metadata: should be displayed after policy reload`, () => {
+  it(`Updated metadata should be displayed after policy reload`, () => {
     main_page.openPolicies();
     policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
     policies_page.CONFIGURATIONS_TAB_BUTTON.click();
@@ -88,7 +88,7 @@ describe('Create/update/delete tags on policy', () => {
     expect(policies_page.isPolicyUpdatedPopUpDisplayed()).to.be.true;
   });
   
-  it(`Updated metadata: should be displayed after policy reload`, () => {
+  it(`No metadata should be displayed after policy reload`, () => {
     main_page.openPolicies();
     policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
     policies_page.CONFIGURATIONS_TAB_BUTTON.click();
@@ -112,7 +112,7 @@ describe('Create/update/delete tags on policy', () => {
     policies_page.UPDATE_CONFIRMATION_BUTTON.click();
   });
 
-  it(`Three tags should be displayed after policy reload`, () => {
+  it(`Three medatada should be displayed after policy reload`, () => {
     main_page.openPolicies();
     policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
     policies_page.CONFIGURATIONS_TAB_BUTTON.click();
