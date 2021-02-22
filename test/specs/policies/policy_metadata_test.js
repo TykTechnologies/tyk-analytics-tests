@@ -116,7 +116,7 @@ describe('Create/update/delete metadata on policy', () => {
     main_page.openPolicies();
     policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
     policies_page.CONFIGURATIONS_TAB_BUTTON.click();
-    wdioExpect(policies_page.METADATA_TABLE).toHaveChildren({ gte: 3 });
+    wdioExpect(policies_page.METADATA_TABLE).toHaveChildren({ eq: 3 });
   });
 
 });
