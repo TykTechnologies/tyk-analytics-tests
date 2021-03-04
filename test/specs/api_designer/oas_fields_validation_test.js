@@ -53,7 +53,7 @@ describe('Test mandatory fields on OAS API designer page', () => {
 
   it('Auth Key Header is required on main designer page', () => {
     apis_page.OAS_AUTHENTICATION_DROPDOWN.selectOption('Auth Token');
-    wdioExpect(apis_page.OAS_AUTHENTICATION_DROPDOWN).toHaveAttr('error', 'Auth Key Header Name is required');
+    wdioExpect(apis_page.OAS_AUTH_KEY_HEADER_INPUT).toHaveAttr('error', 'Auth Key Header Name is required');
   });
 
 });
