@@ -101,7 +101,7 @@ describe('Test API search functionality on Add Policy Page', () => {
   });
 
   it('User should be able to clear API name in search criteria', () => {
-    policies_page.API_NAME_INPUT.clearValue();
+    policies_page.API_NAME_INPUT.clear();
     wdioExpect(policies_page.API_TABLE).toHaveTextContaining(keylessApi.name);
     wdioExpect(policies_page.API_TABLE).toHaveTextContaining(authTokenApi.name);
     wdioExpect(policies_page.API_TABLE).toHaveTextContaining(oauthApi.name);
