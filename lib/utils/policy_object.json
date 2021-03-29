@@ -1,0 +1,18 @@
+{
+    "last_updated": "0001-01-01T00:00:00Z",
+    "rate": 1000,
+    "per": 60,
+    "quota_max": -1,
+    "quota_renews": 1481546970,
+    "quota_remaining": 0,
+    "quota_renewal_rate": 60,
+    "access_rights": {
+      "35447b1469df4e846894b1e87372f6d7": {
+        "apiid": "35447b1469df4e846894b1e87372f6d7",
+        "api_name": "My API",
+        "versions": ["Default"]
+      }
+    },
+    "name": "test policy",
+    "active": true
+  }    
