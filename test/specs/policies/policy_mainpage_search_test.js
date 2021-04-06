@@ -83,7 +83,7 @@ describe('Test Policy search functionality on Main Policy Page', () => {
       let policyDetails = {
         "access_rights": {
           [apiId]: {
-            "apiid": apiId,
+            "api_id": apiId,
             "api_name": authType.name,
             "versions": ["Default"]
           } 
