@@ -37,6 +37,7 @@ describe('Create/update/delete users', () => {
     users_page.FIRST_NAME_INPUT.setValue(userDetails.firstNameUpdate);
     users_page.UPDATE_BUTTON.click();
     expect(users_page.isUserUpdatedPopUpDisplayed()).to.be.true;
+    main_page.openUsers();
     users_page.USERS_TABLE.clickCellWithText(userDetails.firstNameUpdate);
     wdioExpect(users_page.FIRST_NAME_INPUT).toHaveValue(userDetails.firstNameUpdate);
   });
