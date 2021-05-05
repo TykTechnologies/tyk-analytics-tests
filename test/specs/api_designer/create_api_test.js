@@ -16,7 +16,7 @@ describe('Create simple API', () => {
 
   it('User should be able to create new API', () => {
     main_page.openAPIs();
-    apis_page.ADD_NEW_API_BUTTON.click();
+    apis_page.DESIGN_API_BOX.click();
     apis_page.API_NAME_INPUT.setValue(apiDetails.name);
     browser.pause(2000);//TODO replace using wait
     apis_page.CONFIGURE_API_BUTTON.click();
