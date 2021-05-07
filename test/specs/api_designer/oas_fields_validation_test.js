@@ -3,7 +3,7 @@ import { apis_page } from '../../../lib/pom/Apis_page';
 import { URL, LANDING_PAGE_PATH } from './../../../config_variables';
 import { expect } from 'chai';
 
-describe('Test mandatory fields on OAS API designer page', () => {
+xdescribe('Test mandatory fields on OAS API designer page', () => {
   const apiName = "oas-api-validation-test";
   let envDetails;
 
