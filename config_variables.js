@@ -21,4 +21,5 @@ module.exports = {
 
     LANDING_PAGE_PATH: "apis2/",
     LOGOUT_PATH: "logout/",
+    HELLO_PATH: "hello/"
 };

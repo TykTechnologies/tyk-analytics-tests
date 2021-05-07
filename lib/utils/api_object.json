@@ -2,7 +2,6 @@
   "api_definition": {
       "name": "test1",
       "slug": "test1",
-      "api_id": "test1",
       "use_keyless": true,
       "auth": {
           "auth_header_name": "Authorization"
