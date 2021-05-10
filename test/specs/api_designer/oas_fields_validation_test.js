@@ -17,23 +17,27 @@ describe('Test mandatory fields on OAS API designer page', () => {
     browser.navigateTo(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
     apis_page.DESIGN_API_BOX.click();
     apis_page.OAS_NEXT_BUTTON.click();
-    wdioExpect(apis_page.OAS_API_NAME_INPUT).toHaveAttr('error', 'API Name is required');    
+    let apiNameErrorMessage = $('//input[@name="x-tyk-api-gateway.info.name"]//following::p[1]')
+    wdioExpect(apiNameErrorMessage).toHaveText('API Name is required');    
   });
 
   it('API Name is required on main designer page', () => {
     apis_page.OAS_API_NAME_INPUT.setValue(apiName);
     apis_page.OAS_NEXT_BUTTON.click();
     apis_page.OAS_API_NAME_INPUT.setValue('');
-    apis_page.OAS_SAVE_BUTTON.click();    
-    wdioExpect(apis_page.OAS_API_NAME_INPUT).toHaveAttr('error', 'API Name is required');
+    apis_page.OAS_SAVE_BUTTON.click(); 
+    let apiNameErrorMessage = $('//input[@name="x-tyk-api-gateway.info.name"]//following::p[1]')
+    wdioExpect(apiNameErrorMessage).toHaveText('API Name is required');
   });
 
   it('Listen Path is required on main designer page', () => {
-    wdioExpect(apis_page.OAS_LISTEN_PATH_INPUT).toHaveAttr('error', 'Listen Path is required');
+    let listenPathErrorMessage = $('//input[@name="x-tyk-api-gateway.server.listenPath.value"]//following::p[1]');
+    wdioExpect(listenPathErrorMessage).toHaveText('Listen Path is required');
   });
 
   it('Target URL is required on main designer page', () => {
-    wdioExpect(apis_page.OAS_TARGET_URL_INPUT).toHaveAttr('error', 'Target URL is required');
+    let targetURLErrorMessage = $('//input[@name="x-tyk-api-gateway.upstream.url"]//following::p[1]');
+    wdioExpect(targetURLErrorMessage).toHaveText('Target URL is required');
   });
 
   it('Access is required on main designer page', () => {
@@ -53,7 +57,8 @@ describe('Test mandatory fields on OAS API designer page', () => {
 
   it('Auth Key Header is required on main designer page', () => {
     apis_page.OAS_AUTHENTICATION_DROPDOWN.selectOption('Auth Token');
-    wdioExpect(apis_page.OAS_AUTH_KEY_HEADER_INPUT).toHaveAttr('error', 'Auth Key Header Name is required');
+    let authHeaderErrorMessage = $('//input[@name="x-tyk-api-gateway.server.authentication.token.header.name"]//following::p[1]');
+    wdioExpect(authHeaderErrorMessage).toHaveText('Auth Key Header Name is required');
   });
 
 });
