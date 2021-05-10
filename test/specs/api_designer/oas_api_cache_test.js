@@ -117,6 +117,7 @@ describe('Test CORS settings on OAS API designer page', () => {
     let apiName = 'cache-ttl-header'
     openOasDesignerPage();
     apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.click();
+    apis_page.OAS_CACHE_CONTROL_TTL_HEADER_INPUT.waitForClickable();
     apis_page.OAS_CACHE_CONTROL_TTL_HEADER_INPUT.setValue("header-ttl");
     createApi(apiName);
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
