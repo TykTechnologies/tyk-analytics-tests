@@ -4,6 +4,7 @@ import { tib_page } from '../../../lib/pom/Tib_page';
 import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 import { newPolicyDefinitionWithDefaults } from '../../../lib/utils/Policy_object_designer';
+const path = require('path');
 
 let envDetails;
 const certFileLocation = './test/specs/tib/public_key.pem';
@@ -41,7 +42,7 @@ const keylessApi = {
   "name": "keyless"
 };
 
-describe('TIB profile creation tests', () => {
+xdescribe('TIB profile creation tests', () => {
   const dashboard_connection = new Dashboard_connection();
   let $profileTableElement;
   let $profileNameHeader;
