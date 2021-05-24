@@ -72,6 +72,7 @@ describe('Test Search functionality on OAS API Page', () => {
 
   it('User should be able to clear search results', () => {
     apis_page.OAS_SEARCH_BAR_CLEAR_ICON.click();
+    browser.pause(2000);
     wdioExpect(apis_page.OAS_LISTEN_PATH_INPUT).toBeDisplayed();
     wdioExpect(apis_page.OAS_AUTHENTICATION_DROPDOWN).toBeDisplayed();
     wdioExpect(apis_page.OAS_API_NAME_INPUT).toBeDisplayed();
