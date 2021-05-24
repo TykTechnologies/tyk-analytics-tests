@@ -48,7 +48,7 @@ describe('Users creation', () => {
 
   before(() => {
     envDetails = setUpEnv();
-    dashboard_connection.uploadCert(certFileLocation, envDetails.userSecret)
+    dashboard_connection.uploadCert(certFileLocation, envDetails.userSecret);
     let apiBody = newAPIdefinitionWithDefaults(keylessApi);
     let apiMeta = dashboard_connection.createAPI(apiBody, envDetails.userSecret);
     let apiId = dashboard_connection.getAPI(apiMeta, envDetails.userSecret).api_id;
@@ -61,7 +61,7 @@ describe('Users creation', () => {
         } 
       },
       "name": keylessApi.name + "_policy"
-    }
+    };
     let policy = newPolicyDefinitionWithDefaults(policyDetails);
     dashboard_connection.createPolicy(policy, envDetails.userSecret);
     login_page.open();
