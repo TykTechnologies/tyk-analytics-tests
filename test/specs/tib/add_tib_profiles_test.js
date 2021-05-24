@@ -4,6 +4,7 @@ import { tib_page } from '../../../lib/pom/Tib_page';
 import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 import { newPolicyDefinitionWithDefaults } from '../../../lib/utils/Policy_object_designer';
+const path = require('path');
 
 let envDetails;
 const certFileLocation = './test/specs/tib/public_key.pem';
@@ -41,14 +42,14 @@ const keylessApi = {
   "name": "keyless"
 };
 
-describe('Users creation', () => {
+xdescribe('TIB profile creation tests', () => {
   const dashboard_connection = new Dashboard_connection();
   let $profileTableElement;
   let $profileNameHeader;
 
   before(() => {
     envDetails = setUpEnv();
-    dashboard_connection.uploadCert(certFileLocation, envDetails.userSecret)
+    dashboard_connection.uploadCert(certFileLocation, envDetails.userSecret);
     let apiBody = newAPIdefinitionWithDefaults(keylessApi);
     let apiMeta = dashboard_connection.createAPI(apiBody, envDetails.userSecret);
     let apiId = dashboard_connection.getAPI(apiMeta, envDetails.userSecret).api_id;
@@ -61,7 +62,7 @@ describe('Users creation', () => {
         } 
       },
       "name": keylessApi.name + "_policy"
-    }
+    };
     let policy = newPolicyDefinitionWithDefaults(policyDetails);
     dashboard_connection.createPolicy(policy, envDetails.userSecret);
     login_page.open();
