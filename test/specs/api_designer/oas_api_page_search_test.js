@@ -2,7 +2,7 @@ import { login_page } from '../../../lib/pom/Login_page';
 import { apis_page } from '../../../lib/pom/Apis_page';
 import { URL, LANDING_PAGE_PATH } from './../../../config_variables';
 
-describe('Test Search functionality on OAS API Page', () => {
+xdescribe('Test Search functionality on OAS API Page', () => {
   const apiName = "oas-api-search-test";
   let envDetails;
 
@@ -70,7 +70,7 @@ describe('Test Search functionality on OAS API Page', () => {
     wdioExpect(apis_page.OAS_TARGET_URL_INPUT).not.toBeDisplayed();
   });
 
-  xit('User should be able to clear search results', () => {
+  it('User should be able to clear search results', () => {
     apis_page.OAS_SEARCH_BAR_CLEAR_ICON.click();
     browser.pause(2000);
     wdioExpect(apis_page.OAS_LISTEN_PATH_INPUT).toBeDisplayed();
