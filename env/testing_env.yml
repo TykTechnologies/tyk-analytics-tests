@@ -14,8 +14,6 @@ services:
             - ./middleware:/opt/tyk-gateway/middleware
         environment:
             - TYK_LOGLEVEL=info
-            - TYK_GW_DBAPPCONFOPTIONS_CONNECTIONSTRING=\${/sbin/ip route|awk '/default/ { print $3 }'}
-            - TYK_GW_POLICIES_POLICYCONNECTIONSTRING=\${/sbin/ip route|awk '/default/ { print $3 }'}
         depends_on:
             - tyk-redis
     tyk-pump:
