@@ -3,7 +3,7 @@ import { apis_page } from '../../../lib/pom/Apis_page';
 import { URL, LANDING_PAGE_PATH } from './../../../config_variables';
 import { expect } from 'chai';
 
-describe('Test mandatory fields on OAS API designer page', () => {
+xdescribe('Test mandatory fields on OAS API designer page', () => {
   const apiName = "oas-api-validation-test";
   let envDetails;
 
@@ -22,9 +22,9 @@ describe('Test mandatory fields on OAS API designer page', () => {
   });
 
   it('API Name is required on main designer page', () => {
-    apis_page.OAS_API_NAME_INPUT.setValue(apiName);
+    apis_page.API_NAME_INPUT.setValue(apiName);
     apis_page.OAS_NEXT_BUTTON.click();
-    apis_page.OAS_API_NAME_INPUT.setValue('');
+    apis_page.API_NAME_INPUT.setValue('');
     apis_page.OAS_SAVE_BUTTON.click(); 
     let apiNameErrorMessage = $('//input[@name="x-tyk-api-gateway.info.name"]//following::p[1]')
     wdioExpect(apiNameErrorMessage).toHaveText('API Name is required');

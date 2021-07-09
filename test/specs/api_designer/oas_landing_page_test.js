@@ -45,7 +45,7 @@ describe('Test Landing Page', () => {
   });
 
   it('User should see Landing Page after all APIs were deleted', () => {
-    $apiTableElement = $(`a=${apiName}`).click();
+    $apiTableElement = $(`span=${apiName}`).click();
     apis_page.OPTIONS_BUTTON.click();
     apis_page.DELETE_BUTTON.click();
     apis_page.DELETE_API_BUTTON.click();
