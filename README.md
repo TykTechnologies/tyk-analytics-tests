@@ -1,5 +1,7 @@
 # UI Automated Tests
 
+[Test coverage](coverage.md)
+
 ## Dashboard UI automation test suite based on:
 
 1. Node.js
