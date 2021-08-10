@@ -6,6 +6,7 @@
   "scripts": {
     "notify-slack": "node ./node_modules/ui_test_automation/utils/SlackNotification.js",
     "headless-test": "WDIO_HEADLESS=1 npm test",
+    "generate-coverage-doc": "PATH_TO_RESULTS=`PWD`/results/json/wdio-merged.json node ./node_modules/ui_test_automation/utils/GenerateCoverageDoc.js",
     "test": "npx wdio wdio.conf.js"
   },
   "keywords": [],
