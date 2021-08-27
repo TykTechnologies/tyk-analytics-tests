@@ -1,5 +1,18 @@
 version: '3.3'
 services:
+    tyk-dashboard:
+        image: "tykio/tyk-dashboard:${DASH_IMAGE}"
+        ports:
+            - "3000:3000"
+            - "5000:5000"
+            - "1026:1025"
+        environment:
+            - TYK_LOGLEVEL=info
+        volumes:
+            - ./conf/tyk_analytics.conf:/opt/tyk-dashboard/tyk_analytics.conf
+        depends_on:
+            - tyk-redis
+            - tyk-mongo
     tyk-gateway:
         image: tykio/tyk-gateway:v3.2.1
         ports:
