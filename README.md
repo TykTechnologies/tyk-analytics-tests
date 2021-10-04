@@ -1,6 +1,8 @@
 # UI Automated Tests
 
-## Ara UI automation test suite based on:
+[Test coverage](coverage.md)
+
+## Dashboard UI automation test suite based on:
 
 1. Node.js
 2. [Webdriverio](https://webdriver.io/)
