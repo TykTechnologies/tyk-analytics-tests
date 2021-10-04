@@ -132,13 +132,13 @@ describe('Test CORS settings on OAS API designer page', () => {
   function openOasDesignerPage() {
     browser.navigateTo(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
     apis_page.DESIGN_API_BOX.click();
-    apis_page.OAS_API_NAME_INPUT.setValue('cache-test');
+    apis_page.API_NAME_INPUT.setValue('cache-test');
     apis_page.OAS_NEXT_BUTTON.click();
   }
 
   function createApi(apiName) {
     apis_page.SIDE_MENU_BASE_LINK.click();
-    apis_page.OAS_API_NAME_INPUT.setValue(apiName);
+    apis_page.API_NAME_INPUT.setValue(apiName);
     apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
     apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");
     apis_page.OAS_TARGET_URL_INPUT.setValue("http://httpbin.org");
