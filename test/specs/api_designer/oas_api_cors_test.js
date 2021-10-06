@@ -6,6 +6,7 @@ import { expect } from 'chai';
 describe('Test CORS settings on OAS API designer page', () => {
   let envDetails;
   let enableCors = true;
+  let firstApi = false;
   let originValue = 'https://*.domain.com'
   let headerValue = 'my-custom-header'
 
@@ -17,13 +18,15 @@ describe('Test CORS settings on OAS API designer page', () => {
 
   it('CORS default state is disabled', () => {
     let enableCors = false;
-    openOasDesignerPage(enableCors);
+    let firstApi = true;
+    openOasDesignerPage(firstApi, enableCors);
     expect(apis_page.OAS_ENABLE_CORS_TOGGLE.isSelected()).to.be.false;
     wdioExpect(apis_page.OAS_OPTIONS_PASS_THROUGH_BOX).not.toBeDisplayed();
   });
 
   it('User can enable CORS and see default CORS values', () => {
-    apis_page.OAS_ENABLE_CORS_TOGGLE.click();
+    let firstApi = true;
+    openOasDesignerPage(firstApi, enableCors);
     wdioExpect(apis_page.OAS_OPTIONS_PASS_THROUGH_BOX).not.toBeChecked();
     wdioExpect(apis_page.OAS_ALLOW_CREDENTIALS_BOX).not.toBeChecked();
     wdioExpect(apis_page.OAS_DEBUG_BOX).not.toBeChecked();
@@ -37,13 +40,16 @@ describe('Test CORS settings on OAS API designer page', () => {
   });
 
   it('User can save API with default CORS values', () => {
+    let firstApi = true;
+    openOasDesignerPage(firstApi, enableCors);
     let apiName = "defaults defaults everywhere"
     createApi(apiName);
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
   });
 
   it('User should not see CORS settings if Enable Options Pass Through is checked', () => {  
-    openOasDesignerPage(enableCors);
+    openOasDesignerPage(firstApi, enableCors);
+    apis_page.OAS_OPTIONS_PASS_THROUGH_BOX.scrollIntoView();
     apis_page.OAS_OPTIONS_PASS_THROUGH_BOX.click();
     corsOptionPassThruHidesOtherElements();
   });
@@ -56,13 +62,15 @@ describe('Test CORS settings on OAS API designer page', () => {
 
   it('Options Pass Through is persistent after reloading the page', () => {
     browser.refresh();
+    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     wdioExpect(apis_page.OAS_OPTIONS_PASS_THROUGH_BOX).toBeChecked();
     corsOptionPassThruHidesOtherElements();
   });
 
   it('User can change Allowed Methods and save API', () => {
     let apiName = 'allowed-methods'
-    openOasDesignerPage(enableCors);
+    openOasDesignerPage(firstApi, enableCors);
+    apis_page.OAS_ALLOWED_METHODS_DROPDOWN.scrollIntoView();
     apis_page.OAS_ALLOWED_METHODS_DROPDOWN.selectOptions(["HEAD", "POST", "PATCH", "DELETE"]);
     createApi(apiName);
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
@@ -70,12 +78,14 @@ describe('Test CORS settings on OAS API designer page', () => {
 
   it('Allowed Methods are persistent after reloading the page', () => {
     browser.refresh();
+    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     wdioExpect(apis_page.OAS_ALLOWED_METHODS_SAVED).toHaveText("GET, PATCH, DELETE");
   });
 
   it('User can change Allow Credentials, Debug, Max Age and save API', () => {
     let apiName = 'Hey you out there on your own'
-    openOasDesignerPage(enableCors);
+    openOasDesignerPage(firstApi, enableCors);
+    apis_page.OAS_ALLOW_CREDENTIALS_BOX.scrollIntoView();
     apis_page.OAS_ALLOW_CREDENTIALS_BOX.click();
     apis_page.OAS_DEBUG_BOX.click();
     apis_page.OAS_MAX_AGE_INPUT.setValue("34");
@@ -85,6 +95,7 @@ describe('Test CORS settings on OAS API designer page', () => {
 
   it('Data are persistent after reloading the page', () => {
     browser.refresh();
+    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     wdioExpect(apis_page.OAS_ALLOW_CREDENTIALS_BOX).toBeChecked();
     wdioExpect(apis_page.OAS_DEBUG_BOX).toBeChecked();
     wdioExpect(apis_page.OAS_MAX_AGE_SAVED).toHaveText("34");
@@ -92,7 +103,7 @@ describe('Test CORS settings on OAS API designer page', () => {
 
   it('User can enter Allowed Origins and save API', () => {
     let apiName = 'allowed-origins'
-    openOasDesignerPage(enableCors);
+    openOasDesignerPage(firstApi, enableCors);
     apis_page.OAS_ALLOW_ALL_ORIGINS_BOX.click();
     apis_page.OAS_ALLOWED_ORIGINS_DROPDOWN.setValue(originValue);
     createApi(apiName);
@@ -101,12 +112,13 @@ describe('Test CORS settings on OAS API designer page', () => {
 
   it('Allowed Origins are persistent after reloading the page', () => {
     browser.refresh();
+    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     wdioExpect(apis_page.OAS_ALLOWED_ORIGINS_SAVED).toHaveText(originValue);
   });
 
   it('User can slect Allowed Headers or enter his own value and save API', () => {
     let apiName = 'allowed-headers'
-    openOasDesignerPage(enableCors);
+    openOasDesignerPage(firstApi, enableCors);
     apis_page.OAS_ALLOWED_HEADERS_DROPDOWN.selectOptions(["Accept", "Origin"]);
     apis_page.OAS_ALLOWED_HEADERS_DROPDOWN.setValue(headerValue);
     createApi(apiName);
@@ -115,12 +127,13 @@ describe('Test CORS settings on OAS API designer page', () => {
 
   it('Allowed Headers are persistent after reloading the page', () => {
     browser.refresh();
+    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     wdioExpect(apis_page.OAS_ALLOWED_HEADERS_SAVED).toHaveText("Content-Type, X-Requested-With, Authorization, " + headerValue);
   });
 
   it('User can input Exposed Headers and save API', () => {
     let apiName = 'exposed-headers'
-    openOasDesignerPage(enableCors);
+    openOasDesignerPage(firstApi, enableCors);
     apis_page.OAS_EXPOSED_HEADERS_DROPDOWN.setValue("value-1-header");
     apis_page.OAS_EXPOSED_HEADERS_DROPDOWN.setValue("value-2");
     createApi(apiName);
@@ -129,24 +142,26 @@ describe('Test CORS settings on OAS API designer page', () => {
 
   it('Exposed Headers are persistent after reloading the page', () => {
     browser.refresh();
+    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     wdioExpect(apis_page.OAS_EXPOSED_HEADERS_SAVED).toHaveText("value-1-header, value-2");
   });
 
-  function openOasDesignerPage(enableCors) {
+  function openOasDesignerPage(firstApi, enableCors) {
     browser.navigateTo(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
-    apis_page.DESIGN_API_BOX.click();
+    firstApi ? apis_page.DESIGN_API_BOX.click() : apis_page.OAS_ADD_API_BUTTON.click();
     apis_page.API_NAME_INPUT.setValue('cors-test');
     apis_page.OAS_NEXT_BUTTON.click();
     enableCors ? apis_page.OAS_ENABLE_CORS_TOGGLE.click() : null;
+    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
   }
 
   function createApi(apiName) {
     apis_page.SIDE_MENU_BASE_LINK.click();
+    apis_page.API_NAME_INPUT.waitForClickable();
     apis_page.API_NAME_INPUT.setValue(apiName);
     apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
     apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");
     apis_page.OAS_TARGET_URL_INPUT.setValue("http://httpbin.org");
-    apis_page.OAS_AUTHENTICATION_DROPDOWN.selectOption("Keyless");
     apis_page.OAS_SAVE_BUTTON.click();
   }
 
@@ -160,7 +175,7 @@ describe('Test CORS settings on OAS API designer page', () => {
     wdioExpect(apis_page.OAS_ALLOWED_METHODS_DROPDOWN).not.toBeDisplayed();
     wdioExpect(apis_page.OAS_ALLOWED_ORIGINS_DROPDOWN).not.toBeDisplayed();
     wdioExpect(apis_page.OAS_ALLOWED_HEADERS_DROPDOWN).not.toBeDisplayed();
-    wdioExpect(apis_page.OAS_EXPOSED_HEADERS_INPUT).not.toBeDisplayed();
+    wdioExpect(apis_page.OAS_EXPOSED_HEADERS_DROPDOWN).not.toBeDisplayed();
   }
 
 });
