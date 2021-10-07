@@ -42,7 +42,7 @@ const keylessApi = {
   "name": "keyless"
 };
 
-xdescribe('TIB profile creation tests', () => {
+describe('TIB profile creation tests', () => {
   const dashboard_connection = new Dashboard_connection();
   let $profileTableElement;
   let $profileNameHeader;
