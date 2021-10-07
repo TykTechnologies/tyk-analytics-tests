@@ -5,6 +5,7 @@ import { expect } from 'chai';
 
 describe('Test CORS settings on OAS API designer page', () => {
   let envDetails;
+  let firstAPI = false;
 
   before(() => {
     envDetails = setUpEnv();
@@ -13,7 +14,8 @@ describe('Test CORS settings on OAS API designer page', () => {
   });
 
   it('User can see default CACHE settings', () => {
-    openOasDesignerPage();
+    let firstAPI = true;
+    openOasDesignerPage(firstAPI);
     expect(apis_page.OAS_ENABLE_CACHE_TOGGLE.isSelected()).to.be.true;
     wdioExpect(apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX).not.toBeChecked();
     wdioExpect(apis_page.OAS_CACHE_TIMEOUT_INPUT).toHaveValue("60");
@@ -30,7 +32,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   });
 
   it('Enable Upstream Cache Control disables other CACHE settings', () => {  
-    openOasDesignerPage();
+    openOasDesignerPage(firstAPI);
     apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX.click();
     cacheUpstreamCacheControlHidesOtherElements();
   });
@@ -49,7 +51,7 @@ describe('Test CORS settings on OAS API designer page', () => {
 
   it('User can change Cache Timeout and save API', () => {
     let apiName = 'cache-timeout'
-    openOasDesignerPage();
+    openOasDesignerPage(firstAPI);
     apis_page.OAS_CACHE_TIMEOUT_INPUT.setValue("44");
     createApi(apiName);
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
@@ -63,7 +65,7 @@ describe('Test CORS settings on OAS API designer page', () => {
 
   it('User can set Cache Response Codes and save API', () => {
     let apiName = 'cache-response-codes'
-    openOasDesignerPage();
+    openOasDesignerPage(firstAPI);
     apis_page.OAS_CACHE_RESPONSE_CODES_DROPDOWN.selectOptions(["200 OK", "403 Forbidden"]); //direct select
     apis_page.OAS_CACHE_RESPONSE_CODES_DROPDOWN.setValue("410"); //input and match from dropdown
     apis_page.OAS_CACHE_RESPONSE_CODES_DROPDOWN.setValue("299"); //free input custom value
@@ -74,7 +76,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   it('Cache Response Codes are persistent after reloading the page', () => {
     browser.refresh();
     apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
-    wdioExpect(apis_page.OAS_CACHE_RESPONSE_CODES_SAVED).toHaveText("200, 403, 410, 299");
+    wdioExpect(apis_page.OAS_CACHE_RESPONSE_CODES_SAVED).toHaveText("200 OK, 403 Forbidden, 410 Gone, 299");
   });
 
   it('Cache Response Codes are properly displayed in API Edit mode', () => {
@@ -85,7 +87,7 @@ describe('Test CORS settings on OAS API designer page', () => {
 
   it('User can set Cache All Safe Requests and save API', () => {
     let apiName = 'cache-all-safe-requests'
-    openOasDesignerPage();
+    openOasDesignerPage(firstAPI);
     apis_page.OAS_CACHE_ALL_SAVE_REQUEST_BOX.click();
     createApi(apiName);
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
@@ -99,7 +101,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   
   it('User can set Cache by Headers and save API', () => {
     let apiName = 'cache-by-headers'
-    openOasDesignerPage();
+    openOasDesignerPage(firstAPI);
     apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.click();
     apis_page.OAS_CACHE_BY_HEADERS_DROPDOWN.setValue("header-1");
     apis_page.OAS_CACHE_BY_HEADERS_DROPDOWN.setValue("header-2");
@@ -115,7 +117,8 @@ describe('Test CORS settings on OAS API designer page', () => {
 
   it('User can set Cache Control TTL Header and save API', () => {
     let apiName = 'cache-ttl-header'
-    openOasDesignerPage();
+    openOasDesignerPage(firstAPI);
+    apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.waitForClickable();
     apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.click();
     apis_page.OAS_CACHE_CONTROL_TTL_HEADER_INPUT.waitForClickable();
     apis_page.OAS_CACHE_CONTROL_TTL_HEADER_INPUT.setValue("header-ttl");
@@ -129,9 +132,9 @@ describe('Test CORS settings on OAS API designer page', () => {
     wdioExpect(apis_page.OAS_CACHE_CONTROL_TTL_HEADER_SAVED).toHaveText("header-ttl");
   });
 
-  function openOasDesignerPage() {
+  function openOasDesignerPage(firstApi) {
     browser.navigateTo(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
-    apis_page.DESIGN_API_BOX.click();
+    firstApi ? apis_page.DESIGN_API_BOX.click() : apis_page.OAS_ADD_API_BUTTON.click();;
     apis_page.API_NAME_INPUT.setValue('cache-test');
     apis_page.OAS_NEXT_BUTTON.click();
   }
@@ -142,7 +145,6 @@ describe('Test CORS settings on OAS API designer page', () => {
     apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
     apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");
     apis_page.OAS_TARGET_URL_INPUT.setValue("http://httpbin.org");
-    apis_page.OAS_AUTHENTICATION_DROPDOWN.selectOption("Keyless");
     apis_page.OAS_SAVE_BUTTON.click();
   }
 
