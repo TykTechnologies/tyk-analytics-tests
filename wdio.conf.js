@@ -58,7 +58,7 @@ exports.config = {
         browserName: 'chrome',
         "goog:chromeOptions": {
             args: [
-              ...(process.env.WDIO_HEADLESS ? ['--headless', "--window-size=1440, 900"] : []),
+              ...(process.env.WDIO_HEADLESS ? ['--headless', "--window-size=1920, 1080"] : []),
               '--incognito',
               '--disable-web-security',
               '--allow-running-insecure-content'
