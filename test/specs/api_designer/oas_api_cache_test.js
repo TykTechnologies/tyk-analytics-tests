@@ -3,7 +3,7 @@ import { apis_page } from '../../../lib/pom/Apis_page';
 import { URL, LANDING_PAGE_PATH } from './../../../config_variables';
 import { expect } from 'chai';
 
-describe('Test CORS settings on OAS API designer page', () => {
+describe('Test CACHE settings on OAS API designer page', () => {
   let envDetails;
   let firstAPI = false;
 
@@ -45,6 +45,7 @@ describe('Test CORS settings on OAS API designer page', () => {
 
   it('Enable Upstream Cache Control is persistent after reloading the page', () => {
     browser.refresh();
+    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     wdioExpect(apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX).toBeChecked();
     cacheUpstreamCacheControlHidesOtherElements();
   });
@@ -137,6 +138,7 @@ describe('Test CORS settings on OAS API designer page', () => {
     firstApi ? apis_page.DESIGN_API_BOX.click() : apis_page.OAS_ADD_API_BUTTON.click();;
     apis_page.API_NAME_INPUT.setValue('cache-test');
     apis_page.OAS_NEXT_BUTTON.click();
+    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
   }
 
   function createApi(apiName) {
