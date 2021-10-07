@@ -49,7 +49,6 @@ describe('Test CORS settings on OAS API designer page', () => {
 
   it('User should not see CORS settings if Enable Options Pass Through is checked', () => {  
     openOasDesignerPage(firstApi, enableCors);
-    apis_page.OAS_OPTIONS_PASS_THROUGH_BOX.scrollIntoView();
     apis_page.OAS_OPTIONS_PASS_THROUGH_BOX.click();
     corsOptionPassThruHidesOtherElements();
   });
@@ -70,7 +69,6 @@ describe('Test CORS settings on OAS API designer page', () => {
   it('User can change Allowed Methods and save API', () => {
     let apiName = 'allowed-methods';
     openOasDesignerPage(firstApi, enableCors);
-    apis_page.OAS_ALLOWED_METHODS_DROPDOWN.scrollIntoView();
     apis_page.OAS_ALLOWED_METHODS_DROPDOWN.selectOptions(["HEAD", "POST", "PATCH", "DELETE"]);
     createApi(apiName);
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
@@ -85,7 +83,6 @@ describe('Test CORS settings on OAS API designer page', () => {
   it('User can change Allow Credentials, Debug, Max Age and save API', () => {
     let apiName = 'Hey you out there on your own';
     openOasDesignerPage(firstApi, enableCors);
-    apis_page.OAS_ALLOW_CREDENTIALS_BOX.scrollIntoView();
     apis_page.OAS_ALLOW_CREDENTIALS_BOX.click();
     apis_page.OAS_DEBUG_BOX.click();
     apis_page.OAS_MAX_AGE_INPUT.setValue("34");
