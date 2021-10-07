@@ -26,7 +26,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   });
 
   it('User can save API with default CACHE values', () => {
-    let apiName = "default-cache"
+    let apiName = "default-cache";
     createApi(apiName);
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
   });
@@ -38,7 +38,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   });
 
   it('User can save API with enabled Enable Upstream Cache Control', () => {
-    let apiName = "upstream-cache-control"
+    let apiName = "upstream-cache-control";
     createApi(apiName);
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
   });
@@ -50,7 +50,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   });
 
   it('User can change Cache Timeout and save API', () => {
-    let apiName = 'cache-timeout'
+    let apiName = 'cache-timeout';
     openOasDesignerPage(firstAPI);
     apis_page.OAS_CACHE_TIMEOUT_INPUT.setValue("44");
     createApi(apiName);
@@ -64,7 +64,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   });
 
   it('User can set Cache Response Codes and save API', () => {
-    let apiName = 'cache-response-codes'
+    let apiName = 'cache-response-codes';
     openOasDesignerPage(firstAPI);
     apis_page.OAS_CACHE_RESPONSE_CODES_DROPDOWN.selectOptions(["200 OK", "403 Forbidden"]); //direct select
     apis_page.OAS_CACHE_RESPONSE_CODES_DROPDOWN.setValue("410"); //input and match from dropdown
@@ -86,7 +86,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   });
 
   it('User can set Cache All Safe Requests and save API', () => {
-    let apiName = 'cache-all-safe-requests'
+    let apiName = 'cache-all-safe-requests';
     openOasDesignerPage(firstAPI);
     apis_page.OAS_CACHE_ALL_SAVE_REQUEST_BOX.click();
     createApi(apiName);
@@ -100,7 +100,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   });
   
   it('User can set Cache by Headers and save API', () => {
-    let apiName = 'cache-by-headers'
+    let apiName = 'cache-by-headers';
     openOasDesignerPage(firstAPI);
     apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.click();
     apis_page.OAS_CACHE_BY_HEADERS_DROPDOWN.setValue("header-1");
@@ -116,7 +116,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   });
 
   it('User can set Cache Control TTL Header and save API', () => {
-    let apiName = 'cache-ttl-header'
+    let apiName = 'cache-ttl-header';
     openOasDesignerPage(firstAPI);
     apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.waitForClickable();
     apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.click();

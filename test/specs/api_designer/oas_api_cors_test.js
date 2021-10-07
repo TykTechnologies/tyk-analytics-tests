@@ -7,8 +7,8 @@ describe('Test CORS settings on OAS API designer page', () => {
   let envDetails;
   let enableCors = true;
   let firstApi = false;
-  let originValue = 'https://*.domain.com'
-  let headerValue = 'my-custom-header'
+  let originValue = 'https://*.domain.com';
+  let headerValue = 'my-custom-header';
 
   before(() => {
     envDetails = setUpEnv();
@@ -42,7 +42,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   it('User can save API with default CORS values', () => {
     let firstApi = true;
     openOasDesignerPage(firstApi, enableCors);
-    let apiName = "defaults defaults everywhere"
+    let apiName = "defaults defaults everywhere";
     createApi(apiName);
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
   });
@@ -55,7 +55,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   });
 
   it('User can save API with enabled Enable Options Pass Through', () => {
-    let apiName = "option-pass-through"
+    let apiName = "option-pass-through";
     createApi(apiName);
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
   });
@@ -68,7 +68,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   });
 
   it('User can change Allowed Methods and save API', () => {
-    let apiName = 'allowed-methods'
+    let apiName = 'allowed-methods';
     openOasDesignerPage(firstApi, enableCors);
     apis_page.OAS_ALLOWED_METHODS_DROPDOWN.scrollIntoView();
     apis_page.OAS_ALLOWED_METHODS_DROPDOWN.selectOptions(["HEAD", "POST", "PATCH", "DELETE"]);
@@ -83,7 +83,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   });
 
   it('User can change Allow Credentials, Debug, Max Age and save API', () => {
-    let apiName = 'Hey you out there on your own'
+    let apiName = 'Hey you out there on your own';
     openOasDesignerPage(firstApi, enableCors);
     apis_page.OAS_ALLOW_CREDENTIALS_BOX.scrollIntoView();
     apis_page.OAS_ALLOW_CREDENTIALS_BOX.click();
@@ -102,7 +102,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   });
 
   it('User can enter Allowed Origins and save API', () => {
-    let apiName = 'allowed-origins'
+    let apiName = 'allowed-origins';
     openOasDesignerPage(firstApi, enableCors);
     apis_page.OAS_ALLOW_ALL_ORIGINS_BOX.click();
     apis_page.OAS_ALLOWED_ORIGINS_DROPDOWN.setValue(originValue);
@@ -117,7 +117,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   });
 
   it('User can slect Allowed Headers or enter his own value and save API', () => {
-    let apiName = 'allowed-headers'
+    let apiName = 'allowed-headers';
     openOasDesignerPage(firstApi, enableCors);
     apis_page.OAS_ALLOWED_HEADERS_DROPDOWN.selectOptions(["Accept", "Origin"]);
     apis_page.OAS_ALLOWED_HEADERS_DROPDOWN.setValue(headerValue);
@@ -132,7 +132,7 @@ describe('Test CORS settings on OAS API designer page', () => {
   });
 
   it('User can input Exposed Headers and save API', () => {
-    let apiName = 'exposed-headers'
+    let apiName = 'exposed-headers';
     openOasDesignerPage(firstApi, enableCors);
     apis_page.OAS_EXPOSED_HEADERS_DROPDOWN.setValue("value-1-header");
     apis_page.OAS_EXPOSED_HEADERS_DROPDOWN.setValue("value-2");
