@@ -102,11 +102,11 @@ describe('Test Service Discovery settings on OAS API designer page', () => {
     wdioExpect(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).not.toBeChecked();
     apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
     wdioExpect(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
+    wdioExpect(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).not.toBeChecked();
     wdioExpect(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).not.toBeChecked();
     wdioExpect(apis_page.OAS_SD_VALUES_ARE_NESTED_BOX).toBeChecked();
     wdioExpect(apis_page.OAS_SD_PARENT_DATA_PATH_SAVED).toHaveText(parentDataPath + "_new");
-    wdioExpect(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText(dataPath);
+    wdioExpect(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText(dataPath + "_new");
   });
 
   it('User can save API with Consul Preset', () => {
