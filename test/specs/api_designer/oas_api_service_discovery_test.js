@@ -130,7 +130,8 @@ describe('Test Service Discovery settings on OAS API designer page', () => {
     apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
     wdioExpect(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).toBeChecked();
     wdioExpect(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).not.toBeChecked();
+    wdioExpect(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).toBeChecked();
+    wdioExpect(apis_page.OAS_SD_PORT_DATA_PATH_SAVED).toHaveText('ServicePort');
     wdioExpect(apis_page.OAS_SD_VALUES_ARE_NESTED_BOX).not.toBeChecked();
     wdioExpect(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText('Address');
   });
