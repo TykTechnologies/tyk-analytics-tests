@@ -30,7 +30,7 @@ const updatedKeyDetails={
 describe('Create/update/delete keys by ID without policy', () => {
   const dashboard_connection = new Dashboard_connection();
   let envDetails;
-
+  let keyIdValue;
   before(() => {
     envDetails = setUpEnv();
     login_page.open();
@@ -65,7 +65,7 @@ describe('Create/update/delete keys by ID without policy', () => {
   });
 
   it('User should be able to modify key',()=>{
-    const keyIdValue= keys_page.KEY_ID_BUTTON.getAttribute('copy');
+    keyIdValue= keys_page.KEY_ID_BUTTON.getAttribute('copy');
     main_page.openKeys();
     keys_page.KEY_SEARCH_FIELD.click();
     keys_page.KEY_SEARCH_FIELD.setValue(keyIdValue);
@@ -99,13 +99,12 @@ describe('Create/update/delete keys by ID without policy', () => {
   });
 
   it('User must be able to Delete Key',()=>{
-  const DeletedKeyIDValue= keys_page.KEY_ID_VALUE.getAttribute('copy');
   keys_page.DELETE_BUTTON.click();
   keys_page.DELETE_KEY_CONFIRMATION_BUTTON.click();
   expect(keys_page.isKeyDeletedPopUpDisplayed()).to.be.true;
   browser.pause(1000);
   keys_page.KEY_SEARCH_FIELD.click();
-  keys_page.KEY_SEARCH_FIELD.setValue(DeletedKeyIDValue);
+  keys_page.KEY_SEARCH_FIELD.setValue(keyIdValue);
   keys_page.LOOKUP_KEY_BUTTON.click();
   expect(keys_page.isCouldNotRetrieveKeyDisplayed()).to.be.true;
   });
