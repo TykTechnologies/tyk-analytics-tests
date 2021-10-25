@@ -1,0 +1,10 @@
+version: '2'
+services:
+    tyk-redis:
+        image: redis:5.0
+        ports:
+            - "6379:6379"
+    tyk-mongo:
+        image: mongo:4.0.13
+        ports:
+            - "27017:27017"
