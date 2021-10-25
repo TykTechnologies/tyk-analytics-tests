@@ -33,7 +33,7 @@ const updatedCatalogueDetails = {
 };
 const NoCatalogueMessage = "No APIs registered for the portal.";
 
-describe('Create API exposed to catalogue', () => {
+describe('Create/update/delete operations on Catalogue page', () => {
     const dashboard_connection = new Dashboard_connection();
     let envDetails;
   
@@ -67,9 +67,9 @@ it('User should be able to add new API to Catalogue',()=>{
     catalogue_page.ADD_NEW_API_BUTTON.click();
     catalogue_page.PUBLIC_API_NAME_INPUT.click();
     catalogue_page.PUBLIC_API_NAME_INPUT.setValue(catalogueDetails.publicApiName);
-    catalogue_page.SELECT_POLICY.selectOption(policyDetails.policyName);
-    catalogue_page.DESCRIBE_THIS_API.click();
-    catalogue_page.DESCRIBE_THIS_API.setValue(catalogueDetails.descriptionOfAPI);
+    catalogue_page.SELECT_POLICY_DROPDOWN.selectOption(policyDetails.policyName);
+    catalogue_page.DESCRIBE_THIS_API_INPUT.click();
+    catalogue_page.DESCRIBE_THIS_API_INPUT.setValue(catalogueDetails.descriptionOfAPI);
     catalogue_page.CATALOGUE_OWNER_EMAIL_INPUT.setValue(catalogueDetails.catalogueOwnerAPI);
     catalogue_page.FIELD_NAME_INPUT.setValue(catalogueDetails.customName);
     catalogue_page.FIELD_VALUE_INPUT.setValue(catalogueDetails.customValue);
@@ -85,11 +85,11 @@ it('User should be able to add new API to Catalogue',()=>{
 it('User should be able to modify Catalogue settings',()=>{
     catalogue_page.CATALOGUE_TABLE.clickCellWithText(catalogueDetails.publicApiName);
     wdioExpect(catalogue_page.PUBLIC_API_NAME_INPUT).toHaveValue(catalogueDetails.publicApiName);
-    wdioExpect(catalogue_page.DESCRIBE_THIS_API).toHaveText(catalogueDetails.descriptionOfAPI);
+    wdioExpect(catalogue_page.DESCRIBE_THIS_API_INPUT).toHaveText(catalogueDetails.descriptionOfAPI);
     wdioExpect(catalogue_page.CATALOGUE_OWNER_EMAIL_INPUT).toHaveValue(catalogueDetails.catalogueOwnerAPI);
     catalogue_page.PUBLIC_API_NAME_INPUT.setValue(updatedCatalogueDetails.publicApiName);
-    catalogue_page.DESCRIBE_THIS_API.click();
-    catalogue_page.DESCRIBE_THIS_API.setValue(updatedCatalogueDetails.descriptionOfAPI);
+    catalogue_page.DESCRIBE_THIS_API_INPUT.click();
+    catalogue_page.DESCRIBE_THIS_API_INPUT.setValue(updatedCatalogueDetails.descriptionOfAPI);
     catalogue_page.CATALOGUE_OWNER_EMAIL_INPUT.setValue(updatedCatalogueDetails.catalogueOwnerAPI);
     catalogue_page.SETTINGS_TAB_BUTTON.click();
     expect(catalogue_page.OVERRIDE_GLOBAL_SETTINGS.isSelected()).to.be.false;
@@ -97,7 +97,7 @@ it('User should be able to modify Catalogue settings',()=>{
     catalogue_page.UPDATE_BUTTON.click();
     catalogue_page.API_DETAILS_TAB.click();
     wdioExpect(catalogue_page.PUBLIC_API_NAME_INPUT).toHaveValue(updatedCatalogueDetails.publicApiName);
-    wdioExpect(catalogue_page.DESCRIBE_THIS_API).toHaveValue(updatedCatalogueDetails.descriptionOfAPI);
+    wdioExpect(catalogue_page.DESCRIBE_THIS_API_INPUT).toHaveValue(updatedCatalogueDetails.descriptionOfAPI);
     wdioExpect(catalogue_page.CATALOGUE_OWNER_EMAIL_INPUT).toHaveValue(updatedCatalogueDetails.catalogueOwnerAPI);
 });
 
