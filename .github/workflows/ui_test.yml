@@ -46,6 +46,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Fix private module deps
+        env:
+          TOKEN: '${{ secrets.REPO_TOKEN }}'
+        run: >
+          git config --global url."https://${TOKEN}@github.com".insteadOf "https://github.com"
+
       # https://blog.npmjs.org/post/171556855892/introducing-npm-ci-for-faster-more-reliable
       - run: npm ci
 
