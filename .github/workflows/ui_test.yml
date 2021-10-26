@@ -20,6 +20,7 @@ on:
 
 env:
   URL: ${{ github.event.inputs.url }}
+  GOPRIVATE: github.com/TykTechnologies
 
 defaults:
   run:
