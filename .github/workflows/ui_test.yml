@@ -33,7 +33,7 @@ jobs:
     strategy:
       matrix:
         arch: [amd64]
-        node-version: [12.x] # stick to latest LTS
+        node-version: [14.x] # stick to latest LTS
 
     runs-on: ubuntu-latest
 
