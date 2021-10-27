@@ -71,11 +71,10 @@ describe('Create/update/delete keys without policy', () => {
    keys_page.ALIAS_INPUT_FIELD.click();
    keys_page.ALIAS_INPUT_FIELD.setValue(updatedKeyDetails.aliasUpdate);
    keys_page.ENABLE_DETAILED_LOGGING_BUTTON.click();
-   keys_page.KEY_EXPIRE_DROPDOWN.click();
-   keys_page.KEY_EXPIRE_DROPDOWN.selectOption(updatedKeyDetails.keyExpiryTimeUpdateValue);
    keys_page.METADATA_KEY_INPUT.setValue(updatedKeyDetails.metadataKey);
    keys_page.METADATA_VALUE_INPUT.setValue(updatedKeyDetails.metadataValue);
    keys_page.METADATA_ADD_BUTTON.click();
+   keys_page.KEY_EXPIRE_DROPDOWN.selectOption(updatedKeyDetails.keyExpiryTimeUpdateValue);
    keys_page.UPDATE_BUTTON.click();
    keys_page.CONFIRM_BUTTON.click();
    wdioExpect(keys_page.ALIAS_INPUT_FIELD).toHaveValue(updatedKeyDetails.aliasUpdate);

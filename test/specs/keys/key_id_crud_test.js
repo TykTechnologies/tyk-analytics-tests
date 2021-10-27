@@ -80,7 +80,6 @@ describe('Create/update/delete keys by ID without policy', () => {
     keys_page.ALIAS_INPUT_FIELD.setValue(updatedKeyDetails.aliasUpdate);
     keys_page.ENABLE_DETAILED_LOGGING_BUTTON.click();
     keys_page.KEY_EXPIRE_DROPDOWN.click();
-    keys_page.KEY_EXPIRE_DROPDOWN.selectOption(updatedKeyDetails.keyExpiryTimeUpdateValue);
     keys_page.METADATA_KEY_INPUT.setValue(updatedKeyDetails.metadataKey);
     keys_page.METADATA_VALUE_INPUT.setValue(updatedKeyDetails.metadataValue);
     keys_page.METADATA_ADD_BUTTON.click();
@@ -88,6 +87,7 @@ describe('Create/update/delete keys by ID without policy', () => {
     keys_page.CREATE_NEW_PASSWORD_CHECKBOX.click();
     keys_page.AUTH_PASSWORD.setValue(updatedKeyDetails.newPassword);
     keys_page.CONFIGURATIONS_TAB_BUTTON.click();
+    keys_page.KEY_EXPIRE_DROPDOWN.selectOption(updatedKeyDetails.keyExpiryTimeUpdateValue);
     keys_page.UPDATE_BUTTON.click();
     keys_page.CONFIRM_BUTTON.click();
     wdioExpect(keys_page.ALIAS_INPUT_FIELD).toHaveValue(updatedKeyDetails.aliasUpdate);
