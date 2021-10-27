@@ -78,7 +78,6 @@ describe('Create/update/delete keys without policy', () => {
    keys_page.UPDATE_BUTTON.click();
    keys_page.CONFIRM_BUTTON.click();
    wdioExpect(keys_page.ALIAS_INPUT_FIELD).toHaveValue(updatedKeyDetails.aliasUpdate);
-   wdioExpect(keys_page.KEY_EXPIRE_DROPDOWN).toHaveText(updatedKeyDetails.keyExpiryTimeUpdateValue);
  });
 
  it('Confirmation popup should be displayed', () => {
