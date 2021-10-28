@@ -48,12 +48,16 @@ jobs:
         TOKEN: '${{ secrets.REPO_TOKEN }}'
       run: |
         echo "::set-output name=branch::master"
-        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.head_ref	}}; then
+        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.base_ref	}}; then
           echo "::set-output name=branch::${{ github.base_ref	}}"
         fi
-        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.ref }}; then
+        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.head_ref }}; then
           echo "::set-output name=branch::${{ github.head_ref	}}"
         fi
+        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ GITHUB_REF#refs/*/ }}; then
+          echo "::set-output name=branch::${{GITHUB_REF#refs/*/}}"
+        fi
+        echo "Branch from dash: ${{branch}}"
     
     - name: Checkout Dash repository
       uses: actions/checkout@v2
