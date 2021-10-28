@@ -101,7 +101,7 @@ jobs:
         npm run notify-slack
       working-directory: tyk-analytics-tests
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.DAT_SLACK_WEBHOOK }}
+        SLACK_WEBHOOK_URL: ${{ secrets.KONRAD_SLACK }}
         WDIO_TEST_ENV: This is a test of change in Test Framework branch - ${{ steps.check_test_branch.outputs.branch	 }} ${{ github.ref }} (commit message -> ${{ github.event.head_commit.message }}${{ github.event.pull_request.title }})
         FRAMEWORK_REPO: ${{ github.repository }}
         EVENT_TRIGGER: ${{ github.event_name }} (${{ github.actor }})
