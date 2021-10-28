@@ -56,10 +56,10 @@ jobs:
       working-directory: tyk-analytics
 
     - name: start docker compose
-      run: docker-compose -f ci/ci_testing_env.yml up -d
+      run: docker-compose -f ci/ci_testing_env.yml up
       env:
         TYK_DB_LICENSEKEY: ${{secrets.DASH_LICENSE}}
-        DASH_REPO_PATH: /home/runner/work/tyk-analytics/tyk-analytics/tyk-analytics
+        DASH_REPO_PATH: /home/runner/work/tyk-analytics-tests/tyk-analytics-tests/tyk-analytics
         GOPRIVATE: github.com/TykTechnologies
         TOKEN: ${{ secrets.REPO_TOKEN }}
       working-directory: tyk-analytics-tests
