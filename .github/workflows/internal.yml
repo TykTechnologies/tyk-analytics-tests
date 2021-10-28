@@ -50,6 +50,11 @@ jobs:
         path: tyk-analytics
         token: ${{ secrets.REPO_TOKEN }}
 
+    - name: check dash repo
+      run: |
+        pwd & ls
+      working-directory: tyk-analytics
+
     - name: start docker compose
       run: docker-compose -f ci/ci_testing_env.yml up -d
       env:
