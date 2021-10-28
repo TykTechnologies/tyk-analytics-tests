@@ -57,7 +57,7 @@ jobs:
         if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${GITHUB_REF#refs/*/}; then
           echo "::set-output name=branch::${GITHUB_REF#refs/*/}"
         fi
-        echo "Branch from dash: ${{branch}}"
+        echo "Branch from dash: ${branch}"
     
     - name: Checkout Dash repository
       uses: actions/checkout@v2
