@@ -43,21 +43,12 @@ jobs:
         token: ${{ secrets.REPO_TOKEN }}
         submodules: true
     
-    - name: Check if Dashboard branch exists
-      id: check_test_branch
-      run: |
-        echo "::set-output name=branch::master"
-        if git ls-remote --exit-code --heads https://github.com/TykTechnologies/tyk-analytics ${{ github.head_ref	}}; then
-          echo "::set-output name=branch::${{ github.head_ref	}}"
-        fi
-        if git ls-remote --exit-code --heads https://github.com/TykTechnologies/tyk-analytics ${{ github.ref }}; then
-          echo "::set-output name=branch::${{ github.ref	}}"
-        fi
     - name: Checkout Dash repository
       uses: actions/checkout@master
       with:
         repository: TykTechnologies/tyk-analytics
         path: tyk-analytics
+        token: ${{ secrets.REPO_TOKEN }}
         ref: ${{ steps.check_test_branch.outputs.branch	 }}
 
     - name: start docker compose
