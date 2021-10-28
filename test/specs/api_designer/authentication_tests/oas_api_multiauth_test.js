@@ -56,11 +56,26 @@ describe('Test authentication in OAS API designer page', () => {
     expect(apis_page.isApiUpdatedPopUpDisplayed()).to.be.true;
   });
 
-  it('Multi-auth data is saved correclty and displayed after page reload', () => {
+  it('Updated Base Identity Provider is displayed after page reload', () => {
     browser.refresh();
     wdioExpect(apis_page.OAS_AUTHENTICATION_SAVED).toHaveText("Multiple Authentication Mechanisms");
     wdioExpect(apis_page.OAS_CHOSEN_AUTH_TYPES_SAVED).toHaveText("Auth Token, JSON Web Token (JWT)");
     wdioExpect(apis_page.OAS_BASE_IDENTITY_PROVIDER_SAVED).toHaveText("JSON Web Token (JWT)");
+  });
+
+  it('User can modify Chosen Autentication Types and Update API', () => {
+    apis_page.EDIT_BUTTON.click();
+    apis_page.OAS_CHOSEN_AUTH_TYPES_DROPDOWN.selectOption("Auth Token");
+    apis_page.OAS_SAVE_BUTTON.click();
+    expect(apis_page.isApiUpdatedPopUpDisplayed()).to.be.true;
+  });
+
+  it('Updated Chosen Autentication Types is displayed after page reload', () => {
+    browser.refresh();
+    wdioExpect(apis_page.OAS_AUTHENTICATION_SAVED).toHaveText("JSON Web Token (JWT)");
+    //TODO Currenlty we only have 2 auth methods. This test needs to be updated when we have more
+    //wdioExpect(apis_page.OAS_CHOSEN_AUTH_TYPES_SAVED).toHaveText("JSON Web Token (JWT)");
+    //wdioExpect(apis_page.OAS_BASE_IDENTITY_PROVIDER_SAVED).toHaveText("JSON Web Token (JWT)");
   });
 
   function openOasDesignerPage(firstApi) {
