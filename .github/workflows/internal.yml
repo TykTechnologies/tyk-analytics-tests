@@ -44,7 +44,7 @@ jobs:
         submodules: true
     
     - name: Checkout Dash repository
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
       with:
         repository: TykTechnologies/tyk-analytics
         path: tyk-analytics
@@ -57,7 +57,7 @@ jobs:
 
     - name: changing branch
       run: |
-        echo ${{ github.head_ref	}} & git switch -c ${{ github.head_ref	}}
+        echo ${GITHUB_REF#refs/heads/}) & git switch -c ${GITHUB_REF#refs/heads/})
       working-directory: tyk-analytics
 
     - name: start docker compose
