@@ -48,10 +48,10 @@ jobs:
         TOKEN: '${{ secrets.REPO_TOKEN }}'
       run: |
         echo "::set-output name=branch::master"
-        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics-tests ${{ github.head_ref	}}; then
+        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.head_ref	}}; then
           echo "::set-output name=branch::${{ github.head_ref	}}"
         fi
-        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics-tests ${{ github.ref }}; then
+        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.ref }}; then
           echo "::set-output name=branch::${{ github.ref	}}"
         fi
     
