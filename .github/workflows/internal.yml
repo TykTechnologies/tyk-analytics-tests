@@ -54,8 +54,8 @@ jobs:
         if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.head_ref }}; then
           echo "::set-output name=branch::${{ github.head_ref	}}"
         fi
-        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${GITHUB_REF#refs/*/}; then
-          echo "::set-output name=branch::${GITHUB_REF#refs/*/}"
+        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.ref }}; then
+          echo "::set-output name=branch::${{ github.ref }}"
         fi
         echo "Branch from dash: ${branch}"
     
