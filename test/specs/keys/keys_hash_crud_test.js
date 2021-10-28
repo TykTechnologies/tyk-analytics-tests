@@ -57,7 +57,7 @@ describe('Create/update/delete keys without policy', () => {
   });
 
  it ('User should be able to modify key',()=>{
-   const keyHashValue= keys_page.COPY_KEY_HASH_BUTTON.getAttribute('copy');
+   const keyHashValue= keys_page.KEY_HASH_VALUE.getAttribute('copy');
    main_page.openKeys();
    keys_page.KEY_SEARCH_FIELD.click();
    keys_page.KEY_SEARCH_FIELD.setValue(keyHashValue);
