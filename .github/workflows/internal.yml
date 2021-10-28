@@ -48,6 +48,7 @@ jobs:
       with:
         repository: TykTechnologies/tyk-analytics
         path: tyk-analytics
+        fetch-depth: 0
         token: ${{ secrets.REPO_TOKEN }}
 
     - name: check dash repo
@@ -57,7 +58,7 @@ jobs:
 
     - name: changing branch
       run: |
-        echo ${GITHUB_REF#refs/heads/}) & git switch -c ${GITHUB_REF#refs/heads/})
+        echo ${{GITHUB_REF#refs/heads/}} & git switch -c ${{GITHUB_REF#refs/heads/}}
       working-directory: tyk-analytics
 
     - name: start docker compose
