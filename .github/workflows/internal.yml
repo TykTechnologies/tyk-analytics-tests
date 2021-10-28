@@ -38,7 +38,7 @@ jobs:
     - name: Checkout of Framework
       uses: actions/checkout@v2
       with:
-        path: tyk-analytics-test
+        path: tyk-analytics-tests
         fetch-depth: ${{ ! startsWith(github.ref, 'refs/tags') }}
         token: ${{ secrets.REPO_TOKEN }}
         submodules: true
@@ -49,7 +49,6 @@ jobs:
         repository: TykTechnologies/tyk-analytics
         path: tyk-analytics
         token: ${{ secrets.REPO_TOKEN }}
-        ref: ${{ steps.check_test_branch.outputs.branch	 }}
 
     - name: start docker compose
       run: docker-compose -f ci/ci_testing_env.yml up -d
