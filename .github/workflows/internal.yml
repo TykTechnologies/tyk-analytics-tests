@@ -61,6 +61,7 @@ jobs:
         repository: TykTechnologies/tyk-analytics
         path: tyk-analytics
         token: ${{ secrets.REPO_TOKEN }}
+        submodules: true
         ref: ${{ steps.check_test_branch.outputs.branch	 }}
 
     - name: start docker compose
