@@ -1,0 +1,54 @@
+version: '3.3'
+services:
+    tyk-dashboard:
+        build: .
+        ports:
+            - "3000:3000"
+            - "5000:5000"
+            - "1026:1025"
+        environment:
+            - "TYK_DB_LICENSEKEY=${TYK_DB_LICENSEKEY}"
+            - TYK_LOGLEVEL=${TYK_LOGLEVEL:-debug}
+            - TOKEN=${TOKEN}
+            - GOPRIVATE=${GOPRIVATE}
+        volumes:
+            - ${DASH_REPO_PATH}:/develop/go/src
+            - ./conf/tyk_analytics.conf:/opt/tyk-dashboard/tyk_analytics.conf
+        depends_on:
+            - tyk-redis
+            - tyk-mongo
+    tyk-gateway:
+        image: tykio/tyk-gateway:v3.2.1
+        ports:
+            - "6000:6000"
+            - "8003:8003"
+            - "8080:8080" 
+        volumes:
+            - ./conf/tyk_pro.conf:/opt/tyk-gateway/tyk.conf
+            - ./conf/cert.pem:/etc/ssl/certs/cert.pem
+            - ./conf/key.pem:/etc/ssl/certs/key.pem
+            - ./apps:/opt/tyk-gateway/apps
+            - ./middleware:/opt/tyk-gateway/middleware
+        environment:
+            - TYK_LOGLEVEL=info
+        depends_on:
+            - tyk-redis            
+            - tyk-dashboard
+    tyk-pump:
+        image: tykio/tyk-pump-docker-pub:latest
+        volumes:
+            - ./conf/pump.conf:/opt/tyk-pump/pump.conf
+        ports:    
+            - "8061:8061"
+        depends_on:
+            - tyk-redis
+            - tyk-mongo
+            - tyk-gateway
+    tyk-redis:
+        image: redis:6
+        ports:
+            - "6379:6379"
+    tyk-mongo:
+        image: mongo:4.1
+        ports:
+            - "27017:27017"
