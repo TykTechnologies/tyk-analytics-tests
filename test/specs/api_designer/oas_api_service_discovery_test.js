@@ -3,7 +3,7 @@ import { apis_page } from '../../../lib/pom/Apis_page';
 import { URL, LANDING_PAGE_PATH } from './../../../config_variables';
 import { expect } from 'chai';
 
-describe('Test Service Discovery settings on OAS API designer page', () => {
+xdescribe('Test Service Discovery settings on OAS API designer page', () => {
   let envDetails;
   let firstAPI = false;
   let queryEndpoint = 'http://service-discovery.com/endpoint';
