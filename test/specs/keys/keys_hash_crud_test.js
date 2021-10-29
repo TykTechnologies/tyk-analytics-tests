@@ -27,6 +27,7 @@ const updatedKeyDetails={
 describe('Create/update/delete keys without policy', () => {
   const dashboard_connection = new Dashboard_connection();
   let envDetails;
+  let keyHashValue;
 
   before(() => {
     envDetails = setUpEnv();
@@ -57,7 +58,7 @@ describe('Create/update/delete keys without policy', () => {
   });
 
  it ('User should be able to modify key',()=>{
-   const keyHashValue= keys_page.KEY_HASH_VALUE.getAttribute('copy');
+   keyHashValue= keys_page.KEY_HASH_VALUE.getAttribute('copy');
    main_page.openKeys();
    keys_page.KEY_SEARCH_FIELD.click();
    keys_page.KEY_SEARCH_FIELD.setValue(keyHashValue);
@@ -85,13 +86,12 @@ describe('Create/update/delete keys without policy', () => {
 });
 
  it('User should be able to delete key',()=>{
-  const DeletedKeyHashValue= keys_page.KEY_HASH_VALUE.getAttribute('copy');
   keys_page.DELETE_BUTTON.click();
   keys_page.DELETE_KEY_CONFIRMATION_BUTTON.click();
   expect(keys_page.isKeyDeletedPopUpDisplayed()).to.be.true;
   browser.pause(2000);
   keys_page.KEY_SEARCH_FIELD.click();
-  keys_page.KEY_SEARCH_FIELD.setValue(DeletedKeyHashValue);
+  keys_page.KEY_SEARCH_FIELD.setValue(keyHashValue);
   keys_page.LOOKUP_KEY_BUTTON.click();
   expect(keys_page.isCouldNotRetrieveKeyDisplayed()).to.be.true;
  });
