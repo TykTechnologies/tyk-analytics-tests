@@ -65,7 +65,8 @@ describe('Create/update/delete keys by ID without policy', () => {
   });
 
   it('User should be able to modify key',()=>{
-    keyIdValue= keys_page.KEY_ID_BUTTON.getAttribute('copy');
+    keyIdValue = keys_page.KEY_ID_VALUE.getAttribute('copy');
+    console.log(`Key id: ${keyIdValue}`);
     main_page.openKeys();
     keys_page.KEY_SEARCH_FIELD.click();
     keys_page.KEY_SEARCH_FIELD.setValue(keyIdValue);

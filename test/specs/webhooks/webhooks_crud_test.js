@@ -20,7 +20,7 @@ const UpdatedWebhookDetails = {
 const emptyWebhookMessage = "No data to display";
 
 
-describe('Create/update/delete keys by ID without policy', () => {
+describe('Create/update/delete webhooks', () => {
     const dashboard_connection = new Dashboard_connection();
     let envDetails;
     before(() => {
