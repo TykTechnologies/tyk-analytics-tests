@@ -1,5 +1,6 @@
 # UI Automated Tests
 
+## branch for testing release 4.0
 [Test coverage](coverage.md)
 
 ## Dashboard UI automation test suite based on:
