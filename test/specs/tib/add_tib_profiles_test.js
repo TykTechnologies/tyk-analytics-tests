@@ -73,7 +73,7 @@ describe('TIB profile creation tests', () => {
     main_page.openIdentityManagement();
   });
 
-  it('User should be able to add SAML profile', () => {
+  xit('User should be able to add SAML profile', () => {
     tib_page.CREATE_PROFILE_BUTTON.click();
     tib_page.PROFILE_NAME_INPUT.setValue(samlProfile.name);
     tib_page.PROFILE_NEXT_BUTTON.click();
@@ -85,7 +85,7 @@ describe('TIB profile creation tests', () => {
     expect(tib_page.isProfileCreatedPopUpDisplayed()).to.be.true;
   });
 
-  it('User should be able to open SAML profile', () => {
+  xit('User should be able to open SAML profile', () => {
     verifyProfileCanBeOpened(samlProfile.name);
   });
     
