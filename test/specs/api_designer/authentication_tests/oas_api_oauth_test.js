@@ -41,8 +41,11 @@ describe('Test OAuth2.0 Authentication in OAS API designer page', () => {
     apis_page.OAS_SAVE_BUTTON.click();
     let loginRedirectErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.oauth.authLoginRedirect"]//following::p[1]');
     wdioExpect(loginRedirectErrorMsg).toHaveText("Authorization Login Redirect doesn't meet the proper URL format");
-    apis_page.OAS_OAUTH_LOGIN_REDIRECT_INPUT.setValue('missing-protocol.com');
+    apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX.click();
+    apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX.click();
     apis_page.OAS_SAVE_BUTTON.click();
+    grantTypesErrorMsg = $('//h4[text()="Allowed Grant Types"]//following::p[1]');
+    wdioExpect(grantTypesErrorMsg).toHaveText('At least one additional Access Grant is required.');
   });
 
   it('Test OAuth 2.0 URL validations', () => {
