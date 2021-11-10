@@ -73,6 +73,8 @@ describe('Test OAuth2.0 Authentication in OAS API designer page', () => {
     apis_page.OAS_AUTHENTICATION_DROPDOWN.selectOption("Oauth 2.0");
     apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX.click();
     apis_page.OAS_OAUTH_LOGIN_REDIRECT_INPUT.setValue('https://redirect.com');
+    apis_page.OAS_OAUTH_NOTIFICATIONS_URL_INPUT.setValue('https://notification.com');
+    apis_page.OAS_OAUTH_NOTIFICATIONS_SECRET_INPUT.setValue('Abdsg9u234XFFOR9435898*&%&^%');
     apis_page.OAS_OAUTH_AUTH_HEADER_INPUT.setValue('Authorization');
     apis_page.OAS_SAVE_BUTTON.click();
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
@@ -80,15 +82,19 @@ describe('Test OAuth2.0 Authentication in OAS API designer page', () => {
 
   it('Authorization Code data is displayed after page reload', () => {
     browser.refresh();
+    apis_page.OAS_OAUTH_NOTIFICATIONS_ACCORDTION.expand();
     const loginRedirectSaved = $('//span[text()="Login Redirect"]//following::div[2]');
     const authKeyHeaderNameSaved = $('//label[text()="Auth Key Header Name"]//following::div[1]');
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    const notificationsUrlSaved = $('//span[text()="Notifications URL"]//following::div[2]');
+    const notificationsSecretSaved = $('//span[text()="Notifications Shared Secret"]//following::div[2]');
     wdioExpect(apis_page.OAS_AUTHENTICATION_SAVED).toHaveText('Oauth 2.0');
     wdioExpect(apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX).toBeChecked();
     wdioExpect(apis_page.OAS_OAUTH_CLIENT_CREDENTIALS_BOX).not.toBeChecked();
     wdioExpect(apis_page.OAS_OAUTH_PASSWORD_BOX).not.toBeChecked();
     wdioExpect(apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX).not.toBeChecked();
     wdioExpect(loginRedirectSaved).toHaveText('https://redirect.com');
+    wdioExpect(notificationsUrlSaved).toHaveText('https://notification.com');
+    wdioExpect(notificationsSecretSaved).toHaveText('Abdsg9u234XFFOR9435898*&%&^%');
     wdioExpect(authKeyHeaderNameSaved).toHaveText('Authorization');
   });
 
@@ -96,6 +102,8 @@ describe('Test OAuth2.0 Authentication in OAS API designer page', () => {
     apis_page.EDIT_BUTTON.click();
     apis_page.SIDE_MENU_SERVER_LINK.click();
     apis_page.OAS_OAUTH_LOGIN_REDIRECT_INPUT.setValue('http://new-redirect.com');
+    apis_page.OAS_OAUTH_NOTIFICATIONS_URL_INPUT.setValue('http://new-notification.com');
+    apis_page.OAS_OAUTH_NOTIFICATIONS_SECRET_INPUT.setValue('new-secret');
     apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX.click();
     apis_page.OAS_OAUTH_AUTH_HEADER_INPUT.setValue('new-auth');
     apis_page.OAS_STRIP_AUTHORIZATION_DATA_BOX.click();
@@ -107,16 +115,20 @@ describe('Test OAuth2.0 Authentication in OAS API designer page', () => {
 
   it('Updated Authorization Code data is displayed after page reload', () => {
     browser.refresh();
+    apis_page.OAS_OAUTH_NOTIFICATIONS_ACCORDTION.expand();
     const loginRedirectSaved = $('//span[text()="Login Redirect"]//following::div[2]');
     const authKeyHeaderNameSaved = $('//label[text()="Auth Key Header Name"]//following::div[1]');
     const cookieValueSaved = $('//label[text()="Cookie Name"]//following::div[1]');
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    const notificationsUrlSaved = $('//span[text()="Notifications URL"]//following::div[2]');
+    const notificationsSecretSaved = $('//span[text()="Notifications Shared Secret"]//following::div[2]');
     wdioExpect(apis_page.OAS_AUTHENTICATION_SAVED).toHaveText('Oauth 2.0');
     wdioExpect(apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX).toBeChecked();
     wdioExpect(apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX).toBeChecked();
     wdioExpect(apis_page.OAS_OAUTH_USE_COOKIE_BOX).toBeChecked();
     wdioExpect(apis_page.OAS_STRIP_AUTHORIZATION_DATA_BOX).toBeChecked();
     wdioExpect(loginRedirectSaved).toHaveText('http://new-redirect.com');
+    wdioExpect(notificationsUrlSaved).toHaveText('http://new-notification.com');
+    wdioExpect(notificationsSecretSaved).toHaveText('new-secret');
     wdioExpect(authKeyHeaderNameSaved).toHaveText('new-auth');
     wdioExpect(cookieValueSaved).toHaveText('my-cookie');
   });
@@ -178,6 +190,7 @@ describe('Test OAuth2.0 Authentication in OAS API designer page', () => {
     wdioExpect(apis_page.OAS_OAUTH_CLIENT_CREDENTIALS_BOX).toBeChecked();
     wdioExpect(apis_page.OAS_OAUTH_PASSWORD_BOX).toBeChecked();
     wdioExpect(apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX).toBeChecked();
+    wdioExpect(apis_page.OAS_OAUTH_ALLOW_QUERY_PARAM_BOX).not.toBeChecked();
     wdioExpect(authKeyHeaderNameSaved).toHaveText('new-auth');
     wdioExpect(cookieValueSaved).toHaveText('my-cookie');
   });
