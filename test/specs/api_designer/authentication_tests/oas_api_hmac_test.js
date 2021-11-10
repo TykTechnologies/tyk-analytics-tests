@@ -21,85 +21,66 @@ describe('Test HMAC Authentication in OAS API designer page', () => {
     apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");
     apis_page.OAS_ENABLE_AUTH_TOGGLE.click();
     apis_page.OAS_AUTHENTICATION_DROPDOWN.selectOption("HMAC (Signed Authentication Key");
-    wdioExpect(apis_page.OAS_HMAC_ALLOWED_ALGORITHMS_DROPDOWN).toHaveText('Select the allowed algorithms');
     wdioExpect(apis_page.OAS_HMAC_ENABLE_CLOCK_SKEW_BOX).not.toBeChecked();
     let basicAuthUrl = $('a*=Learn more about HMAC (Signed Authentication Key');
     wdioExpect(basicAuthUrl).toHaveLink('https://tyk.io/docs/basic-config-and-security/security/authentication-authorization/hmac-signatures/');
   });
 
-  xit('Test Basic Auth mandatory fields', () => {
-    apis_page.OAS_BASICAUTH_EXTRACT_CREDENTIALS_BOX.click();
+  it('Test HMAC mandatory fields', () => {
     apis_page.OAS_SAVE_BUTTON.click();
-    let cacheTtlErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.basic.cacheTTL"]//following::p[2]');
-    let regexpUserErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.basic.extractCredentialsFromBody.userRegexp"]//following::p[1]');
-    let regexpPasswordErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.basic.extractCredentialsFromBody.passwordRegexp"]//following::p[1]');
-    let authKeyHeaderErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.basic.header.name"]//following::p[1]');
-    wdioExpect(cacheTtlErrorMsg).toHaveText('Cache TTL is required');
-    wdioExpect(regexpUserErrorMsg).toHaveText('Regexp to Extract Username is required');
-    wdioExpect(regexpPasswordErrorMsg).toHaveText('Regexp to Extract Password is required');
+    let authKeyHeaderErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.hmac.header.name"]//following::p[1]');
     wdioExpect(authKeyHeaderErrorMsg).toHaveText('Auth Key Header Name is required');
   });
 
-  xit('User can save API with Basic Auth settings', () => {
-    apis_page.SIDE_MENU_SERVER_LINK.click();
-    apis_page.OAS_BASICAUTH_CACHE_TTL_INPUT.setValue('40');
-    apis_page.OAS_BASICAUTH_REGEXP_USERNAME_INPUT.setValue('<User>(.*)</User>');
-    apis_page.OAS_BASICAUTH_REGEXP_PASSWORD_INPUT.setValue('<Pass>(.*)</Pass>');
-    apis_page.OAS_BASICAUTH_AUTH_HEADER_INPUT.setValue('Authorization');
-    apis_page.OAS_BASICAUTH_STRIP_AUTHDATA_BOX.click();
-    apis_page.OAS_BASICAUTH_ALLOW_QUERY_PARAM_BOX.click();
-    apis_page.OAS_BASICAUTH_QUERY_PARAM_INPUT.setValue('my-param');
-    apis_page.OAS_BASICAUTH_USE_COOKIE_BOX.click();
-    apis_page.OAS_BASICAUTH_COOKIE_VALUE_INPUT.setValue('my-cookie');
+  it('User can save API with HMAC settings', () => {
+    apis_page.OAS_HMAC_AUTH_HEADER_INPUT.setValue('Authorization');
+    apis_page.OAS_HMAC_USE_COOKIE_BOX.click();
+    apis_page.OAS_HMAC_COOKIE_VALUE_INPUT.setValue('my-cookie');
     apis_page.OAS_SAVE_BUTTON.click();
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
   });
 
-  xit('Basic Auth data is saved correclty and displayed after page reload', () => {
+  it('HMAC data is displayed after page reload', () => {
     browser.refresh();
+    const authKeyHeaderNameSaved = $('//label[text()="Auth Key Header Name"]//following::div[1]');
+    const allowedAlgorithmsSaved = $('//label[text()="Allowed Algorithms"]//following::div[1]');
+    const cookieNameSaved = $('//label[text()="Cookie Name"]//following::div[1]');
     apis_page.SIDE_MENU_SERVER_LINK.click();
-    wdioExpect(apis_page.OAS_AUTHENTICATION_SAVED).toHaveText('Basic Authentication');
-    wdioExpect(apis_page.OAS_BASICAUTH_ENABLE_CHACHING_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_BASICAUTH_CACHE_TTL_SAVED).toHaveText('40');
-    wdioExpect(apis_page.OAS_BASICAUTH_EXTRACT_CREDENTIALS_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_BASICAUTH_REGEXP_USERNAME_SAVED).toHaveText('<User>(.*)</User>');
-    wdioExpect(apis_page.OAS_BASICAUTH_REGEXP_PASSWORD_SAVED).toHaveText('<Pass>(.*)</Pass>');
-    wdioExpect(apis_page.OAS_BASICAUTH_AUTH_HEADER_SAVED).toHaveText('Authorization');
-    wdioExpect(apis_page.OAS_BASICAUTH_STRIP_AUTHDATA_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_BASICAUTH_ALLOW_QUERY_PARAM_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_BASICAUTH_QUERY_PARAM_SAVED).toHaveText('my-param');
-    wdioExpect(apis_page.OAS_BASICAUTH_USE_COOKIE_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_BASICAUTH_COOKIE_VALUE_SAVED).toHaveText('my-cookie');
+    wdioExpect(apis_page.OAS_AUTHENTICATION_SAVED).toHaveText('HMAC (Signed Authentication Key)');
+    wdioExpect(allowedAlgorithmsSaved).toHaveText('-');
+    wdioExpect(apis_page.OAS_HMAC_USE_COOKIE_BOX).toBeChecked();
+    wdioExpect(authKeyHeaderNameSaved).toHaveText('Authorization');
+    wdioExpect(cookieNameSaved).toHaveText('my-cookie');
   });
 
-  xit('User can modify Basic Auth data and Update API', () => {
+  it('User can modify HMAC data and Update API', () => {
     apis_page.EDIT_BUTTON.click();
     apis_page.SIDE_MENU_SERVER_LINK.click();
-    apis_page.OAS_BASICAUTH_ENABLE_CHACHING_BOX.click();
-    apis_page.OAS_BASICAUTH_REGEXP_USERNAME_INPUT.setValue('<Users>(.*)</Users>');
-    apis_page.OAS_BASICAUTH_REGEXP_PASSWORD_INPUT.setValue('<Passwords>(.*)</Passwords>');
-    apis_page.OAS_BASICAUTH_AUTH_HEADER_INPUT.setValue('new-auth');
-    apis_page.OAS_BASICAUTH_STRIP_AUTHDATA_BOX.click();
-    apis_page.OAS_BASICAUTH_QUERY_PARAM_INPUT.setValue('new-param');
-    apis_page.OAS_BASICAUTH_USE_COOKIE_BOX.click();
+    apis_page.OAS_HMAC_ALLOWED_ALGORITHMS_DROPDOWN.selectOptions(['sha1', 'sha512']);
+    apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.OAS_HMAC_ENABLE_CLOCK_SKEW_BOX.click();
+    apis_page.OAS_HMAC_CLOCK_SKEW_INPUT.setValue('44');
+    apis_page.OAS_HMAC_AUTH_HEADER_INPUT.setValue('new-auth');
+    apis_page.OAS_STRIP_AUTHORIZATION_DATA_BOX.click();
+    apis_page.OAS_HMAC_USE_COOKIE_BOX.click();
+    apis_page.OAS_HMAC_ALLOW_QUERY_PARAM_BOX.click();
+    apis_page.OAS_HMAC_QUERY_PARAM_INPUT.setValue('new-param');
     apis_page.OAS_SAVE_BUTTON.click();
     expect(apis_page.isApiUpdatedPopUpDisplayed()).to.be.true;
   });
 
-  xit('Updated Basic Auth data is displayed after page reload', () => {
+  it('Updated HMAC data is displayed after page reload', () => {
     browser.refresh();
     apis_page.SIDE_MENU_SERVER_LINK.click();
-    wdioExpect(apis_page.OAS_BASICAUTH_ENABLE_CHACHING_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_BASICAUTH_CACHE_TTL_SAVED).not.toBeDisplayed();
-    wdioExpect(apis_page.OAS_BASICAUTH_EXTRACT_CREDENTIALS_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_BASICAUTH_REGEXP_USERNAME_SAVED).toHaveText('<Users>(.*)</Users>');
-    wdioExpect(apis_page.OAS_BASICAUTH_REGEXP_PASSWORD_SAVED).toHaveText('<Passwords>(.*)</Passwords>');
-    wdioExpect(apis_page.OAS_BASICAUTH_AUTH_HEADER_SAVED).toHaveText('new-auth');
-    wdioExpect(apis_page.OAS_BASICAUTH_STRIP_AUTHDATA_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_BASICAUTH_ALLOW_QUERY_PARAM_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_BASICAUTH_QUERY_PARAM_SAVED).toHaveText('new-param');
-    wdioExpect(apis_page.OAS_BASICAUTH_USE_COOKIE_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_BASICAUTH_COOKIE_VALUE_SAVED).not.toBeDisplayed();
+    const authKeyHeaderNameSaved = $('//label[text()="Auth Key Header Name"]//following::div[1]');
+    const allowedAlgorithmsSaved = $('//label[text()="Allowed Algorithms"]//following::div[1]');
+    const queryParamNameSaved = $('//label[text()="Query parameter Name"]//following::div[1]');
+    apis_page.SIDE_MENU_SERVER_LINK.click();
+    wdioExpect(allowedAlgorithmsSaved).toHaveText('sha1, sha512');
+    wdioExpect(authKeyHeaderNameSaved).toHaveText('new-auth');
+    wdioExpect(apis_page.OAS_HMAC_USE_COOKIE_BOX).not.toBeChecked();
+    wdioExpect(apis_page.OAS_HMAC_ALLOW_QUERY_PARAM_BOX).toBeChecked();
+    wdioExpect(queryParamNameSaved).toHaveText('new-param');
   });
 
 });
