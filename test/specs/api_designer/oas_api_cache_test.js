@@ -3,7 +3,7 @@ import { apis_page } from '../../../lib/pom/Apis_page';
 import { URL, LANDING_PAGE_PATH } from './../../../config_variables';
 import { expect } from 'chai';
 
-xdescribe('Test CACHE settings on OAS API designer page', () => {
+describe('Test CACHE settings on OAS API designer page', () => {
   let envDetails;
   let firstAPI = false;
 
@@ -103,7 +103,7 @@ xdescribe('Test CACHE settings on OAS API designer page', () => {
   it('User can set Cache by Headers and save API', () => {
     let apiName = 'cache-by-headers';
     openOasDesignerPage(firstAPI);
-    apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.click();
+    apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.expand();
     apis_page.OAS_CACHE_BY_HEADERS_DROPDOWN.setValue("header-1");
     apis_page.OAS_CACHE_BY_HEADERS_DROPDOWN.setValue("header-2");
     createApi(apiName);
@@ -119,9 +119,7 @@ xdescribe('Test CACHE settings on OAS API designer page', () => {
   it('User can set Cache Control TTL Header and save API', () => {
     let apiName = 'cache-ttl-header';
     openOasDesignerPage(firstAPI);
-    apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.waitForClickable();
-    apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.click();
-    apis_page.OAS_CACHE_CONTROL_TTL_HEADER_INPUT.waitForClickable();
+    apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.expand();
     apis_page.OAS_CACHE_CONTROL_TTL_HEADER_INPUT.setValue("header-ttl");
     createApi(apiName);
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
@@ -130,6 +128,7 @@ xdescribe('Test CACHE settings on OAS API designer page', () => {
   it('Cache Control TTL Header is persistent after reloading the page', () => {
     browser.refresh();
     apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
+    apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.expand();
     wdioExpect(apis_page.OAS_CACHE_CONTROL_TTL_HEADER_SAVED).toHaveText("header-ttl");
   });
 
@@ -143,10 +142,10 @@ xdescribe('Test CACHE settings on OAS API designer page', () => {
 
   function createApi(apiName) {
     apis_page.SIDE_MENU_BASE_LINK.click();
+    apis_page.API_NAME_INPUT.waitForDisplayed();
     apis_page.API_NAME_INPUT.setValue(apiName);
     apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
     apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");
-    apis_page.OAS_TARGET_URL_INPUT.setValue("http://httpbin.org");
     apis_page.OAS_SAVE_BUTTON.click();
   }
 
