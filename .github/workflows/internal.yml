@@ -41,8 +41,8 @@ jobs:
     - name: Execute UI tests
       id: test_execution
       run: |
-        echo OK
-      working-directory: tyk-analytics-tests
+        echo "OK"
+
 
 
     - name: Comment on PR
@@ -50,7 +50,7 @@ jobs:
       uses: mshick/add-pr-comment@v1
       with:
         message: |
-          **UI tests status: ${{ steps.test_execution.outcome }}** ${STATUS} 
+          **UI tests status: ${{ steps.test_execution.outcome }}** ${{ env.STATUS }} 
           Branch used: ${{ github.ref }}
           Triggered by: ${{ github.event_name }} (@${{ github.actor }})
           [Execution page](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
