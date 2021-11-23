@@ -54,7 +54,7 @@ jobs:
           Branch used: ${{ github.ref }}
           Triggered by: ${{ github.event_name }} (@${{ github.actor }})
           [Execution page](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
-        repo-token: ${{ secrets.BENDER_TOKEN }}
+        repo-token: ${{ secrets.REPOS_TOKEN }}
         allow-repeats: true
       env:
         STATUS: "${{ steps.test_execution.outcome == 'success' && ':white_check_mark:' || ':no_entry_sign:' }}"
