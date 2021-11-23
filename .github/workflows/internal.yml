@@ -41,7 +41,7 @@ jobs:
     - name: Execute UI tests
       id: test_execution
       run: |
-        echo "OK"
+        echo OK
       working-directory: tyk-analytics-tests
 
 
@@ -54,7 +54,7 @@ jobs:
           Branch used: ${{ github.ref }}
           Triggered by: ${{ github.event_name }} (@${{ github.actor }})
           [Execution page](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
-        repo-token: ${{ secrets.REPOS_TOKEN }}
+        repo-token: ${{ secrets.REPO_TOKEN }}
         allow-repeats: true
       env:
         STATUS: "${{ steps.test_execution.outcome == 'success' && ':white_check_mark:' || ':no_entry_sign:' }}"
