@@ -3,7 +3,7 @@ import { apis_page } from '../../../../lib/pom/Apis_page';
 import { URL, LANDING_PAGE_PATH } from './../../../../config_variables';
 import { expect } from 'chai';
 
-xdescribe('Test HMAC Authentication in OAS API designer page', () => {
+describe('Test HMAC Authentication in OAS API designer page', () => {
   let envDetails;
 
   before(() => {

@@ -3,7 +3,7 @@ import { apis_page } from '../../../../lib/pom/Apis_page';
 import { URL, LANDING_PAGE_PATH } from './../../../../config_variables';
 import { expect } from 'chai';
 
-xdescribe('Test authentication in OAS API designer page', () => {
+xdescribe('Test multi auth in OAS API designer page', () => {
   let envDetails;
   let firstAPI = false;
 
