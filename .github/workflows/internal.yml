@@ -41,7 +41,7 @@ jobs:
     - name: Execute UI tests
       id: test_execution
       run: |
-        echo "OK"
+        echo "OK test"
 
 
 
@@ -52,9 +52,10 @@ jobs:
         message: |
           **UI tests status: ${{ steps.test_execution.outcome }}** ${{ env.STATUS }} 
           Branch used: ${{ github.ref }}
+          Commit: ${{ github.event.head_commit.message }}
           Triggered by: ${{ github.event_name }} (@${{ github.actor }})
           [Execution page](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
-        repo-token: ${{ secrets.GH_TOKEN }}
+        repo-token: ${{ secrets.REPO_TOKEN }}
         allow-repeats: true
       env:
         STATUS: "${{ steps.test_execution.outcome == 'success' && ':white_check_mark:' || ':no_entry_sign:' }}"
