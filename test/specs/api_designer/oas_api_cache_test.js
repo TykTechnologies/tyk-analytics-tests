@@ -113,6 +113,7 @@ describe('Test CACHE settings on OAS API designer page', () => {
   it('Cache by Headers are persistent after reloading the page', () => {
     browser.refresh();
     apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
+    apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.expand();
     wdioExpect(apis_page.OAS_CACHE_BY_HEADERS_SAVED).toHaveText("header-1, header-2");
   });
 
@@ -142,7 +143,7 @@ describe('Test CACHE settings on OAS API designer page', () => {
 
   function createApi(apiName) {
     apis_page.SIDE_MENU_BASE_LINK.click();
-    apis_page.API_NAME_INPUT.waitForDisplayed();
+    apis_page.API_NAME_INPUT.waitForClickable();
     apis_page.API_NAME_INPUT.setValue(apiName);
     apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
     apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");
