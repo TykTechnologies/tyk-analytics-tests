@@ -1,6 +1,6 @@
 # Run UI test automation
 
-name: Dashboard UI test run
+name: Dashboard UI test run - deactivated
 
 on:
   schedule:
