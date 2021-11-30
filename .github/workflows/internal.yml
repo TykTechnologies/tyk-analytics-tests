@@ -52,7 +52,7 @@ jobs:
         message: |
           **UI tests status: ${{ steps.test_execution.outcome }}** ${{ env.STATUS }} 
           Branch used: ${{ github.ref }}
-          Commit: ${{ github.event.head_commit.message }}
+          Commit: ${{ github.event.head_commit.hash }}
           Triggered by: ${{ github.event_name }} (@${{ github.actor }})
           [Execution page](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
         repo-token: ${{ secrets.REPO_TOKEN }}
