@@ -24,7 +24,7 @@ describe('CRUD simple GraphQL (proxy-only) API', () => {
         const federationExample = runFederationExample();
         login_page.open();
         login_page.login(envDetails.userEmail, envDetails.userPassword);
-        browser.pause(2000);
+        browser.pause(6000);
     });
 
     it('User should be able to create new Federation Subgraph API', () => {
