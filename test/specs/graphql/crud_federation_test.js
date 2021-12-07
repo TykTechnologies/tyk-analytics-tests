@@ -39,7 +39,7 @@ describe('CRUD simple GraphQL (proxy-only) API', () => {
         login_page.open();
         login_page.login(envDetails.userEmail, envDetails.userPassword);
         
-        while(isFederationExampleRunning == false && i < 5){
+        while(isFederationExampleRunning == false && i <= 5){
             
             console.log(`>>> Starting loop ${i}`);
             
