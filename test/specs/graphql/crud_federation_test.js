@@ -3,6 +3,7 @@ import { apis_page } from '../../../lib/pom/Apis_page';
 import { login_page } from '../../../lib/pom/Login_page';
 import { main_page } from '../../../lib/pom/Main_page';
 import { runFederationExample } from '../../../lib/utils/utils';
+import { API_connection } from '../../../lib/utils/api_connections/API_connection';
 
 describe('CRUD simple GraphQL (proxy-only) API', () => {
     const apiDetails = {
@@ -14,17 +15,42 @@ describe('CRUD simple GraphQL (proxy-only) API', () => {
         reviewsSubgraphUrl: "http://localhost:4003/query",
         reviewsSubgraphName: "Reviews-test"        
     };
+    const federationExampleTestUrl = "http://localhost:4000/"
+    const api_connection = new API_connection(federationExampleTestUrl);
+    const expectedFederationResponse = { data: { me: { id: '1234' } } }
+
+    const federationTestRequestConfig = {
+        path: "query",
+        body: `{"query":"query{me{id}}","variables":{}}`
+    }    
+
     let $supergraphTableElement;
     let $usersTableElement;
     let $productsTableElement;
     let $reviewsTableElement;
 
+    let i = 1;
+    let isFederationExampleRunning = false;
+
     before(() => {
         const envDetails = setUpEnv();
         const federationExample = runFederationExample();
+        let response;
         login_page.open();
         login_page.login(envDetails.userEmail, envDetails.userPassword);
-        browser.pause(6000);
+        
+        while(isFederationExampleRunning == false && i < 5){
+            
+            console.log(`>>> Starting loop ${i}`);
+            
+            try {
+                response = api_connection.sendPostRequest({path: federationTestRequestConfig.path, body: federationTestRequestConfig.body});    
+                if(JSON.stringify(response.body) == JSON.stringify(expectedFederationResponse)) isFederationExampleRunning = true;
+            } catch (error) {
+                console.log('Federation example not running. Trying again.' + error);
+            }    
+            i++;
+        }
     });
 
     it('User should be able to create new Federation Subgraph API', () => {
