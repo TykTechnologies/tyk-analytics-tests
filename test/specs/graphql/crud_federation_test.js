@@ -34,7 +34,7 @@ describe('CRUD simple GraphQL (proxy-only) API', () => {
 
     before(() => {
         const envDetails = setUpEnv();
-        const federationExample = runFederationExample();
+        //const federationExample = runFederationExample();
         let response;
         login_page.open();
         login_page.login(envDetails.userEmail, envDetails.userPassword);
