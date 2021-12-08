@@ -85,11 +85,8 @@ describe('CRUD simple GraphQL (proxy-only) API', () => {
 
     it('User should be able to create additional Subgraph APIs', () =>{
         //Products subgraph
-        console.debug('>>>>>>> Pre Products')
         main_page.openAPIs();
-        console.debug('>>>>>>> Pre Products 11')
         apis_page.ADD_NEW_API_BUTTON.click();
-        console.debug('>>>>>>> Pre Products 22')
         apis_page.API_NAME_INPUT.setValue(apiDetails.productsSubgraphName);
         apis_page.API_TYPE_FEDERATION_BUTTON.click();
         apis_page.API_TYPE_SUBGRAPH_BUTTON.click();
