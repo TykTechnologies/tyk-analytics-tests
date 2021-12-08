@@ -81,6 +81,11 @@ jobs:
       run: |
         npm ci
       working-directory: tyk-analytics-tests
+    
+    - name: Run Federation example
+      run: |
+        cd graphql-go-tools/examples/federation
+        sh start.sh
 
     - name: Waiting for dashboard
       run: |
