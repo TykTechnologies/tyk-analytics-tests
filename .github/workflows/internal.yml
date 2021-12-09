@@ -85,7 +85,15 @@ jobs:
     - name: Run Federation example
       run: |
         cd graphql-go-tools/examples/federation
-        sh start.sh
+        go build -o /tmp/srv-accounts ./accounts
+        go build -o /tmp/srv-products ./products
+        go build -o /tmp/srv-reviews ./reviews
+        go build -o /tmp/srv-gateway ./gateway
+        /tmp/srv-accounts &
+        /tmp/srv-products &
+        /tmp/srv-reviews &
+        sleep 1
+        /tmp/srv-gateway
       working-directory: tyk-analytics-tests
 
     - name: Waiting for dashboard
