@@ -93,7 +93,7 @@ jobs:
         /tmp/srv-products &
         /tmp/srv-reviews &
         sleep 1
-        /tmp/srv-gateway
+        /tmp/srv-gateway &
       working-directory: tyk-analytics-tests
 
     - name: Waiting for dashboard
