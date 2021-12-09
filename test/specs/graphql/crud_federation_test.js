@@ -15,7 +15,7 @@ describe('CRUD simple GraphQL (proxy-only) API', () => {
         reviewsSubgraphUrl: "http://localhost:4003/query",
         reviewsSubgraphName: "Reviews-test"        
     };
-    const federationExampleTestUrl = "http://localhost:4000/"
+    const federationExampleTestUrl = "http://localhost:4001/"
     const api_connection = new API_connection(federationExampleTestUrl);
     const expectedFederationResponse = { data: { me: { id: '1234' } } }
 
