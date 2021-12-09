@@ -8,11 +8,11 @@ import { API_connection } from '../../../lib/utils/api_connections/API_connectio
 describe('CRUD simple GraphQL (proxy-only) API', () => {
     const apiDetails = {
         supergraphName: "Super-test",
-        usersSubgraphUrl: "http://localhost:4001/query",
+        usersSubgraphUrl: "http://host.docker.internal:4001/query",
         usersSubgraphName: "Users-test",
-        productsSubgraphUrl: "http://localhost:4002/query",
+        productsSubgraphUrl: "http://host.docker.internal:4002/query",
         productsSubgraphName: "Products-test",
-        reviewsSubgraphUrl: "http://localhost:4003/query",
+        reviewsSubgraphUrl: "http://host.docker.internal:4003/query",
         reviewsSubgraphName: "Reviews-test"        
     };
     const federationExampleTestUrl = "http://localhost:4000/"
