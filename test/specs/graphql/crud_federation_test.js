@@ -6,15 +6,23 @@ import { runFederationExample } from '../../../lib/utils/utils';
 import { API_connection } from '../../../lib/utils/api_connections/API_connection';
 
 describe('CRUD simple GraphQL (proxy-only) API', () => {
+
+    let localFederationUrl;
+
+    if(process.env.RUN_ENV == "CI") localFederationUrl = "172.17.0.1";
+    else localFederationUrl = "localhost";
+
     const apiDetails = {
         supergraphName: "Super-test",
-        usersSubgraphUrl: "http://172.17.0.1:4001/query",
+        usersSubgraphUrl: `http://${localFederationUrl}:4001/query`,
         usersSubgraphName: "Users-test",
-        productsSubgraphUrl: "http://172.17.0.1:4002/query",
+        productsSubgraphUrl: `http://${localFederationUrl}:4002/query`,
         productsSubgraphName: "Products-test",
-        reviewsSubgraphUrl: "http://172.17.0.1:4003/query",
+        reviewsSubgraphUrl: `http://${localFederationUrl}:4003/query`,
         reviewsSubgraphName: "Reviews-test"        
     };
+
+    const federationConnectionRetries = 5;
     const federationExampleTestUrl = "http://localhost:4000/"
     const api_connection = new API_connection(federationExampleTestUrl);
     const expectedFederationResponse = { data: { me: { id: '1234' } } }
@@ -29,27 +37,31 @@ describe('CRUD simple GraphQL (proxy-only) API', () => {
     let $productsTableElement;
     let $reviewsTableElement;
 
-    let i = 1;
+    let retryNumber = 1;
     let isFederationExampleRunning = false;
 
     before(() => {
         const envDetails = setUpEnv();
-        //const federationExample = runFederationExample();
         let response;
         login_page.open();
         login_page.login(envDetails.userEmail, envDetails.userPassword);
         
-        while(isFederationExampleRunning == false && i <= 5){
+        if(process.env.RUN_ENV != "CI"){
+            console.log(`RUN_ENV variable not set to CI. Running local Federation example`);
+            runFederationExample();
+        }
+
+        while(isFederationExampleRunning == false && retryNumber <= federationConnectionRetries){
             
-            console.log(`>>> Starting loop ${i}`);
+            console.log(`>>> Starting connection try number ${retryNumber}`);
             
             try {
                 response = api_connection.sendPostRequest({path: federationTestRequestConfig.path, body: federationTestRequestConfig.body});    
                 if(JSON.stringify(response.body) == JSON.stringify(expectedFederationResponse)) isFederationExampleRunning = true;
             } catch (error) {
-                console.log('Federation example not running. Trying again.' + error);
+                console.log('Federation example not running. Trying again. ' + error);
             }    
-            i++;
+            retryNumber++;
         }
     });
 

@@ -105,6 +105,8 @@ jobs:
       run: |
         npm run headless-test
       working-directory: tyk-analytics-tests
+      env:
+        RUN_ENV: CI
     
     - name: Archive UI test report
       if: ${{ always() }}
