@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const URL = process.env.URL || "http://localhost:3000/";
+const RUN_ENV = process.env.RUN_ENV;
 
 module.exports = {
     CLEAN_TEST: process.env.CLEAN_TEST || true,
@@ -21,5 +22,7 @@ module.exports = {
 
     LANDING_PAGE_PATH: "apis2/",
     LOGOUT_PATH: "logout/",
-    HELLO_PATH: "hello/"
+    HELLO_PATH: "hello/",
+
+    RUN_ENV: RUN_ENV
 };

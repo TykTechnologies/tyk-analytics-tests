@@ -4,12 +4,13 @@ import { login_page } from '../../../lib/pom/Login_page';
 import { main_page } from '../../../lib/pom/Main_page';
 import { runFederationExample } from '../../../lib/utils/utils';
 import { API_connection } from '../../../lib/utils/api_connections/API_connection';
+import { RUN_ENV } from '../../../config_variables';
 
 describe('CRUD simple GraphQL (proxy-only) API', () => {
 
     let localFederationUrl;
 
-    if(process.env.RUN_ENV == "CI") localFederationUrl = "172.17.0.1";
+    if(RUN_ENV === "CI") localFederationUrl = "172.17.0.1";
     else localFederationUrl = "localhost";
 
     const apiDetails = {
@@ -46,20 +47,20 @@ describe('CRUD simple GraphQL (proxy-only) API', () => {
         login_page.open();
         login_page.login(envDetails.userEmail, envDetails.userPassword);
         
-        if(process.env.RUN_ENV != "CI"){
+        if(RUN_ENV !== "CI"){
             console.log(`RUN_ENV variable not set to CI. Running local Federation example`);
             runFederationExample();
         }
 
-        while(isFederationExampleRunning == false && retryNumber <= federationConnectionRetries){
+        while(!isFederationExampleRunning && retryNumber <= federationConnectionRetries){
             
             console.log(`>>> Starting connection try number ${retryNumber}`);
             
             try {
                 response = api_connection.sendPostRequest({path: federationTestRequestConfig.path, body: federationTestRequestConfig.body});    
-                if(JSON.stringify(response.body) == JSON.stringify(expectedFederationResponse)) isFederationExampleRunning = true;
+                if(JSON.stringify(response.body) === JSON.stringify(expectedFederationResponse)) isFederationExampleRunning = true;
             } catch (error) {
-                console.log('Federation example not running. Trying again. ' + error);
+                console.error('Federation example not running. Trying again. ' + error);
             }    
             retryNumber++;
         }
