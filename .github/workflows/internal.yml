@@ -82,20 +82,6 @@ jobs:
         npm ci
       working-directory: tyk-analytics-tests
     
-    - name: Run Federation example
-      run: |
-        cd graphql-go-tools/examples/federation
-        go build -o /tmp/srv-accounts ./accounts
-        go build -o /tmp/srv-products ./products
-        go build -o /tmp/srv-reviews ./reviews
-        go build -o /tmp/srv-gateway ./gateway
-        /tmp/srv-accounts &
-        /tmp/srv-products &
-        /tmp/srv-reviews &
-        sleep 1
-        /tmp/srv-gateway &
-      working-directory: tyk-analytics-tests
-
     - name: Waiting for dashboard
       run: |
         while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:3000/hello/)" != "200" ]]; do sleep 60 && echo "waiting for dashboard '$(date +"%T")'"; done
