@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const URL = process.env.URL || "http://localhost:3000/";
-const RUN_ENV = process.env.RUN_ENV;
+const FEDERATION_UPSTREAM_HOST = (process.env.CI) ? "172.17.0.1" : "localhost";
 
 module.exports = {
     CLEAN_TEST: process.env.CLEAN_TEST || true,
@@ -24,5 +24,5 @@ module.exports = {
     LOGOUT_PATH: "logout/",
     HELLO_PATH: "hello/",
 
-    RUN_ENV: RUN_ENV
+    FEDERATION_UPSTREAM_HOST: FEDERATION_UPSTREAM_HOST
 };
