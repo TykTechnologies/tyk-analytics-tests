@@ -3,55 +3,25 @@ import { apis_page } from '../../../lib/pom/Apis_page';
 import { login_page } from '../../../lib/pom/Login_page';
 import { main_page } from '../../../lib/pom/Main_page';
 import { prepareFederationExampleUpstream } from '../../../lib/utils/utils';
-import { API_connection } from '../../../lib/utils/api_connections/API_connection';
-import { RUN_ENV } from '../../../config_variables';
+import { FEDERATION_UPSTREAM_HOST } from '../../../config_variables';
 
 describe('CRUD simple GraphQL (proxy-only) API', () => {
-
-    let localFederationUrl;
-
-    if(RUN_ENV === "CI") localFederationUrl = "172.17.0.1";
-    else localFederationUrl = "localhost";
-
     const apiDetails = {
         supergraphName: "Super-test",
-        usersSubgraphUrl: `http://${localFederationUrl}:4001/query`,
+        usersSubgraphUrl: `http://${FEDERATION_UPSTREAM_HOST}:4001/query`,
         usersSubgraphName: "Users-test",
-        productsSubgraphUrl: `http://${localFederationUrl}:4002/query`,
+        productsSubgraphUrl: `http://${FEDERATION_UPSTREAM_HOST}:4002/query`,
         productsSubgraphName: "Products-test",
-        reviewsSubgraphUrl: `http://${localFederationUrl}:4003/query`,
+        reviewsSubgraphUrl: `http://${FEDERATION_UPSTREAM_HOST}:4003/query`,
         reviewsSubgraphName: "Reviews-test"        
     };
-
-    const federationConnectionRetries = 5;
-    const federationExampleTestUrl = "http://localhost:4000/"
-    const api_connection = new API_connection(federationExampleTestUrl);
-    const expectedFederationResponse = { data: { me: { id: '1234' } } }
-
-    const federationTestRequestConfig = {
-        path: "query",
-        body: `{"query":"query{me{id}}","variables":{}}`
-    }    
-
     let $supergraphTableElement;
     let $usersTableElement;
     let $productsTableElement;
     let $reviewsTableElement;
 
-    let retryNumber = 1;
-    let isFederationExampleRunning = false;
-
     before(() => {
         const envDetails = setUpEnv();
-        let response;
-
-        
-        // if(RUN_ENV !== "CI"){
-        //     console.log(`RUN_ENV variable not set to CI. Running local Federation example`);
-        //     runFederationExample();
-        // }
-
-        // expect(retryNumber).to.be.below(federationConnectionRetries);
         const isFederationUpstremRunning = prepareFederationExampleUpstream();
         expect(isFederationUpstremRunning).to.be.true;
         login_page.open();
