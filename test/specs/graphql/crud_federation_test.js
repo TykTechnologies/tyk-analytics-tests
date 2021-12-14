@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { apis_page } from '../../../lib/pom/Apis_page';
 import { login_page } from '../../../lib/pom/Login_page';
 import { main_page } from '../../../lib/pom/Main_page';
-import { prepareFederationExampleUpstream } from '../../../lib/utils/utils';
+import { prepareFederationExampleUpstream } from '../../../lib/utils/federation';
 import { FEDERATION_UPSTREAM_HOST } from '../../../config_variables';
 
 describe('CRUD simple GraphQL (proxy-only) API', () => {
