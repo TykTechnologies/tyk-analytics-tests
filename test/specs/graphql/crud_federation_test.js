@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { apis_page } from '../../../lib/pom/Apis_page';
 import { login_page } from '../../../lib/pom/Login_page';
 import { main_page } from '../../../lib/pom/Main_page';
-import { runFederationExample } from '../../../lib/utils/utils';
+import { prepareFederationExampleUpstream } from '../../../lib/utils/utils';
 import { API_connection } from '../../../lib/utils/api_connections/API_connection';
 import { RUN_ENV } from '../../../config_variables';
 
@@ -44,26 +44,18 @@ describe('CRUD simple GraphQL (proxy-only) API', () => {
     before(() => {
         const envDetails = setUpEnv();
         let response;
+
+        
+        // if(RUN_ENV !== "CI"){
+        //     console.log(`RUN_ENV variable not set to CI. Running local Federation example`);
+        //     runFederationExample();
+        // }
+
+        // expect(retryNumber).to.be.below(federationConnectionRetries);
+        const isFederationUpstremRunning = prepareFederationExampleUpstream();
+        expect(isFederationUpstremRunning).to.be.true;
         login_page.open();
         login_page.login(envDetails.userEmail, envDetails.userPassword);
-        
-        if(RUN_ENV !== "CI"){
-            console.log(`RUN_ENV variable not set to CI. Running local Federation example`);
-            runFederationExample();
-        }
-
-        while(!isFederationExampleRunning && retryNumber <= federationConnectionRetries){
-            
-            console.log(`>>> Starting connection try number ${retryNumber}`);
-            
-            try {
-                response = api_connection.sendPostRequest({path: federationTestRequestConfig.path, body: federationTestRequestConfig.body});    
-                if(JSON.stringify(response.body) === JSON.stringify(expectedFederationResponse)) isFederationExampleRunning = true;
-            } catch (error) {
-                console.error('Federation example not running. Trying again. ' + error);
-            }    
-            retryNumber++;
-        }
     });
 
     it('User should be able to create new Federation Subgraph API', () => {
