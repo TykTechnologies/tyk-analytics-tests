@@ -20,7 +20,7 @@ exports.config = {
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
     specs: [
-        './test/specs/graphql/crud_federation_test.js'
+        './test/specs/**/*.js'
     ],
     // Patterns to exclude.
     exclude: [
