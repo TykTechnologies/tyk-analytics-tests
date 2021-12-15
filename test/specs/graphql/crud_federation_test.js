@@ -22,8 +22,8 @@ describe('CRUD simple GraphQL (proxy-only) API', () => {
 
     before(() => {
         const envDetails = setUpEnv();
-        const isFederationUpstremRunning = prepareFederationExampleUpstream();
-        expect(isFederationUpstremRunning).to.be.true;
+        const isFederationUpstreamRunning = prepareFederationExampleUpstream();
+        expect(isFederationUpstreamRunning).to.be.true;
         login_page.open();
         login_page.login(envDetails.userEmail, envDetails.userPassword);
     });
