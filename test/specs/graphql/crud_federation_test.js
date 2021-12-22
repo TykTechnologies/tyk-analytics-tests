@@ -5,7 +5,7 @@ import { main_page } from '../../../lib/pom/Main_page';
 import { prepareFederationExampleUpstream } from '../../../lib/utils/federation_example';
 import { FEDERATION_UPSTREAM_HOST } from '../../../config_variables';
 
-describe('CRUD simple GraphQL (proxy-only) API', () => {
+describe('CRUD basic Federation API', () => {
     const apiDetails = {
         supergraphName: "Super-test",
         usersSubgraphUrl: `http://${FEDERATION_UPSTREAM_HOST}:4001/query`,
