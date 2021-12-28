@@ -2,13 +2,15 @@ name: Internal framework check
 
 on:
   pull_request:
+    branches:
+      - master
+      - test/*
+      - release-*
   push:
     branches:
       - master
       - test/*
       - release-*
-    tags:
-      - 'v*'
 
 env:
   GOPRIVATE: github.com/TykTechnologies
@@ -88,6 +90,7 @@ jobs:
       timeout-minutes: 15    
     
     - name: Execute UI tests
+      id: test_execution
       run: |
         npm run headless-test
       working-directory: tyk-analytics-tests
@@ -112,3 +115,18 @@ jobs:
         EVENT_TRIGGER: ${{ github.event_name }} (${{ github.actor }})
         JOB_RUN_ID: ${{ github.run_id }}
         JOB_NAME: ${{ github.job }}
+
+    - name: Comment on PR
+      if: ${{ always() }} && github.event.issue.pull_request
+      uses: mshick/add-pr-comment@v1
+      with:
+        message: |
+          **UI tests result: ${{ steps.test_execution.outcome }}** ${{ env.STATUS }} 
+          Branch used: ${{ github.ref }}
+          Commit: ${{ github.event.after }} ${{ github.event.commits[0].message }}
+          Triggered by: ${{ github.event_name }} (@${{ github.actor }})
+          [Execution page](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+        repo-token: ${{ secrets.ORG_GH_TOKEN }}
+        allow-repeats: true
+      env:
+        STATUS: "${{ steps.test_execution.outcome == 'success' && ':white_check_mark:' || ':no_entry_sign:' }}"
