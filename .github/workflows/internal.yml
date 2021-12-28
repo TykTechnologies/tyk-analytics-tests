@@ -83,7 +83,7 @@ jobs:
       run: |
         npm ci
       working-directory: tyk-analytics-tests
-
+    
     - name: Waiting for dashboard
       run: |
         while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:3000/hello/)" != "200" ]]; do sleep 60 && echo "waiting for dashboard '$(date +"%T")'"; done
