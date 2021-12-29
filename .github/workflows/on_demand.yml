@@ -1,0 +1,116 @@
+name: Internal framework check
+
+on:
+  workflow_dispatch:
+    inputs:
+      dashboard_branch:
+        default: "master"
+        description: "tyk-analytics repo branch name"
+        required: true
+      test_branch:
+        default: "master"
+        description: "tyk-analytics-tests repo branch name"
+        required: true
+
+env:
+  GOPRIVATE: github.com/TykTechnologies
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        go-version: [1.16.x]
+        platform: [ubuntu-latest]
+        arch: [amd64]
+        node-version: [15.x]
+    runs-on: ${{ matrix.platform }}
+    
+    steps:
+    - name: Install Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2.4.1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Fix private module deps
+      env:
+        TOKEN: '${{ secrets.REPO_TOKEN }}'
+      run: >
+        git config --global url."https://${TOKEN}@github.com".insteadOf "https://github.com"
+    
+    - name: Checkout of Framework
+      uses: actions/checkout@v2
+      with:
+        path: tyk-analytics-tests
+        token: ${{ secrets.REPO_TOKEN }}
+        ref: ${{ actions/checkout@v2 }}
+        submodules: true
+    
+    - name: Checkout Dash repository
+      uses: actions/checkout@v2
+      with:
+        repository: TykTechnologies/tyk-analytics
+        path: tyk-analytics
+        token: ${{ secrets.REPO_TOKEN }}
+        submodules: true
+        ref: $${{ dashboard_branch }}
+
+    - name: start docker compose
+      run: docker-compose -f ci/ci_testing_env.yml up -d
+      env:
+        TYK_DB_LICENSEKEY: ${{secrets.DASH_LICENSE}}
+        DASH_REPO_PATH: /home/runner/work/tyk-analytics-tests/tyk-analytics-tests/tyk-analytics
+        GOPRIVATE: github.com/TykTechnologies
+        TOKEN: ${{ secrets.REPO_TOKEN }}
+      working-directory: tyk-analytics-tests
+
+    - name: Install test dependecies
+      run: |
+        npm ci
+      working-directory: tyk-analytics-tests
+    
+    - name: Waiting for dashboard
+      run: |
+        while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:3000/hello/)" != "200" ]]; do sleep 60 && echo "waiting for dashboard '$(date +"%T")'"; done
+      timeout-minutes: 15    
+    
+    - name: Execute UI tests
+      id: test_execution
+      run: |
+        npm run headless-test
+      working-directory: tyk-analytics-tests
+    
+    - name: Archive UI test report
+      if: ${{ always() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: ui-test-report
+        path: ./tyk-analytics-tests/results/report/index.html
+    
+    - name: Slack notify
+      if: ${{ always() }}
+      run: |
+        export GIT_BRANCH=$(git branch --show-current) 
+        npm run notify-slack
+      working-directory: tyk-analytics-tests
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.KONRAD_SLACK }}
+        WDIO_TEST_ENV: This is a test of change in Test Framework branch - ${{ steps.check_test_branch.outputs.branch	 }} ${{ github.ref }} (commit message -> ${{ github.event.head_commit.message }}${{ github.event.pull_request.title }})
+        FRAMEWORK_REPO: ${{ github.repository }}
+        EVENT_TRIGGER: ${{ github.event_name }} (${{ github.actor }})
+        JOB_RUN_ID: ${{ github.run_id }}
+        JOB_NAME: ${{ github.job }}
+
+    - name: Comment on PR
+      if: ${{ always() }} && github.event.issue.pull_request
+      uses: mshick/add-pr-comment@v1
+      with:
+        message: |
+          **UI tests result: ${{ steps.test_execution.outcome }}** ${{ env.STATUS }} 
+          Branch used: ${{ github.ref }}
+          Commit: ${{ github.event.after }} ${{ github.event.commits[0].message }}
+          Triggered by: ${{ github.event_name }} (@${{ github.actor }})
+          [Execution page](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+        repo-token: ${{ secrets.ORG_GH_TOKEN }}
+        allow-repeats: true
+      env:
+        STATUS: "${{ steps.test_execution.outcome == 'success' && ':white_check_mark:' || ':no_entry_sign:' }}"
