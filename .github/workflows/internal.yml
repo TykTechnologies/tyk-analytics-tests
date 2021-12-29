@@ -33,7 +33,7 @@ jobs:
 
     - name: Fix private module deps
       env:
-        TOKEN: '${{ secrets.REPO_TOKEN }}'
+        TOKEN: '${{ secrets.ORG_GH_TOKEN }}'
       run: >
         git config --global url."https://${TOKEN}@github.com".insteadOf "https://github.com"
     
@@ -41,13 +41,13 @@ jobs:
       uses: actions/checkout@v2
       with:
         path: tyk-analytics-tests
-        token: ${{ secrets.REPO_TOKEN }}
+        token: ${{ secrets.ORG_GH_TOKEN }}
         submodules: true
 
     - name: Check if Dashboard branch exists
       id: check_test_branch
       env:
-        TOKEN: '${{ secrets.REPO_TOKEN }}'
+        TOKEN: '${{ secrets.ORG_GH_TOKEN }}'
       run: |
         echo "::set-output name=branch::master"
         if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.base_ref	}}; then
@@ -66,7 +66,7 @@ jobs:
       with:
         repository: TykTechnologies/tyk-analytics
         path: tyk-analytics
-        token: ${{ secrets.REPO_TOKEN }}
+        token: ${{ secrets.ORG_GH_TOKEN }}
         submodules: true
         ref: ${{ steps.check_test_branch.outputs.branch	 }}
 
@@ -76,7 +76,7 @@ jobs:
         TYK_DB_LICENSEKEY: ${{secrets.DASH_LICENSE}}
         DASH_REPO_PATH: /home/runner/work/tyk-analytics-tests/tyk-analytics-tests/tyk-analytics
         GOPRIVATE: github.com/TykTechnologies
-        TOKEN: ${{ secrets.REPO_TOKEN }}
+        TOKEN: ${{ secrets.ORG_GH_TOKEN }}
       working-directory: tyk-analytics-tests
 
     - name: Install test dependecies
@@ -104,6 +104,7 @@ jobs:
     
     - name: Slack notify
       if: ${{ always() }}
+      id: slack_notify
       run: |
         export GIT_BRANCH=$(git branch --show-current) 
         npm run notify-slack
@@ -115,6 +116,15 @@ jobs:
         EVENT_TRIGGER: ${{ github.event_name }} (${{ github.actor }})
         JOB_RUN_ID: ${{ github.run_id }}
         JOB_NAME: ${{ github.job }}
+
+    - name: Notify if custom notification failed
+      if: steps.slack_notify.outcome == 'failure' && failure()
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.KONRAD_SLACK }}
+        SLACK_TITLE: "Tests were NOT executed!"
+        SLACK_USERNAME: Test automation
+        SLACK_FOOTER: "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|execution details>"
 
     - name: Comment on PR
       if: ${{ always() }} && github.event.issue.pull_request
