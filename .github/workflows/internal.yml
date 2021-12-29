@@ -104,6 +104,7 @@ jobs:
     
     - name: Slack notify
       if: ${{ always() }}
+      id: slack_notify
       run: |
         export GIT_BRANCH=$(git branch --show-current) 
         npm run notify-slack
@@ -115,6 +116,15 @@ jobs:
         EVENT_TRIGGER: ${{ github.event_name }} (${{ github.actor }})
         JOB_RUN_ID: ${{ github.run_id }}
         JOB_NAME: ${{ github.job }}
+
+    - name: Notify if custom notification failed
+      if: steps.slack_notify.outcome == 'failure' && failure()
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.KONRAD_SLACK }}
+        SLACK_TITLE: "Tests were NOT executed!"
+        SLACK_USERNAME: Test automation
+        SLACK_FOOTER: "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|execution details>"
 
     - name: Comment on PR
       if: ${{ always() }} && github.event.issue.pull_request
