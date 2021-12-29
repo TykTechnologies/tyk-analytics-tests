@@ -118,7 +118,7 @@ jobs:
         JOB_NAME: ${{ github.job }}
 
     - name: Notify if custom notification failed
-      if: steps.slack_notify.outputs.status == 'failure' && ${{ always() }}
+      if: steps.slack_notify.outcome == 'failure' && ${{ always() }}
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_WEBHOOK: ${{ secrets.KONRAD_SLACK }}
