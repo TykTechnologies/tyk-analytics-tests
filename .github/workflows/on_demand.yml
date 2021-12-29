@@ -1,4 +1,4 @@
-name: Internal framework check
+name: Execution on demand
 
 on:
   workflow_dispatch:
@@ -7,9 +7,9 @@ on:
         default: "master"
         description: "tyk-analytics repo branch name"
         required: true
-      test_branch:
-        default: "master"
-        description: "tyk-analytics-tests repo branch name"
+      test-spec:
+        default: "./test/specs/*"
+        description: "test filter; leave default for full scope"
         required: true
 
 env:
@@ -42,7 +42,6 @@ jobs:
       with:
         path: tyk-analytics-tests
         token: ${{ secrets.REPO_TOKEN }}
-        ref: ${{ actions/checkout@v2 }}
         submodules: true
     
     - name: Checkout Dash repository
@@ -76,7 +75,7 @@ jobs:
     - name: Execute UI tests
       id: test_execution
       run: |
-        npm run headless-test
+        WDIO_HEADLESS=1 npm test -- --spec ${{ github.event.inputs.test-spec }}
       working-directory: tyk-analytics-tests
     
     - name: Archive UI test report
