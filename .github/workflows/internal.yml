@@ -107,7 +107,7 @@ jobs:
       id: slack_notify
       run: |
         export GIT_BRANCH=$(git branch --show-current) 
-        npm run notify-slack
+        npm run notify-slackvdsv
       working-directory: tyk-analytics-tests
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.KONRAD_SLACK }}
