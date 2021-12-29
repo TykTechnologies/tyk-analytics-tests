@@ -119,22 +119,12 @@ jobs:
 
     - name: Notify if custom notification failed
       if: ${{ always() }} && steps.slack_notify.outputs.status == 'failure'
-      uses: wearerequired/slack-messaging-action@v1
-      with:
-        bot_token: ${{ secrets.KONRAD_SLACK }}
-        channel: konrad
-        payload: >-
-          {
-            "icon_emoji": ":fire:",
-            "username": "${{ github.actor }}",
-            "attachments": [
-              {
-                "color": "red",
-                "pretext": "Tests were NOT executed!",
-              }
-            ] 
-            "footer": "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|execution details>",
-          }
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.KONRAD_SLACK }}
+        SLACK_TITLE: "Tests were NOT executed!"
+        SLACK_USERNAME: Test automation
+        SLACK_FOOTER: "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|execution details>"
 
     - name: Comment on PR
       if: ${{ always() }} && github.event.issue.pull_request
