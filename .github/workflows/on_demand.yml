@@ -51,7 +51,7 @@ jobs:
         path: tyk-analytics
         token: ${{ secrets.REPO_TOKEN }}
         submodules: true
-        ref: $${{ dashboard_branch }}
+        ref: $${{ github.event.inputs.dashboard_branch }}
 
     - name: start docker compose
       run: docker-compose -f ci/ci_testing_env.yml up -d
