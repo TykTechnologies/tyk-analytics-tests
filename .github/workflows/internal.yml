@@ -118,7 +118,7 @@ jobs:
         JOB_NAME: ${{ github.job }}
 
     - name: Notify if custom notification failed
-      if: steps.slack_notify.outputs.status == 'failure'
+      if: ${{ always() }} && steps.slack_notify.outputs.status == 'failure'
       uses: voxmedia/github-action-slack-notify-build@v1
       env:
         SLACK_BOT_TOKEN: ${{ secrets.KONRAD_SLACK }}
