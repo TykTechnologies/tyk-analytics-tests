@@ -125,7 +125,7 @@ jobs:
       with:
         status: FAILED
         color: danger
-        channel: konrad
+        channel: dashboard-automated-test
 
     - name: Comment on PR
       if: ${{ always() }} && github.event.issue.pull_request
