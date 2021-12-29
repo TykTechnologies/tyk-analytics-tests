@@ -104,6 +104,7 @@ jobs:
     
     - name: Slack notify
       if: ${{ always() }}
+      id: slack_notify
       run: |
         export GIT_BRANCH=$(git branch --show-current) 
         npm run notify-slack
@@ -115,6 +116,15 @@ jobs:
         EVENT_TRIGGER: ${{ github.event_name }} (${{ github.actor }})
         JOB_RUN_ID: ${{ github.run_id }}
         JOB_NAME: ${{ github.job }}
+
+    - name: Notify if custom notification failed
+      if: steps.slack_notify.outputs.status == 'failure'
+      uses: voxmedia/github-action-slack-notify-build@v1
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.KONRAD_SLACK }}
+      with:
+        status: FAILED
+        color: danger
 
     - name: Comment on PR
       if: ${{ always() }} && github.event.issue.pull_request
