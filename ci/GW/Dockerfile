@@ -45,7 +45,7 @@ RUN chmod +x /develop/start/entrypoint.sh
 ENV PATH=$PATH:/usr/local/go/bin
 ENV GOPATH=/develop/go/
 
-VOLUME [ "/develop/go", "/opt/tyk-gateway/tyk.conf" ]
+VOLUME [ "/develop/go", "/opt/tyk-gateway/tyk.conf", "/opt/tyk-gateway" ]
 
-CMD [ "/develop/start/entrypoint.sh" ]
+CMD [ "/develop/start/entrypoint.sh"]
 EXPOSE 8080 443
