@@ -70,11 +70,39 @@ jobs:
         submodules: true
         ref: ${{ steps.check_test_branch.outputs.branch	 }}
 
+    - name: Check if GW branch exists
+      id: check_GW_branch
+      env:
+        TOKEN: '${{ secrets.ORG_GH_TOKEN }}'
+      run: |
+        echo "::set-output name=branch::master"
+        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.base_ref	}}; then
+          echo "::set-output name=branch::${{ github.base_ref	}}"
+        fi
+        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.head_ref }}; then
+          echo "::set-output name=branch::${{ github.head_ref	}}"
+        fi
+        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.ref }}; then
+          echo "::set-output name=branch::${{ github.ref }}"
+        fi
+        echo "Branch from dash: ${branch}"
+    
+    - name: Checkout GW repository
+      uses: actions/checkout@v2
+      with:
+        repository: TykTechnologies/tyk
+        path: tyk
+        token: ${{ secrets.ORG_GH_TOKEN }}
+        submodules: true
+        ref: ${{ steps.check_GW_branch.outputs.branch	 }}
+
     - name: start docker compose
       run: docker-compose -f ci/ci_testing_env.yml up -d
       env:
         TYK_DB_LICENSEKEY: ${{secrets.DASH_LICENSE}}
         DASH_REPO_PATH: /home/runner/work/tyk-analytics-tests/tyk-analytics-tests/tyk-analytics
+        GW_REPO_PATH: /home/runner/work/tyk-analytics-tests/tyk-analytics-tests/tyk
+        GOPATH: /home/runner/work/tyk-analytics-tests/
         GOPRIVATE: github.com/TykTechnologies
         TOKEN: ${{ secrets.ORG_GH_TOKEN }}
       working-directory: tyk-analytics-tests

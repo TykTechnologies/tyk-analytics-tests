@@ -18,18 +18,22 @@ services:
             - tyk-redis
             - tyk-mongo
     tyk-gateway:
-        image: tykio/tyk-gateway:v3.2.1
+        build: ./GW
         ports:
             - "6000:6000"
             - "8003:8003"
             - "8080:8080" 
         volumes:
-            - ./conf/tyk_pro.conf:/opt/tyk-gateway/tyk.conf
+            - ${GOPATH}:/develop/go
+            - ${GW_REPO_PATH}:/opt/tyk-gateway
+            - ./conf/tyk.conf:/opt/tyk-gateway/tyk.conf
+            - ./conf/tyk.conf:/develop/confs/tyk.conf
             - ./conf/cert.pem:/etc/ssl/certs/cert.pem
             - ./conf/key.pem:/etc/ssl/certs/key.pem
             - ./apps:/opt/tyk-gateway/apps
             - ./middleware:/opt/tyk-gateway/middleware
         environment:
+            - TOKEN=${TOKEN}
             - TYK_LOGLEVEL=info
         depends_on:
             - tyk-redis            
