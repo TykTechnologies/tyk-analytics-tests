@@ -44,7 +44,6 @@ describe('Test Endpoints list on OAS API designer page', () => {
   });
 
   it('Initially Endpoint list is empty', () => {
-    let noEndpointsMsg = $('//h2[text()="No endpoints yet."]');
     browser.navigateTo(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
     apis_page.DESIGN_API_BOX.click();
     apis_page.API_NAME_INPUT.setValue('endpoint-test');
@@ -52,7 +51,7 @@ describe('Test Endpoints list on OAS API designer page', () => {
     apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
     apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");
     endpoints_page.OAS_ENDPOINTS_BUTTON.click();
-    wdioExpect(noEndpointsMsg).toBeDisplayed();
+    wdioExpect(endpoints_page.OAS_NO_ENDPOINTS_MESSAGE).toBeDisplayed();
   });
 
   it('User can add endpoints and save API', () => {
@@ -74,8 +73,8 @@ describe('Test Endpoints list on OAS API designer page', () => {
   });
 
   it('User can filter endpoints by name', () => {
-    let searchCriteria = 'ip';
-    let expectedEndpointList = [
+    const searchCriteria = 'ip';
+    const expectedEndpointList = [
       {
         endpoint: '/ip',
         method: 'GET'
@@ -96,8 +95,8 @@ describe('Test Endpoints list on OAS API designer page', () => {
   });
 
   it('User can filter endpoints by method', () => {
-    let methodFilter = 'GET';
-    let expectedEndpointList = [
+    const methodFilter = 'GET';
+    const expectedEndpointList = [
       {
         endpoint: '/ip',
         method: 'GET'
@@ -119,9 +118,9 @@ describe('Test Endpoints list on OAS API designer page', () => {
   });
 
   it('User can filter endpoints by endpoint name and method', () => {
-    let methodFilter = 'POST';
-    let searchCriteria = 'header';
-    let expectedEndpointList = [
+    const methodFilter = 'POST';
+    const searchCriteria = 'header';
+    const expectedEndpointList = [
       {
         endpoint: '/headers',
         method: 'POST'
@@ -160,6 +159,13 @@ describe('Test Endpoints list on OAS API designer page', () => {
     wdioExpect(removeEendpointSelector).not.toBeDisplayed();
   });
 
+/**
+ * Verify if endpoint is displayed or not.
+ * Function checks if tested endpoint is included in array of expected endpoints.
+ * @param {Object} endpointObject Represents endpoint to test
+ * @param {Array} expectedEndpoints Array of expected endpoints to be displayed
+ * @function
+ */
   function verifyDisplayedEndpoints(endpointObject, expectedEndpoints) {
     let endpointUrlLink = encodeURIComponent(endpointObject.endpoint.split('/').join('-')) + endpointObject.method;
     let endpointSelector = $(`//a[contains(@href, "${endpointUrlLink}")]`);
