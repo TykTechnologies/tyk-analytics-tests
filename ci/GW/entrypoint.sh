@@ -6,7 +6,6 @@ tyk_args=(--debug --httpprofile)
 tyk_args+=("--conf=/opt/tyk-gateway/tyk.conf")
 
 echo "Installing Tyk..."
-# echo "in entrypoint '${GW_REPO_PATH}'"
 cd /opt/tyk-gateway
 ls
 go install
