@@ -76,13 +76,13 @@ jobs:
         TOKEN: '${{ secrets.ORG_GH_TOKEN }}'
       run: |
         echo "::set-output name=branch::master"
-        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.base_ref	}}; then
+        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk ${{ github.base_ref	}}; then
           echo "::set-output name=branch::${{ github.base_ref	}}"
         fi
-        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.head_ref }}; then
+        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk ${{ github.head_ref }}; then
           echo "::set-output name=branch::${{ github.head_ref	}}"
         fi
-        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.ref }}; then
+        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk ${{ github.ref }}; then
           echo "::set-output name=branch::${{ github.ref }}"
         fi
         echo "Branch from dash: ${branch}"
