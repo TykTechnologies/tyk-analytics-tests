@@ -1,7 +1,7 @@
 version: '3.3'
 services:
     tyk-dashboard:
-        build: .
+        build: ./Dashboard
         ports:
             - "3000:3000"
             - "5000:5000"
