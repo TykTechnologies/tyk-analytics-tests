@@ -36,8 +36,7 @@ RUN mkdir --parents \
   /develop/confs \
   /develop/go \
   /develop/start
-COPY data/entrypoint.sh /develop/start/entrypoint.sh
-COPY data/entrypoint.sh /develop/start/entrypoint.sh
+COPY /entrypoint.sh /develop/start/entrypoint.sh
 RUN chmod +x /develop/start/entrypoint.sh
 
 ENV PATH=$PATH:/usr/local/go/bin

@@ -1,16 +1,16 @@
-name: Internal framework check
+name: Execution on demand
 
 on:
-  pull_request:
-    branches:
-      - master
-      - test/*
-      - release-*
-  push:
-    branches:
-      - master
-      - test/*
-      - release-*
+  workflow_dispatch:
+    inputs:
+      dashboard_branch:
+        default: "master"
+        description: "tyk-analytics repo branch name"
+        required: true
+      test-spec:
+        default: "./test/specs/*"
+        description: "test filter; leave default for full scope"
+        required: true
 
 env:
   GOPRIVATE: github.com/TykTechnologies
@@ -43,23 +43,6 @@ jobs:
         path: tyk-analytics-tests
         token: ${{ secrets.ORG_GH_TOKEN }}
         submodules: true
-
-    - name: Check if Dashboard branch exists
-      id: check_test_branch
-      env:
-        TOKEN: '${{ secrets.ORG_GH_TOKEN }}'
-      run: |
-        echo "::set-output name=branch::master"
-        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.base_ref	}}; then
-          echo "::set-output name=branch::${{ github.base_ref	}}"
-        fi
-        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.head_ref }}; then
-          echo "::set-output name=branch::${{ github.head_ref	}}"
-        fi
-        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.ref }}; then
-          echo "::set-output name=branch::${{ github.ref }}"
-        fi
-        echo "Branch from dash: ${branch}"
     
     - name: Checkout Dash repository
       uses: actions/checkout@v2
@@ -68,41 +51,13 @@ jobs:
         path: tyk-analytics
         token: ${{ secrets.ORG_GH_TOKEN }}
         submodules: true
-        ref: ${{ steps.check_test_branch.outputs.branch	 }}
-
-    - name: Check if GW branch exists
-      id: check_GW_branch
-      env:
-        TOKEN: '${{ secrets.ORG_GH_TOKEN }}'
-      run: |
-        echo "::set-output name=branch::master"
-        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk ${{ github.base_ref	}}; then
-          echo "::set-output name=branch::${{ github.base_ref	}}"
-        fi
-        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk ${{ github.head_ref }}; then
-          echo "::set-output name=branch::${{ github.head_ref	}}"
-        fi
-        if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk ${{ github.ref }}; then
-          echo "::set-output name=branch::${{ github.ref }}"
-        fi
-        echo "Branch from dash: ${branch}"
-    
-    - name: Checkout GW repository
-      uses: actions/checkout@v2
-      with:
-        repository: TykTechnologies/tyk
-        path: tyk
-        token: ${{ secrets.ORG_GH_TOKEN }}
-        submodules: true
-        ref: ${{ steps.check_GW_branch.outputs.branch	 }}
+        ref: ${{ github.event.inputs.dashboard_branch }}
 
     - name: start docker compose
-      run: docker-compose -f ci/testing_env.yml up -d
+      run: docker-compose -f ci/ci_testing_env.yml up -d
       env:
         TYK_DB_LICENSEKEY: ${{secrets.DASH_LICENSE}}
         DASH_REPO_PATH: /home/runner/work/tyk-analytics-tests/tyk-analytics-tests/tyk-analytics
-        GW_REPO_PATH: /home/runner/work/tyk-analytics-tests/tyk-analytics-tests/tyk
-        GOPATH: /home/runner/work/tyk-analytics-tests/
         GOPRIVATE: github.com/TykTechnologies
         TOKEN: ${{ secrets.ORG_GH_TOKEN }}
       working-directory: tyk-analytics-tests
@@ -120,7 +75,7 @@ jobs:
     - name: Execute UI tests
       id: test_execution
       run: |
-        npm run headless-test
+        WDIO_HEADLESS=1 npm test -- --spec ${{ github.event.inputs.test-spec }}
       working-directory: tyk-analytics-tests
     
     - name: Archive UI test report
@@ -132,7 +87,6 @@ jobs:
     
     - name: Slack notify
       if: ${{ always() }}
-      id: slack_notify
       run: |
         export GIT_BRANCH=$(git branch --show-current) 
         npm run notify-slack
@@ -144,15 +98,6 @@ jobs:
         EVENT_TRIGGER: ${{ github.event_name }} (${{ github.actor }})
         JOB_RUN_ID: ${{ github.run_id }}
         JOB_NAME: ${{ github.job }}
-
-    - name: Notify if custom notification failed
-      if: steps.slack_notify.outcome == 'failure' && failure()
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_WEBHOOK: ${{ secrets.KONRAD_SLACK }}
-        SLACK_TITLE: "Tests were NOT executed!"
-        SLACK_USERNAME: Test automation
-        SLACK_FOOTER: "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|execution details>"
 
     - name: Comment on PR
       if: ${{ always() }} && github.event.issue.pull_request
