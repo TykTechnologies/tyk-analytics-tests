@@ -66,6 +66,7 @@ describe('UDG with internal REST and GQL datasources', () => {
 
     let $apiTableElement;
     let envDetails;
+    let refreshCounter = 0;
 
     before(() => {
         envDetails = setUpEnv();
@@ -82,6 +83,11 @@ describe('UDG with internal REST and GQL datasources', () => {
 
     it('User should be able to create a UDG API with internal REST and GraphQL datasources', () => {
         main_page.openAPIs();
+        while(!apis_page.ADD_NEW_API_BUTTON.isExisting() && refreshCounter < 5){
+            browser.refresh();
+            browser.pause(2000);
+            refreshCounter++;
+        }
         apis_page.ADD_NEW_API_BUTTON.click();
         apis_page.API_NAME_INPUT.setValue(apiDetails.name);
         apis_page.API_TYPE_UDG_BUTTON.click();
