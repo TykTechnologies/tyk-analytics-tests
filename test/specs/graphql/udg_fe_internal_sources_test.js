@@ -66,6 +66,7 @@ describe('UDG with internal REST and GQL datasources', () => {
 
     let $apiTableElement;
     let envDetails;
+    let refreshCounter = 0;
 
     before(() => {
         envDetails = setUpEnv();
