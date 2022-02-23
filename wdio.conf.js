@@ -148,10 +148,6 @@ exports.config = {
           outputDir: './results/report',
           fileName: 'index.html',
           embedImages: true,
-          images: {
-            resize: true,
-            reductionRatio: 4
-          },
           screenshotStrategy: 'on:error'
       }],
       ['json',{
