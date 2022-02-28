@@ -29,7 +29,7 @@ RUN apt-get update --assume-yes \
   && apt-get clean \
   && rm --force --recursive /var/lib/apt/lists/*
 
-RUN curl --location --silent https://golang.org/dl/go1.14.12.linux-amd64.tar.gz --output go.tar.gz
+RUN curl --location --silent https://golang.org/dl/go1.15.15.linux-amd64.tar.gz --output go.tar.gz
 RUN tar --directory=/usr/local --extract --gzip --file=go.tar.gz
 
 RUN mkdir --parents \
