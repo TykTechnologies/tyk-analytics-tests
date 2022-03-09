@@ -56,8 +56,6 @@ describe('Create policy page - settings tests', () => {
     policies_page.API_TABLE.clickCellWithText(testApiDetails.apiName);
     policies_page.CONFIGURATIONS_TAB_BUTTON.click();
     policies_page.NAME_INPUT.setValue(deniedPolicyDetails.policyName);
-    policies_page.POLICY_STATE_DROPDOWN_ARROW.click();
-    policies_page.POLICY_STATE_DROPDOWN_ARROW.click();
     policies_page.POLICY_STATE_DROPDOWN.selectOption(deniedPolicyDetails.policyState);
     policies_page.KEY_EXPIRY_AFTER_DROPDOWN.selectOption(deniedPolicyDetails.keyEpiryTime);
     policies_page.CREATE_POLICY_BUTTON.click();
@@ -78,7 +76,6 @@ describe('Create policy page - settings tests', () => {
     policies_page.API_TABLE.clickCellWithText(testApiDetails.apiName);
     policies_page.CONFIGURATIONS_TAB_BUTTON.click();
     policies_page.NAME_INPUT.setValue(draftPolicyDetails.policyName);
-    policies_page.POLICY_STATE_DROPDOWN_ARROW.click();
     policies_page.POLICY_STATE_DROPDOWN.selectOption(draftPolicyDetails.policyState);
     policies_page.KEY_EXPIRY_AFTER_DROPDOWN.selectOption(draftPolicyDetails.keyEpiryTime);
     policies_page.CREATE_POLICY_BUTTON.click();
