@@ -63,7 +63,7 @@ describe('Create/update/delete keys without policy', () => {
    keys_page.KEY_SEARCH_FIELD.setValue(keyHashValue);
    keys_page.LOOKUP_KEY_BUTTON.click();
    keys_page.CONFIGURATIONS_TAB_BUTTON.click();
-   wdioExpect(keys_page.KEY_HASH_VALUE).toHaveAttributeContaining('copy', keyHashValue);
+   wdioExpect(keys_page.KEY_ID_VALUE).toHaveAttributeContaining('copy', keyHashValue);
    wdioExpect(keys_page.UPDATE_BUTTON).toBeClickable();
    wdioExpect(keys_page.UPDATE_WITHOUT_QUOTA_RESET_BUTTON).toBeClickable();
    wdioExpect(keys_page.DELETE_BUTTON).toBeClickable();
