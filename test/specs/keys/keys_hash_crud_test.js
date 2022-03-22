@@ -53,7 +53,7 @@ describe('Create/update/delete keys without policy', () => {
     keys_page.ENABLE_DETAILED_LOGGING_BUTTON.click();
     keys_page.CREATE_KEY_BUTTON.click();
     keys_page.OK_BUTTON.click();
-    // expect(keys_page.isKeyCreatedPopUpDisplayed()).to.be.true;
+    expect(keys_page.isKeyCreatedPopUpDisplayed()).to.be.true;
   });
 
  it ('User should be able to modify key',()=>{
