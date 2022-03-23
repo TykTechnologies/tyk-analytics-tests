@@ -27,7 +27,7 @@ const updatedKeyDetails={
 };
 
 
-describe('Create/update/delete keys by ID without policy', () => {
+xdescribe('Create/update/delete keys by ID without policy', () => {
   const dashboard_connection = new Dashboard_connection();
   let envDetails;
   let keyIdValue;
@@ -61,7 +61,7 @@ describe('Create/update/delete keys by ID without policy', () => {
     keys_page.AUTH_PASSWORD.setValue(apiKeysDetails.password);
     keys_page.CREATE_KEY_BUTTON.click();
     keys_page.OK_BUTTON.click();
-    // expect(keys_page.isKeyCreatedPopUpDisplayed()).to.be.true;
+    expect(keys_page.isKeyCreatedPopUpDisplayed()).to.be.true;
   });
 
   it('User should be able to modify key',()=>{
