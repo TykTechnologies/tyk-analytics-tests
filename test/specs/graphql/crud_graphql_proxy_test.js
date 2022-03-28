@@ -21,7 +21,8 @@ describe('CRUD simple GraphQL (proxy-only) API', () => {
         apis_page.API_NAME_INPUT.setValue(apiDetails.name);
         apis_page.API_TYPE_GRAPHQL_BUTTON.click();
         apis_page.CONFIGURE_API_BUTTON.click();
-        wdioExpect(apis_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
+        apis_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
+        wdioExpect(apis_page.GRAPHQL_UPDATE_SCHEMA_BUTTON).toExist();
         apis_page.SAVE_BUTTON.click();
     });
     
@@ -35,8 +36,7 @@ describe('CRUD simple GraphQL (proxy-only) API', () => {
         apis_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.click();
         expect(apis_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.isSelected()).to.be.true;
         apis_page.UPDATE_BUTTON.click();
-        apis_page.UPDATE_API_BUTTON.click();
-        //expect(apis_page.isApiUpdatedPopUpDisplayed()).to.be.true;
+        apis_page.UPDATE_API_BUTTON.click();        
         wdioExpect(apis_page.API_UPDATED_MESSAGE).toExist();
         main_page.openAPIs();
         $apiTableElement.click();
