@@ -3,7 +3,7 @@ import { apis_page } from '../../../../lib/pom/Apis_page';
 import { URL, LANDING_PAGE_PATH } from './../../../../config_variables';
 import { expect } from 'chai';
 
-xdescribe('Test Basic Authentication in OAS API designer page', () => {
+describe('Test Basic Authentication in OAS API designer page', () => {
   let envDetails;
 
   before(() => {
@@ -31,22 +31,26 @@ xdescribe('Test Basic Authentication in OAS API designer page', () => {
   it('Test Basic Auth mandatory fields', () => {
     apis_page.OAS_BASICAUTH_EXTRACT_CREDENTIALS_BOX.click();
     apis_page.OAS_SAVE_BUTTON.click();
-    let cacheTtlErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.basic.cacheTTL"]//following::p[2]');
-    let regexpUserErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.basic.extractCredentialsFromBody.userRegexp"]//following::p[1]');
-    let regexpPasswordErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.basic.extractCredentialsFromBody.passwordRegexp"]//following::p[1]');
-    let authKeyHeaderErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.basic.header.name"]//following::p[1]');
+    let cacheTtlErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.securitySchemes.basic.cacheTTL"]//following::p[2]');
+    let regexpUserErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.securitySchemes.basic.extractCredentialsFromBody.userRegexp"]//following::p[1]');
+    let regexpPasswordErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.securitySchemes.basic.extractCredentialsFromBody.passwordRegexp"]//following::p[1]');
+    let basicAuthConfigNameErrorMsg = $('//div[@name="x-tyk-api-gateway.server.authentication.securitySchemes.basic.name"]//p[1]');
+    let basicAuthLocationErrorMsg = $('//h4[text()="Authentication token location"]//following::p[1]');
+    wdioExpect(basicAuthConfigNameErrorMsg).toHaveText('Authentication Configuration Name is required');
+    wdioExpect(basicAuthLocationErrorMsg).toHaveText('Select at least one location where the token will be read of');
     wdioExpect(cacheTtlErrorMsg).toHaveText('Cache TTL is required');
     wdioExpect(regexpUserErrorMsg).toHaveText('Regexp to Extract Username is required');
     wdioExpect(regexpPasswordErrorMsg).toHaveText('Regexp to Extract Password is required');
-    wdioExpect(authKeyHeaderErrorMsg).toHaveText('Auth Key Header Name is required');
   });
 
   it('User can save API with Basic Auth settings', () => {
     apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.OAS_BASICAUTH_CONFIG_NAME.setValue('basicAuth');
     apis_page.OAS_BASICAUTH_CACHE_TTL_INPUT.setValue('40');
+    apis_page.OAS_BASICAUTH_EXTRACT_CREDENTIALS_BOX.click();
     apis_page.OAS_BASICAUTH_REGEXP_USERNAME_INPUT.setValue('<User>(.*)</User>');
     apis_page.OAS_BASICAUTH_REGEXP_PASSWORD_INPUT.setValue('<Pass>(.*)</Pass>');
-    apis_page.OAS_BASICAUTH_AUTH_HEADER_INPUT.setValue('Authorization');
+    apis_page.OAS_BASICAUTH_USE_HEADER_BOX.click();
     apis_page.OAS_BASICAUTH_STRIP_AUTHDATA_BOX.click();
     apis_page.OAS_BASICAUTH_ALLOW_QUERY_PARAM_BOX.click();
     apis_page.OAS_BASICAUTH_QUERY_PARAM_INPUT.setValue('my-param');
@@ -60,6 +64,7 @@ xdescribe('Test Basic Authentication in OAS API designer page', () => {
     browser.refresh();
     apis_page.SIDE_MENU_SERVER_LINK.click();
     wdioExpect(apis_page.OAS_AUTHENTICATION_SAVED).toHaveText('Basic Authentication');
+    wdioExpect(apis_page.OAS_BASICAUTH_CONFIG_NAME_SAVED).toHaveText('basicAuth');
     wdioExpect(apis_page.OAS_BASICAUTH_ENABLE_CHACHING_BOX).toBeChecked();
     wdioExpect(apis_page.OAS_BASICAUTH_CACHE_TTL_SAVED).toHaveText('40');
     wdioExpect(apis_page.OAS_BASICAUTH_EXTRACT_CREDENTIALS_BOX).toBeChecked();
