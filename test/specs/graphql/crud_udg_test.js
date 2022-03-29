@@ -21,7 +21,8 @@ describe('CRUD simple UDG API', () => {
         apis_page.API_NAME_INPUT.setValue(apiDetails.name);
         apis_page.API_TYPE_UDG_BUTTON.click();
         apis_page.CONFIGURE_API_BUTTON.click();
-        wdioExpect(apis_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
+        apis_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
+        wdioExpect(apis_page.UDG_DATA_SOURCES_MODE_BUTTON).toExist();
         apis_page.SAVE_BUTTON.click();
     });
     
