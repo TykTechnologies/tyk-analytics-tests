@@ -133,7 +133,7 @@ describe('Test Endpoints list on OAS API designer page', () => {
     });
   });
 
-  it('User can modify endpoints and save API', () => {
+  xit('User can modify endpoints and save API', () => {
     browser.refresh();
     let oldEendpointSelector = $('//a[contains(@href, "-ipget")]');
     let newEendpointSelector = $('//a[contains(@href, "-headershead")]');
