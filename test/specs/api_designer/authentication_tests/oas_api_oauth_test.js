@@ -3,7 +3,7 @@ import { apis_page } from '../../../../lib/pom/Apis_page';
 import { URL, LANDING_PAGE_PATH } from './../../../../config_variables';
 import { expect } from 'chai';
 
-xdescribe('Test OAuth2.0 Authentication in OAS API designer page', () => {
+describe('Test OAuth2.0 Authentication in OAS API designer page', () => {
   let envDetails;
   let firstApi = false;
 
@@ -34,18 +34,20 @@ xdescribe('Test OAuth2.0 Authentication in OAS API designer page', () => {
   it('Test OAuth 2.0 mandatory fields', () => {
     apis_page.OAS_SAVE_BUTTON.click();
     let grantTypesErrorMsg = $('//h4[text()="Allowed Grant Types"]//following::p[1]');
-    let authKeyHeaderErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.oauth.header.name"]//following::p[1]');
+    let authConfigNameErrorMsg = $('//div[@name="x-tyk-api-gateway.server.authentication.securitySchemes.oauth.name"]//p[1]');
+    let authTokenLocationErrorMsg = $('//h4[text()="Authentication token location"]//following::p[1]');
+    wdioExpect(authConfigNameErrorMsg).toHaveText('Authentication Configuration Name is required');
+    wdioExpect(authTokenLocationErrorMsg).toHaveText('Select at least one location where the token will be read of');
     wdioExpect(grantTypesErrorMsg).toHaveText('Access Grant is required.');
-    wdioExpect(authKeyHeaderErrorMsg).toHaveText('Auth Key Header Name is required');
     apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX.click();
     apis_page.OAS_SAVE_BUTTON.click();
-    let loginRedirectErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.oauth.authLoginRedirect"]//following::p[1]');
+    let loginRedirectErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.securitySchemes.oauth.authLoginRedirect"]//following::p[1]');
     wdioExpect(loginRedirectErrorMsg).toHaveText("Authorization Login Redirect doesn't meet the proper URL format");
     apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX.click();
     apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX.click();
     apis_page.OAS_SAVE_BUTTON.click();
     grantTypesErrorMsg = $('//h4[text()="Allowed Grant Types"]//following::p[1]');
-    wdioExpect(grantTypesErrorMsg).toHaveText('At least one additional Access Grant is required.');
+    wdioExpect(grantTypesErrorMsg).toHaveText('Access Grant is required.');
   });
 
   it('Test OAuth 2.0 URL validations', () => {
@@ -59,8 +61,8 @@ xdescribe('Test OAuth2.0 Authentication in OAS API designer page', () => {
     apis_page.OAS_OAUTH_LOGIN_REDIRECT_INPUT.setValue('missing-protocol.com');
     apis_page.OAS_OAUTH_NOTIFICATIONS_URL_INPUT.setValue('ws://wrong-protocol.com');
     apis_page.OAS_SAVE_BUTTON.click();
-    let loginRedirectErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.oauth.authLoginRedirect"]//following::p[1]');
-    let notificationsUrlErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.oauth.notifications.onKeyChangeURL"]//following::p[1]');
+    let loginRedirectErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.securitySchemes.oauth.authLoginRedirect"]//following::p[1]');
+    let notificationsUrlErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.securitySchemes.oauth.notifications.onKeyChangeURL"]//following::p[1]');
     wdioExpect(loginRedirectErrorMsg).toHaveText("Authorization Login Redirect doesn't meet the proper URL format");
     wdioExpect(notificationsUrlErrorMsg).toHaveText("Notifications URL doesn't meet the proper URL format");
   });
@@ -74,11 +76,12 @@ xdescribe('Test OAuth2.0 Authentication in OAS API designer page', () => {
     apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");
     apis_page.OAS_ENABLE_AUTH_TOGGLE.click();
     apis_page.OAS_AUTHENTICATION_DROPDOWN.selectOption("Oauth 2.0");
+    apis_page.OAS_OAUTH_CONFIG_NAME.setValue("auth_code");
     apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX.click();
     apis_page.OAS_OAUTH_LOGIN_REDIRECT_INPUT.setValue('https://redirect.com');
     apis_page.OAS_OAUTH_NOTIFICATIONS_URL_INPUT.setValue('https://notification.com');
     apis_page.OAS_OAUTH_NOTIFICATIONS_SECRET_INPUT.setValue('Abdsg9u234XFFOR9435898*&%&^%');
-    apis_page.OAS_OAUTH_AUTH_HEADER_INPUT.setValue('Authorization');
+    apis_page.OAS_OAUTH_USE_HEADER_BOX.click();
     apis_page.OAS_SAVE_BUTTON.click();
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
   });
@@ -144,8 +147,9 @@ xdescribe('Test OAuth2.0 Authentication in OAS API designer page', () => {
     apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");
     apis_page.OAS_ENABLE_AUTH_TOGGLE.click();
     apis_page.OAS_AUTHENTICATION_DROPDOWN.selectOption("Oauth 2.0");
+    apis_page.OAS_OAUTH_CONFIG_NAME.setValue("client_creds");
     apis_page.OAS_OAUTH_CLIENT_CREDENTIALS_BOX.click();
-    apis_page.OAS_OAUTH_AUTH_HEADER_INPUT.setValue('Authorization');
+    apis_page.OAS_OAUTH_USE_HEADER_BOX.click();
     apis_page.OAS_OAUTH_ALLOW_QUERY_PARAM_BOX.click();
     apis_page.OAS_OAUTH_QUERY_PARAM_INPUT.setValue('my-param');
     apis_page.OAS_SAVE_BUTTON.click();
