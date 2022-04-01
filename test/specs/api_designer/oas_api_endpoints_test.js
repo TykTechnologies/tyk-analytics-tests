@@ -4,7 +4,7 @@ import { endpoints_page } from '../../../lib/pom/Endpoints_page';
 import { URL, LANDING_PAGE_PATH } from './../../../config_variables';
 import { expect } from 'chai';
 
-xdescribe('Test Endpoints list on OAS API designer page', () => {
+describe('Test Endpoints list on OAS API designer page', () => {
   let envDetails;
   const createdEndpointsList = [
     {
@@ -133,10 +133,10 @@ xdescribe('Test Endpoints list on OAS API designer page', () => {
     });
   });
 
-  it('User can modify endpoints and save API', () => {
+  xit('User can modify endpoints and save API', () => {
     browser.refresh();
-    let oldEendpointSelector = $('//a[contains(@href, "-ipGET")]');
-    let newEendpointSelector = $('//a[contains(@href, "-headersHEAD")]');
+    let oldEendpointSelector = $('//a[contains(@href, "-ipget")]');
+    let newEendpointSelector = $('//a[contains(@href, "-headershead")]');
     apis_page.EDIT_BUTTON.click();
     endpoints_page.modifyEndpoint("/ip", "GET", "/headers", "HEAD");
     apis_page.OAS_SAVE_BUTTON.click();
@@ -149,7 +149,7 @@ xdescribe('Test Endpoints list on OAS API designer page', () => {
 
   it('User can remove endpoints and save API', () => {
     browser.refresh();
-    let removeEendpointSelector = $('//a[contains(@href, "-ipPOST")]');
+    let removeEendpointSelector = $('//a[contains(@href, "-ippost")]');
     apis_page.EDIT_BUTTON.click();
     endpoints_page.removeEndpoint("/ip", "POST");
     apis_page.OAS_SAVE_BUTTON.click();
@@ -167,7 +167,7 @@ xdescribe('Test Endpoints list on OAS API designer page', () => {
  * @function
  */
   function verifyDisplayedEndpoints(endpointObject, expectedEndpoints) {
-    let endpointUrlLink = encodeURIComponent(endpointObject.endpoint.split('/').join('-')) + endpointObject.method;
+    let endpointUrlLink = encodeURIComponent(endpointObject.endpoint.split('/').join('-')) + endpointObject.method.toLowerCase();
     let endpointSelector = $(`//a[contains(@href, "${endpointUrlLink}")]`);
     if (JSON.stringify(expectedEndpoints).includes(JSON.stringify(endpointObject))){
       wdioExpect(endpointSelector).toBeDisplayed();

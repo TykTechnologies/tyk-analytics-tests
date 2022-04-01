@@ -3,7 +3,7 @@ import { apis_page } from '../../../../lib/pom/Apis_page';
 import { URL, LANDING_PAGE_PATH } from './../../../../config_variables';
 import { expect } from 'chai';
 
-xdescribe('Test Custom Authentication in OAS API designer page', () => {
+describe('Test Custom Authentication in OAS API designer page', () => {
   let envDetails;
   const goPluginDetails = {
     authType: "Custom Authentication (Go Plugin)",
@@ -59,6 +59,7 @@ xdescribe('Test Custom Authentication in OAS API designer page', () => {
     let basicAuthUrl = $('a*=Learn more about Custom Authentication (Python, CoProcess, JSVM Plugins)');
     wdioExpect(basicAuthUrl).toHaveLink(customPluginDetails.url);
     apis_page.OAS_STRIP_AUTHORIZATION_DATA_BOX.click();
+    apis_page.OAS_CUSTOM_AUTH_USEHEADER_BOX.click();
     apis_page.OAS_CUSTOM_AUTH_HEADER_INPUT.setValue(customPluginDetails.authHeader);
     apis_page.OAS_CUSTOM_ALLOW_QUERY_PARAM_BOX.click();
     apis_page.OAS_CUSTOM_USE_COOKIE_BOX.click();

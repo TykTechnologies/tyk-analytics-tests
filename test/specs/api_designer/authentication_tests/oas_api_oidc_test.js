@@ -6,7 +6,7 @@ import { Dashboard_connection } from '../../../../lib/utils/api_connections/Dash
 import { newPolicyDefinitionWithDefaults } from '../../../../lib/utils/Policy_object_designer';
 var OasMapToPolicyTable_object = require('ui_test_automation/wrappers/OasMapToPolicyTable_object');
 
-xdescribe('Test OIDC Authentication in OAS API designer page', () => {
+describe('Test OIDC Authentication in OAS API designer page', () => {
   let envDetails;
   const dashboard_connection = new Dashboard_connection();
 
@@ -33,9 +33,7 @@ xdescribe('Test OIDC Authentication in OAS API designer page', () => {
     apis_page.OAS_SAVE_BUTTON.click();
     apis_page.SIDE_MENU_SERVER_LINK.click();
     let issuerTargetUrlErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.oidc.providers[0].issuer"]//following::p[1]');
-    let authKeyHeaderErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.oidc.header.name"]//following::p[1]');
     wdioExpect(issuerTargetUrlErrorMsg).toHaveText('Issuer target URL needs to have a valid URL value (eg. https://, http://)');
-    wdioExpect(authKeyHeaderErrorMsg).toHaveText('Auth Key Header Name is required');
     apis_page.OAS_OIDC_ISSUER_ONE_TARGET_URL_INPUT.setValue('https://a.com');
     apis_page.OAS_OIDC_ADD_CLIENT_ONE_BUTTON.click();
     apis_page.OAS_SAVE_BUTTON.click();
@@ -63,7 +61,7 @@ xdescribe('Test OIDC Authentication in OAS API designer page', () => {
     apis_page.OAS_AUTHENTICATION_DROPDOWN.selectOption("OpenID Connect");
     apis_page.OAS_OIDC_ISSUER_ONE_TARGET_URL_INPUT.waitForClickable();
     apis_page.OAS_OIDC_ISSUER_ONE_TARGET_URL_INPUT.setValue('https://issuer-target.com');
-    apis_page.OAS_OIDC_AUTH_HEADER_INPUT.setValue('Authorization');    
+    apis_page.OAS_OIDC_USE_HEADER_BOX.click();
     apis_page.OAS_SAVE_BUTTON.click();
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
   });
