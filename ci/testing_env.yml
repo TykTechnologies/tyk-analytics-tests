@@ -39,7 +39,7 @@ services:
         depends_on:
             - tyk-redis            
     tyk-redis:
-        image: redis:6
+        image: redis:6.2
         ports:
             - "6379:6379"
     tyk-mongo:
