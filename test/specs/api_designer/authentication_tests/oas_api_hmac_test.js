@@ -3,7 +3,7 @@ import { apis_page } from '../../../../lib/pom/Apis_page';
 import { URL, LANDING_PAGE_PATH } from './../../../../config_variables';
 import { expect } from 'chai';
 
-xdescribe('Test HMAC Authentication in OAS API designer page', () => {
+describe('Test HMAC Authentication in OAS API designer page', () => {
   let envDetails;
 
   before(() => {
@@ -28,12 +28,12 @@ xdescribe('Test HMAC Authentication in OAS API designer page', () => {
 
   it('Test HMAC mandatory fields', () => {
     apis_page.OAS_SAVE_BUTTON.click();
-    let authKeyHeaderErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.hmac.header.name"]//following::p[1]');
-    wdioExpect(authKeyHeaderErrorMsg).toHaveText('Auth Key Header Name is required');
+    let authTokenLocationErrorMsg = $('//h4[text()="Authentication token location"]//following::p[1]');
+    wdioExpect(authTokenLocationErrorMsg).toHaveText('Select at least one location where the token will be read of');
   });
 
   it('User can save API with HMAC settings', () => {
-    apis_page.OAS_HMAC_AUTH_HEADER_INPUT.setValue('Authorization');
+    apis_page.OAS_HMAC_USE_AUTH_BOX.click();
     apis_page.OAS_HMAC_USE_COOKIE_BOX.click();
     apis_page.OAS_HMAC_COOKIE_VALUE_INPUT.setValue('my-cookie');
     apis_page.OAS_SAVE_BUTTON.click();
