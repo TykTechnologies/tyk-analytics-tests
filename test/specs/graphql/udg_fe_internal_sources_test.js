@@ -101,6 +101,7 @@ describe('UDG with internal REST and GQL datasources', () => {
         apis_page.UDG_DATA_SOURCE_TYPE_DROPDOWN.selectOption("TYK REST");
         apis_page.UDG_DATA_SOURCE_TYK_APIS_DROPDOWN.selectOption(restApi.name);
         apis_page.UDG_DATA_SOURCE_ENDPOINT.selectOption(udgDetails.restApiEndpoint);
+        browser.pause(5000);
         wdioExpect(apis_page.UDG_DATA_SOURCE_ENDPOINT).toHaveText(udgDetails.restApiEndpoint);
         apis_page.UDG_DATA_SOURCE_NAME_INPUT.setValue(udgDetails.internalRestSource);
         apis_page.UDG_DATA_SOURCE_METHOD.selectOption("POST");
