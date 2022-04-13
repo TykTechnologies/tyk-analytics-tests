@@ -1,4 +1,4 @@
 [submodule "graphql-go-tools"]
   path = graphql-go-tools
   url = https://github.com/TykTechnologies/graphql-go-tools.git
-  tag = v1.6.1
+  branch = aab1814c09270d6360d2ab953e7009f873c71a01
