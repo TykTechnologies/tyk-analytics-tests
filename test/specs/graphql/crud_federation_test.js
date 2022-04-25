@@ -6,7 +6,7 @@ import { prepareFederationExampleUpstream } from '../../../lib/utils/federation_
 import { FEDERATION_UPSTREAM_HOST } from '../../../config_variables';
 
 
-xdescribe('CRUD basic Federation API', () => {
+describe('CRUD basic Federation API', () => {
     const apiDetails = {
         supergraphName: "Super-test",
         usersSubgraphUrl: `http://${FEDERATION_UPSTREAM_HOST}:4001/query`,
