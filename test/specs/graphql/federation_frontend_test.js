@@ -7,7 +7,7 @@ import { FEDERATION_UPSTREAM_HOST } from '../../../config_variables';
 import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 
-describe('Federation API frontend', () => {
+xdescribe('Federation API frontend', () => {
     const apiDetails = {
         supergraphName: "Super-test",
         usersSubgraphUrl: `http://${FEDERATION_UPSTREAM_HOST}:4001/query`,
