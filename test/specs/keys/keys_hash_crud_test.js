@@ -81,6 +81,7 @@ describe('Create/update/delete keys without policy', () => {
  });
 
  it('Confirmation popup should be displayed', () => {
+  console.log("waiting for popup")
   expect(keys_page.isKeyUpdatedPopUpDisplayed()).to.be.true;
 });
 
