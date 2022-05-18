@@ -75,13 +75,14 @@ describe('Create/update/delete keys without policy', () => {
    keys_page.METADATA_VALUE_INPUT.setValue(updatedKeyDetails.metadataValue);
    keys_page.METADATA_ADD_BUTTON.click();
    keys_page.KEY_EXPIRE_DROPDOWN.selectOption(updatedKeyDetails.keyExpiryTimeUpdateValue);
+   browser.pause(3000);
    keys_page.UPDATE_BUTTON.click();
+   browser.pause(3000);
    keys_page.CONFIRM_BUTTON.click();
    wdioExpect(keys_page.ALIAS_INPUT_FIELD).toHaveValue(updatedKeyDetails.aliasUpdate);
  });
 
  it('Confirmation popup should be displayed', () => {
-  console.log("waiting for popup")
   expect(keys_page.isKeyUpdatedPopUpDisplayed()).to.be.true;
 });
 
