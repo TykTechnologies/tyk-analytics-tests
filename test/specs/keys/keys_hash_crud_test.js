@@ -80,7 +80,7 @@ describe('Create/update/delete keys without policy', () => {
    wdioExpect(keys_page.ALIAS_INPUT_FIELD).toHaveValue(updatedKeyDetails.aliasUpdate);
  });
 
- it('Confirmation popup should be displayed', () => {
+ xit('Confirmation popup should be displayed', () => {
   expect(keys_page.isKeyUpdatedPopUpDisplayed()).to.be.true;
 });
 
