@@ -3,7 +3,7 @@ import { apis_page } from '../../../../lib/pom/Apis_page';
 import { URL, LANDING_PAGE_PATH } from './../../../../config_variables';
 import { expect } from 'chai';
 
-describe('Test Custom Authentication in OAS API designer page', () => {
+xdescribe('Test Custom Authentication in OAS API designer page', () => {
   let envDetails;
   const goPluginDetails = {
     authType: "Custom Authentication (Go Plugin)",
