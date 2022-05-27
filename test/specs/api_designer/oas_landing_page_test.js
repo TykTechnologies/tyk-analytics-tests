@@ -5,7 +5,7 @@ import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboa
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 import { URL, LANDING_PAGE_PATH } from './../../../config_variables';
 
-describe('Test Landing Page', () => {
+xdescribe('Test Landing Page', () => {
   const testedURL = URL + LANDING_PAGE_PATH;
   const dashboard_connection = new Dashboard_connection();
   const apiName = "landingpagetest";
