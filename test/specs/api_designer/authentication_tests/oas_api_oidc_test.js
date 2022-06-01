@@ -1,12 +1,12 @@
 import { login_page } from '../../../../lib/pom/Login_page';
 import { apis_page } from '../../../../lib/pom/Apis_page';
-import { URL, LANDING_PAGE_PATH } from './../../../../config_variables';
+import { main_page } from '../../../../lib/pom/Main_page';
 import { expect } from 'chai';
 import { Dashboard_connection } from '../../../../lib/utils/api_connections/Dashboard_connection';
 import { newPolicyDefinitionWithDefaults } from '../../../../lib/utils/Policy_object_designer';
 var OasMapToPolicyTable_object = require('ui_test_automation/wrappers/OasMapToPolicyTable_object');
 
-xdescribe('Test OIDC Authentication in OAS API designer page', () => {
+describe('Test OIDC Authentication in OAS API designer page', () => {
   let envDetails;
   const dashboard_connection = new Dashboard_connection();
 
@@ -309,8 +309,9 @@ xdescribe('Test OIDC Authentication in OAS API designer page', () => {
   });
 
   function openInitPage(firstApi) {
-    browser.navigateTo(URL + LANDING_PAGE_PATH);//TO BE REMOVED WHEN RELEASED
-    firstApi ? apis_page.DESIGN_API_BOX.click() : apis_page.OAS_ADD_API_BUTTON.click();
+    main_page.openAPIs();
+    firstApi ? apis_page.DESIGN_API_BOX.click() : apis_page.ADD_NEW_API_BUTTON.click();
+    apis_page.API_TYPE_OAS_BUTTON.click();
   }
 
 });
