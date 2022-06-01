@@ -1,9 +1,9 @@
 import { login_page } from '../../../../lib/pom/Login_page';
 import { apis_page } from '../../../../lib/pom/Apis_page';
-import { URL, LANDING_PAGE_PATH } from './../../../../config_variables';
+import { main_page } from '../../../../lib/pom/Main_page';
 import { expect } from 'chai';
 
-xdescribe('Test Custom Authentication in OAS API designer page', () => {
+describe('Test Custom Authentication in OAS API designer page', () => {
   let envDetails;
   const goPluginDetails = {
     authType: "Custom Authentication (Go Plugin)",
@@ -26,8 +26,9 @@ xdescribe('Test Custom Authentication in OAS API designer page', () => {
   });
 
   it('User can create API with GO auth plugin', () => {
-    browser.navigateTo(URL + LANDING_PAGE_PATH);//TO BE REMOVED WHEN RELEASED
+    main_page.openAPIs();
     apis_page.DESIGN_API_BOX.click();
+    apis_page.API_TYPE_OAS_BUTTON.click();
     apis_page.API_NAME_INPUT.setValue('go-auth-test');
     apis_page.OAS_NEXT_BUTTON.click();
     apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
@@ -48,8 +49,9 @@ xdescribe('Test Custom Authentication in OAS API designer page', () => {
   });
 
   it('User can create API with Custom auth plugin', () => {
-    browser.navigateTo(URL + LANDING_PAGE_PATH);//TO BE REMOVED WHEN RELEASED
-    apis_page.OAS_ADD_API_BUTTON.click();
+    main_page.openAPIs();
+    apis_page.ADD_NEW_API_BUTTON.click();
+    apis_page.API_TYPE_OAS_BUTTON.click();
     apis_page.API_NAME_INPUT.setValue('custom-auth-test');
     apis_page.OAS_NEXT_BUTTON.click();
     apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
