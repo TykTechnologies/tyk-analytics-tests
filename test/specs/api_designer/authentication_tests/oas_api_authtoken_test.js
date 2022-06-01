@@ -1,9 +1,10 @@
 import { login_page } from '../../../../lib/pom/Login_page';
 import { apis_page } from '../../../../lib/pom/Apis_page';
+import { main_page } from '../../../../lib/pom/Main_page';
 import { URL, LANDING_PAGE_PATH } from './../../../../config_variables';
 import { expect } from 'chai';
 
-xdescribe('Test Auth Token Authentication in OAS API designer page', () => {
+describe('Test Auth Token Authentication in OAS API designer page', () => {
   let envDetails;
   
   before(() => {
@@ -13,8 +14,9 @@ xdescribe('Test Auth Token Authentication in OAS API designer page', () => {
   });
 
   it('Test Auth Token default settings', () => {
-    browser.navigateTo(URL + LANDING_PAGE_PATH);
+    main_page.openAPIs();
     apis_page.DESIGN_API_BOX.click();
+    apis_page.API_TYPE_OAS_BUTTON.click();
     apis_page.API_NAME_INPUT.setValue('authToken-header-test');
     apis_page.OAS_NEXT_BUTTON.click();
     apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
@@ -57,8 +59,9 @@ xdescribe('Test Auth Token Authentication in OAS API designer page', () => {
   });
 
   it('User can save Auth Token API with token in query', () => {
-    browser.navigateTo(URL + LANDING_PAGE_PATH);
-    apis_page.OAS_ADD_API_BUTTON.click();
+    main_page.openAPIs();
+    apis_page.ADD_NEW_API_BUTTON.click();
+    apis_page.API_TYPE_OAS_BUTTON.click();
     apis_page.API_NAME_INPUT.setValue('authToken-query-test');
     apis_page.OAS_NEXT_BUTTON.click();
     apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
@@ -82,8 +85,9 @@ xdescribe('Test Auth Token Authentication in OAS API designer page', () => {
   });
 
   it('User can save Auth Token API with token in cookie', () => {
-    browser.navigateTo(URL + LANDING_PAGE_PATH);
-    apis_page.OAS_ADD_API_BUTTON.click();
+    main_page.openAPIs();
+    apis_page.ADD_NEW_API_BUTTON.click();
+    apis_page.API_TYPE_OAS_BUTTON.click();
     apis_page.API_NAME_INPUT.setValue('authToken-cookie-test');
     apis_page.OAS_NEXT_BUTTON.click();
     apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
@@ -107,7 +111,7 @@ xdescribe('Test Auth Token Authentication in OAS API designer page', () => {
   });
 
   it('User can modify Auth Token data and update API', () => {
-    browser.navigateTo(URL + LANDING_PAGE_PATH);
+    main_page.openAPIs();
     let apiLink = $('span=authToken-header-test');
     apiLink.click();
     apis_page.EDIT_BUTTON.click();
