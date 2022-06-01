@@ -1,9 +1,9 @@
 import { login_page } from '../../../../lib/pom/Login_page';
 import { apis_page } from '../../../../lib/pom/Apis_page';
-import { URL, LANDING_PAGE_PATH } from './../../../../config_variables';
+import { main_page } from '../../../../lib/pom/Main_page';
 import { expect } from 'chai';
 
-xdescribe('Test HMAC Authentication in OAS API designer page', () => {
+describe('Test HMAC Authentication in OAS API designer page', () => {
   let envDetails;
 
   before(() => {
@@ -13,8 +13,9 @@ xdescribe('Test HMAC Authentication in OAS API designer page', () => {
   });
 
   it('Test HMAC auth default settings', () => {
-    browser.navigateTo(URL + LANDING_PAGE_PATH);//TO BE REMOVED WHEN RELEASED
+    main_page.openAPIs();
     apis_page.DESIGN_API_BOX.click();
+    apis_page.API_TYPE_OAS_BUTTON.click();
     apis_page.API_NAME_INPUT.setValue('hmac-auth-test');
     apis_page.OAS_NEXT_BUTTON.click();
     apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
