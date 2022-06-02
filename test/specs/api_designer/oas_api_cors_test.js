@@ -1,9 +1,9 @@
 import { login_page } from '../../../lib/pom/Login_page';
 import { apis_page } from '../../../lib/pom/Apis_page';
-import { URL, LANDING_PAGE_PATH } from './../../../config_variables';
+import { main_page } from '../../../lib/pom/Main_page';
 import { expect } from 'chai';
 
-xdescribe('Test CORS settings on OAS API designer page', () => {
+describe('Test CORS settings on OAS API designer page', () => {
   let envDetails;
   let enableCors = true;
   let firstApi = false;
@@ -144,8 +144,9 @@ xdescribe('Test CORS settings on OAS API designer page', () => {
   });
 
   function openOasDesignerPage(firstApi, enableCors) {
-    browser.navigateTo(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
-    firstApi ? apis_page.DESIGN_API_BOX.click() : apis_page.OAS_ADD_API_BUTTON.click();
+    main_page.openAPIs();
+    firstApi ? apis_page.DESIGN_API_BOX.click() : apis_page.ADD_NEW_API_BUTTON.click();
+    apis_page.API_TYPE_OAS_BUTTON.click();
     apis_page.API_NAME_INPUT.setValue('cors-test');
     apis_page.OAS_NEXT_BUTTON.click();
     enableCors ? apis_page.OAS_ENABLE_CORS_TOGGLE.click() : null;
