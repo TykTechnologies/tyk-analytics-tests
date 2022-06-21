@@ -62,7 +62,7 @@ describe('Test OAuth2.0 Authentication in OAS API designer page', () => {
     apis_page.OAS_OAUTH_NOTIFICATIONS_URL_INPUT.setValue('ws://wrong-protocol.com');
     apis_page.OAS_SAVE_BUTTON.click();
     let loginRedirectErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.securitySchemes.oauth.authLoginRedirect"]//following::p[1]');
-    let notificationsUrlErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.securitySchemes.oauth.notifications.onKeyChangeURL"]//following::p[1]');
+    let notificationsUrlErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.securitySchemes.oauth.notifications.onKeyChangeUrl"]//following::p[1]');
     wdioExpect(loginRedirectErrorMsg).toHaveText("Authorization Login Redirect doesn't meet the proper URL format");
     wdioExpect(notificationsUrlErrorMsg).toHaveText("Notifications URL doesn't meet the proper URL format");
   });
