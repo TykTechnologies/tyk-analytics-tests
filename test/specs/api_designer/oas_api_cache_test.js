@@ -3,7 +3,7 @@ import { apis_page } from '../../../lib/pom/Apis_page';
 import { main_page } from '../../../lib/pom/Main_page';
 import { expect } from 'chai';
 
-describe('Test CACHE settings on OAS API designer page', () => {
+xdescribe('Test CACHE settings on OAS API designer page', () => {
   let envDetails;
   let firstAPI = false;
 
