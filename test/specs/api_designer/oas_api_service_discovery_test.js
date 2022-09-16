@@ -1,9 +1,10 @@
 import { login_page } from '../../../lib/pom/Login_page';
 import { apis_page } from '../../../lib/pom/Apis_page';
-import { URL, LANDING_PAGE_PATH } from './../../../config_variables';
+import { main_page } from '../../../lib/pom/Main_page';
 import { expect } from 'chai';
+import waitForClickable from 'webdriverio/build/commands/element/waitForClickable';
 
-xdescribe('Test Service Discovery settings on OAS API designer page', () => {
+describe('Test Service Discovery settings on OAS API designer page', () => {
   let envDetails;
   let firstAPI = false;
   let queryEndpoint = 'http://service-discovery.com/endpoint';
@@ -247,8 +248,9 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
   });
 
   function openOasDesignerPage(firstApi) {
-    browser.navigateTo(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
-    firstApi ? apis_page.DESIGN_API_BOX.click() : apis_page.OAS_ADD_API_BUTTON.click();;
+    main_page.openAPIs();
+    firstApi ? apis_page.DESIGN_API_BOX.click() : apis_page.ADD_NEW_API_BUTTON.click();
+    apis_page.API_TYPE_OAS_BUTTON.click();
     apis_page.API_NAME_INPUT.setValue('service-discovery-test');
     apis_page.OAS_NEXT_BUTTON.click();
     apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
