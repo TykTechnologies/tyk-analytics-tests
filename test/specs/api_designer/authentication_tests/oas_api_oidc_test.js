@@ -6,7 +6,7 @@ import { Dashboard_connection } from '../../../../lib/utils/api_connections/Dash
 import { newPolicyDefinitionWithDefaults } from '../../../../lib/utils/Policy_object_designer';
 var OasMapToPolicyTable_object = require('ui_test_automation/wrappers/OasMapToPolicyTable_object');
 
-xdescribe('Test OIDC Authentication in OAS API designer page', () => {
+describe('Test OIDC Authentication in OAS API designer page', () => {
   let envDetails;
   const dashboard_connection = new Dashboard_connection();
 
