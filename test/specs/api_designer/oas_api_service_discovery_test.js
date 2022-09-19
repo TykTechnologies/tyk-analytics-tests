@@ -1,9 +1,10 @@
 import { login_page } from '../../../lib/pom/Login_page';
 import { apis_page } from '../../../lib/pom/Apis_page';
-import { URL, LANDING_PAGE_PATH } from './../../../config_variables';
+import { main_page } from '../../../lib/pom/Main_page';
 import { expect } from 'chai';
+import waitForClickable from 'webdriverio/build/commands/element/waitForClickable';
 
-xdescribe('Test Service Discovery settings on OAS API designer page', () => {
+describe('Test Service Discovery settings on OAS API designer page', () => {
   let envDetails;
   let firstAPI = false;
   let queryEndpoint = 'http://service-discovery.com/endpoint';
@@ -29,7 +30,7 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
     apis_page.OAS_SD_PORT_IS_SEPARATE_BOX.click();
     apis_page.OAS_SD_VALUES_ARE_NESTED_BOX.click();
     createApi(apiName);
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     let queryEndpointErrorMessage = $('//input[@name="x-tyk-api-gateway.upstream.serviceDiscovery.queryEndpoint"]//following::p[1]');
     let portDataPathErrorMessage = $('//input[@name="x-tyk-api-gateway.upstream.serviceDiscovery.portDataPath"]//following::p[1]');
     let parentDataPathErrorMessage = $('//input[@name="x-tyk-api-gateway.upstream.serviceDiscovery.parentDataPath"]//following::p[1]');
@@ -45,7 +46,7 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
     let apiName = 'custom-sd-preset';
     openOasDesignerPage(firstAPI);
     apis_page.OAS_ENABLE_SD_TOGGLE.click();
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.setValue(queryEndpoint);
     apis_page.OAS_SD_TARGET_PATH_INPUT.setValue(targetPath);
     apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX.click();
@@ -63,7 +64,7 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
 
   it('Custom data is saved after reloading page', () => {  
     browser.refresh();
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     wdioExpect(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     wdioExpect(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText(targetPath);
     wdioExpect(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
@@ -80,7 +81,7 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
 
   it('User can edit and modify API with Custom Preset', () => {
     apis_page.EDIT_BUTTON.click();
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.setValue(queryEndpoint + "_new");
     apis_page.OAS_SD_TARGET_PATH_INPUT.setValue(targetPath + "_new");
     apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX.click();
@@ -96,7 +97,7 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
 
   it('Modified data is saved after reloading page', () => {  
     browser.refresh();
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     wdioExpect(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint + "_new");
     wdioExpect(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText(targetPath + "_new");
     wdioExpect(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).not.toBeChecked();
@@ -113,7 +114,7 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
     let apiName = "consul-preset";
     openOasDesignerPage(firstAPI);
     apis_page.OAS_ENABLE_SD_TOGGLE.click();
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     apis_page.OAS_SD_PRESETS_DROPDOWN.selectOption("Consul");
     apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.setValue(queryEndpoint);
     createApi(apiName);
@@ -122,7 +123,7 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
 
   it('Consul data is saved after reloading page', () => {  
     browser.refresh();
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     wdioExpect(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     wdioExpect(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText("-");
     wdioExpect(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
@@ -140,7 +141,7 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
     let apiName = "mesosphere-preset";
     openOasDesignerPage(firstAPI);
     apis_page.OAS_ENABLE_SD_TOGGLE.click();
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     apis_page.OAS_SD_PRESETS_DROPDOWN.selectOption("Mesosphere");
     apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.setValue(queryEndpoint);
     createApi(apiName);
@@ -149,7 +150,7 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
 
   it('Mesosphere data is saved after reloading page', () => {  
     browser.refresh();
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     wdioExpect(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     wdioExpect(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
     wdioExpect(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
@@ -168,7 +169,7 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
     let apiName = "single-etcd-preset";
     openOasDesignerPage(firstAPI);
     apis_page.OAS_ENABLE_SD_TOGGLE.click();
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     apis_page.OAS_SD_PRESETS_DROPDOWN.selectOption("Single ETCD");
     apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.setValue(queryEndpoint);
     createApi(apiName);
@@ -177,7 +178,7 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
 
   it('Single ETCD data is saved after reloading page', () => {  
     browser.refresh();
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     wdioExpect(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     wdioExpect(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
     wdioExpect(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
@@ -194,7 +195,7 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
     let apiName = "nested-etcd-preset";
     openOasDesignerPage(firstAPI);
     apis_page.OAS_ENABLE_SD_TOGGLE.click();
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     apis_page.OAS_SD_PRESETS_DROPDOWN.selectOption("Nested ETCD");
     apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.setValue(queryEndpoint);
     createApi(apiName);
@@ -203,7 +204,7 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
 
   it('Nested ETCD data is saved after reloading page', () => {  
     browser.refresh();
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     wdioExpect(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     wdioExpect(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
     wdioExpect(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
@@ -222,7 +223,7 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
     let apiName = "eureka-preset";
     openOasDesignerPage(firstAPI);
     apis_page.OAS_ENABLE_SD_TOGGLE.click();
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     apis_page.OAS_SD_PRESETS_DROPDOWN.selectOption("Eureka");
     apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.setValue(queryEndpoint);
     createApi(apiName);
@@ -231,7 +232,7 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
 
   it('Eureka data is saved after reloading page', () => {  
     browser.refresh();
-    apis_page.SIDE_MENU_SERVER_LINK.click();
+    apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     wdioExpect(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     wdioExpect(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
     wdioExpect(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
@@ -247,8 +248,9 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
   });
 
   function openOasDesignerPage(firstApi) {
-    browser.navigateTo(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
-    firstApi ? apis_page.DESIGN_API_BOX.click() : apis_page.OAS_ADD_API_BUTTON.click();;
+    main_page.openAPIs();
+    firstApi ? apis_page.DESIGN_API_BOX.click() : apis_page.ADD_NEW_API_BUTTON.click();
+    apis_page.API_TYPE_OAS_BUTTON.click();
     apis_page.API_NAME_INPUT.setValue('service-discovery-test');
     apis_page.OAS_NEXT_BUTTON.click();
     apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
@@ -256,6 +258,7 @@ xdescribe('Test Service Discovery settings on OAS API designer page', () => {
 
   function createApi(apiName) {
     apis_page.SIDE_MENU_BASE_LINK.click();
+    apis_page.API_NAME_INPUT.waitForClickable();
     apis_page.API_NAME_INPUT.setValue(apiName);
     apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
     apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");
