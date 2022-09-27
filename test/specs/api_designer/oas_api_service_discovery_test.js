@@ -4,7 +4,7 @@ import { main_page } from '../../../lib/pom/Main_page';
 import { expect } from 'chai';
 import waitForClickable from 'webdriverio/build/commands/element/waitForClickable';
 
-describe('Test Service Discovery settings on OAS API designer page', () => {
+xdescribe('Test Service Discovery settings on OAS API designer page', () => {
   let envDetails;
   let firstAPI = false;
   let queryEndpoint = 'http://service-discovery.com/endpoint';
