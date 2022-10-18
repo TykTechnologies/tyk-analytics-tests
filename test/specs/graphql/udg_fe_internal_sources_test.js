@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 
-describe('UDG with internal REST and GQL datasources', () => {
+xdescribe('UDG with internal REST and GQL datasources', () => {
 
     const apiDetails = {
         name: "UDG-InternalSources"

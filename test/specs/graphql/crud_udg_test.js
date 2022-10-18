@@ -3,7 +3,7 @@ import { apis_page } from '../../../lib/pom/Apis_page';
 import { main_page } from '../../../lib/pom/Main_page';
 import { expect } from 'chai';
 
-describe('CRUD simple UDG API', () => {
+xdescribe('CRUD simple UDG API', () => {
     const apiDetails = {
         name: "UDG-test"
     };
