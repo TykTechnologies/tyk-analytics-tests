@@ -1,7 +1,7 @@
 import { login_page } from '../../../lib/pom/Login_page';
 import { apis_page } from '../../../lib/pom/Apis_page';
 import { endpoints_page } from '../../../lib/pom/Endpoints_page';
-import { URL, LANDING_PAGE_PATH } from './../../../config_variables';
+import { main_page } from '../../../lib/pom/Main_page';
 import { expect } from 'chai';
 
 xdescribe('Test Endpoints list on OAS API designer page', () => {
@@ -44,8 +44,9 @@ xdescribe('Test Endpoints list on OAS API designer page', () => {
   });
 
   it('Initially Endpoint list is empty', () => {
-    browser.navigateTo(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
+    main_page.openAPIs();
     apis_page.DESIGN_API_BOX.click();
+    apis_page.API_TYPE_OAS_BUTTON.click();
     apis_page.API_NAME_INPUT.setValue('endpoint-test');
     apis_page.OAS_NEXT_BUTTON.click();
     apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
@@ -57,7 +58,6 @@ xdescribe('Test Endpoints list on OAS API designer page', () => {
   it('User can add endpoints and save API', () => {
     createdEndpointsList.forEach (e => {
       endpoints_page.addNewEndpoint(e.endpoint, e.method);
-      endpoints_page.OAS_ENDPOINT_WHITELIST_BUTTON.click();
     });
     apis_page.OAS_SAVE_BUTTON.click();
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true; 
