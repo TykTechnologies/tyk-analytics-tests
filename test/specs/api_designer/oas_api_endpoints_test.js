@@ -4,7 +4,7 @@ import { endpoints_page } from '../../../lib/pom/Endpoints_page';
 import { main_page } from '../../../lib/pom/Main_page';
 import { expect } from 'chai';
 
-describe('Test Endpoints list on OAS API designer page', () => {
+xdescribe('Test Endpoints list on OAS API designer page', () => {
   let envDetails;
   const createdEndpointsList = [
     {
