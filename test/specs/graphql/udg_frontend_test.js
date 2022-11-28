@@ -3,7 +3,7 @@ import { apis_page } from '../../../lib/pom/Apis_page';
 import { main_page } from '../../../lib/pom/Main_page';
 import { expect } from 'chai';
 
-describe('UDG with REST and GQL datasources', () => {
+xdescribe('UDG with REST and GQL datasources', () => {
     const apiDetails = {
         name: "UDG-RestAndGql"
     };
