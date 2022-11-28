@@ -4,7 +4,7 @@ import { endpoints_page } from '../../../lib/pom/Endpoints_page';
 import { main_page } from '../../../lib/pom/Main_page';
 import { expect } from 'chai';
 
-xdescribe('Test Endpoints list on OAS API designer page', () => {
+describe('Test Endpoints list on OAS API designer page', () => {
   let envDetails;
   const createdEndpointsList = [
     {
@@ -133,7 +133,7 @@ xdescribe('Test Endpoints list on OAS API designer page', () => {
     });
   });
 
-  xit('User can modify endpoints and save API', () => {
+  it('User can modify endpoints and save API', () => {
     browser.refresh();
     let oldEendpointSelector = $('//a[contains(@href, "-ipget")]');
     let newEendpointSelector = $('//a[contains(@href, "-headershead")]');
