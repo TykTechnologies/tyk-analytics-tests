@@ -109,7 +109,7 @@ describe('Test Auth Token Authentication in OAS API designer page', () => {
     wdioExpect(apis_page.OAS_AUTH_TOKEN_COOKIE_NAME_SAVED).toHaveText("custom_cookie");
   });
 
-  it('User can modify Auth Token data and update API', () => {
+  xit('User can modify Auth Token data and update API', () => {
     main_page.openAPIs();
     let apiLink = $('span=authToken-header-test');
     apiLink.click();
@@ -122,7 +122,7 @@ describe('Test Auth Token Authentication in OAS API designer page', () => {
     expect(apis_page.isApiUpdatedPopUpDisplayed()).to.be.true;
   });
 
-  it('Updated Auth Token data is displayed after page reload', () => {
+  xit('Updated Auth Token data is displayed after page reload', () => {
     browser.refresh();
     apis_page.SIDE_MENU_SERVER_LINK.click();
     wdioExpect(apis_page.OAS_AUTH_TOKEN_USE_QUERY_BOX).not.toBeChecked();
