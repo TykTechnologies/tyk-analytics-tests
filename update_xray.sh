@@ -8,7 +8,7 @@ echo "Checking branch: $BRANCH"
 if [ "$BRANCH" == "refs/heads/master" ]; then
     EXECUTION=QA-894
 fi
-if [ "$BRANCH" == "refs/heads/release-4.2" ]; then
+if [ "$BRANCH" == "refs/heads/release-4.3" ]; then
     EXECUTION=QA-902
 fi
 if [ "$BRANCH" == "refs/heads/release-4" ]; then
