@@ -22,7 +22,7 @@ describe('CRUD simple UDG API', () => {
         apis_page.API_TYPE_UDG_BUTTON.click();
         apis_page.CONFIGURE_API_BUTTON.click();
         apis_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
-        wdioExpect(apis_page.UDG_SCHEMA_EDITOR_TOOLBAR).toExist();
+        wdioExpect(apis_page.UDG_IMPORT_SCHEMA_FILE_FIELD).toExist();
         apis_page.SAVE_BUTTON.click();
     });
     
