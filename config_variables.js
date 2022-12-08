@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const URL = process.env.URL || "http://localhost:3000/";
-const FEDERATION_UPSTREAM_HOST = (process.env.CI) ? "172.17.0.1" : "localhost";
+const FEDERATION_UPSTREAM_HOST = (process.env.CI) ? "federation" : "localhost";
 
 module.exports = {
     CLEAN_TEST: process.env.CLEAN_TEST || true,

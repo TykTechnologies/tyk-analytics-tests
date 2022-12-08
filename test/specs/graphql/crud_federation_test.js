@@ -7,7 +7,7 @@ import { prepareFederationExampleUpstream } from '../../../lib/utils/federation_
 import { FEDERATION_UPSTREAM_HOST } from '../../../config_variables';
 
 
-xdescribe('CRUD basic Federation API', () => {
+describe('CRUD basic Federation API', () => {
     const apiDetails = {
         supergraphName: "Super-test",
         usersSubgraphUrl: `http://${FEDERATION_UPSTREAM_HOST}:4001/query`,
@@ -24,8 +24,8 @@ xdescribe('CRUD basic Federation API', () => {
 
     before(() => {
         const envDetails = setUpEnv();
-        const isFederationUpstreamRunning = prepareFederationExampleUpstream();
-        expect(isFederationUpstreamRunning).to.be.true;
+        // const isFederationUpstreamRunning = prepareFederationExampleUpstream();
+        // expect(isFederationUpstreamRunning).to.be.true;
         login_page.open();
         login_page.login(envDetails.userEmail, envDetails.userPassword);
     });
@@ -53,7 +53,6 @@ xdescribe('CRUD basic Federation API', () => {
         expect(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.isSelected()).to.be.true;
         apis_page.UPDATE_BUTTON.click();
         apis_page.UPDATE_API_BUTTON.click();
-        //expect(apis_page.isApiUpdatedPopUpDisplayed()).to.be.true;
         wdioExpect(apis_page.API_UPDATED_MESSAGE).toExist();
         main_page.openAPIs();
         $usersTableElement.click();
@@ -112,7 +111,6 @@ xdescribe('CRUD basic Federation API', () => {
         expect(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.isSelected()).to.be.true;
         apis_page.UPDATE_BUTTON.click();
         apis_page.UPDATE_API_BUTTON.click();
-        //expect(apis_page.isApiUpdatedPopUpDisplayed()).to.be.true;
         wdioExpect(apis_page.API_UPDATED_MESSAGE).toExist();
         main_page.openAPIs();
         $supergraphTableElement.click();
