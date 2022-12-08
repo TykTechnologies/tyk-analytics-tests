@@ -120,7 +120,7 @@ xdescribe('Federation API frontend', () => {
         graphql_page.FEDERATION_ADD_SUBGRAPH_BUTTON.click();
         graphql_page.FEDERATION_ADD_SUBGRAPH_DROPDOWN.selectOptions([apiDetails.reviewsSubgraphName]);
         graphql_page.FEDERATION_ADD_BUTTON.click();
-        wdioExpect(apis_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.reviewsSubgraphName)).toExist();
+        wdioExpect(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.reviewsSubgraphName)).toExist();
     });
 
     it('User should be able to remove a subgraph from a supergraph', () => {
