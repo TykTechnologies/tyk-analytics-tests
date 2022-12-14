@@ -1,9 +1,7 @@
-import { expect } from 'chai';
 import { apis_page } from '../../../lib/pom/Apis_page';
 import { graphql_page } from '../../../lib/pom/Graphql_page';
 import { login_page } from '../../../lib/pom/Login_page';
 import { main_page } from '../../../lib/pom/Main_page';
-import { prepareFederationExampleUpstream } from '../../../lib/utils/federation_example';
 import { FEDERATION_UPSTREAM_HOST } from '../../../config_variables';
 import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
@@ -78,8 +76,6 @@ describe('Federation API frontend', () => {
 
     before(() => {
         envDetails = setUpEnv();
-        // const isFederationUpstreamRunning = prepareFederationExampleUpstream();
-        // expect(isFederationUpstreamRunning).to.be.true;
         login_page.open();
         login_page.login(envDetails.userEmail, envDetails.userPassword);
     });
