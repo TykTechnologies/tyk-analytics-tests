@@ -46,3 +46,11 @@ services:
         image: mongo:4.1
         ports:
             - "27017:27017"
+    federation:
+        container_name: federation
+        image: agatawitkowska/federation-example
+        ports:
+            - "4000:4000"
+            - "4001:4001"
+            - "4002:4002"
+            - "4003:4003"    
