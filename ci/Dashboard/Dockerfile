@@ -9,7 +9,7 @@ RUN apt-get update --assume-yes \
   && apt-get clean \
   && rm --force --recursive /var/lib/apt/lists/*
 
-RUN curl --location --silent https://deb.nodesource.com/setup_10.x | bash -
+RUN curl --location --silent https://deb.nodesource.com/setup_15.x | bash -
 
 RUN apt-get update --assume-yes \
   && apt-get install --assume-yes --no-install-recommends \
