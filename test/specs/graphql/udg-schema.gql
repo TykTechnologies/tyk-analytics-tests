@@ -1,0 +1,17 @@
+type Query {
+  restQuery: RestType
+  gqlQuery: GqlType
+  kafkaQuery: KafkaType
+}
+
+type RestType{
+  restTypeField1: String
+}
+
+type GqlType{
+  gqlTypeField1: String
+}
+
+type KafkaType{
+  kafkaTypeField1: String
+}

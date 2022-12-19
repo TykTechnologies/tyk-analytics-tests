@@ -1,25 +1,24 @@
 import { login_page } from '../../../lib/pom/Login_page';
 import { apis_page } from '../../../lib/pom/Apis_page';
+import { graphql_page } from '../../../lib/pom/Graphql_page';
 import { main_page } from '../../../lib/pom/Main_page';
-import { expect } from 'chai';
 import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 
 describe('UDG with internal REST and GQL datasources', () => {
 
-    const apiDetails = {
-        name: "UDG-InternalSources"
-    };
-
     const udgDetails = {
-        internalRestQuery: "internalRestQuery",
+        apiName: "UDG-InternalSources",
+        restQuery: "restQuery",
         restType: "RestType",
-        internalRestSource: "internalRestSource",
+        restTypeField1: "restTypeField1",
+        restSource: "restSource",
         restApiEndpoint: "/someEndpoint",
-        internalGqlQuery: "GqlQuery",
+        gqlQuery: "gqlQuery",
         gqlType: "GqlType",
-        internalGqlSource: "internalGqlSource",
-        existingSourceQuery: "existingSourceQuery"
+        gqlTypeField1: "gqlTypeField1",
+        gqlSource: "gqlSource",
+        fieldMappingPath: "fieldMapping",
     };
 
     const restApi = {
@@ -64,11 +63,12 @@ describe('UDG with internal REST and GQL datasources', () => {
         }
     };
 
-    const dashboard_connection = new Dashboard_connection();
-
+    const schemaFileRelativePath = "../../test/specs/graphql/udg-schema.gql";
     let $apiTableElement;
     let envDetails;
     let refreshCounter = 0;
+    
+    const dashboard_connection = new Dashboard_connection();
 
     before(() => {
         envDetails = setUpEnv();
@@ -91,63 +91,42 @@ describe('UDG with internal REST and GQL datasources', () => {
             refreshCounter++;
         }
         apis_page.ADD_NEW_API_BUTTON.click();
-        apis_page.API_NAME_INPUT.setValue(apiDetails.name);
+        apis_page.API_NAME_INPUT.setValue(udgDetails.apiName);
         apis_page.API_TYPE_UDG_BUTTON.click();
         apis_page.CONFIGURE_API_BUTTON.click();
-        apis_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
-        apis_page.UDG_DATA_SOURCES_MODE_BUTTON.click();
-        //Add a Query type field with internal REST data source
-        apis_page.getUDG_FIELD_OBJECT_BUTTON("Query", "Fields").click();
-        apis_page.UDG_DATA_SOURCE_TAB_BUTTON.click();
-        apis_page.UDG_DEFINE_DATASOURCES_BUTTON.click();
-        apis_page.UDG_DATA_SOURCE_TYPE_DROPDOWN.selectOption("TYK REST");
-        apis_page.UDG_DATA_SOURCE_TYK_APIS_DROPDOWN.selectOption(restApi.name);
-        apis_page.UDG_DATA_SOURCE_ENDPOINT.selectOption(udgDetails.restApiEndpoint);
-        //wdioExpect(apis_page.UDG_DATA_SOURCE_ENDPOINT).toHaveText(udgDetails.restApiEndpoint);
-        apis_page.UDG_DATA_SOURCE_NAME_INPUT.setValue(udgDetails.internalRestSource);
-        apis_page.UDG_DATA_SOURCE_METHOD.selectOption("POST");
-        apis_page.UDG_DATA_SOURCE_METHOD.selectOption("GET");
-        apis_page.UDG_DATA_MODEL_TAB_BUTTON.click();
-        apis_page.UDG_DATA_MODEL_FIELD_TYPE_DROPDOWN.selectOption("Scalars");
-        apis_page.UDG_DATA_MODEL_FIELD_TYPE_VALUE_DROPDOWN.selectOption("String");
-        apis_page.UDG_DATA_MODEL_NAME_INPUT.setValue(udgDetails.internalRestQuery);
-        apis_page.UDG_CREATE_UPDATE_FIELD_AND_DATA_SOURCE_BUTTON.click();
-        //Add a Query type field with internal GQL data source
-        apis_page.getUDG_FIELD_OBJECT_BUTTON("Query", "Fields").click();
-        apis_page.UDG_DATA_SOURCE_TAB_BUTTON.click();
-        apis_page.UDG_DEFINE_DATASOURCES_BUTTON.click();
-        apis_page.UDG_DATA_SOURCE_TYPE_DROPDOWN.selectOption("TYK GraphQL");
-        apis_page.UDG_DATA_SOURCE_TYK_APIS_DROPDOWN.selectOption(gqlApi.name);
-        apis_page.UDG_DATA_SOURCE_NAME_INPUT.setValue(udgDetails.internalGqlSource);
-        apis_page.UDG_DATA_MODEL_TAB_BUTTON.click();
-        apis_page.UDG_DATA_MODEL_FIELD_TYPE_DROPDOWN.selectOption("Scalars");
-        apis_page.UDG_DATA_MODEL_FIELD_TYPE_VALUE_DROPDOWN.selectOption("String");
-        apis_page.UDG_DATA_MODEL_NAME_INPUT.setValue(udgDetails.internalGqlQuery);
-        apis_page.UDG_CREATE_UPDATE_FIELD_AND_DATA_SOURCE_BUTTON.click();
+        graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
+        graphql_page.uploadSchemaFile(schemaFileRelativePath);
         apis_page.SAVE_BUTTON.click();
-    });
-
-    it('User can create a field with an existing data source', () => {
-        $apiTableElement = $(`span=${apiDetails.name}`);
+        $apiTableElement = $(`span=${udgDetails.apiName}`);
         $apiTableElement.click();
-        apis_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
-        apis_page.UDG_DATA_SOURCES_MODE_BUTTON.click();
-        apis_page.getUDG_FIELD_OBJECT_BUTTON("Query", "Fields").click();
-        apis_page.UDG_DATA_SOURCE_TAB_BUTTON.click();
-        apis_page.UDG_DEFINE_DATASOURCES_BUTTON.click();
-        apis_page.UDG_DATA_SOURCE_EXISTING_DATA_SOURCE_DROPDOWN.selectOption(restApi.name);
-        apis_page.UDG_DATA_MODEL_TAB_BUTTON.click();
-        apis_page.UDG_DATA_MODEL_FIELD_TYPE_DROPDOWN.selectOption("Scalars");
-        apis_page.UDG_DATA_MODEL_FIELD_TYPE_VALUE_DROPDOWN.selectOption("String");
-        apis_page.UDG_DATA_MODEL_NAME_INPUT.setValue(udgDetails.existingSourceQuery);
-        apis_page.UDG_CREATE_UPDATE_FIELD_AND_DATA_SOURCE_BUTTON.click();
+        graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
+        //Define internal REST data source for a Query type field
+        graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", udgDetails.restQuery).click();
+        graphql_page.UDG_EXPAND_REST_TYK_ACCORDION.expand();
+        graphql_page.UDG_SELECT_REST_API_OPEN_COMBOBOX.click();
+        graphql_page.UDG_COMBOBOX_DROPDOWN.selectComboboxOption(restApi.name);
+        graphql_page.UDG_DATA_SOURCE_NAME_INPUT.setValue(udgDetails.restSource);
+        graphql_page.UDG_DATA_SOURCE_ENDPOINT_INPUT.setValue(udgDetails.restApiEndpoint);
+        graphql_page.UDG_DATA_SOURCE_METHOD.selectOption("GET");
+        graphql_page.UDG_DATA_SOURCE_SAVE_BUTTON.click();
+        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.restQuery, udgDetails.restSource)).toExist();
+        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.restQuery, "REST")).toExist();
+        //Define internal GQL data source for a Query type field
+        graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", udgDetails.gqlQuery).click();
+        graphql_page.UDG_EXPAND_GRAPHQL_TYK_ACCORDION.expand();
+        graphql_page.UDG_SELECT_GRAPHQL_API_OPEN_COMBOBOX.click();
+        graphql_page.UDG_COMBOBOX_DROPDOWN.selectComboboxOption(gqlApi.name);
+        graphql_page.UDG_DATA_SOURCE_NAME_INPUT.setValue(udgDetails.gqlSource);
+        graphql_page.UDG_DATA_SOURCE_SAVE_BUTTON.click();
+        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.gqlQuery, udgDetails.gqlSource)).toExist();
+        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.gqlQuery, "GraphQL")).toExist();
     });
 
-    it('User should be able to delete a UDG object field with internal data sources', () => {
-        apis_page.getUDG_FIELD_OBJECT_BUTTON("Query", udgDetails.existingSourceQuery).click();
-        apis_page.UDG_DATA_MODEL_TAB_BUTTON.click();
-        apis_page.UDG_DELETE_FIELD_BUTTON.click();
-        apis_page.CONFIRM_BUTTON.click();
-        wdioExpect(apis_page.getUDG_FIELD_OBJECT_BUTTON("Query", udgDetails.existingSourceQuery)).not.toExist();
+    it('User should be able to remove an internal data source from an object', () => {
+        graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", udgDetails.restQuery).click();
+        graphql_page.UDG_DATA_SOURCE_RESET_BUTTON.click();
+        graphql_page.UDG_DATA_SOURCE_SAVE_BUTTON.click();
+        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.restQuery, udgDetails.restSource)).not.toExist();
+        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.restQuery, "REST")).not.toExist();
     });
 });
