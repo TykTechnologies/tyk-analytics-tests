@@ -1,0 +1,56 @@
+version: '3.3'
+services:
+    tyk-dashboard:
+        build: ./Dashboard
+        ports:
+            - "3000:3000"
+            - "5000:5000"
+            - "1026:1025"
+        environment:
+            - "TYK_DB_LICENSEKEY=${TYK_DB_LICENSEKEY}"
+            - TYK_LOGLEVEL=${TYK_LOGLEVEL:-debug}
+            - TOKEN=${TOKEN}
+            - GOPRIVATE=${GOPRIVATE}
+        volumes:
+            - ${DASH_REPO_PATH}:/develop/go/src
+            - ./conf/tyk_analytics.conf:/opt/tyk-dashboard/tyk_analytics.conf
+        depends_on:
+            - tyk-redis
+            - tyk-mongo
+            -  tyk-gateway
+    tyk-gateway:
+        build: ./GW
+        ports:
+            - "6000:6000"
+            - "8003:8003"
+            - "8080:8080" 
+        volumes:
+            - ${GOPATH}:/develop/go
+            - ${GW_REPO_PATH}:/opt/tyk-gateway
+            - ./conf/tyk.conf:/opt/tyk-gateway/tyk.conf
+            - ./conf/tyk.conf:/develop/confs/tyk.conf
+            - ./conf/cert.pem:/etc/ssl/certs/cert.pem
+            - ./conf/key.pem:/etc/ssl/certs/key.pem
+            - ./apps:/opt/tyk-gateway/apps
+            - ./middleware:/opt/tyk-gateway/middleware
+        environment:
+            - TOKEN=${TOKEN}
+            - TYK_LOGLEVEL=info
+        depends_on:
+            - tyk-redis            
+    tyk-redis:
+        image: redis:6.2
+        ports:
+            - "6379:6379"
+    tyk-mongo:
+        image: mongo:4.1
+        ports:
+            - "27017:27017"
+    federation:
+        container_name: federation
+        image: agatawitkowska/federation-example
+        ports:
+            - "4000:4000"
+            - "4001:4001"
+            - "4002:4002"
+            - "4003:4003"    
