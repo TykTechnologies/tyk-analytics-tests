@@ -34,4 +34,13 @@ describe('Test Middleware on OAS Endpoints designer page', () => {
     expect(endpoints_page.verifyMiddlewareExistsByName("Ignore Authentication")).to.be.true;
   });
 
+  it('User can disable Ignore middelware and save API', () => {
+    browser.refresh();
+    endpoints_page.OAS_ENDPOINTS_BUTTON.click();
+    apis_page.EDIT_BUTTON.click();
+    endpoints_page.changeMiddlewareStatusByName("Ignore Authentication");
+    apis_page.OAS_SAVE_BUTTON.click();
+    expect(apis_page.isApiUpdatedPopUpDisplayed()).to.be.true;
+  });
+
 });
