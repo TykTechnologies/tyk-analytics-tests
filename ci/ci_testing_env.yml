@@ -17,38 +17,40 @@ services:
         depends_on:
             - tyk-redis
             - tyk-mongo
+            -  tyk-gateway
     tyk-gateway:
-        image: tykio/tyk-gateway:v3.2.1
+        build: ./GW
         ports:
             - "6000:6000"
             - "8003:8003"
             - "8080:8080" 
         volumes:
-            - ./conf/tyk_pro.conf:/opt/tyk-gateway/tyk.conf
+            - ${GOPATH}:/develop/go
+            - ${GW_REPO_PATH}:/opt/tyk-gateway
+            - ./conf/tyk.conf:/opt/tyk-gateway/tyk.conf
+            - ./conf/tyk.conf:/develop/confs/tyk.conf
             - ./conf/cert.pem:/etc/ssl/certs/cert.pem
             - ./conf/key.pem:/etc/ssl/certs/key.pem
             - ./apps:/opt/tyk-gateway/apps
             - ./middleware:/opt/tyk-gateway/middleware
         environment:
+            - TOKEN=${TOKEN}
             - TYK_LOGLEVEL=info
         depends_on:
             - tyk-redis            
-            - tyk-dashboard
-    tyk-pump:
-        image: tykio/tyk-pump-docker-pub:latest
-        volumes:
-            - ./conf/pump.conf:/opt/tyk-pump/pump.conf
-        ports:    
-            - "8061:8061"
-        depends_on:
-            - tyk-redis
-            - tyk-mongo
-            - tyk-gateway
     tyk-redis:
-        image: redis:6
+        image: redis:6.2
         ports:
             - "6379:6379"
     tyk-mongo:
         image: mongo:4.1
         ports:
             - "27017:27017"
+    federation:
+        container_name: federation
+        image: agatawitkowska/federation-example
+        ports:
+            - "4000:4000"
+            - "4001:4001"
+            - "4002:4002"
+            - "4003:4003"    

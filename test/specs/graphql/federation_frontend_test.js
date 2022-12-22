@@ -1,13 +1,12 @@
-import { expect } from 'chai';
 import { apis_page } from '../../../lib/pom/Apis_page';
+import { graphql_page } from '../../../lib/pom/Graphql_page';
 import { login_page } from '../../../lib/pom/Login_page';
 import { main_page } from '../../../lib/pom/Main_page';
-import { prepareFederationExampleUpstream } from '../../../lib/utils/federation_example';
 import { FEDERATION_UPSTREAM_HOST } from '../../../config_variables';
 import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 
-xdescribe('Federation API frontend', () => {
+describe('Federation API frontend', () => {
     const apiDetails = {
         supergraphName: "Super-test",
         usersSubgraphUrl: `http://${FEDERATION_UPSTREAM_HOST}:4001/query`,
@@ -73,11 +72,10 @@ xdescribe('Federation API frontend', () => {
 
     let $supergraphTableElement;
     let envDetails;
+    let refreshCounter = 0;
 
     before(() => {
         envDetails = setUpEnv();
-        const isFederationUpstreamRunning = prepareFederationExampleUpstream();
-        expect(isFederationUpstreamRunning).to.be.true;
         login_page.open();
         login_page.login(envDetails.userEmail, envDetails.userPassword);
     });
@@ -100,31 +98,31 @@ xdescribe('Federation API frontend', () => {
         apis_page.API_NAME_INPUT.setValue(apiDetails.supergraphName);
         apis_page.API_TYPE_FEDERATION_BUTTON.click();
         apis_page.API_TYPE_SUPERGRAPH_BUTTON.click();
-        apis_page.GRAPHQL_SUBGRAPHS_DROPDOWN.selectOptions([apiDetails.usersSubgraphName, apiDetails.productsSubgraphName]);
+        graphql_page.GRAPHQL_SUBGRAPHS_DROPDOWN.selectOptions([apiDetails.usersSubgraphName, apiDetails.productsSubgraphName]);
         apis_page.CONFIGURE_API_BUTTON.click();
-        wdioExpect(apis_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
+        wdioExpect(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
         apis_page.SAVE_BUTTON.click();
     });
 
     it('Subgraphs tab should show subgraphs the supergraph consists of', () => {
         $supergraphTableElement = $(`span=${apiDetails.supergraphName}`);
         $supergraphTableElement.click();
-        apis_page.GRAPHQL_SUBGRAPHS_TAB_BUTTON.click();
-        wdioExpect(apis_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.usersSubgraphName)).toExist();
-        wdioExpect(apis_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.productsSubgraphName)).toExist();
+        graphql_page.GRAPHQL_SUBGRAPHS_TAB_BUTTON.click();
+        wdioExpect(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.usersSubgraphName)).toExist();
+        wdioExpect(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.productsSubgraphName)).toExist();
     });
 
     it('User should be able to add a subgraph to an existing supergraph', () => {
-        apis_page.FEDERATION_ADD_SUBGRAPH_BUTTON.click();
-        apis_page.FEDERATION_ADD_SUBGRAPH_DROPDOWN.selectOptions([apiDetails.reviewsSubgraphName]);
-        apis_page.FEDERATION_ADD_BUTTON.click();
-        wdioExpect(apis_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.reviewsSubgraphName)).toExist();
+        graphql_page.FEDERATION_ADD_SUBGRAPH_BUTTON.click();
+        graphql_page.FEDERATION_ADD_SUBGRAPH_DROPDOWN.selectOptions([apiDetails.reviewsSubgraphName]);
+        graphql_page.FEDERATION_ADD_BUTTON.click();
+        wdioExpect(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.reviewsSubgraphName)).toExist();
     });
 
     it('User should be able to remove a subgraph from a supergraph', () => {
-        apis_page.getFEDERATION_REMOVE_SUBGRAPH_BUTTON(apiDetails.reviewsSubgraphName).click();
-        apis_page.FEDERATION_REMOVE_SUBGRAPH_CONFIRM_CHECKBOX.click();
-        apis_page.FEDERATION_REMOVE_SUBGRAPH_MODAL_BUTTON.click();
-        wdioExpect(apis_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.reviewsSubgraphName)).not.toExist();
+        graphql_page.getFEDERATION_REMOVE_SUBGRAPH_BUTTON(apiDetails.reviewsSubgraphName).click();
+        graphql_page.FEDERATION_REMOVE_SUBGRAPH_CONFIRM_CHECKBOX.click();
+        graphql_page.FEDERATION_REMOVE_SUBGRAPH_MODAL_BUTTON.click();
+        wdioExpect(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.reviewsSubgraphName)).not.toExist();
     });
 });
