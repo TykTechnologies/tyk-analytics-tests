@@ -4,7 +4,7 @@ import { main_page } from '../../../../lib/pom/Main_page';
 import { endpoints_page } from '../../../../lib/pom/Endpoints_page';
 import { expect } from 'chai';
 
-describe('Test Allow List plugin on OAS Endpoints designer page', () => {
+xdescribe('Test Allow List plugin on OAS Endpoints designer page', () => {
   let envDetails;
 
   before(() => {
