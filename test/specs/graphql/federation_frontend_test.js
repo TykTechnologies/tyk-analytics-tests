@@ -16,17 +16,17 @@ xdescribe('Federation API frontend', () => {
         productsSubgraphUrl: `http://${FEDERATION_UPSTREAM_HOST}:4002/query`,
         productsSubgraphName: "Products-test",
         reviewsSubgraphUrl: `http://${FEDERATION_UPSTREAM_HOST}:4003/query`,
-        reviewsSubgraphName: "Reviews-test"        
+        reviewsSubgraphName: "Reviews-test"
     };
 
     const usersSubgraphApi = {
-        "name": `${apiDetails.usersSubgraphName}`,        
+        "name": `${apiDetails.usersSubgraphName}`,
         "graphql": {
             "enabled": true,
             "execution_mode": "subgraph",
             "schema": "directive @external on FIELD_DEFINITION\n\ndirective @requires(fields: _FieldSet!) on FIELD_DEFINITION\n\ndirective @provides(fields: _FieldSet!) on FIELD_DEFINITION\n\ndirective @key(fields: _FieldSet!) on OBJECT | INTERFACE\n\ndirective @extends on OBJECT\n\nscalar _Any\n\ntype _Service {\n  sdl: String\n}\n\nunion _Entity = User\n\ntype User {\n  id: ID!\n  username: String!\n}\n\ntype Entity {\n  findUserByID(id: ID!): User!\n}\n\ntype Query {\n  me: User\n  _entities(representations: [_Any!]!): [_Entity]!\n  _service: _Service!\n}\n\nscalar _FieldSet",
             "subgraph": {
-                "sdl": "extend type Query {\n    me: User\n}\n\ntype User @key(fields: \"id\") {\n    id: ID!\n    username: String!\n}\n" 
+                "sdl": "extend type Query {\n    me: User\n}\n\ntype User @key(fields: \"id\") {\n    id: ID!\n    username: String!\n}\n"
             },
             "version": "2"
         },
@@ -36,8 +36,19 @@ xdescribe('Federation API frontend', () => {
         }
     };
 
+    const usersVerificationArray = [
+        ['extend', 'type', 'Query'],
+        ['me', 'User'],
+        [], [],
+        ['type', 'User', '@key', 'fields', '"id"'],
+        ['id', 'ID'],
+        ['username', 'String']
+    ];
+
+    const usersSchemaEditorXpath = '//div[@class="supergraph-panels"]//h3[text()="Users-test"]//following-sibling::div[@class="collapse-wrapper collapse-enter-done"]//div[@class="view-lines monaco-mouse-cursor-text"]';
+
     const productsSubgraphApi = {
-        "name": `${apiDetails.productsSubgraphName}`,        
+        "name": `${apiDetails.productsSubgraphName}`,
         "graphql": {
             "enabled": true,
             "execution_mode": "subgraph",
@@ -54,7 +65,7 @@ xdescribe('Federation API frontend', () => {
     };
 
     const reviewsSubgraphApi = {
-        "name": `${apiDetails.reviewsSubgraphName}`,        
+        "name": `${apiDetails.reviewsSubgraphName}`,
         "graphql": {
             "enabled": true,
             "execution_mode": "subgraph",
@@ -69,6 +80,29 @@ xdescribe('Federation API frontend', () => {
             "target_url": `${apiDetails.reviewsSubgraphUrl}`
         }
     };
+
+    const supergraphVerificationArray = [
+        ["type", "Query"],
+        ["me", "User"],
+        ["topProducts", "first", "Int", "5", "Product"],
+        [], [],
+        ["type", "Subscription"],
+        ["updatedPrice", "Product"],
+        ["updateProductPrice", "upc", "String", "Product"],
+        ["stock", "Product"],
+        [], [],
+        ["type", "User"],
+        ["id", "ID"],
+        ["username", "String"],
+        [], [],
+        ["type", "Product"],
+        ["upc", "String"],
+        ["name", "String"],
+        ["price", "Int"],
+        ["inStock", "Int"]
+    ];
+
+    const supergraphSchemaEditorXpath = '//div[@id="graphql-schema"]//div[@class="view-lines monaco-mouse-cursor-text"]';
 
     const dashboard_connection = new Dashboard_connection();
 
@@ -93,7 +127,7 @@ xdescribe('Federation API frontend', () => {
 
     it('Prerequisites: creating a supergraph to be used in further tests', () => {
         main_page.openAPIs();
-        while(!apis_page.ADD_NEW_API_BUTTON.isExisting() && refreshCounter < 5){
+        while (!apis_page.ADD_NEW_API_BUTTON.isExisting() && refreshCounter < 5) {
             browser.refresh();
             browser.pause(2000);
             refreshCounter++;
@@ -108,12 +142,22 @@ xdescribe('Federation API frontend', () => {
         apis_page.SAVE_BUTTON.click();
     });
 
-    it('Subgraphs tab should show subgraphs the supergraph consists of', () => {
+    it('Supergraph schema should be generated from subgraphs', () => {
         $supergraphTableElement = $(`span=${apiDetails.supergraphName}`);
         $supergraphTableElement.click();
+        graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
+        graphql_page.verifySchemaEditorContents(supergraphVerificationArray, supergraphSchemaEditorXpath);
+    });
+
+    it('Subgraphs tab should show subgraphs the supergraph consists of', () => {
         graphql_page.GRAPHQL_SUBGRAPHS_TAB_BUTTON.click();
         wdioExpect(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.usersSubgraphName)).toExist();
         wdioExpect(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.productsSubgraphName)).toExist();
+    });
+
+    it('Subgraphs tab should show subgraph schemas', () => {
+        graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.usersSubgraphName).click();
+        graphql_page.verifySchemaEditorContents(usersVerificationArray, usersSchemaEditorXpath);
     });
 
     it('User should be able to add a subgraph to an existing supergraph', () => {
