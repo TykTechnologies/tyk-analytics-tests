@@ -1,3 +1,0 @@
-[submodule "graphql-go-tools"]
-  path = graphql-go-tools
-  url = https://github.com/jensneuse/graphql-go-tools.git
