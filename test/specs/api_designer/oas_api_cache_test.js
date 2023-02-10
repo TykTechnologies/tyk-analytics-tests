@@ -13,26 +13,17 @@ describe('Test CACHE settings on OAS API designer page', () => {
     login_page.login(envDetails.userEmail, envDetails.userPassword);
   });
 
-  it('User can see default CACHE settings', () => {
+  it('CACHE settings is off by default', () => {
     let firstAPI = true;
     openOasDesignerPage(firstAPI);
-    expect(apis_page.OAS_ENABLE_CACHE_TOGGLE.isSelected()).to.be.true;
-    wdioExpect(apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_CACHE_TIMEOUT_INPUT).toHaveValue("60");
-    wdioExpect(apis_page.OAS_CACHE_RESPONSE_CODES_DROPDOWN).toHaveText("");
-    wdioExpect(apis_page.OAS_CACHE_ALL_SAVE_REQUEST_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_CACHE_BY_HEADERS_DROPDOWN).toHaveText("");
-    wdioExpect(apis_page.OAS_CACHE_CONTROL_TTL_HEADER_INPUT).toHaveValue("");
-  });
-
-  it('User can save API with default CACHE values', () => {
-    let apiName = "default-cache";
-    createApi(apiName);
-    expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
+    expect(apis_page.OAS_ENABLE_CACHE_TOGGLE.isSelected()).to.be.false;
   });
 
   it('Enable Upstream Cache Control disables other CACHE settings', () => {  
+    let firstAPI = true;
     openOasDesignerPage(firstAPI);
+    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
+    apis_page.OAS_ENABLE_CACHE_TOGGLE.click();
     apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX.click();
     cacheUpstreamCacheControlHidesOtherElements();
   });
@@ -53,6 +44,8 @@ describe('Test CACHE settings on OAS API designer page', () => {
   it('User can change Cache Timeout and save API', () => {
     let apiName = 'cache-timeout';
     openOasDesignerPage(firstAPI);
+    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
+    apis_page.OAS_ENABLE_CACHE_TOGGLE.click();
     apis_page.OAS_CACHE_TIMEOUT_INPUT.setValue("44");
     createApi(apiName);
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
@@ -67,6 +60,8 @@ describe('Test CACHE settings on OAS API designer page', () => {
   it('User can set Cache Response Codes and save API', () => {
     let apiName = 'cache-response-codes';
     openOasDesignerPage(firstAPI);
+    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
+    apis_page.OAS_ENABLE_CACHE_TOGGLE.click();
     apis_page.OAS_CACHE_RESPONSE_CODES_DROPDOWN.selectOptions(["200 OK", "403 Forbidden"]); //direct select
     apis_page.OAS_CACHE_RESPONSE_CODES_DROPDOWN.setValue("410"); //input and match from dropdown
     apis_page.OAS_CACHE_RESPONSE_CODES_DROPDOWN.setValue("299"); //free input custom value
@@ -89,6 +84,8 @@ describe('Test CACHE settings on OAS API designer page', () => {
   it('User can set Cache All Safe Requests and save API', () => {
     let apiName = 'cache-all-safe-requests';
     openOasDesignerPage(firstAPI);
+    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
+    apis_page.OAS_ENABLE_CACHE_TOGGLE.click();
     apis_page.OAS_CACHE_ALL_SAVE_REQUEST_BOX.click();
     createApi(apiName);
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
@@ -103,6 +100,8 @@ describe('Test CACHE settings on OAS API designer page', () => {
   it('User can set Cache by Headers and save API', () => {
     let apiName = 'cache-by-headers';
     openOasDesignerPage(firstAPI);
+    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
+    apis_page.OAS_ENABLE_CACHE_TOGGLE.click();
     apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.expand();
     apis_page.OAS_CACHE_BY_HEADERS_DROPDOWN.setValue("header-1");
     apis_page.OAS_CACHE_BY_HEADERS_DROPDOWN.setValue("header-2");
@@ -120,6 +119,8 @@ describe('Test CACHE settings on OAS API designer page', () => {
   it('User can set Cache Control TTL Header and save API', () => {
     let apiName = 'cache-ttl-header';
     openOasDesignerPage(firstAPI);
+    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
+    apis_page.OAS_ENABLE_CACHE_TOGGLE.click();
     apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.expand();
     apis_page.OAS_CACHE_CONTROL_TTL_HEADER_INPUT.setValue("header-ttl");
     createApi(apiName);
