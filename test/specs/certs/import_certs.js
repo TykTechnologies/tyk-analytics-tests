@@ -1,6 +1,6 @@
 
-import { login_page } from '../../../lib/pom/Login_page';
-import { main_page } from '../../../lib/pom/Main_Page';
+import {login_page} from '../../../lib/pom/Login_page';
+import {main_page} from '../../../lib/pom/Main_Page';
 import {certs_page} from '../../../lib/pom/Certificates_page';
 
 const path = require('path');
