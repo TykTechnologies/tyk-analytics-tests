@@ -21,8 +21,13 @@
     "@wdio/mocha-framework": "^6.11.0",
     "@wdio/spec-reporter": "^6.11.0",
     "@wdio/sync": "^6.11.0",
+<<<<<<< HEAD
     "chai": "^4.3.6",
     "chromedriver": "^108.0.0",
+=======
+    "chai": "^4.3.4",
+    "chromedriver": "108.0.0",
+>>>>>>> fd947c11f5c0b3e7e3c317e16ef12d56271709c9
     "eslint": "^7.32.0",
     "eslint-plugin-wdio": "^6.0.12",
     "timediff": "^1.1.1",

@@ -1,12 +1,11 @@
-import { expect } from 'chai';
 import { apis_page } from '../../../lib/pom/Apis_page';
+import { graphql_page } from '../../../lib/pom/Graphql_page';
 import { login_page } from '../../../lib/pom/Login_page';
 import { main_page } from '../../../lib/pom/Main_page';
-import { prepareFederationExampleUpstream } from '../../../lib/utils/federation_example';
 import { FEDERATION_UPSTREAM_HOST } from '../../../config_variables';
 
 
-xdescribe('CRUD basic Federation API', () => {
+describe('CRUD basic Federation API', () => {
     const apiDetails = {
         supergraphName: "Super-test",
         usersSubgraphUrl: `http://${FEDERATION_UPSTREAM_HOST}:4001/query`,
@@ -23,8 +22,6 @@ xdescribe('CRUD basic Federation API', () => {
 
     before(() => {
         const envDetails = setUpEnv();
-        const isFederationUpstreamRunning = prepareFederationExampleUpstream();
-        expect(isFederationUpstreamRunning).to.be.true;
         login_page.open();
         login_page.login(envDetails.userEmail, envDetails.userPassword);
     });
@@ -37,7 +34,7 @@ xdescribe('CRUD basic Federation API', () => {
         apis_page.API_TYPE_SUBGRAPH_BUTTON.click();
         apis_page.OAS_TARGET_URL_INPUT.setValue(apiDetails.usersSubgraphUrl);
         apis_page.CONFIGURE_API_BUTTON.click();
-        wdioExpect(apis_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
+        wdioExpect(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
         apis_page.SAVE_BUTTON.click();
     });
     
@@ -48,15 +45,14 @@ xdescribe('CRUD basic Federation API', () => {
 
     it('User should be able to update Federation Subgraph API', () => {
         $usersTableElement.click();
-        apis_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.click();
-        expect(apis_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.isSelected()).to.be.true;
+        graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.click();
+        wdioExpect(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE).toBeSelected();
         apis_page.UPDATE_BUTTON.click();
         apis_page.UPDATE_API_BUTTON.click();
-        //expect(apis_page.isApiUpdatedPopUpDisplayed()).to.be.true;
         wdioExpect(apis_page.API_UPDATED_MESSAGE).toExist();
         main_page.openAPIs();
         $usersTableElement.click();
-        expect(apis_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.isSelected()).to.be.true;
+        wdioExpect(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE).toBeSelected();
     });
 
     it('User should be able to create additional Subgraph APIs', () =>{
@@ -68,7 +64,7 @@ xdescribe('CRUD basic Federation API', () => {
         apis_page.API_TYPE_SUBGRAPH_BUTTON.click();
         apis_page.OAS_TARGET_URL_INPUT.setValue(apiDetails.productsSubgraphUrl);
         apis_page.CONFIGURE_API_BUTTON.click();
-        wdioExpect(apis_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
+        wdioExpect(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
         apis_page.SAVE_BUTTON.click();
         //Reviews subgraph
         main_page.openAPIs();
@@ -78,7 +74,7 @@ xdescribe('CRUD basic Federation API', () => {
         apis_page.API_TYPE_SUBGRAPH_BUTTON.click();
         apis_page.OAS_TARGET_URL_INPUT.setValue(apiDetails.reviewsSubgraphUrl);
         apis_page.CONFIGURE_API_BUTTON.click();
-        wdioExpect(apis_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
+        wdioExpect(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
         apis_page.SAVE_BUTTON.click();
     });
        
@@ -94,9 +90,9 @@ xdescribe('CRUD basic Federation API', () => {
         apis_page.API_NAME_INPUT.setValue(apiDetails.supergraphName);
         apis_page.API_TYPE_FEDERATION_BUTTON.click();
         apis_page.API_TYPE_SUPERGRAPH_BUTTON.click();
-        apis_page.GRAPHQL_SUBGRAPHS_DROPDOWN.selectOptions([apiDetails.usersSubgraphName, apiDetails.productsSubgraphName, apiDetails.reviewsSubgraphName])
+        graphql_page.GRAPHQL_SUBGRAPHS_DROPDOWN.selectOptions([apiDetails.usersSubgraphName, apiDetails.productsSubgraphName, apiDetails.reviewsSubgraphName])
         apis_page.CONFIGURE_API_BUTTON.click();
-        wdioExpect(apis_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
+        wdioExpect(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
         apis_page.SAVE_BUTTON.click();
     });
 
@@ -107,15 +103,14 @@ xdescribe('CRUD basic Federation API', () => {
 
     it('User should be able to update Federation Supergraph API', () => {
         $supergraphTableElement.click();
-        apis_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.click();
-        expect(apis_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.isSelected()).to.be.true;
+        graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.click();
+        wdioExpect(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE).toBeSelected();
         apis_page.UPDATE_BUTTON.click();
         apis_page.UPDATE_API_BUTTON.click();
-        //expect(apis_page.isApiUpdatedPopUpDisplayed()).to.be.true;
         wdioExpect(apis_page.API_UPDATED_MESSAGE).toExist();
         main_page.openAPIs();
         $supergraphTableElement.click();
-        expect(apis_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.isSelected()).to.be.true;
+        wdioExpect(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE).toBeSelected();
     });
     
     it('User should be able to delete Federation APIs', () => {
