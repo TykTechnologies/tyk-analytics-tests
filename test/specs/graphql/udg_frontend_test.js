@@ -59,6 +59,8 @@ describe('UDG with REST and GQL datasources', () => {
         ["kafkaTypeField1", "String"]
     ]
 
+    const schemaEditorXpath = '//div[@class="view-lines monaco-mouse-cursor-text"]';
+
     const schemaFileRelativePath = "../../test/specs/graphql/udg-schema.gql";
     let $apiTableElement;
     let refreshCounter = 0;
@@ -194,13 +196,13 @@ describe('UDG with REST and GQL datasources', () => {
         apis_page.CONFIGURE_API_BUTTON.click();
         graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
         graphql_page.uploadSchemaFile(schemaFileRelativePath);
-        graphql_page.verifyFileUploadInSchemaEditor(schemaFileUploadVerificationArray);
+        graphql_page.verifySchemaEditorContents(schemaFileUploadVerificationArray, schemaEditorXpath);
         apis_page.SAVE_BUTTON.click();
         //Verify file upload again after saving API
         $apiTableElement = $(`span=${udgDetails.fileUploadApiName}`);
         $apiTableElement.click();
         graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
-        graphql_page.verifyFileUploadInSchemaEditor(schemaFileUploadVerificationArray);
+        graphql_page.verifySchemaEditorContents(schemaFileUploadVerificationArray, schemaEditorXpath);
         wdioExpect(graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", udgDetails.restQuery));
     });    
 });
