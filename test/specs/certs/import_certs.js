@@ -35,10 +35,6 @@ describe('Import certificates', () => {
     certs_page.ACTIONS_BUTTON.click();
     certs_page.ACTIONS_VIEW_BUTTON.click();
     certs_page.DELETE_BUTTON.click();
-    // certs_page.POPUP_CANCEL.click();
-    // certs_page.BACK_BUTTON.click();
-    // certs_page.ACTIONS_BUTTON.click();
-    // certs_page.ACTIONS_VIEW_DELETE.click();
     certs_page.POPUP_DELETE.click();
     wdioExpect(certs_page.REMOVED_CERT_MESSAGE_ALERT).toBeDisplayed();
   });
