@@ -4,14 +4,14 @@ import { main_page } from '../../../../lib/pom/Main_page';
 import { endpoints_page } from '../../../../lib/pom/Endpoints_page';
 import { expect } from 'chai';
 
-xdescribe('Test Allow List plugin on OAS Endpoints designer page', () => {
+describe('Test Allow List plugin on OAS Endpoints designer page', () => {
   let envDetails;
 
   before(() => {
     envDetails = setUpEnv();
     login_page.open();
     login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
+  }); 
 
   it('User can add Allow List plugin and save API', () => {
     main_page.openAPIs();
