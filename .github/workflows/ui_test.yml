@@ -81,3 +81,7 @@ jobs:
           JOB_RUN_ID: ${{ github.run_id }}
           JOB_NAME: ${{ github.job }}
           GIT_BRANCH: ${{ github.ref }}
+      
+      - name: Getting dashboard logs on failure
+        if: ${{ failure() }}
+        run: docker logs tyk-dashboard
