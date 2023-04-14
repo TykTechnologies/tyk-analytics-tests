@@ -1,6 +1,6 @@
-ARG GO_VERSION=1.19.8
-
 FROM ubuntu:18.04
+
+ARG GO_VERSION=1.19.8
 
 SHELL [ "/bin/bash", "-o", "pipefail", "-c" ]
 
