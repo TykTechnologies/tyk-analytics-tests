@@ -1,3 +1,5 @@
+ARG GO_VERSION=1.19.8
+
 FROM ubuntu:18.04
 
 SHELL [ "/bin/bash", "-o", "pipefail", "-c" ]
@@ -29,8 +31,8 @@ RUN apt-get update --assume-yes \
   && apt-get clean \
   && rm --force --recursive /var/lib/apt/lists/*
 
-RUN curl --location --silent https://golang.org/dl/go1.16.linux-amd64.tar.gz --output go.tar.gz
-RUN tar --directory=/usr/local --extract --gzip --file=go.tar.gz
+RUN wget --progress=dot:giga https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz
+RUN tar --directory=/usr/local --extract --gzip --file=go${GO_VERSION}.linux-amd64.tar.gz
 
 RUN mkdir --parents \
   /develop/confs \
