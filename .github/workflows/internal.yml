@@ -105,6 +105,7 @@ jobs:
         GOPATH: /home/runner/work/tyk-analytics-tests/
         GOPRIVATE: github.com/TykTechnologies
         TOKEN: ${{ secrets.ORG_GH_TOKEN }}
+        GO_VERSION: ${{ matrix.go-version }}
       working-directory: tyk-analytics-tests
 
     - name: Install test dependecies
@@ -156,7 +157,7 @@ jobs:
         
     - name: Getting dashboard logs on failure
       if: ${{ failure() }}
-      run: docker logs tyk-dashboard
+      run: docker logs ci_tyk_dashboard_1
 
     - name: Comment on PR
       if: ${{ always() }} && github.event.issue.pull_request
