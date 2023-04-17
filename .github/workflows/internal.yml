@@ -157,7 +157,7 @@ jobs:
         
     - name: Getting dashboard logs on failure
       if: ${{ failure() }}
-      run: docker logs ci_tyk_dashboard_1
+      run: docker logs tyk-dashboard
 
     - name: Comment on PR
       if: ${{ always() }} && github.event.issue.pull_request
