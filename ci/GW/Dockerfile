@@ -7,6 +7,7 @@ RUN apt-get update \
   build-essential \
   ca-certificates \
   jq \
+  git \
   libluajit-5.1-2 \
   lua-cjson \
   lua-cjson-dev \
