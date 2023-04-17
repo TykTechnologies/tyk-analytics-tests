@@ -153,6 +153,10 @@ jobs:
         SLACK_TITLE: "Tests were NOT executed!"
         SLACK_USERNAME: Test automation
         SLACK_FOOTER: "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|execution details>"
+        
+    - name: Getting dashboard logs on failure
+      if: ${{ failure() }}
+      run: docker logs tyk-dashboard
 
     - name: Comment on PR
       if: ${{ always() }} && github.event.issue.pull_request
