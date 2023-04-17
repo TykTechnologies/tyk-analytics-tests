@@ -159,6 +159,10 @@ jobs:
       if: ${{ failure() }}
       run: docker logs tyk-dashboard
 
+    - name: Getting dashboard logs on failure
+      if: ${{ failure() }}
+      run: docker logs tyk-gateway
+
     - name: Comment on PR
       if: ${{ always() }} && github.event.issue.pull_request
       uses: mshick/add-pr-comment@v1
