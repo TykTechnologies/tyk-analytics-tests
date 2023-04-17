@@ -8,6 +8,8 @@ tyk_args+=("--conf=/opt/tyk-gateway/tyk.conf")
 echo "Installing Tyk..."
 cd /opt/tyk-gateway
 ls
+
+git config --global --add safe.directory /opt/tyk-gateway
 go install
 
 echo "Running Tyk with following arguments:"
