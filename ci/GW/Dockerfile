@@ -1,10 +1,13 @@
 FROM ubuntu:18.04
 
+ARG GO_VERSION=1.19.8
+
 RUN apt-get update \
   && apt-get install --assume-yes --no-install-recommends \
   build-essential \
   ca-certificates \
   jq \
+  git \
   libluajit-5.1-2 \
   lua-cjson \
   lua-cjson-dev \
@@ -32,8 +35,8 @@ RUN python3 -m pip install grpcio
 RUN python3 -m pip install protobuf
 
 # Go install
-RUN wget --progress=dot:giga https://golang.org/dl/go1.16.linux-amd64.tar.gz
-RUN tar --directory=/usr/local --extract --gzip --file=go1.16.linux-amd64.tar.gz
+RUN wget --progress=dot:giga https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz
+RUN tar --directory=/usr/local --extract --gzip --file=go${GO_VERSION}.linux-amd64.tar.gz
 
 RUN mkdir --parents \
   /develop/confs \

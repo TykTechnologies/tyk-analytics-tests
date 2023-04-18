@@ -2,6 +2,7 @@ version: '3.3'
 services:
     tyk-dashboard:
         build: ./Dashboard
+        container_name: tyk-dashboard
         ports:
             - "3000:3000"
             - "5000:5000"
@@ -11,6 +12,7 @@ services:
             - TYK_LOGLEVEL=${TYK_LOGLEVEL:-debug}
             - TOKEN=${TOKEN}
             - GOPRIVATE=${GOPRIVATE}
+            - GO_VERSION=${GO_VERSION}
         volumes:
             - ${DASH_REPO_PATH}:/develop/go/src
             - ./conf/tyk_analytics.conf:/opt/tyk-dashboard/tyk_analytics.conf
@@ -20,6 +22,7 @@ services:
             -  tyk-gateway
     tyk-gateway:
         build: ./GW
+        container_name: tyk-gateway
         ports:
             - "6000:6000"
             - "8003:8003"
@@ -36,6 +39,7 @@ services:
         environment:
             - TOKEN=${TOKEN}
             - TYK_LOGLEVEL=info
+            - GO_VERSION=${GO_VERSION}
         depends_on:
             - tyk-redis            
     tyk-redis:
