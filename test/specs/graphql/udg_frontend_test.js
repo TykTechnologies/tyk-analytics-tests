@@ -94,7 +94,7 @@ describe('UDG with REST and GQL datasources', () => {
         graphql_page.UDG_CONFIGURE_EXTERNAL_REST_BUTTON.click();
         graphql_page.UDG_DATA_SOURCE_NAME_INPUT.setValue(udgDetails.restSource);
         graphql_page.UDG_DATA_SOURCE_URL_INPUT.click();
-        graphql_page.UDG_DATA_SOURCE_URL_INPUT.element.keys(udgDetails.restDataSourceUrl);
+        graphql_page.keys(udgDetails.restDataSourceUrl);
         wdioExpect($(`//li//span[text()="${udgDetails.restQuery}"]`)).toExist();
         wdioExpect($(`//li//span[text()="${udgDetails.gqlQuery}"]`)).toExist();
         wdioExpect($(`//li//span[text()="${udgDetails.kafkaQuery}"]`)).toExist();
@@ -123,7 +123,7 @@ describe('UDG with REST and GQL datasources', () => {
         graphql_page.UDG_CONFIGURE_EXTERNAL_GQL_BUTTON.click();
         graphql_page.UDG_DATA_SOURCE_NAME_INPUT.setValue(udgDetails.gqlSource);
         graphql_page.UDG_DATA_SOURCE_URL_INPUT.click();
-        graphql_page.UDG_DATA_SOURCE_URL_INPUT.element.keys(udgDetails.gqlDataSourceUrl);
+        graphql_page.keys(udgDetails.gqlDataSourceUrl);
         graphql_page.UDG_ADD_HEADERS_CHECKBOX.check();
         graphql_page.UDG_ADD_HEADER_BUTTON.click();
         graphql_page.UDG_NEW_HEADER_KEY_INPUT.setValue(udgDetails.headerKey);
