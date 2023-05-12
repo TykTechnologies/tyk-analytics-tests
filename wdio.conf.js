@@ -62,7 +62,8 @@ exports.config = {
               '--incognito',
               '--disable-web-security',
               '--allow-running-insecure-content'
-            ]
+            ],
+            binary: (process.env.FIXED_CHROME_VERSION ? `/opt/hostedtoolcache/chromium/${process.env.FIXED_CHROME_VERSION}/x64/chrome` : ""),
         },
         acceptInsecureCerts: true
         // If outputDir is provided WebdriverIO can capture driver session logs
