@@ -44,6 +44,12 @@ jobs:
         token: ${{ secrets.ORG_GH_TOKEN }}
         submodules: true
 
+    - name: Set up Chrome with proper version
+      uses: abhi1693/setup-browser@v0.3.4
+      with:
+        browser: chrome
+        version: '1097615' #revision for chrome v111
+
     - name: Check if Dashboard branch exists
       id: check_test_branch
       env:
@@ -123,7 +129,9 @@ jobs:
       run: |
         npm run headless-test
       working-directory: tyk-analytics-tests
-    
+      env:
+        FIXED_CHROME_VERSION: '1097615'
+        
     - name: Archive UI test report
       if: ${{ always() }}
       uses: actions/upload-artifact@v2
