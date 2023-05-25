@@ -3,7 +3,7 @@ import { apis_page } from '../../../lib/pom/Apis_page';
 import { main_page } from '../../../lib/pom/Main_page';
 import { expect } from 'chai';
 
-xdescribe('Test CACHE settings on OAS API designer page', () => {
+describe('Test CACHE settings on OAS API designer page', () => {
   let envDetails;
   let firstAPI = false;
 
@@ -19,33 +19,13 @@ xdescribe('Test CACHE settings on OAS API designer page', () => {
     expect(apis_page.OAS_ENABLE_CACHE_TOGGLE.isSelected()).to.be.false;
   });
 
-  it('Enable Upstream Cache Control disables other CACHE settings', () => {  
-    let firstAPI = true;
-    openOasDesignerPage(firstAPI);
-    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
-    apis_page.OAS_ENABLE_CACHE_TOGGLE.click();
-    apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX.click();
-    cacheUpstreamCacheControlHidesOtherElements();
-  });
-
-  it('User can save API with enabled Enable Upstream Cache Control', () => {
-    let apiName = "upstream-cache-control";
-    createApi(apiName);
-    expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
-  });
-
-  it('Enable Upstream Cache Control is persistent after reloading the page', () => {
-    browser.refresh();
-    apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
-    wdioExpect(apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX).toBeChecked();
-    cacheUpstreamCacheControlHidesOtherElements();
-  });
-
   it('User can change Cache Timeout and save API', () => {
+    let firstAPI = true;
     let apiName = 'cache-timeout';
     openOasDesignerPage(firstAPI);
     apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     apis_page.OAS_ENABLE_CACHE_TOGGLE.click();
+    apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX.click();
     apis_page.OAS_CACHE_TIMEOUT_INPUT.setValue("44");
     createApi(apiName);
     expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
@@ -54,6 +34,7 @@ xdescribe('Test CACHE settings on OAS API designer page', () => {
   it('Cache Timeout is persistent after reloading the page', () => {
     browser.refresh();
     apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
+    wdioExpect(apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX).toBeChecked();
     wdioExpect(apis_page.OAS_CACHE_TIMEOUT_SAVED).toHaveText("44");
   });
 
@@ -102,6 +83,7 @@ xdescribe('Test CACHE settings on OAS API designer page', () => {
     openOasDesignerPage(firstAPI);
     apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     apis_page.OAS_ENABLE_CACHE_TOGGLE.click();
+    apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX.click();
     apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.expand();
     apis_page.OAS_CACHE_BY_HEADERS_DROPDOWN.setValue("header-1");
     apis_page.OAS_CACHE_BY_HEADERS_DROPDOWN.setValue("header-2");
@@ -112,6 +94,7 @@ xdescribe('Test CACHE settings on OAS API designer page', () => {
   it('Cache by Headers are persistent after reloading the page', () => {
     browser.refresh();
     apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
+    wdioExpect(apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX).toBeChecked();
     apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.expand();
     wdioExpect(apis_page.OAS_CACHE_BY_HEADERS_SAVED).toHaveText("header-1, header-2");
   });
@@ -150,14 +133,6 @@ xdescribe('Test CACHE settings on OAS API designer page', () => {
     apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
     apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");
     apis_page.OAS_SAVE_BUTTON.click();
-  }
-
-  function cacheUpstreamCacheControlHidesOtherElements() {
-    wdioExpect(apis_page.OAS_CACHE_TIMEOUT_INPUT).not.toBeDisplayed();
-    wdioExpect(apis_page.OAS_CACHE_RESPONSE_CODES_DROPDOWN).not.toBeDisplayed();
-    wdioExpect(apis_page.OAS_CACHE_ALL_SAVE_REQUEST_BOX).not.toBeDisplayed();
-    wdioExpect(apis_page.OAS_CACHE_BY_HEADERS_DROPDOWN).not.toBeDisplayed();
-    wdioExpect(apis_page.OAS_CACHE_CONTROL_TTL_HEADER_INPUT).not.toBeDisplayed();
   }
 
 });
