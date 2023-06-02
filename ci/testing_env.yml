@@ -1,6 +1,7 @@
 version: '3.3'
 services:
     tyk-dashboard:
+        container_name: tyk-dashboard
         build: ./Dashboard
         ports:
             - "3000:3000"
