@@ -1,4 +1,5 @@
 FROM ubuntu:18.04
+ARG GO_VERSION=1.19.8
 
 RUN apt-get update \
   && apt-get install --assume-yes --no-install-recommends \
