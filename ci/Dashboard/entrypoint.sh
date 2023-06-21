@@ -7,6 +7,7 @@ src_dir=/develop/go/src
 cd "$src_dir"
 
 echo "Installing Tyk Dashboard..."
+git config --global --add safe.directory $src_dir
 git config --global url."https://${TOKEN}@github.com".insteadOf "https://github.com"
 go install
 
