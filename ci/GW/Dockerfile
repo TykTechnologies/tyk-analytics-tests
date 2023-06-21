@@ -5,6 +5,7 @@ RUN apt-get update \
   build-essential \
   ca-certificates \
   jq \
+  git \
   libluajit-5.1-2 \
   lua-cjson \
   lua-cjson-dev \
@@ -32,8 +33,8 @@ RUN python3 -m pip install grpcio
 RUN python3 -m pip install protobuf
 
 # Go install
-RUN wget --progress=dot:giga https://golang.org/dl/go1.19.linux-amd64.tar.gz
-RUN tar --directory=/usr/local --extract --gzip --file=go1.19.linux-amd64.tar.gz
+RUN wget --progress=dot:giga https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz
+RUN tar --directory=/usr/local --extract --gzip --file=go${GO_VERSION}.linux-amd64.tar.gz
 
 RUN mkdir --parents \
   /develop/confs \
