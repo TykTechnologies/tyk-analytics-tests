@@ -201,6 +201,7 @@ describe('UDG with REST and GQL datasources', () => {
         graphql_page.verifySchemaEditorContents(schemaFileUploadVerificationArray, schemaEditorXpath);
         apis_page.SAVE_BUTTON.click();
         //Verify file upload again after saving API
+        main_page.openAPIs();
         $apiTableElement = $(`span=${udgDetails.fileUploadApiName}`);
         $apiTableElement.click();
         graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();

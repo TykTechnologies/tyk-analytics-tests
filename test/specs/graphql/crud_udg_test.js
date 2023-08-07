@@ -28,6 +28,7 @@ describe('CRUD simple UDG API', () => {
     });
     
     it('New UDG API should be visible in table', () => {
+        main_page.openAPIs();
         $apiTableElement = $(`span=${apiDetails.name}`);
         wdioExpect($apiTableElement).toBeClickable();
     });

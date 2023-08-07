@@ -24,6 +24,7 @@ describe('Create simple API', () => {
   });
 
   it('New API should be visible in table', () => {
+    main_page.openAPIs();
     $apiTableElement = $(`span=${apiDetails.name}`);  
     wdioExpect($apiTableElement).toBeClickable();
   });
