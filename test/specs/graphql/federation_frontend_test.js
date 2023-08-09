@@ -117,6 +117,8 @@ describe('Federation API frontend', () => {
     it('Prerequisites: creating subgraph APIs via dashboard API', () => {
         [usersSubgraphApi, productsSubgraphApi, reviewsSubgraphApi].forEach(api => {
             let body = newAPIdefinitionWithDefaults(api);
+            console.log('>>>>>> REQUEST BODY <<<<<<<')
+            console.log(JSON.stringify(body))
             dashboard_connection.createAPI(body, envDetails.userSecret);
         })
     });
@@ -139,6 +141,7 @@ describe('Federation API frontend', () => {
     });
 
     it('Supergraph schema should be generated from subgraphs', () => {
+        main_page.openAPIs();
         $supergraphTableElement = $(`span=${apiDetails.supergraphName}`);
         $supergraphTableElement.click();
         graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();

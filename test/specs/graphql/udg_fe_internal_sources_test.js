@@ -97,6 +97,7 @@ describe('UDG with internal REST and GQL datasources', () => {
         graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
         graphql_page.uploadSchemaFile(schemaFileRelativePath);
         apis_page.SAVE_BUTTON.click();
+        main_page.openAPIs();
         $apiTableElement = $(`span=${udgDetails.apiName}`);
         $apiTableElement.click();
         graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();

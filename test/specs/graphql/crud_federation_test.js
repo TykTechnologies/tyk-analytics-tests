@@ -39,6 +39,7 @@ describe('CRUD basic Federation API', () => {
     });
     
     it('New Federation Subgraph API should be visible in table', () => {
+        main_page.openAPIs();
         $usersTableElement = $(`span=${apiDetails.usersSubgraphName}`);
         wdioExpect($usersTableElement).toBeClickable();
     });
@@ -79,6 +80,7 @@ describe('CRUD basic Federation API', () => {
     });
        
     it('Additional Federation Subgraph APIs should be visible in table', () => {
+        main_page.openAPIs();
         $productsTableElement = $(`span=${apiDetails.productsSubgraphName}`);
         wdioExpect($productsTableElement).toBeClickable();
         $reviewsTableElement = $(`span=${apiDetails.reviewsSubgraphName}`);
@@ -97,6 +99,7 @@ describe('CRUD basic Federation API', () => {
     });
 
     it('New Federation Supergraph API should be visible in table', () => {
+        main_page.openAPIs();
         $supergraphTableElement = $(`span=${apiDetails.supergraphName}`);
         wdioExpect($supergraphTableElement).toBeClickable();
     });

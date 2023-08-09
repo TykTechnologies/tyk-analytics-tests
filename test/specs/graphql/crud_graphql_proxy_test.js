@@ -28,6 +28,7 @@ describe('CRUD simple GraphQL (proxy-only) API', () => {
     });
     
     it('New GraphQL API should be visible in table', () => {
+        main_page.openAPIs();
         $apiTableElement = $(`span=${apiDetails.name}`);
         wdioExpect($apiTableElement).toBeClickable();
     });
