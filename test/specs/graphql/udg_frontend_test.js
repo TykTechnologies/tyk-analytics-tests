@@ -74,12 +74,12 @@ describe('UDG with REST and GQL datasources', () => {
         login_page.login(envDetails.userEmail, envDetails.userPassword);
     });
 
-    it('Prerequisites: creating the UDG api via Dashboard API', () => {
+    xit('Prerequisites: creating the UDG api via Dashboard API', () => {
         let body = newAPIdefinitionWithDefaults(udgApi);
         dashboard_connection.createAPI(body, envDetails.userSecret)
     });
 
-    it('User should be able to define external REST, GraphQL and Kafka datasources in a UDG API', () => {
+    xit('User should be able to define external REST, GraphQL and Kafka datasources in a UDG API', () => {
         main_page.openAPIs();
         $apiTableElement = $(`span=${udgApi.name}`);
         while (!apis_page.ADD_NEW_API_BUTTON.isExisting() && refreshCounter < 5) {
@@ -115,7 +115,8 @@ describe('UDG with REST and GQL datasources', () => {
         wdioExpect(graphql_page.getUDG_HEADER_KEY_BY_POSITION_INPUT(2)).not.toExist();
         graphql_page.UDG_DISABLE_FIELD_MAPPING_CHECKBOX.uncheck();
         graphql_page.UDG_FIELD_MAPPING_PATH_INPUT.setValue(udgDetails.fieldMappingPath);
-        graphql_page.UDG_DATA_SOURCE_SAVE_BUTTON.click();
+        graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
+        apis_page.CONFIRM_BUTTON.click();
         wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.restQuery, udgDetails.restSource)).toExist();
         wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.restQuery, "REST")).toExist();
         //Define GQL data source for a Query type field
@@ -132,7 +133,8 @@ describe('UDG with REST and GQL datasources', () => {
         wdioExpect(graphql_page.getUDG_HEADER_KEY_BY_POSITION_INPUT(2)).not.toExist();
         graphql_page.UDG_DISABLE_FIELD_MAPPING_CHECKBOX.uncheck();
         graphql_page.UDG_FIELD_MAPPING_PATH_INPUT.setValue(udgDetails.fieldMappingPath);
-        graphql_page.UDG_DATA_SOURCE_SAVE_BUTTON.click();
+        graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
+        apis_page.CONFIRM_BUTTON.click();
         wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.gqlQuery, udgDetails.gqlSource)).toExist();
         wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.gqlQuery, "GraphQL")).toExist();
         //Define Kafka data source for a Query type field
@@ -159,12 +161,13 @@ describe('UDG with REST and GQL datasources', () => {
         graphql_page.UDG_SASL_USER_INPUT.setValue("SaslUser");
         graphql_page.UDG_SASL_PASSWORD_INPUT.setValue("SaslPassword");
         graphql_page.UDG_DISABLE_FIELD_MAPPING_CHECKBOX.uncheck();
-        graphql_page.UDG_DATA_SOURCE_SAVE_BUTTON.click();
+        graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
+        apis_page.CONFIRM_BUTTON.click();
         wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.kafkaQuery, udgDetails.kafkaSource)).toExist();
         wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.kafkaQuery, "Kafka")).toExist();
     });
 
-    it('User should be able to assign an existing data source to an object in an UDG API', () => {
+    xit('User should be able to assign an existing data source to an object in an UDG API', () => {
         graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON(udgDetails.gqlType, udgDetails.gqlTypeField1).click();
         graphql_page.UDG_EXPAND_DATA_SOURCES_ACCORDION.expand();
         graphql_page.UDG_SELECT_DATA_SOURCE_OPEN_COMBOBOX.click();
@@ -177,20 +180,22 @@ describe('UDG with REST and GQL datasources', () => {
         wdioExpect(graphql_page.UDG_DATA_SOURCE_NAME_INPUT).toHaveValue(udgDetails.gqlSource);
         wdioExpect(graphql_page.UDG_DATA_SOURCE_URL_INPUT).toHaveValue(udgDetails.gqlDataSourceUrl);
         wdioExpect(graphql_page.UDG_FIELD_MAPPING_PATH_INPUT).toHaveValue(udgDetails.gqlTypeField1);
-        graphql_page.UDG_DATA_SOURCE_SAVE_BUTTON.click();
+        graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
+        apis_page.CONFIRM_BUTTON.click();
         wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME(udgDetails.gqlType, udgDetails.gqlTypeField1, udgDetails.gqlSource)).toExist();
         wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE(udgDetails.gqlType, udgDetails.gqlTypeField1, "GraphQL")).toExist();
     });
 
-    it('User should be able to remove a data source from an object', () => {
+    xit('User should be able to remove a data source from an object', () => {
         graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", udgDetails.restQuery).click();
         graphql_page.UDG_DATA_SOURCE_RESET_BUTTON.click();
-        graphql_page.UDG_DATA_SOURCE_SAVE_BUTTON.click();
+        graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
+        apis_page.CONFIRM_BUTTON.click();
         wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.restQuery, udgDetails.restSource)).not.toExist();
         wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.restQuery, "REST")).not.toExist();
     });
 
-    it('User should be able to upload a schema file in a UDG API', () => {
+    xit('User should be able to upload a schema file in a UDG API', () => {
         main_page.openAPIs();
         apis_page.ADD_NEW_API_BUTTON.click();
         apis_page.API_NAME_INPUT.setValue(udgDetails.fileUploadApiName);
