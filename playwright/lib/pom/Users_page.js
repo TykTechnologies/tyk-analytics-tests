@@ -1,0 +1,60 @@
+import { Template_Page } from './Template_Page';
+import { Button_object } from '@wrappers/Button_object';
+import { Checkbox_object } from '@wrappers/Checkbox_object';
+import { Table_object } from '@wrappers/Table_object';
+import { DropDown_object } from '@wrappers/DropDown_object';
+import { Input_object } from '@wrappers/Input_object';
+
+export class Users_page extends Template_Page {
+  //MAIN PAGE
+  get ADD_USER_BUTTON() {return new Button_object('span*= Add user', this.page);}
+  get USERS_TABLE() {return new Table_object('.tyk-table', this.page);}
+  
+  //ADD/EDIT USER PAGE
+  get SAVE_BUTTON() {return new Button_object('span=Save', this.page);}
+  get UPDATE_BUTTON() {return new Button_object('span=Update', this.page);}
+  get DELETE_BUTTON() {return new Button_object('span=Delete', this.page);}
+  get FIRST_NAME_INPUT() {return new Input_object('input[name="first_name"]', this.page);}
+  get LAST_NAME_INPUT() {return new Input_object('input[name="last_name"]', this.page);}
+  get EMAIL_ADRESS_INPUT() {return new Input_object('input[name="email_address"]', this.page);}
+  get PASSWORD_INPUT() {return new Input_object('input[name="password"]', this.page);}
+  get ACCOUNT_IS_ACTIVE_CHECKBOX() {return new Checkbox_object('input[name=active]', this.page);}
+  get ACCOUNT_IS_ADMIN_CHECKBOX() {return new Checkbox_object('input[name=admin]', this.page);}
+  get USER_GROUP_DROPDOWN() {return new DropDown_object('.tyk-combobox2__text-value', this.page);}
+
+  //PERMISSION
+  get PERMISSIONS_ANALYTICS_ROW() {return $(`input[name="user_permissions.analytics"]`);}
+
+  //MODALS
+  get MODAL() {return $('.opened .tyk-modal__content');}
+  get UPDATE_CONFIRMATION_BUTTON() {return $('//div[@class="tyk-modal__content"]//button//span[text()="Update"]');}
+  get DELETE_CONFIRMATION_BUTTON() {return $('//div[@class="tyk-modal__content"]//button//span[text()="Delete"]');}
+  get CONFIRM_BUTTON() {return $('//div[contains(@class,"opened")]//div[@class="tyk-modal__content"]//button//span[text()="Confirm"]');}
+
+  get user_created_expected_mesage() {return 'User added successfully';}
+  get user_updated_expected_mesage() {return 'User updated successfully';}
+  get user_already_exists_expected_mesage() {return 'User email already exists for this Org';}
+
+  waitUntilPageLoaded() {
+    return super.waitUntilPageLoaded(this.ADD_POLICY_BUTTON);
+  }
+
+  isUserCreatedPopUpDisplayed() {return this.isSuccessPopupDisplayedWithText(this.user_created_expected_mesage);}
+
+  isUserUpdatedPopUpDisplayed() {return this.isSuccessPopupDisplayedWithText(this.user_updated_expected_mesage);}
+  
+  isUserAlreadyExistsPopUpDisplayed() {return this.isErrorPopupDisplayedWithText(this.user_already_exists_expected_mesage);}
+
+  selectReadAccessForPermission(permissionName) {
+    const $$radioButtons = page.locator(`input[name="user_permissions.${permissionName}"]`);
+    wdioExpect($$radioButtons).toBeElementsArrayOfSize({gte: 2});
+    $$radioButtons[1].waitForClickable();
+    $$radioButtons[1].click();
+    browser.pause(1000);
+    if ($$radioButtons[1].getValue() !== 'read'){
+      $$radioButtons[1].click();
+    }
+    wdioExpect($$radioButtons[1]).toHaveValue('read');
+  }
+}
+export const users_page = new Users_page();

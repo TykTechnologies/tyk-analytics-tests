@@ -1,0 +1,15 @@
+# Node
+node_modules/
+
+# Don't keep recordings from test runs
+results/
+*.log
+# Local files
+.DS_Store
+
+# Env files
+.env*
+
+#IDE settings
+.idea/
+.vscode/*
