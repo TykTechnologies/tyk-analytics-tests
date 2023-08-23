@@ -155,7 +155,7 @@ test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin,
 
   function createApi(apiName) {
    await apis_page.SIDE_MENU_BASE_LINK.click();
-    apis_page.API_NAME_INPUT.waitForClickable();
+  await apis_page.API_NAME_INPUT.waitFor();
    await apis_page.API_NAME_INPUT.fill(apiName);
    await apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
    await apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");

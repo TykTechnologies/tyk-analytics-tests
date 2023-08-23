@@ -31,10 +31,10 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
    await apis_page.OAS_SD_VALUES_ARE_NESTED_BOX.click();
     createApi(apiName);
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
-    let queryEndpointErrorMessage = $('//input[@name="x-tyk-api-gateway.upstream.serviceDiscovery.queryEndpoint"]//following::p[1]');
-    let portDataPathErrorMessage = $('//input[@name="x-tyk-api-gateway.upstream.serviceDiscovery.portDataPath"]//following::p[1]');
-    let parentDataPathErrorMessage = $('//input[@name="x-tyk-api-gateway.upstream.serviceDiscovery.parentDataPath"]//following::p[1]');
-    let dataPathErrorMessage = $('//input[@name="x-tyk-api-gateway.upstream.serviceDiscovery.dataPath"]//following::p[1]');
+    let queryEndpointErrorMessage = await this.page.locator('//input[@name="x-tyk-api-gateway.upstream.serviceDiscovery.queryEndpoint"]//following::p[1]');
+    let portDataPathErrorMessage = await this.page.locator('//input[@name="x-tyk-api-gateway.upstream.serviceDiscovery.portDataPath"]//following::p[1]');
+    let parentDataPathErrorMessage = await this.page.locator('//input[@name="x-tyk-api-gateway.upstream.serviceDiscovery.parentDataPath"]//following::p[1]');
+    let dataPathErrorMessage = await this.page.locator('//input[@name="x-tyk-api-gateway.upstream.serviceDiscovery.dataPath"]//following::p[1]');
     await assert(queryEndpointErrorMessage).toHaveText('Query Endpoint is required');  
     await assert(portDataPathErrorMessage).toHaveText('Port Data Path is required');  
     await assert(parentDataPathErrorMessage).toHaveText('Parent Data Path is required');  
@@ -258,7 +258,7 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
 
   function createApi(apiName) {
    await apis_page.SIDE_MENU_BASE_LINK.click();
-    apis_page.API_NAME_INPUT.waitForClickable();
+  await apis_page.API_NAME_INPUT.waitFor();
    await apis_page.API_NAME_INPUT.fill(apiName);
    await apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
    await apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");

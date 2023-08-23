@@ -40,19 +40,19 @@ test('CRUD basic Federation API', async ({ createUserAndLogin, main_page }) => {
     
     await test.step('New Federation Subgraph API should be visible in table', async () => {
         await main_page.openAPIs();
-        $usersTableElement = $(`span=${apiDetails.usersSubgraphName}`);
+        $usersTableElement = await this.page.locator(`span=${apiDetails.usersSubgraphName}`);
         await assert($usersTableElement).toBeVisible();
     });
 
     await test.step('User should be able to update Federation Subgraph API', async () => {
-        $usersTableElement.click();
+      await $usersTableElement.click();
        await graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.click();
         await assert(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE).toBeSelected();
        await apis_page.UPDATE_BUTTON.click();
        await apis_page.UPDATE_API_BUTTON.click();
         await assert(apis_page.API_UPDATED_MESSAGE).toExist();
         await main_page.openAPIs();
-        $usersTableElement.click();
+      await $usersTableElement.click();
         await assert(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE).toBeSelected();
     });
 
@@ -81,9 +81,9 @@ test('CRUD basic Federation API', async ({ createUserAndLogin, main_page }) => {
        
     await test.step('Additional Federation Subgraph APIs should be visible in table', async () => {
         await main_page.openAPIs();
-        $productsTableElement = $(`span=${apiDetails.productsSubgraphName}`);
+        $productsTableElement = await this.page.locator(`span=${apiDetails.productsSubgraphName}`);
         await assert($productsTableElement).toBeVisible();
-        $reviewsTableElement = $(`span=${apiDetails.reviewsSubgraphName}`);
+        $reviewsTableElement = await this.page.locator(`span=${apiDetails.reviewsSubgraphName}`);
         await assert($reviewsTableElement).toBeVisible();
     });
 
@@ -100,47 +100,47 @@ test('CRUD basic Federation API', async ({ createUserAndLogin, main_page }) => {
 
     await test.step('New Federation Supergraph API should be visible in table', async () => {
         await main_page.openAPIs();
-        $supergraphTableElement = $(`span=${apiDetails.supergraphName}`);
+        $supergraphTableElement = await this.page.locator(`span=${apiDetails.supergraphName}`);
         await assert($supergraphTableElement).toBeVisible();
     });
 
     await test.step('User should be able to update Federation Supergraph API', async () => {
-        $supergraphTableElement.click();
+      await $supergraphTableElement.click();
        await graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.click();
         await assert(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE).toBeSelected();
        await apis_page.UPDATE_BUTTON.click();
        await apis_page.UPDATE_API_BUTTON.click();
         await assert(apis_page.API_UPDATED_MESSAGE).toExist();
         await main_page.openAPIs();
-        $supergraphTableElement.click();
+      await $supergraphTableElement.click();
         await assert(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE).toBeSelected();
     });
     
     await test.step('User should be able to delete Federation APIs', async () => {
         //Supergraph
         await main_page.openAPIs();
-        $supergraphTableElement.click();
+      await $supergraphTableElement.click();
        await apis_page.OPTIONS_BUTTON.click();
        await apis_page.DELETE_BUTTON.click();
        await apis_page.DELETE_API_BUTTON.click();
         await assert(apis_page.API_DELETED_MESSAGE).toExist();
         //Users subgraph
         await main_page.openAPIs();
-        $usersTableElement.click();
+      await $usersTableElement.click();
        await apis_page.OPTIONS_BUTTON.click();
        await apis_page.DELETE_BUTTON.click();
        await apis_page.DELETE_API_BUTTON.click();
         await assert(apis_page.API_DELETED_MESSAGE).toExist();
         //Products subgraph
         await main_page.openAPIs();
-        $productsTableElement.click();
+      await $productsTableElement.click();
        await apis_page.OPTIONS_BUTTON.click();
        await apis_page.DELETE_BUTTON.click();
        await apis_page.DELETE_API_BUTTON.click();
         await assert(apis_page.API_DELETED_MESSAGE).toExist();
         //Reviews subgraph
         await main_page.openAPIs();
-        $reviewsTableElement.click();
+      await $reviewsTableElement.click();
        await apis_page.OPTIONS_BUTTON.click();
        await apis_page.DELETE_BUTTON.click();
        await apis_page.DELETE_API_BUTTON.click();

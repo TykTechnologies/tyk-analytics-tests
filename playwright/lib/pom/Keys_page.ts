@@ -27,8 +27,8 @@ get CREATE_KEY_BUTTON() {return new Button_object('span*=Create Key', this.page)
 get METADATA_KEY_INPUT() {return new Input_object('input[name=metaDataKey]', this.page);}
 get METADATA_VALUE_INPUT() {return new Input_object('input[name=metaDataValue]', this.page);}
 get METADATA_ADD_BUTTON() {return new Button_object('span*=ADD', this.page);}
-get KEY_HASH_VALUE() {this.page.locator('//span[@class="font-family-medium"]//span[text()="Key hash"]//following::button[1]');}
-get KEY_ID_VALUE() {this.page.locator('//span[@class="font-family-medium"]//span[text()="Key ID"]//following::button[1]');}
+get KEY_HASH_VALUE() {return this.page.locator('//span[@class="font-family-medium"]//span[text()="Key hash"]//following::button[1]');}
+get KEY_ID_VALUE() {return this.page.locator('//span[@class="font-family-medium"]//span[text()="Key ID"]//following::button[1]');}
 
 //Basic Authentication section
 get AUTHENTICATION_BUTTON() {return new Button_object('button*=3. Authentication', this.page);} 
@@ -37,7 +37,7 @@ get AUTH_PASSWORD() {return new Input_object('input[name="authentication.passwor
 get CREATE_NEW_PASSWORD_CHECKBOX() {return new Checkbox_object('.tyk-checkbox', this.page);}
 
 //Key Successfully Generated modal 
-get MODAL() {this.page.locator('.opened .tyk-modal__content');}
+get MODAL() {return this.page.locator('.opened .tyk-modal__content');}
 //Copy icons inside Key sucessfully generated modal  
 get COPY_KEY_HASH_BUTTON() {return new Button_object('//span/strong[text()="Key Hash "]//following::button[1]', this.page);};
 get KEY_ID_BUTTON() {return new Button_object('//span/strong[text()="Key ID "]//following::button[1]', this.page);};
@@ -46,10 +46,10 @@ get OK_BUTTON() {return new Button_object('span*=OK', this.page);}
 
 
 //Update Key modal  
-get UPDATE_KEY_MODAL() {this.page.locator('.opened .tyk-modal__content');}
+get UPDATE_KEY_MODAL() {return this.page.locator('.opened .tyk-modal__content');}
 get CONFIRM_BUTTON() {return new Button_object('//div[@class="tyk-modal__content"]//button//span[text()="Confirm"]', this.page);}
 get CANCEL_BUTTON() {return new Button_object('//div[@class="tyk-modal__content"]//button//span[text()="Cancel"]', this.page);}
-get DELETE_KEY_MODAL() {this.page.locator('.tyk-modal__content');}
+get DELETE_KEY_MODAL() {return this.page.locator('.tyk-modal__content');}
 get DELETE_KEY_CONFIRMATION_BUTTON() {return new Button_object('//div[contains(@class,"opened")]//div[@class="tyk-modal__content"]//button//span[text()="Confirm"]', this.page);}
 
 

@@ -3,7 +3,7 @@ import { Button_object } from '@wrappers/Button_object';
 import { config } from '@variables';
 
 export class Main_page extends Template_Page {
-  get PAGE_H1() {this.page.locator('h1*=API Activity Dashboard');}
+  get PAGE_H1() {return this.page.locator('h1*=API Activity Dashboard');}
 
   //NAVIGATION
   get APIs_NAVIAGTION_BUTTON() {return new Button_object('a[href="/apis"]', this.page);}

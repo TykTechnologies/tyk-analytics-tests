@@ -143,9 +143,9 @@ test('TIB profile creation tests', async ({ createUserAndLogin, main_page }) => 
   });
 
   function verifyProfileCanBeOpened(profileName){
-    $profileTableElement = $(`td=${profileName}`);
-    $profileNameHeader = $(`h1*=${profileName}`);
-    $profileTableElement.click();
+    $profileTableElement = await this.page.locator(`td=${profileName}`);
+    $profileNameHeader = await this.page.locator(`h1*=${profileName}`);
+  await $profileTableElement.click();
     await assert($profileNameHeader).toBeDisplayed();
   }
 

@@ -4,6 +4,7 @@ import { Checkbox_object } from '@wrappers/Checkbox_object';
 import { Table_object } from '@wrappers/Table_object';
 import { DropDown_object } from '@wrappers/DropDown_object';
 import { Input_object } from '@wrappers/Input_object';
+import { expect } from '@playwright/test';
 
 export class Users_page extends Template_Page {
   //MAIN PAGE
@@ -23,20 +24,20 @@ export class Users_page extends Template_Page {
   get USER_GROUP_DROPDOWN() {return new DropDown_object('.tyk-combobox2__text-value', this.page);}
 
   //PERMISSION
-  get PERMISSIONS_ANALYTICS_ROW() {return $(`input[name="user_permissions.analytics"]`);}
+  get PERMISSIONS_ANALYTICS_ROW() {return this.page.locator(`input[name="user_permissions.analytics"]`);}
 
   //MODALS
-  get MODAL() {this.page.locator('.opened .tyk-modal__content');}
-  get UPDATE_CONFIRMATION_BUTTON() {this.page.locator('//div[@class="tyk-modal__content"]//button//span[text()="Update"]');}
-  get DELETE_CONFIRMATION_BUTTON() {this.page.locator('//div[@class="tyk-modal__content"]//button//span[text()="Delete"]');}
-  get CONFIRM_BUTTON() {this.page.locator('//div[contains(@class,"opened")]//div[@class="tyk-modal__content"]//button//span[text()="Confirm"]');}
+  get MODAL() {return this.page.locator('.opened .tyk-modal__content');}
+  get UPDATE_CONFIRMATION_BUTTON() {return this.page.locator('//div[@class="tyk-modal__content"]//button//span[text()="Update"]');}
+  get DELETE_CONFIRMATION_BUTTON() {return this.page.locator('//div[@class="tyk-modal__content"]//button//span[text()="Delete"]');}
+  get CONFIRM_BUTTON() {return this.page.locator('//div[contains(@class,"opened")]//div[@class="tyk-modal__content"]//button//span[text()="Confirm"]');}
 
   get user_created_expected_mesage() {return 'User added successfully';}
   get user_updated_expected_mesage() {return 'User updated successfully';}
   get user_already_exists_expected_mesage() {return 'User email already exists for this Org';}
 
   waitUntilPageLoaded() {
-    return super.waitUntilPageLoaded(this.ADD_POLICY_BUTTON);
+    return super.waitUntilPageLoaded(this.USERS_TABLE);
   }
 
   isUserCreatedPopUpDisplayed() {return this.isSuccessPopupDisplayedWithText(this.user_created_expected_mesage);}
@@ -45,15 +46,14 @@ export class Users_page extends Template_Page {
   
   isUserAlreadyExistsPopUpDisplayed() {return this.isErrorPopupDisplayedWithText(this.user_already_exists_expected_mesage);}
 
-  selectReadAccessForPermission(permissionName) {
-    const $$radioButtons = page.locator(`input[name="user_permissions.${permissionName}"]`);
-    await assert($$radioButtons).toBeElementsArrayOfSize({gte: 2});
-    $$radioButtons[1].waitForClickable();
-    $$radioButtons[1].click();
-    browser.pause(1000);
-    if ($$radioButtons[1].getValue() !== 'read'){
-      $$radioButtons[1].click();
+  async selectReadAccessForPermission(permissionName: any) {
+    const $$radioButtons = this.page.locator(`input[name="user_permissions.${permissionName}"]`);
+  expect(await $$radioButtons.count()).toBeGreaterThan(1);
+  await $$radioButtons.nth(1).waitFor();
+  await $$radioButtons.nth(1).click();
+    if (await $$radioButtons.nth(1).textContent() !== 'read'){
+    await $$radioButtons.nth(1).click();
     }
-    await assert($$radioButtons[1]).toHaveValue('read');
+    await expect($$radioButtons.nth(1)).toHaveValue('read');
   }
 }

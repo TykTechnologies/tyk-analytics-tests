@@ -21,12 +21,12 @@ export class Tib_page extends Template_Page {
     get SOCIAL_CLIENT_ID_INPUT() {return new Input_object('input[name="ProviderConfig.UseProviders[0].Key"]', this.page);}
     get SOCIAL_CLIENT_SECRET_INPUT() {return new Input_object('input[name="ProviderConfig.UseProviders[0].Secret"]', this.page);}
 
-    selectProviderByName(name) { 
-        $(`//label[text()="${name}"]`).click(); 
+    async selectProviderByName(name: any) { 
+      await this.page.locator(`//label[text()="${name}"]`).click(); 
     }
 
-    selectFirstPolicyFromDropdown() {
-        $('.tyk-combobox2__combobox-list').locator('li').first().click();
+    async selectFirstPolicyFromDropdown() {
+        await this.page.locator('.tyk-combobox2__combobox-list').locator('li').first().click();
     }
 
     get profile_created_expected_mesage() {return 'Profile created successfully';}

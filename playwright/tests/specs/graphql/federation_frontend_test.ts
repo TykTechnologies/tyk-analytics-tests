@@ -142,8 +142,8 @@ test('Federation API frontend', async ({ createUserAndLogin, main_page }) => {
 
     await test.step('Supergraph schema should be generated from subgraphs', async () => {
         await main_page.openAPIs();
-        $supergraphTableElement = $(`span=${apiDetails.supergraphName}`);
-        $supergraphTableElement.click();
+        $supergraphTableElement = await this.page.locator(`span=${apiDetails.supergraphName}`);
+      await $supergraphTableElement.click();
        await graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
         graphql_page.verifySchemaEditorContents(supergraphVerificationArray, supergraphSchemaEditorXpath);
     });

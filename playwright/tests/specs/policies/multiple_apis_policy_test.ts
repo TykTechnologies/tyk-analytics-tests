@@ -58,7 +58,7 @@ test('Multiple APIs policies', async ({ createUserAndLogin, main_page }) => {
     await main_page.openPolicies();
    await policies_page.ADD_POLICY_BUTTON.click();
    await policies_page.API_TABLE.clickCellWithText(basicAuthApisDetails[0].name);
-    policies_page.API_TABLE.waitForDisplayed({reverse: true}); //waiting for table to be hidden
+  await policies_page.API_TABLE.waitFor(); //waiting for table to be hidden
    await policies_page.API_SECTION_HEADER.click(); //opening section with API table
    await policies_page.API_TABLE.clickCellWithText(basicAuthApisDetails[1].name);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
@@ -90,8 +90,8 @@ test('Multiple APIs policies', async ({ createUserAndLogin, main_page }) => {
 
   await test.step('User should be able to delete API access from policy', async () => {
    await $(`span=${basicAuthApisDetails[1].name}`).click();
-    const $removeAPIButton = $(`span=${basicAuthApisDetails[1].name}`).$('../..').$(`span=Remove Access`);
-    $removeAPIButton.click();
+    const $removeAPIButton = await this.page.locator(`span=${basicAuthApisDetails[1].name}`).locator('../..').locator(`span=Remove Access`);
+  await $removeAPIButton.click();
    await policies_page.CONFIRM_BUTTON.click();
     await assert($$('.policy-api__api-name')).toBeElementsArrayOfSize(2);
   });

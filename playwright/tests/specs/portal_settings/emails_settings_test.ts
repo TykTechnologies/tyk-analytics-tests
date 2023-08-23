@@ -45,7 +45,7 @@ test('Portal Settings - emails', async ({ createUserAndLogin, main_page }) => {
   });
 
   await test.step('User is able to edit Welcome email settings', async () => {    
-   await admin_settings_page.TABLE.getRow(0).$('button').click();
+   await admin_settings_page.TABLE.getRow(0).locator('button').click();
    await admin_settings_page.EMAILS_OPTIONS_ENABLE_TOGGLE.click();
    await admin_settings_page.EMAIL_OPTIONS_SUBJECT_INPUT.fill(emailSettingsInput.subject);
    await admin_settings_page.EMAIL_OPTIONS_BODY_INPUT.fill(emailSettingsInput.body);

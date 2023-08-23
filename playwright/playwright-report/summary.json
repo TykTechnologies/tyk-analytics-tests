@@ -10,7 +10,10 @@
     "grep": {},
     "grepInvert": null,
     "maxFailures": 0,
-    "metadata": {},
+    "metadata": {
+      "actualWorkers": 1,
+      "totalTime": 2049.023
+    },
     "preserveOutput": "always",
     "reporter": [
       [
@@ -76,21 +79,84 @@
     "workers": 1,
     "webServer": null
   },
-  "suites": [],
-  "errors": [
+  "suites": [
     {
-      "message": "Cannot find module '@wrappers/OasMapToPolicyTable_object'\nRequire stack:\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/pom/Apis_page.ts\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/utils/fixtures.ts\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/tests/specs/test.spec.ts\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/lib/transform/transform.js\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/lib/common/config.js\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/lib/reporters/json.js\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/lib/reporters/raw.js\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/lib/reporters/html.js\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/lib/runner/reporters.js\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/lib/runner/runner.js\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/lib/cli.js\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/cli.js",
-      "stack": "Error: Cannot find module '@wrappers/OasMapToPolicyTable_object'\nRequire stack:\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/pom/Apis_page.ts\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/utils/fixtures.ts\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/tests/specs/test.spec.ts\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/lib/transform/transform.js\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/lib/common/config.js\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/lib/reporters/json.js\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/lib/reporters/raw.js\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/lib/reporters/html.js\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/lib/runner/reporters.js\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/lib/runner/runner.js\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/lib/cli.js\n- /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/node_modules/@playwright/test/cli.js\n    at Object.<anonymous> (/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/pom/Apis_page.ts:8:34)\n    at Object.<anonymous> (/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/utils/fixtures.ts:6:1)\n    at Object.<anonymous> (/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/tests/specs/test.spec.ts:1:1)",
-      "location": {
-        "file": "/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/pom/Apis_page.ts",
-        "column": 34,
-        "line": 8
-      },
-      "snippet": "   at ../lib/pom/Apis_page.ts:8\n\n   6 | var Accordion_object = require('@wrappers/Accordion_object');\n   7 | import { Checkbox_object } from '@wrappers/Checkbox_object';\n>  8 | var OasMapToPolicyTable_object = require('@wrappers/OasMapToPolicyTable_object');\n     |                                  ^\n   9 | const path = require('path');\n  10 |\n  11 | export class Apis_page extends Template_Page {"
-    },
-    {
-      "message": "No tests found",
-      "stack": "Error: No tests found\n"
+      "title": "specs/test.spec.ts",
+      "file": "specs/test.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Login/logout check",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 0,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "failed",
+                  "duration": 1086,
+                  "error": {
+                    "message": "apiRequestContext.get: connect ECONNREFUSED ::1:3000\n=========================== logs ===========================\n→ GET http://localhost:3000/admin/hello/\n  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.5845.82 Safari/537.36\n  accept: */*\n  accept-encoding: gzip,deflate,br\n  admin-auth: 12345\n============================================================",
+                    "stack": "Error: apiRequestContext.get: connect ECONNREFUSED ::1:3000\n=========================== logs ===========================\n→ GET http://localhost:3000/admin/hello/\n  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.5845.82 Safari/537.36\n  accept: */*\n  accept-encoding: gzip,deflate,br\n  admin-auth: 12345\n============================================================\n    at /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/apiRequestContext.get: connect ECONNREFUSED ::1:3000\n    at Dashboard_admin_connection.getStatus (/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/utils/api_connections/Dashboard_admin_connection.ts:29:53)\n    at setUpEnv (/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/utils/prerequisites.ts:25:28)\n    at Object.createUserAndLogin (/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/utils/fixtures.ts:39:29)",
+                    "location": {
+                      "file": "/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/apiRequestContext.get: connect ECONNREFUSED :",
+                      "column": 3000,
+                      "line": 1
+                    }
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/apiRequestContext.get: connect ECONNREFUSED :",
+                        "column": 3000,
+                        "line": 1
+                      },
+                      "message": "Error: apiRequestContext.get: connect ECONNREFUSED ::1:3000\n=========================== logs ===========================\n→ GET http://localhost:3000/admin/hello/\n  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.5845.82 Safari/537.36\n  accept: */*\n  accept-encoding: gzip,deflate,br\n  admin-auth: 12345\n============================================================\n\n    at /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/apiRequestContext.get: connect ECONNREFUSED ::1:3000\n    at Dashboard_admin_connection.getStatus (/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/utils/api_connections/Dashboard_admin_connection.ts:29:53)\n    at setUpEnv (/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/utils/prerequisites.ts:25:28)\n    at Object.createUserAndLogin (/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/utils/fixtures.ts:39:29)"
+                    }
+                  ],
+                  "stdout": [
+                    {
+                      "text": ">>> Checking is dashboard is up\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "(node:91297) DeprecationWarning: uuidv4() is deprecated. Use v4() from the uuid module instead.\n(Use `node --trace-deprecation ...` to show where the warning was created)\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2023-08-23T14:52:43.159Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/test-results/test-Login-logout-check-chromium/test-failed-1.png"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/apiRequestContext.get: connect ECONNREFUSED :",
+                    "column": 3000,
+                    "line": 1
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b72ba50710186a3d173d-4cbd74aed20858c5a6ec",
+          "file": "specs/test.spec.ts",
+          "line": 4,
+          "column": 5
+        }
+      ]
     }
-  ]
+  ],
+  "errors": []
 }

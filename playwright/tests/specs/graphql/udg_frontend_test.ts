@@ -81,13 +81,13 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
 
     xawait test.step('User should be able to define external REST, GraphQL and Kafka datasources in a UDG API', async () => {
         await main_page.openAPIs();
-        $apiTableElement = $(`span=${udgApi.name}`);
+        $apiTableElement = await this.page.locator(`span=${udgApi.name}`);
         while (!apis_page.ADD_NEW_API_BUTTON.isExisting() && refreshCounter < 5) {
             browser.refresh();
             browser.pause(2000);
             await main_page.openAPIs();
         }
-        $apiTableElement.click();
+      await $apiTableElement.click();
        await graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
         //Define REST data source for a Query type field
         graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query",await udgDetails.restQuery).click();
@@ -207,8 +207,8 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
        await apis_page.SAVE_BUTTON.click();
         //Verify file upload again after saving API
         await main_page.openAPIs();
-        $apiTableElement = $(`span=${udgDetails.fileUploadApiName}`);
-        $apiTableElement.click();
+        $apiTableElement = await this.page.locator(`span=${udgDetails.fileUploadApiName}`);
+      await $apiTableElement.click();
        await graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
         graphql_page.verifySchemaEditorContents(schemaFileUploadVerificationArray, schemaEditorXpath);
         await assert(graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", udgDetails.restQuery));

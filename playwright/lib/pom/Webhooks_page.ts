@@ -20,7 +20,5 @@ get DELETE_KEY_CONFIRMATION_BUTTON() {return new Button_object('//div[contains(@
 
 //Table 
 get WEBHOOK_TABLE() {return new Table_object('.tyk-table', this.page);}
-get NO_DATA_TO_DISPLAY() {this.page.locator('.tyk-message--info');}
+get NO_DATA_TO_DISPLAY() {return this.page.locator('.tyk-message--info');}
 }
-
-export const webhook_page = new Webhooks_page();

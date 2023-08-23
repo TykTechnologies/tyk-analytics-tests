@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 import { assert } from 'console';
 import { Wrapper } from 'tyk-test-automation-wrappers/lib/Wrapper';
 
@@ -21,42 +21,52 @@ export class Template_Page {
     return await webElementOnPage.waitFor({ timeout: timeout});
   }
   
-  // async isSuccessPopupDisplayedWithText(text: string) {
-  //   console.debug(`>>> Looking for popup with text ${text}`);
-  //   await assert(this.SUCCESS_POP_UPS_LIST).toBeElementsArrayOfSize({ gte: 1 }); //checking if at least one pop up is displayed
-  //   try {
-  //     browser.waitUntil( () =>
-  //       this.SUCCESS_POP_UPS_LIST.filter(popup => popup.getText() === text).length > 0
-  //     );
-  //   } 
-  //   catch(e) {
-  //     console.debug(`Popup with text ${text} was not displayed`);
-  //     return false;
-  //   }
-  //   return true;
-  // }
+  async isSuccessPopupDisplayedWithText(text: string) {
+    console.debug(`>>> Looking for popup with text ${text}`);
+    await this.SUCCESS_POP_UPS_LIST.waitFor();
+    await expect.poll( async () => {
+      const popUps = await this.SUCCESS_POP_UPS_LIST.all();
+      for (const popUp of popUps) {
+        console.debug(`>>> success popup text: ${await popUp.textContent()}`);
+        if (await popUp.textContent() === text) {
+          return true;
+        }
+      }
+      return false;
+    }).toBeTruthy();
+  }
 
-  // isErrorPopupDisplayedWithText(text) {
-  //   console.debug(`>>> Looking for error popup with text ${text}`);
-  //   await assert(this.ERROR_POP_UPS_LIST).toBeElementsArrayOfSize({ gte: 1 }); //checking if at least one pop up is displayed
-  //   console.debug(`>>> Count of displayed error popups: ${this.ERROR_POP_UPS_LIST.length}`);
-  //   const popUpsWithExpectedText = this.ERROR_POP_UPS_LIST.filter(popup => {
-  //     console.log(`>>> error popup text: ${popup.getText()}`);
-  //     return popup.getText() === text;
-  //   }
-  //     );
-  //   return popUpsWithExpectedText.length >= 1;
-  // }
+  async isErrorPopupDisplayedWithText(text: string) {
+    console.debug(`>>> Looking for popup with text ${text}`);
+    await expect.poll( async () => {
+      await this.ERROR_POP_UPS_LIST.waitFor();
+      const popUps = await this.ERROR_POP_UPS_LIST.all();
+      for (const popUp of popUps) {
+        console.debug(`>>> success popup text: ${await popUp.textContent()}`);
+        if (await popUp.textContent() === text) {
+          return true;
+        }
+      }
+      return false;
+    }).toBeTruthy();
+  }
 
-  // isErrorPopUpDisplayed() {
-  //   try {
-  //     browser.waitUntil( () => this.ERROR_POP_UPS_LIST.length > 0);
-  //     return true;
-  //   } catch(e) {
-  //     return false;}
-  // }
+  async isErrorPopUpDisplayed() {
+    await expect.poll( async () => {
+      if (await this.ERROR_POP_UPS_LIST.count() > 0) {
+        return true;
+      }
+      return false;
+    }).toBeTruthy();
+  }
 
-  // getErrorPopUpText() {
-  //   return this.ERROR_POP_UPS_LIST.map(popup => popup.getText());
-  // }
+  async getErrorPopUpText() {
+    const popUps = await this.ERROR_POP_UPS_LIST.all();
+    const errorText = [];  
+    for (const popUp of popUps) {
+      console.debug(`>>> error popup text: ${await popUp.textContent()}`);
+      errorText.push(await popUp.textContent());
+      }
+    return errorText;
+  }
 }

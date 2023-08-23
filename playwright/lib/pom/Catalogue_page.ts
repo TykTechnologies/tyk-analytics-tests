@@ -17,9 +17,9 @@ get UPDATE_BUTTON() {return new Button_object('span*=Update', this.page);}
 get SAVE_BUTTON() {return new Button_object('span*=Save', this.page);}
 
 get DELETE_BUTTON() {return new Button_object('span*=Delete', this.page);}
-get DELETE_KEY_MODAL() {this.page.locator('.tyk-modal__content');}
+get DELETE_KEY_MODAL() {return this.page.locator('.tyk-modal__content');}
 get DELETE_KEY_CONFIRMATION_BUTTON() {return new Button_object('//div[contains(@class,"opened")]//div[@class="tyk-modal__content"]//button//span[text()="Delete"]', this.page);}
-get NO_APIS_REGISTERED_MESSAGE() {this.page.locator('.tyk-message--info');}
+get NO_APIS_REGISTERED_MESSAGE() {return this.page.locator('.tyk-message--info');}
 
 //Settings tab
 get OVERRIDE_GLOBAL_SETTINGS() {return new Checkbox_object('input[name="config.override"]', this.page);}
@@ -40,5 +40,3 @@ get CATALOGUE_TABLE() {return new Table_object('.tyk-table', this.page);}
 
 
 }
-
-export const catalogue_page = new Catalogue_page();

@@ -29,19 +29,19 @@ test('CRUD simple UDG API', async ({ createUserAndLogin, main_page }) => {
     
     await test.step('New UDG API should be visible in table', async () => {
         await main_page.openAPIs();
-        $apiTableElement = $(`span=${apiDetails.name}`);
+        $apiTableElement = await this.page.locator(`span=${apiDetails.name}`);
         await assert($apiTableElement).toBeVisible();
     });
 
     await test.step('User should be able to update UDG API', async () => {
-        $apiTableElement.click();
+      await $apiTableElement.click();
        await graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.click();
         assert(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.isSelected()).toBeTruthy();
        await apis_page.UPDATE_BUTTON.click();
        await apis_page.UPDATE_API_BUTTON.click();
         await assert(apis_page.API_UPDATED_MESSAGE).toExist();
         await main_page.openAPIs();
-        $apiTableElement.click();
+      await $apiTableElement.click();
         assert(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.isSelected()).toBeTruthy();
     });
 

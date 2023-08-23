@@ -135,8 +135,8 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
 
   await test.step('User can modify endpoints and save API', async () => {
     browser.refresh();
-    let oldEendpointSelector = $('//a[contains(@href, "-ipget")]');
-    let newEendpointSelector = $('//a[contains(@href, "-headershead")]');
+    let oldEendpointSelector = await this.page.locator('//a[contains(@href, "-ipget")]');
+    let newEendpointSelector = await this.page.locator('//a[contains(@href, "-headershead")]');
    await apis_page.EDIT_BUTTON.click();
     endpoints_page.modifyEndpoint("/ip", "GET", "/headers", "HEAD");
    await apis_page.OAS_SAVE_BUTTON.click();
@@ -149,7 +149,7 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
 
   await test.step('User can remove endpoints and save API', async () => {
     browser.refresh();
-    let removeEendpointSelector = $('//a[contains(@href, "-ippost")]');
+    let removeEendpointSelector = await this.page.locator('//a[contains(@href, "-ippost")]');
    await apis_page.EDIT_BUTTON.click();
     endpoints_page.removeEndpoint("/ip", "POST");
    await apis_page.OAS_SAVE_BUTTON.click();
@@ -168,7 +168,7 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
  */
   function verifyDisplayedEndpoints(endpointObject, expectedEndpoints) {
     let endpointUrlLink = encodeURIComponent(endpointObject.endpoint.split('/').join('-')) + endpointObject.method.toLowerCase();
-    let endpointSelector = $(`//a[contains(@href, "${endpointUrlLink}")]`);
+    let endpointSelector = await this.page.locator(`//a[contains(@href, "${endpointUrlLink}")]`);
     if (JSON.stringify(expectedEndpoints).includes(JSON.stringify(endpointObject))){
       await assert(endpointSelector).toBeDisplayed();
     } 

@@ -25,12 +25,12 @@ test('Create simple API', async ({ createUserAndLogin, main_page }) => {
 
   await test.step('New API should be visible in table', async () => {
     await main_page.openAPIs();
-    $apiTableElement = $(`span=${apiDetails.name}`);  
+    $apiTableElement = await this.page.locator(`span=${apiDetails.name}`);  
     await assert($apiTableElement).toBeVisible();
   });
 
   await test.step('User should be able to delete API', async () => {
-    $apiTableElement.click();
+  await $apiTableElement.click();
    await apis_page.OPTIONS_BUTTON.click();
    await apis_page.DELETE_BUTTON.click();
    await apis_page.DELETE_API_BUTTON.click();

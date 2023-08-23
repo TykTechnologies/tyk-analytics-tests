@@ -55,10 +55,10 @@ test('Portal Settings - API access manipulations', async ({ createUserAndLogin, 
     browser.refresh();
    await admin_settings_page.API_ACCESS_TAB_BUTTON.click();
     assert(admin_settings_page.DCR_TOGGLE.isSelected()).toBeTruthy();
-    await assert(admin_settings_page.DCR_PROVIDERS_DROPDOWN.$(`span=${inputs.provider}`)).toBeDisplayed();
-    inputs.grant_types.forEach(grant_type => await assert(admin_settings_page.DCR_GRANT_TYPES_DROPDOWN.$(`span=${grant_type}`)).toBeDisplayed());
-    await assert(admin_settings_page.DCR_TOKEN_ENDPOINT_DROPDOWN.$(`span=${inputs.token_endpoint_auth}`)).toBeDisplayed();
-    inputs.response_types.forEach(response_type => await assert(admin_settings_page.DCR_RESPONSE_TYPE_DROPDOWN.$(`span=${response_type}`)).toBeDisplayed());
+    await assert(admin_settings_page.DCR_PROVIDERS_DROPDOWN.locator(`span=${inputs.provider}`)).toBeDisplayed();
+    inputs.grant_types.forEach(grant_type => await assert(admin_settings_page.DCR_GRANT_TYPES_DROPDOWN.locator(`span=${grant_type}`)).toBeDisplayed());
+    await assert(admin_settings_page.DCR_TOKEN_ENDPOINT_DROPDOWN.locator(`span=${inputs.token_endpoint_auth}`)).toBeDisplayed();
+    inputs.response_types.forEach(response_type => await assert(admin_settings_page.DCR_RESPONSE_TYPE_DROPDOWN.locator(`span=${response_type}`)).toBeDisplayed());
     await assert(admin_settings_page.DCR_HOST_INPUT).toHaveValue(inputs.idp_host);
     await assert(admin_settings_page.DCR_CLIENT_REGISTRATION_ENDPOINT_INPUT).toHaveValue(inputs.client_registration_endpoint);
     await assert(admin_settings_page.DCR_TOKEN_INPUT).toHaveValue(inputs.token);
