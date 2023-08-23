@@ -29,11 +29,11 @@ test('Portal Settings - emails', async ({ createUserAndLogin, main_page }) => {
   });
 
   await test.step('User should see proper default values', async () => {
-    main_page.openPortalSettings();
+    await main_page.openPortalSettings();
    await admin_settings_page.EMAILS_TAB_BUTTON.click();
    await admin_settings_page.GLOBAL_EMAIL_SETTINGS_BUTTON.click();
-    wdioExpect(admin_settings_page.FROM_ADDRESS_INPUT).toHaveValue("");
-    wdioExpect(admin_settings_page.NAME_OF_SENDER_INPUT).toHaveValue("");
+    await assert(admin_settings_page.FROM_ADDRESS_INPUT).toHaveValue("");
+    await assert(admin_settings_page.NAME_OF_SENDER_INPUT).toHaveValue("");
     compareTableRowsWithExpected(tableExpectedValues.first_row, tableExpectedValues.second_row);
   });
 
@@ -41,7 +41,7 @@ test('Portal Settings - emails', async ({ createUserAndLogin, main_page }) => {
    await admin_settings_page.FROM_ADDRESS_INPUT.fill(globalSettingsInputs.from_address);
    await admin_settings_page.NAME_OF_SENDER_INPUT.fill(globalSettingsInputs.name_of_sender);
    await admin_settings_page.SAVE_BUTTON.click();
-    expect(admin_settings_page.isSettingsUpdatedPopUpDisplayed()).to.be.true;
+    assert(admin_settings_page.isSettingsUpdatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('User is able to edit Welcome email settings', async () => {    
@@ -53,7 +53,7 @@ test('Portal Settings - emails', async ({ createUserAndLogin, main_page }) => {
    await admin_settings_page.EMAIL_OPTIONS_SAVE_BUTTON.click();
     compareTableRowsWithExpected(tableExpectedValues.first_row_active, tableExpectedValues.second_row);
    await admin_settings_page.SAVE_BUTTON.click();
-    expect(admin_settings_page.isSettingsUpdatedPopUpDisplayed()).to.be.true;
+    assert(admin_settings_page.isSettingsUpdatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('User is able to edit global email CSS', async () => {
@@ -63,7 +63,7 @@ test('Portal Settings - emails', async ({ createUserAndLogin, main_page }) => {
    await admin_settings_page.CSS_EDITOR_INPUT.fill(cssExample);
    await admin_settings_page.SAVE_EMAIL_CSS_BUTTON.click();
    await admin_settings_page.EXIT_CSS_EDITOR_BUTTON.click();
-    wdioExpect(admin_settings_page.EDIT_GLOBAL_EMAIL_CSS_BUTTON).toBeDisplayed();
+    await assert(admin_settings_page.EDIT_GLOBAL_EMAIL_CSS_BUTTON).toBeDisplayed();
    await admin_settings_page.SAVE_BUTTON.click();
   });
 
@@ -71,11 +71,11 @@ test('Portal Settings - emails', async ({ createUserAndLogin, main_page }) => {
     browser.refresh();
    await admin_settings_page.EMAILS_TAB_BUTTON.click();
    await admin_settings_page.GLOBAL_EMAIL_SETTINGS_BUTTON.click();
-    wdioExpect(admin_settings_page.FROM_ADDRESS_INPUT).toHaveValue(globalSettingsInputs.from_address);
-    wdioExpect(admin_settings_page.NAME_OF_SENDER_INPUT).toHaveValue(globalSettingsInputs.name_of_sender);
+    await assert(admin_settings_page.FROM_ADDRESS_INPUT).toHaveValue(globalSettingsInputs.from_address);
+    await assert(admin_settings_page.NAME_OF_SENDER_INPUT).toHaveValue(globalSettingsInputs.name_of_sender);
     compareTableRowsWithExpected(tableExpectedValues.first_row_active, tableExpectedValues.second_row);
    await admin_settings_page.EDIT_GLOBAL_EMAIL_CSS_BUTTON.click();
-    wdioExpect($(`span=h1`)).toBeDisplayed();
+    await assert($(`span=h1`)).toBeDisplayed();
    await admin_settings_page.EXIT_CSS_EDITOR_BUTTON.click();
   });
 
@@ -84,7 +84,7 @@ test('Portal Settings - emails', async ({ createUserAndLogin, main_page }) => {
    await admin_settings_page.EMAILS_TAB_BUTTON.click();
    await admin_settings_page.RESET_ALL_EMAILS_BUTTON.click();
    await admin_settings_page.CONTINUE_AND_RESET_BUTTON.click();
-    wdioExpect(admin_settings_page.EDIT_GLOBAL_EMAIL_CSS_BUTTON).toBeDisplayed();
+    await assert(admin_settings_page.EDIT_GLOBAL_EMAIL_CSS_BUTTON).toBeDisplayed();
    await admin_settings_page.SAVE_BUTTON.click();
     browser.refresh();
    await admin_settings_page.EMAILS_TAB_BUTTON.click();
@@ -95,6 +95,6 @@ test('Portal Settings - emails', async ({ createUserAndLogin, main_page }) => {
 const compareTableRowsWithExpected = (firstRowExpected, secondRowExpected) => {
   const firstRow = admin_settings_page.TABLE.getRowValues(0);
   const secondRow = admin_settings_page.TABLE.getRowValues(1);
-  expect(firstRow).to.have.same.members(firstRowExpected); 
-  expect(secondRow).to.have.same.members(secondRowExpected); 
+  assert(firstRow).to.have.same.members(firstRowExpected); 
+  assert(secondRow).to.have.same.members(secondRowExpected); 
 };

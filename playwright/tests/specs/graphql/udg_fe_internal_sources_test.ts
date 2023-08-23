@@ -2,7 +2,7 @@ import { test, assert } from '@fixtures';
 import { apis_page } from '../../../lib/pom/Apis_page';
 import { graphql_page } from '../../../lib/pom/Graphql_page';
 
-import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
+import { Dashboard_connection } from '@api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 
 test('UDG with internal REST and GQL datasources', async ({ createUserAndLogin, main_page }) => {
@@ -84,7 +84,7 @@ test('UDG with internal REST and GQL datasources', async ({ createUserAndLogin, 
     });
 
     xawait test.step('User should be able to create a UDG API with internal REST and GraphQL datasources', async () => {
-        main_page.openAPIs();
+        await main_page.openAPIs();
         while(!apis_page.ADD_NEW_API_BUTTON.isExisting() && refreshCounter < 5){
             browser.refresh();
             browser.pause(2000);
@@ -97,7 +97,7 @@ test('UDG with internal REST and GQL datasources', async ({ createUserAndLogin, 
        await graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
         graphql_page.uploadSchemaFile(schemaFileRelativePath);
        await apis_page.SAVE_BUTTON.click();
-        main_page.openAPIs();
+        await main_page.openAPIs();
         $apiTableElement = $(`span=${udgDetails.apiName}`);
         $apiTableElement.click();
        await graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
@@ -111,8 +111,8 @@ test('UDG with internal REST and GQL datasources', async ({ createUserAndLogin, 
        await graphql_page.UDG_DATA_SOURCE_METHOD.selectOption("GET");
        await graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
        await apis_page.CONFIRM_BUTTON.click();
-        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.restQuery, udgDetails.restSource)).toExist();
-        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.restQuery, "REST")).toExist();
+        await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.restQuery, udgDetails.restSource)).toExist();
+        await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.restQuery, "REST")).toExist();
         //Define internal GQL data source for a Query type field
         graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query",await udgDetails.gqlQuery).click();
         graphql_page.UDG_EXPAND_GRAPHQL_TYK_ACCORDION.expand();
@@ -121,8 +121,8 @@ test('UDG with internal REST and GQL datasources', async ({ createUserAndLogin, 
        await graphql_page.UDG_DATA_SOURCE_NAME_INPUT.fill(udgDetails.gqlSource);
        await graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
        await apis_page.CONFIRM_BUTTON.click();
-        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.gqlQuery, udgDetails.gqlSource)).toExist();
-        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.gqlQuery, "GraphQL")).toExist();
+        await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.gqlQuery, udgDetails.gqlSource)).toExist();
+        await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.gqlQuery, "GraphQL")).toExist();
     });
 
     xawait test.step('User should be able to remove an internal data source from an object', async () => {
@@ -130,7 +130,7 @@ test('UDG with internal REST and GQL datasources', async ({ createUserAndLogin, 
        await graphql_page.UDG_DATA_SOURCE_RESET_BUTTON.click();
        await graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
        await apis_page.CONFIRM_BUTTON.click();
-        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.restQuery, udgDetails.restSource)).not.toExist();
-        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.restQuery, "REST")).not.toExist();
+        await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.restQuery, udgDetails.restSource)).not.toExist();
+        await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.restQuery, "REST")).not.toExist();
     });
 });

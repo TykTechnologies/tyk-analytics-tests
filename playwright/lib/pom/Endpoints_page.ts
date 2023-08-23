@@ -7,7 +7,7 @@ export class Endpoints_page extends Template_Page {
   
   get OAS_ENDPOINTS_BUTTON() {return new Button_object('a*=Endpoints', this.page);}
   get OAS_ADD_NEW_ENDPOINT_BUTTON() {return new Button_object('span*=Add New Endpoint', this.page);}
-  get OAS_ENDPOINT_METHOD_DROPDOWN() {return $('//label[text()="Method"]//following::span[1]');}
+  get OAS_ENDPOINT_METHOD_DROPDOWN() {this.page.locator('//label[text()="Method"]//following::span[1]');}
   get OAS_ENDPOINT_PATH_INPUT() {return new Input_object('//input[@placeholder="Type path"]', this.page);}
   get OAS_ADD_ENDPOINT_BUTTON() {return new Button_object('span*=Add Endpoint', this.page);}
   get OAS_ENDPOINT_WHITELIST_BUTTON() {return new Button_object('span*=Add Whitelist', this.page);}
@@ -18,11 +18,11 @@ export class Endpoints_page extends Template_Page {
   get OAS_FILTER_METHOD_DROPDOWN() {return new DropDown_object('//span[contains(text(), "Show")]//following::span[1]', this.page);}
   get OAS_REMOVE_CONFIRMATION_BUTTON() {return new Button_object('//button/span[text()="Remove Endpoint"]', this.page);}
   get OAS_UPDATE_ENDPOINT_BUTTON() {return new Button_object('span*=Update Endpoint', this.page);}
-  get OAS_NO_ENDPOINTS_MESSAGE() {return $('//h2[text()="No endpoints yet."]');}
+  get OAS_NO_ENDPOINTS_MESSAGE() {this.page.locator('//h2[text()="No endpoints yet."]');}
   get OAS_ADD_MIDDLEWARE_BUTTON_TOP() {return new Button_object('(//button/span[text()="Add Middleware"])[1]', this.page);}
   get OAS_ADD_MIDDLEWARE_BUTTON_BOTTOM() {return new Button_object('(//button/span[text()="Add Middleware"])[2]', this.page);}
   get OAS_UPDATE_MIDDLEWARE_BUTTON() {return new Button_object('span*=Update Middleware', this.page);}
-  get OAS_ENDPOINTS_MIDDLEWARE_TEXT() {return $('h2*=Middleware');}
+  get OAS_ENDPOINTS_MIDDLEWARE_TEXT() {this.page.locator('h2*=Middleware');}
 
   addMiddlewareByName(middleware) {
     let middlewareSelector = new Button_object(`p*=${middleware}`);
@@ -122,4 +122,3 @@ export class Endpoints_page extends Template_Page {
   }
 
 }
-export const endpoints_page = new Endpoints_page();

@@ -7,7 +7,7 @@ test('Test Login with empty username', async ({ createUserAndLogin, main_page })
     login_page.open();
     login_page.login(null, envDetails.userPassword);
     let errorMessage = $('div*=Credentials are incorrect, please try again');
-    wdioExpect(errorMessage).toBeDisplayed();
+    await assert(errorMessage).toBeDisplayed();
   });
 
 });

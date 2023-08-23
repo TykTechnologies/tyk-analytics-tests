@@ -1,4 +1,5 @@
-const fs = require('fs');
+import fs from 'fs';
+import json from './api_object';
 
 export const newAPIdefinitionWithDefaults = (apiDetails) => {
     const defaultApiDefinition = new API_object_designer();
@@ -9,7 +10,6 @@ export const newAPIdefinitionWithDefaults = (apiDetails) => {
 export default class API_object_designer {
     
     constructor(){
-        const json = require('./api_object');
         this.api_object = {...json}; //saving values, not link to a file (no caching)
     }
 

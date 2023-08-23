@@ -23,7 +23,7 @@ export class Dashboard_connection extends API_connection {
             headers: {Authorization: userSecret}
         };
         const response = this.sendPostRequest(config);
-        expect(response.status).to.equal(200, 'Failed to create API definition!');
+        assert(response.status).to.equal(200, 'Failed to create API definition!');
         console.log(`>>> API created. API definition id: ${response.body.Meta}`);
         return response.body.Meta;
     }
@@ -35,7 +35,7 @@ export class Dashboard_connection extends API_connection {
             headers: {Authorization: userSecret}
         };
         const response = this.sendGetRequest(config);
-        expect(response.status).to.equal(200, 'Failed to retrieve API details!');
+        assert(response.status).to.equal(200, 'Failed to retrieve API details!');
         console.log(`>>> API received. API definition: ${response.body}`);
         return response.body.api_definition;
     }
@@ -48,7 +48,7 @@ export class Dashboard_connection extends API_connection {
             headers: {Authorization: userSecret}
         };
         const response = this.sendPostRequest(config);
-        expect(response.status).to.equal(200, 'Failed to create Policy definition!');
+        assert(response.status).to.equal(200, 'Failed to create Policy definition!');
         console.log(`>>> Policy created. Policy definition id: ${response.Meta}`);
     }
 
@@ -59,7 +59,7 @@ export class Dashboard_connection extends API_connection {
             headers: {Authorization: userSecret}
         };
         const response = this.sendGetRequest(config);
-        expect(response.status).to.equal(200, 'Failed to retrieve Policy details!');
+        assert(response.status).to.equal(200, 'Failed to retrieve Policy details!');
         console.log(`>>> Policy received. Policy definition: ${response.body}`);
         return response.body;
     }
@@ -72,7 +72,7 @@ export class Dashboard_connection extends API_connection {
             headers: { Authorization: userSecret }
         };
         const response = this.sendPostRequest(config);
-        expect(response.status).to.equal(200, 'Failed to upload Certificate!');
+        assert(response.status).to.equal(200, 'Failed to upload Certificate!');
         console.log(`>>> Certificate added. Cert id: ${response.id}`);
     }
 

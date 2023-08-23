@@ -1,6 +1,6 @@
 import { test, assert } from '@fixtures';
 
-import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';;
+import { Dashboard_connection } from '@api_connections/Dashboard_connection';;
 import {webhook_page} from '../../../lib/pom/Webhooks_page';
 
 const NewWebhookDetails = {
@@ -30,7 +30,7 @@ test('Create/update/delete keys by ID without policy', async ({ createUserAndLog
   });
 
 it('User should be able to add new webhook', ()=>{
-    main_page.openWebhooks();
+    await main_page.openWebhooks();
    await webhook_page.ADD_WEBHOOK.click();
    await webhook_page.NAME_INPUT.click();
    await webhook_page.NAME_INPUT.fill(NewWebhookDetails.name);
@@ -45,22 +45,22 @@ it('User should be able to add new webhook', ()=>{
 
 it('User should be able to modify the webhook',()=>{
    await webhook_page.WEBHOOK_TABLE.clickCellWithText(NewWebhookDetails.name);
-    wdioExpect(webhook_page.NAME_INPUT).toHaveValue(NewWebhookDetails.name);
-    wdioExpect(webhook_page.REQUEST_METHOD_DROPDOWN).toHaveValue(NewWebhookDetails.RequestMethod);
-    wdioExpect(webhook_page.TARGET_INPUT).toHaveValue(NewWebhookDetails.Target);
+    await assert(webhook_page.NAME_INPUT).toHaveValue(NewWebhookDetails.name);
+    await assert(webhook_page.REQUEST_METHOD_DROPDOWN).toHaveValue(NewWebhookDetails.RequestMethod);
+    await assert(webhook_page.TARGET_INPUT).toHaveValue(NewWebhookDetails.Target);
    await webhook_page.NAME_INPUT.fill(UpdatedWebhookDetails.name);
    await webhook_page.REQUEST_METHOD_DROPDOWN.selectOption(UpdatedWebhookDetails.RequestMethod);
    await webhook_page.TARGET_INPUT.fill(UpdatedWebhookDetails.Target);
    await webhook_page.UPDATE_BUTTON.click();
-    wdioExpect(webhook_page.NAME_INPUT).toHaveValue(UpdatedWebhookDetails.name);
-    wdioExpect(webhook_page.REQUEST_METHOD_DROPDOWN).toHaveValue(UpdatedWebhookDetails.RequestMethod);
-    wdioExpect(webhook_page.TARGET_INPUT).toHaveValue(UpdatedWebhookDetails.Target);
+    await assert(webhook_page.NAME_INPUT).toHaveValue(UpdatedWebhookDetails.name);
+    await assert(webhook_page.REQUEST_METHOD_DROPDOWN).toHaveValue(UpdatedWebhookDetails.RequestMethod);
+    await assert(webhook_page.TARGET_INPUT).toHaveValue(UpdatedWebhookDetails.Target);
 });
 
 it('User must be able to delete webhook',()=>{
    await webhook_page.DELETE_BUTTON.click();
    await webhook_page.DELETE_KEY_CONFIRMATION_BUTTON.click();
-    wdioExpect(webhook_page.NO_DATA_TO_DISPLAY).toHaveText(emptyWebhookMessage);
+    await assert(webhook_page.NO_DATA_TO_DISPLAY).toHaveText(emptyWebhookMessage);
 });
 
 });

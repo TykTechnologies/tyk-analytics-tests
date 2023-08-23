@@ -44,7 +44,7 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
   });
 
   await test.step('Initially Endpoint list is empty', async () => {
-    main_page.openAPIs();
+    await main_page.openAPIs();
    await apis_page.DESIGN_API_BOX.click();
    await apis_page.API_TYPE_OAS_BUTTON.click();
    await apis_page.API_NAME_INPUT.fill('endpoint-test');
@@ -52,7 +52,7 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
    await apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
    await apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");
    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
-    wdioExpect(endpoints_page.OAS_NO_ENDPOINTS_MESSAGE).toBeDisplayed();
+    await assert(endpoints_page.OAS_NO_ENDPOINTS_MESSAGE).toBeDisplayed();
   });
 
   await test.step('User can add endpoints and save API', async () => {
@@ -60,7 +60,7 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
       endpoints_page.addNewEndpoint(e.endpoint, e.method);
     });
    await apis_page.OAS_SAVE_BUTTON.click();
-    expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true; 
+    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy(); 
   });
 
   
@@ -140,11 +140,11 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
    await apis_page.EDIT_BUTTON.click();
     endpoints_page.modifyEndpoint("/ip", "GET", "/headers", "HEAD");
    await apis_page.OAS_SAVE_BUTTON.click();
-    expect(apis_page.isApiUpdatedPopUpDisplayed()).to.be.true; 
+    assert(apis_page.isApiUpdatedPopUpDisplayed()).toBeTruthy(); 
     browser.refresh();
    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
-    wdioExpect(oldEendpointSelector).not.toBeDisplayed();
-    wdioExpect(newEendpointSelector).toBeDisplayed();
+    await assert(oldEendpointSelector).not.toBeDisplayed();
+    await assert(newEendpointSelector).toBeDisplayed();
   });
 
   await test.step('User can remove endpoints and save API', async () => {
@@ -153,10 +153,10 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
    await apis_page.EDIT_BUTTON.click();
     endpoints_page.removeEndpoint("/ip", "POST");
    await apis_page.OAS_SAVE_BUTTON.click();
-    expect(apis_page.isApiUpdatedPopUpDisplayed()).to.be.true; 
+    assert(apis_page.isApiUpdatedPopUpDisplayed()).toBeTruthy(); 
     browser.refresh();
    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
-    wdioExpect(removeEendpointSelector).not.toBeDisplayed();
+    await assert(removeEendpointSelector).not.toBeDisplayed();
   });
 
 /**
@@ -170,10 +170,10 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
     let endpointUrlLink = encodeURIComponent(endpointObject.endpoint.split('/').join('-')) + endpointObject.method.toLowerCase();
     let endpointSelector = $(`//a[contains(@href, "${endpointUrlLink}")]`);
     if (JSON.stringify(expectedEndpoints).includes(JSON.stringify(endpointObject))){
-      wdioExpect(endpointSelector).toBeDisplayed();
+      await assert(endpointSelector).toBeDisplayed();
     } 
     else {
-      wdioExpect(endpointSelector).not.toBeDisplayed();
+      await assert(endpointSelector).not.toBeDisplayed();
     }
   }
 

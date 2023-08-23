@@ -1,7 +1,7 @@
 import { test, assert } from '@fixtures';
 
 import { policies_page } from '../../../lib/pom/Policies_page';
-import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
+import { Dashboard_connection } from '@api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 import { newPolicyDefinitionWithDefaults } from '../../../lib/utils/Policy_object_designer';
 
@@ -96,62 +96,62 @@ test('Test Policy search functionality on Main Policy Page', async ({ createUser
 });
 
   await test.step('User should be able search policy by Policy name', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.NAME_SEARCH_INPUT.fill(keylessApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).toHaveTextContaining(keylessApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(authTokenApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(oauthApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(multi1Api.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(multi2Api.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(jwtApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(jwtApi2.name);
+    await assert(policies_page.POLICY_TABLE).toContainText(keylessApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(authTokenApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(oauthApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(multi1Api.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(multi2Api.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(jwtApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(jwtApi2.name);
   });
 
   await test.step('User should be able search policy by Policy id', async () => {
     let policyId = dashboard_connection.getPolicyByName(oauthApi.name + "_policy", envDetails.userSecret).Data[0]._id;
    await policies_page.NAME_SEARCH_INPUT.fill(policyId);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(keylessApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(authTokenApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).toHaveTextContaining(oauthApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(multi1Api.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(multi2Api.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(jwtApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(jwtApi2.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(authTokenApi.name);
+    await assert(policies_page.POLICY_TABLE).toContainText(oauthApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(multi1Api.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(multi2Api.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(jwtApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(jwtApi2.name);
   });
 
   await test.step('User should be able search policy by Access Right', async () => {
    await policies_page.NAME_SEARCH_INPUT.fill("");
    await policies_page.ACCESS_RIGHTS_DROPDOWN.selectOption(authTokenApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(keylessApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).toHaveTextContaining(authTokenApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(oauthApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(multi1Api.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(multi2Api.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(jwtApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(jwtApi2.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);
+    await assert(policies_page.POLICY_TABLE).toContainText(authTokenApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(oauthApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(multi1Api.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(multi2Api.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(jwtApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(jwtApi2.name);
   });
 
   await test.step('User should be able search policy by Authentication type', async () => {
    await policies_page.ACCESS_RIGHTS_DROPDOWN.selectOption("All apis");
    await policies_page.AUTH_TYPES_DROPDOWN.selectOption("JSON Web Token");
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(keylessApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(authTokenApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(oauthApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(multi1Api.name);
-    //wdioExpect(policies_page.POLICY_TABLE).toHaveTextContaining(multi2Api.name); https://tyktech.atlassian.net/browse/TT-2019
-    wdioExpect(policies_page.POLICY_TABLE).toHaveTextContaining(jwtApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).toHaveTextContaining(jwtApi2.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(authTokenApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(oauthApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(multi1Api.name);
+    //await assert(policies_page.POLICY_TABLE).toContainText(multi2Api.name); https://tyktech.atlassian.net/browse/TT-2019
+    await assert(policies_page.POLICY_TABLE).toContainText(jwtApi.name);
+    await assert(policies_page.POLICY_TABLE).toContainText(jwtApi2.name);
   });
   
   await test.step('User should be able search policy by multiple criteria - Name + Auth type', async () => {
    await policies_page.NAME_SEARCH_INPUT.fill(jwtApi2.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(keylessApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(authTokenApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(oauthApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(multi1Api.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(multi2Api.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(jwtApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).toHaveTextContaining(jwtApi2.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(authTokenApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(oauthApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(multi1Api.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(multi2Api.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(jwtApi.name);
+    await assert(policies_page.POLICY_TABLE).toContainText(jwtApi2.name);
   });
 
   await test.step('User should be able search policy by multiple criteria - Name + Access Right', async () => {
@@ -159,25 +159,25 @@ test('Test Policy search functionality on Main Policy Page', async ({ createUser
    await policies_page.ACCESS_RIGHTS_DROPDOWN.selectOption(authTokenApi.name);
    await policies_page.ACCESS_RIGHTS_DROPDOWN.selectOption(multi2Api.name);
    await policies_page.NAME_SEARCH_INPUT.fill(multi2Api.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(keylessApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(authTokenApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(oauthApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(multi1Api.name);
-    wdioExpect(policies_page.POLICY_TABLE).toHaveTextContaining(multi2Api.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(jwtApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(jwtApi2.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(authTokenApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(oauthApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(multi1Api.name);
+    await assert(policies_page.POLICY_TABLE).toContainText(multi2Api.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(jwtApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(jwtApi2.name);
   });
 
   await test.step('User should be able search policy by multiple criteria - Auth Type + Access Right', async () => {
    await policies_page.NAME_SEARCH_INPUT.fill("");
    await policies_page.AUTH_TYPES_DROPDOWN.selectOption("Auth Token");
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(keylessApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).toHaveTextContaining(authTokenApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(oauthApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(multi1Api.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(multi2Api.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(jwtApi.name);
-    wdioExpect(policies_page.POLICY_TABLE).not.toHaveTextContaining(jwtApi2.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);
+    await assert(policies_page.POLICY_TABLE).toContainText(authTokenApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(oauthApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(multi1Api.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(multi2Api.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(jwtApi.name);
+    await assert(policies_page.POLICY_TABLE).not.toContainText(jwtApi2.name);
   });
 
 });

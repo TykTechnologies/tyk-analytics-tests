@@ -1,7 +1,7 @@
 import { test, assert } from '@fixtures';
 
 import { keys_page } from '../../../lib/pom/Keys_page.js';
-import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
+import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection.js';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 
 const BasicAuthApi = {
@@ -43,10 +43,10 @@ xtest('Create/update/delete keys by ID without policy', async ({ createUserAndLo
   });
 
   await test.step('User should be able to create new Key', async () => {
-    main_page.openKeys();
+    await main_page.openKeys();
    await keys_page.ADD_KEY_BUTTON.click();
    await keys_page.CHOOSE_API_TOGGLE.click();
-    wdioExpect(keys_page.CHOOSE_API_TABLE).toHaveTextContaining(BasicAuthApi.name);
+    await assert(keys_page.CHOOSE_API_TABLE).toContainText(BasicAuthApi.name);
    await keys_page.CHOOSE_API_TABLE.clickCellWithText(BasicAuthApi.name);
    await keys_page.CONFIGURATIONS_TAB_BUTTON.click();
    await keys_page.ALIAS_INPUT_FIELD.click();
@@ -61,21 +61,21 @@ xtest('Create/update/delete keys by ID without policy', async ({ createUserAndLo
    await keys_page.AUTH_PASSWORD.fill(apiKeysDetails.password);
    await keys_page.CREATE_KEY_BUTTON.click();
    await keys_page.OK_BUTTON.click();
-    expect(keys_page.isKeyCreatedPopUpDisplayed()).to.be.true;
+    assert(keys_page.isKeyCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   it('User should be able to modify key',()=>{
     keyIdValue= keys_page.KEY_ID_BUTTON.getAttribute('copy');
-    main_page.openKeys();
+    await main_page.openKeys();
    await keys_page.KEY_SEARCH_FIELD.click();
    await keys_page.KEY_SEARCH_FIELD.fill(keyIdValue);
    await keys_page.LOOKUP_KEY_BUTTON.click();
    await keys_page.CONFIGURATIONS_TAB_BUTTON.click();
-    wdioExpect(keys_page.KEY_ID_VALUE).toHaveAttributeContaining('copy', keyIdValue);
-    wdioExpect(keys_page.UPDATE_BUTTON).toBeClickable();
-    wdioExpect(keys_page.UPDATE_WITHOUT_QUOTA_RESET_BUTTON).toBeClickable();
-    wdioExpect(keys_page.DELETE_BUTTON).toBeClickable();
-    wdioExpect(keys_page.ALIAS_INPUT_FIELD).toHaveValue(apiKeysDetails.alias);
+    await assert(keys_page.KEY_ID_VALUE).toHaveAttributeContaining('copy', keyIdValue);
+    await assert(keys_page.UPDATE_BUTTON).toBeVisible();
+    await assert(keys_page.UPDATE_WITHOUT_QUOTA_RESET_BUTTON).toBeVisible();
+    await assert(keys_page.DELETE_BUTTON).toBeVisible();
+    await assert(keys_page.ALIAS_INPUT_FIELD).toHaveValue(apiKeysDetails.alias);
    await keys_page.ALIAS_INPUT_FIELD.click();
    await keys_page.ALIAS_INPUT_FIELD.fill(updatedKeyDetails.aliasUpdate);
    await keys_page.ENABLE_DETAILED_LOGGING_BUTTON.click();
@@ -90,22 +90,22 @@ xtest('Create/update/delete keys by ID without policy', async ({ createUserAndLo
    await keys_page.KEY_EXPIRE_DROPDOWN.selectOption(updatedKeyDetails.keyExpiryTimeUpdateValue);
    await keys_page.UPDATE_BUTTON.click();
    await keys_page.CONFIRM_BUTTON.click();
-    wdioExpect(keys_page.ALIAS_INPUT_FIELD).toHaveValue(updatedKeyDetails.aliasUpdate);
+    await assert(keys_page.ALIAS_INPUT_FIELD).toHaveValue(updatedKeyDetails.aliasUpdate);
   });
 
   await test.step('Confirmation popup should be displayed', async () => {
-    expect(keys_page.isKeyUpdatedPopUpDisplayed()).to.be.true;
+    assert(keys_page.isKeyUpdatedPopUpDisplayed()).toBeTruthy();
   });
 
   it('User must be able to Delete Key',()=>{
  await keys_page.DELETE_BUTTON.click();
  await keys_page.DELETE_KEY_CONFIRMATION_BUTTON.click();
-  expect(keys_page.isKeyDeletedPopUpDisplayed()).to.be.true;
+  assert(keys_page.isKeyDeletedPopUpDisplayed()).toBeTruthy();
   browser.pause(1000);
  await keys_page.KEY_SEARCH_FIELD.click();
  await keys_page.KEY_SEARCH_FIELD.fill(keyIdValue);
  await keys_page.LOOKUP_KEY_BUTTON.click();
-  expect(keys_page.isCouldNotRetrieveKeyDisplayed()).to.be.true;
+  assert(keys_page.isCouldNotRetrieveKeyDisplayed()).toBeTruthy();
   });
 
 

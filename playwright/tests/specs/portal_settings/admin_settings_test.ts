@@ -12,11 +12,11 @@ test('Portal Settings main Admin page', async ({ createUserAndLogin, main_page }
   });
 
   await test.step('User should see proper default values', async () => {
-    main_page.openPortalSettings();
-    wdioExpect(admin_settings_page.ACCESS_REQUEST_INPUT).toHaveValue('');
-    expect(admin_settings_page.DEVELOPER_SIGN_UP_TOGGLE.isSelected()).to.be.false;
-    expect(admin_settings_page.DEVELOPER_LOGIN_TOGGLE.isSelected()).to.be.false;
-    expect(admin_settings_page.RESTRICTED_CATALOGUE_TOGGLE.isSelected()).to.be.false;
+    await main_page.openPortalSettings();
+    await assert(admin_settings_page.ACCESS_REQUEST_INPUT).toHaveValue('');
+    assert(admin_settings_page.DEVELOPER_SIGN_UP_TOGGLE.isSelected()).to.be.false;
+    assert(admin_settings_page.DEVELOPER_LOGIN_TOGGLE.isSelected()).to.be.false;
+    assert(admin_settings_page.RESTRICTED_CATALOGUE_TOGGLE.isSelected()).to.be.false;
   });
 
   await test.step('User should be able to edit all fields and save changes without error', async () => {    
@@ -25,14 +25,14 @@ test('Portal Settings main Admin page', async ({ createUserAndLogin, main_page }
    await admin_settings_page.DEVELOPER_LOGIN_TOGGLE.click();
    await admin_settings_page.RESTRICTED_CATALOGUE_TOGGLE.click();
    await admin_settings_page.SAVE_BUTTON.click();
-    expect(admin_settings_page.isSettingsUpdatedPopUpDisplayed()).to.be.true;
+    assert(admin_settings_page.isSettingsUpdatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('User should see saved values after re-load values', async () => {
     browser.refresh();
-    wdioExpect(admin_settings_page.ACCESS_REQUEST_INPUT).toHaveValue(email);
-    expect(admin_settings_page.DEVELOPER_SIGN_UP_TOGGLE.isSelected()).to.be.true;
-    expect(admin_settings_page.DEVELOPER_LOGIN_TOGGLE.isSelected()).to.be.true;
-    expect(admin_settings_page.RESTRICTED_CATALOGUE_TOGGLE.isSelected()).to.be.true;
+    await assert(admin_settings_page.ACCESS_REQUEST_INPUT).toHaveValue(email);
+    assert(admin_settings_page.DEVELOPER_SIGN_UP_TOGGLE.isSelected()).toBeTruthy();
+    assert(admin_settings_page.DEVELOPER_LOGIN_TOGGLE.isSelected()).toBeTruthy();
+    assert(admin_settings_page.RESTRICTED_CATALOGUE_TOGGLE.isSelected()).toBeTruthy();
   });
 });

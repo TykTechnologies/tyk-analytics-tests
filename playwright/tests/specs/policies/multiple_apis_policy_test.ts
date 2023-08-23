@@ -1,7 +1,7 @@
 import { test, assert } from '@fixtures';
 
 import { policies_page } from '../../../lib/pom/Policies_page';
-import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
+import { Dashboard_connection } from '@api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 
 const policyDetails = {
@@ -55,7 +55,7 @@ test('Multiple APIs policies', async ({ createUserAndLogin, main_page }) => {
   });
 
   await test.step('User should be able to create new Policy with multiple APIs', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.ADD_POLICY_BUTTON.click();
    await policies_page.API_TABLE.clickCellWithText(basicAuthApisDetails[0].name);
     policies_page.API_TABLE.waitForDisplayed({reverse: true}); //waiting for table to be hidden
@@ -68,11 +68,11 @@ test('Multiple APIs policies', async ({ createUserAndLogin, main_page }) => {
   });
 
   it(`User can't add policy with different Authorization type to policy`, () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.API_SECTION_HEADER.click(); //opening section with API table
     const isOpenAPnotAvailable = policies_page.API_TABLE.isCellWithTextNotDisplayed(authTokenApiDetails[0].name);
-    expect(isOpenAPnotAvailable).to.be.true;
+    assert(isOpenAPnotAvailable).toBeTruthy();
   });
 
   await test.step('User should be able to add API with tha same Authorization type to policy', async () => {
@@ -82,10 +82,10 @@ test('Multiple APIs policies', async ({ createUserAndLogin, main_page }) => {
   });
 
   await test.step('User should be able to see all APIs assigned to policy', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
-    wdioExpect($$('.policy-api__api-name')).toBeElementsArrayOfSize(3);
-    basicAuthApisDetails.forEach(api => wdioExpect($(`span=${api.name}`)).toBeDisplayed());
+    await assert($$('.policy-api__api-name')).toBeElementsArrayOfSize(3);
+    basicAuthApisDetails.forEach(api => await assert($(`span=${api.name}`)).toBeDisplayed());
   });
 
   await test.step('User should be able to delete API access from policy', async () => {
@@ -93,6 +93,6 @@ test('Multiple APIs policies', async ({ createUserAndLogin, main_page }) => {
     const $removeAPIButton = $(`span=${basicAuthApisDetails[1].name}`).$('../..').$(`span=Remove Access`);
     $removeAPIButton.click();
    await policies_page.CONFIRM_BUTTON.click();
-    wdioExpect($$('.policy-api__api-name')).toBeElementsArrayOfSize(2);
+    await assert($$('.policy-api__api-name')).toBeElementsArrayOfSize(2);
   });
 });

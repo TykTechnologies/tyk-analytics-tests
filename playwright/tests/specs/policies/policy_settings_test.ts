@@ -10,7 +10,7 @@ All policies can be reloaded with proper values
 import { test, assert } from '@fixtures';
 
 import { policies_page } from '../../../lib/pom/Policies_page';
-import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
+import { Dashboard_connection } from '@api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 
 const testApiDetails = {
@@ -51,7 +51,7 @@ test('Create policy page - settings tests', async ({ createUserAndLogin, main_pa
   });
 
   await test.step('User should be able to create policy with Access Denied status', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.ADD_POLICY_BUTTON.click();
    await policies_page.API_TABLE.clickCellWithText(testApiDetails.apiName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
@@ -59,19 +59,19 @@ test('Create policy page - settings tests', async ({ createUserAndLogin, main_pa
    await policies_page.POLICY_STATE_DROPDOWN.selectOption(deniedPolicyDetails.policyState);
    await policies_page.KEY_EXPIRY_AFTER_DROPDOWN.selectOption(deniedPolicyDetails.keyEpiryTime);
    await policies_page.CREATE_POLICY_BUTTON.click();
-    expect(policies_page.isPolicyCreatedPopUpDisplayed()).to.be.true;
+    assert(policies_page.isPolicyCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Policy settings should be persistent after page reload', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(deniedPolicyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
-    expect(policies_page.POLICY_STATE_DROPDOWN.getText()).to.equal(deniedPolicyDetails.policyState);
-    expect(policies_page.KEY_EXPIRY_AFTER_DROPDOWN.getText()).to.equal(deniedPolicyDetails.keyEpiryTime);
+    assert(policies_page.POLICY_STATE_DROPDOWN.getText()).to.equal(deniedPolicyDetails.policyState);
+    assert(policies_page.KEY_EXPIRY_AFTER_DROPDOWN.getText()).to.equal(deniedPolicyDetails.keyEpiryTime);
   });
 
   await test.step('User should be able to create policy with Draft status', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.ADD_POLICY_BUTTON.click();
    await policies_page.API_TABLE.clickCellWithText(testApiDetails.apiName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
@@ -79,34 +79,34 @@ test('Create policy page - settings tests', async ({ createUserAndLogin, main_pa
    await policies_page.POLICY_STATE_DROPDOWN.selectOption(draftPolicyDetails.policyState);
    await policies_page.KEY_EXPIRY_AFTER_DROPDOWN.selectOption(draftPolicyDetails.keyEpiryTime);
    await policies_page.CREATE_POLICY_BUTTON.click();
-    expect(policies_page.isPolicyCreatedPopUpDisplayed()).to.be.true;
+    assert(policies_page.isPolicyCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Policy settings should be persistent after page reload', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(draftPolicyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
-    expect(policies_page.POLICY_STATE_DROPDOWN.getText()).to.equal(draftPolicyDetails.policyState);
-    expect(policies_page.KEY_EXPIRY_AFTER_DROPDOWN.getText()).to.equal(draftPolicyDetails.keyEpiryTime);
+    assert(policies_page.POLICY_STATE_DROPDOWN.getText()).to.equal(draftPolicyDetails.policyState);
+    assert(policies_page.KEY_EXPIRY_AFTER_DROPDOWN.getText()).to.equal(draftPolicyDetails.keyEpiryTime);
   });
 
   await test.step('User should be able to create policy with Active status', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.ADD_POLICY_BUTTON.click();
    await policies_page.API_TABLE.clickCellWithText(testApiDetails.apiName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
    await policies_page.NAME_INPUT.fill(activePolicyDetails.policyName);
    await policies_page.KEY_EXPIRY_AFTER_DROPDOWN.selectOption(activePolicyDetails.keyEpiryTime);
    await policies_page.CREATE_POLICY_BUTTON.click();
-    expect(policies_page.isPolicyCreatedPopUpDisplayed()).to.be.true;
+    assert(policies_page.isPolicyCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Policy settings should be persistent after page reload', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(activePolicyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
-    expect(policies_page.POLICY_STATE_DROPDOWN.getText()).to.equal(activePolicyDetails.policyState);
-    expect(policies_page.KEY_EXPIRY_AFTER_DROPDOWN.getText()).to.equal(activePolicyDetails.keyEpiryTime);
+    assert(policies_page.POLICY_STATE_DROPDOWN.getText()).to.equal(activePolicyDetails.policyState);
+    assert(policies_page.KEY_EXPIRY_AFTER_DROPDOWN.getText()).to.equal(activePolicyDetails.keyEpiryTime);
   });
 
 });

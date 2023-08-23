@@ -16,7 +16,7 @@ test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin
   await test.step('CACHE settings is off by default', async () => {
     let firstAPI = true;
     openOasDesignerPage(firstAPI);
-    expect(apis_page.OAS_ENABLE_CACHE_TOGGLE.isSelected()).to.be.false;
+    assert(apis_page.OAS_ENABLE_CACHE_TOGGLE.isSelected()).to.be.false;
   });
 
   await test.step('User can change Cache Timeout and save API', async () => {
@@ -28,14 +28,14 @@ test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin
    await apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX.click();
    await apis_page.OAS_CACHE_TIMEOUT_INPUT.fill("44");
     createApi(apiName);
-    expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
+    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Cache Timeout is persistent after reloading the page', async () => {
     browser.refresh();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
-    wdioExpect(apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_CACHE_TIMEOUT_SAVED).toHaveText("44");
+    await assert(apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX).toBeChecked();
+    await assert(apis_page.OAS_CACHE_TIMEOUT_SAVED).toHaveText("44");
   });
 
   await test.step('User can set Cache Response Codes and save API', async () => {
@@ -47,19 +47,19 @@ test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin
    await apis_page.OAS_CACHE_RESPONSE_CODES_DROPDOWN.fill("410"); //input and match from dropdown
    await apis_page.OAS_CACHE_RESPONSE_CODES_DROPDOWN.fill("299"); //free input custom value
     createApi(apiName);
-    expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
+    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Cache Response Codes are persistent after reloading the page', async () => {
     browser.refresh();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
-    wdioExpect(apis_page.OAS_CACHE_RESPONSE_CODES_SAVED).toHaveText("200 OK, 403 Forbidden, 410 Gone, 299");
+    await assert(apis_page.OAS_CACHE_RESPONSE_CODES_SAVED).toHaveText("200 OK, 403 Forbidden, 410 Gone, 299");
   });
 
   await test.step('Cache Response Codes are properly displayed in API Edit mode', async () => {
    await apis_page.EDIT_BUTTON.click();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
-    wdioExpect(apis_page.OAS_CACHE_RESPONSE_CODES_DROPDOWN).toHaveText("200 OK\n403 Forbidden\n410 Gone\n299");
+    await assert(apis_page.OAS_CACHE_RESPONSE_CODES_DROPDOWN).toHaveText("200 OK\n403 Forbidden\n410 Gone\n299");
   });
 
   await test.step('User can set Cache All Safe Requests and save API', async () => {
@@ -69,13 +69,13 @@ test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin
    await apis_page.OAS_ENABLE_CACHE_TOGGLE.click();
    await apis_page.OAS_CACHE_ALL_SAVE_REQUEST_BOX.click();
     createApi(apiName);
-    expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
+    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Cache All Safe Requests is persistent after reloading the page', async () => {
     browser.refresh();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
-    wdioExpect(apis_page.OAS_CACHE_ALL_SAVE_REQUEST_BOX).toBeChecked();
+    await assert(apis_page.OAS_CACHE_ALL_SAVE_REQUEST_BOX).toBeChecked();
   });
   
   await test.step('User can set Cache by Headers and save API', async () => {
@@ -88,15 +88,15 @@ test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin
    await apis_page.OAS_CACHE_BY_HEADERS_DROPDOWN.fill("header-1");
    await apis_page.OAS_CACHE_BY_HEADERS_DROPDOWN.fill("header-2");
     createApi(apiName);
-    expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
+    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Cache by Headers are persistent after reloading the page', async () => {
     browser.refresh();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
-    wdioExpect(apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX).toBeChecked();
+    await assert(apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX).toBeChecked();
     apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.expand();
-    wdioExpect(apis_page.OAS_CACHE_BY_HEADERS_SAVED).toHaveText("header-1, header-2");
+    await assert(apis_page.OAS_CACHE_BY_HEADERS_SAVED).toHaveText("header-1, header-2");
   });
 
   await test.step('User can set Cache Control TTL Header and save API', async () => {
@@ -107,18 +107,18 @@ test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin
     apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.expand();
    await apis_page.OAS_CACHE_CONTROL_TTL_HEADER_INPUT.fill("header-ttl");
     createApi(apiName);
-    expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
+    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Cache Control TTL Header is persistent after reloading the page', async () => {
     browser.refresh();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.expand();
-    wdioExpect(apis_page.OAS_CACHE_CONTROL_TTL_HEADER_SAVED).toHaveText("header-ttl");
+    await assert(apis_page.OAS_CACHE_CONTROL_TTL_HEADER_SAVED).toHaveText("header-ttl");
   });
 
   function openOasDesignerPage(firstApi) {
-    main_page.openAPIs();
+    await main_page.openAPIs();
     firstApi ? apis_page.DESIGN_API_BOX.click() :await apis_page.ADD_NEW_API_BUTTON.click();
    await apis_page.API_TYPE_OAS_BUTTON.click();
    await apis_page.API_NAME_INPUT.fill('cache-test');

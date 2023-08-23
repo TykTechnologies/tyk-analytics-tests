@@ -20,15 +20,15 @@ xtest('Test OAuth2.0 Authentication in OAS API designer page', async ({ createUs
    await apis_page.OAS_NEXT_BUTTON.click();
    await apis_page.OAS_ENABLE_AUTH_TOGGLE.click();
    await apis_page.OAS_AUTHENTICATION_DROPDOWN.selectOption("Oauth 2.0");
-    wdioExpect(apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX).toHaveAttribute('note', 'If selected the authorization response type will be automatically set to code');
-    wdioExpect(apis_page.OAS_OAUTH_CLIENT_CREDENTIALS_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_OAUTH_CLIENT_CREDENTIALS_BOX).toHaveAttribute('note', 'If selected the authorization response type will be automatically set to token');
-    wdioExpect(apis_page.OAS_OAUTH_PASSWORD_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_OAUTH_PASSWORD_BOX).toHaveAttribute('note', 'If selected the authorization response type will be automatically set to token');
-    wdioExpect(apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX).toHaveAttribute('note', 'If selected the authorization response type will be automatically set to code');
+    await assert(apis_page.OAS_OAUTH_CLIENT_CREDENTIALS_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_OAUTH_CLIENT_CREDENTIALS_BOX).toHaveAttribute('note', 'If selected the authorization response type will be automatically set to token');
+    await assert(apis_page.OAS_OAUTH_PASSWORD_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_OAUTH_PASSWORD_BOX).toHaveAttribute('note', 'If selected the authorization response type will be automatically set to token');
+    await assert(apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX).not.toBeChecked();
     let basicAuthUrl = $('a*=Learn more about Oauth 2.0');
-    wdioExpect(basicAuthUrl).toHaveLink('https://tyk.io/docs/basic-config-and-security/security/authentication-authorization/oauth-2-0/');
+    await assert(basicAuthUrl).toHaveLink('https://tyk.io/docs/basic-config-and-security/security/authentication-authorization/oauth-2-0/');
   });
 
   await test.step('Test OAuth 2.0 mandatory fields', async () => {
@@ -36,18 +36,18 @@ xtest('Test OAuth2.0 Authentication in OAS API designer page', async ({ createUs
     let grantTypesErrorMsg = $('//h4[text()="Allowed Grant Types"]//following::p[1]');
     let authConfigNameErrorMsg = $('//div[@name="x-tyk-api-gateway.server.authentication.securitySchemes.oauth.name"]//p[1]');
     let authTokenLocationErrorMsg = $('//h4[text()="Authentication token location"]//following::p[1]');
-    wdioExpect(authConfigNameErrorMsg).toHaveText('Authentication Configuration Name is required');
-    wdioExpect(authTokenLocationErrorMsg).toHaveText('Select at least one location where the token will be read of');
-    wdioExpect(grantTypesErrorMsg).toHaveText('Access Grant is required.');
+    await assert(authConfigNameErrorMsg).toHaveText('Authentication Configuration Name is required');
+    await assert(authTokenLocationErrorMsg).toHaveText('Select at least one location where the token will be read of');
+    await assert(grantTypesErrorMsg).toHaveText('Access Grant is required.');
    await apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX.click();
    await apis_page.OAS_SAVE_BUTTON.click();
     let loginRedirectErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.securitySchemes.oauth.authLoginRedirect"]//following::p[1]');
-    wdioExpect(loginRedirectErrorMsg).toHaveText("Authorization Login Redirect doesn't meet the proper URL format");
+    await assert(loginRedirectErrorMsg).toHaveText("Authorization Login Redirect doesn't meet the proper URL format");
    await apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX.click();
    await apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX.click();
    await apis_page.OAS_SAVE_BUTTON.click();
     grantTypesErrorMsg = $('//h4[text()="Allowed Grant Types"]//following::p[1]');
-    wdioExpect(grantTypesErrorMsg).toHaveText('Access Grant is required.');
+    await assert(grantTypesErrorMsg).toHaveText('Access Grant is required.');
   });
 
   await test.step('Test OAuth 2.0 URL validations', async () => {
@@ -63,8 +63,8 @@ xtest('Test OAuth2.0 Authentication in OAS API designer page', async ({ createUs
    await apis_page.OAS_SAVE_BUTTON.click();
     let loginRedirectErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.securitySchemes.oauth.authLoginRedirect"]//following::p[1]');
     let notificationsUrlErrorMsg = $('//input[@name="x-tyk-api-gateway.server.authentication.securitySchemes.oauth.notifications.onKeyChangeUrl"]//following::p[1]');
-    wdioExpect(loginRedirectErrorMsg).toHaveText("Authorization Login Redirect doesn't meet the proper URL format");
-    wdioExpect(notificationsUrlErrorMsg).toHaveText("Notifications URL doesn't meet the proper URL format");
+    await assert(loginRedirectErrorMsg).toHaveText("Authorization Login Redirect doesn't meet the proper URL format");
+    await assert(notificationsUrlErrorMsg).toHaveText("Notifications URL doesn't meet the proper URL format");
   });
 
   await test.step('User can save API with Authorization Code grant type', async () => {
@@ -83,7 +83,7 @@ xtest('Test OAuth2.0 Authentication in OAS API designer page', async ({ createUs
    await apis_page.OAS_OAUTH_NOTIFICATIONS_SECRET_INPUT.fill('Abdsg9u234XFFOR9435898*&%&^%');
    await apis_page.OAS_OAUTH_USE_HEADER_BOX.click();
    await apis_page.OAS_SAVE_BUTTON.click();
-    expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
+    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Authorization Code data is displayed after page reload', async () => {
@@ -93,15 +93,15 @@ xtest('Test OAuth2.0 Authentication in OAS API designer page', async ({ createUs
     const authKeyHeaderNameSaved = $('//label[text()="Auth Key Header Name"]//following::div[1]');
     const notificationsUrlSaved = $('//span[text()="Notifications URL"]//following::div[2]');
     const notificationsSecretSaved = $('//span[text()="Notifications Shared Secret"]//following::div[2]');
-    wdioExpect(apis_page.OAS_AUTHENTICATION_SAVED).toHaveText('Oauth 2.0');
-    wdioExpect(apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_OAUTH_CLIENT_CREDENTIALS_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_OAUTH_PASSWORD_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX).not.toBeChecked();
-    wdioExpect(loginRedirectSaved).toHaveText('https://redirect.com');
-    wdioExpect(notificationsUrlSaved).toHaveText('https://notification.com');
-    wdioExpect(notificationsSecretSaved).toHaveText('Abdsg9u234XFFOR9435898*&%&^%');
-    wdioExpect(authKeyHeaderNameSaved).toHaveText('Authorization');
+    await assert(apis_page.OAS_AUTHENTICATION_SAVED).toHaveText('Oauth 2.0');
+    await assert(apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX).toBeChecked();
+    await assert(apis_page.OAS_OAUTH_CLIENT_CREDENTIALS_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_OAUTH_PASSWORD_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX).not.toBeChecked();
+    await assert(loginRedirectSaved).toHaveText('https://redirect.com');
+    await assert(notificationsUrlSaved).toHaveText('https://notification.com');
+    await assert(notificationsSecretSaved).toHaveText('Abdsg9u234XFFOR9435898*&%&^%');
+    await assert(authKeyHeaderNameSaved).toHaveText('Authorization');
   });
 
   await test.step('User can modify Authorization Code data and Update API', async () => {
@@ -116,7 +116,7 @@ xtest('Test OAuth2.0 Authentication in OAS API designer page', async ({ createUs
    await apis_page.OAS_OAUTH_USE_COOKIE_BOX.click();
    await apis_page.OAS_OAUTH_COOKIE_VALUE_INPUT.fill('my-cookie');
    await apis_page.OAS_SAVE_BUTTON.click();
-    expect(apis_page.isApiUpdatedPopUpDisplayed()).to.be.true;
+    assert(apis_page.isApiUpdatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Updated Authorization Code data is displayed after page reload', async () => {
@@ -127,16 +127,16 @@ xtest('Test OAuth2.0 Authentication in OAS API designer page', async ({ createUs
     const cookieValueSaved = $('//label[text()="Cookie Name"]//following::div[1]');
     const notificationsUrlSaved = $('//span[text()="Notifications URL"]//following::div[2]');
     const notificationsSecretSaved = $('//span[text()="Notifications Shared Secret"]//following::div[2]');
-    wdioExpect(apis_page.OAS_AUTHENTICATION_SAVED).toHaveText('Oauth 2.0');
-    wdioExpect(apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_OAUTH_USE_COOKIE_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_STRIP_AUTHORIZATION_DATA_BOX).toBeChecked();
-    wdioExpect(loginRedirectSaved).toHaveText('http://new-redirect.com');
-    wdioExpect(notificationsUrlSaved).toHaveText('http://new-notification.com');
-    wdioExpect(notificationsSecretSaved).toHaveText('new-secret');
-    wdioExpect(authKeyHeaderNameSaved).toHaveText('new-auth');
-    wdioExpect(cookieValueSaved).toHaveText('my-cookie');
+    await assert(apis_page.OAS_AUTHENTICATION_SAVED).toHaveText('Oauth 2.0');
+    await assert(apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX).toBeChecked();
+    await assert(apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX).toBeChecked();
+    await assert(apis_page.OAS_OAUTH_USE_COOKIE_BOX).toBeChecked();
+    await assert(apis_page.OAS_STRIP_AUTHORIZATION_DATA_BOX).toBeChecked();
+    await assert(loginRedirectSaved).toHaveText('http://new-redirect.com');
+    await assert(notificationsUrlSaved).toHaveText('http://new-notification.com');
+    await assert(notificationsSecretSaved).toHaveText('new-secret');
+    await assert(authKeyHeaderNameSaved).toHaveText('new-auth');
+    await assert(cookieValueSaved).toHaveText('my-cookie');
   });
 
   await test.step('User can save API with Client Credentials grant type', async () => {
@@ -153,7 +153,7 @@ xtest('Test OAuth2.0 Authentication in OAS API designer page', async ({ createUs
    await apis_page.OAS_OAUTH_ALLOW_QUERY_PARAM_BOX.click();
    await apis_page.OAS_OAUTH_QUERY_PARAM_INPUT.fill('my-param');
    await apis_page.OAS_SAVE_BUTTON.click();
-    expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
+    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Authorization Code data is displayed after page reload', async () => {
@@ -162,15 +162,15 @@ xtest('Test OAuth2.0 Authentication in OAS API designer page', async ({ createUs
     const authKeyHeaderNameSaved = $('//label[text()="Auth Key Header Name"]//following::div[1]');
     const queryParamNameSaved = $('//label[text()="Query parameter Name"]//following::div[1]');
    await apis_page.SIDE_MENU_SERVER_LINK.click();
-    wdioExpect(apis_page.OAS_AUTHENTICATION_SAVED).toHaveText('Oauth 2.0');
-    wdioExpect(apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_OAUTH_CLIENT_CREDENTIALS_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_OAUTH_PASSWORD_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_OAUTH_ALLOW_QUERY_PARAM_BOX).toBeChecked();
-    wdioExpect(loginRedirectSaved).not.toBeDisplayed();
-    wdioExpect(queryParamNameSaved).toHaveText('my-param');
-    wdioExpect(authKeyHeaderNameSaved).toHaveText('Authorization');
+    await assert(apis_page.OAS_AUTHENTICATION_SAVED).toHaveText('Oauth 2.0');
+    await assert(apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_OAUTH_CLIENT_CREDENTIALS_BOX).toBeChecked();
+    await assert(apis_page.OAS_OAUTH_PASSWORD_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_OAUTH_ALLOW_QUERY_PARAM_BOX).toBeChecked();
+    await assert(loginRedirectSaved).not.toBeDisplayed();
+    await assert(queryParamNameSaved).toHaveText('my-param');
+    await assert(authKeyHeaderNameSaved).toHaveText('Authorization');
   });
 
   await test.step('User can modify API and select multiple Grant types', async () => {
@@ -184,7 +184,7 @@ xtest('Test OAuth2.0 Authentication in OAS API designer page', async ({ createUs
    await apis_page.OAS_OAUTH_ALLOW_QUERY_PARAM_BOX.click();
    await apis_page.OAS_OAUTH_COOKIE_VALUE_INPUT.fill('my-cookie');
    await apis_page.OAS_SAVE_BUTTON.click();
-    expect(apis_page.isApiUpdatedPopUpDisplayed()).to.be.true;
+    assert(apis_page.isApiUpdatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Updated data is displayed after page reload', async () => {
@@ -192,18 +192,18 @@ xtest('Test OAuth2.0 Authentication in OAS API designer page', async ({ createUs
     const authKeyHeaderNameSaved = $('//label[text()="Auth Key Header Name"]//following::div[1]');
     const cookieValueSaved = $('//label[text()="Cookie Name"]//following::div[1]');
    await apis_page.SIDE_MENU_SERVER_LINK.click();
-    wdioExpect(apis_page.OAS_AUTHENTICATION_SAVED).toHaveText('Oauth 2.0');
-    wdioExpect(apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_OAUTH_CLIENT_CREDENTIALS_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_OAUTH_PASSWORD_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_OAUTH_ALLOW_QUERY_PARAM_BOX).not.toBeChecked();
-    wdioExpect(authKeyHeaderNameSaved).toHaveText('new-auth');
-    wdioExpect(cookieValueSaved).toHaveText('my-cookie');
+    await assert(apis_page.OAS_AUTHENTICATION_SAVED).toHaveText('Oauth 2.0');
+    await assert(apis_page.OAS_OAUTH_AUTHORIZATION_CODE_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_OAUTH_CLIENT_CREDENTIALS_BOX).toBeChecked();
+    await assert(apis_page.OAS_OAUTH_PASSWORD_BOX).toBeChecked();
+    await assert(apis_page.OAS_OAUTH_REFRESH_TOKEN_BOX).toBeChecked();
+    await assert(apis_page.OAS_OAUTH_ALLOW_QUERY_PARAM_BOX).not.toBeChecked();
+    await assert(authKeyHeaderNameSaved).toHaveText('new-auth');
+    await assert(cookieValueSaved).toHaveText('my-cookie');
   });
 
   function openInitPage(firstApi) {
-    main_page.openAPIs();
+    await main_page.openAPIs();
     firstApi ? apis_page.DESIGN_API_BOX.click() :await apis_page.ADD_NEW_API_BUTTON.click();
    await apis_page.API_TYPE_OAS_BUTTON.click();
   }

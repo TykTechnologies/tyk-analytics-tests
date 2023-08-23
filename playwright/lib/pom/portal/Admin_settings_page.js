@@ -59,5 +59,4 @@ export class Admin_settings_page extends Template_Page {
 
   isSettingsUpdatedPopUpDisplayed() {return this.isSuccessPopupDisplayedWithText(this.updatedConfigurationMessageText);}
 }
-export const admin_settings_page = new Admin_settings_page();
      

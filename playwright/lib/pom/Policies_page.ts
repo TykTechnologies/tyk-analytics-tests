@@ -30,12 +30,12 @@ export class Policies_page extends Template_Page {
   get TAG_EDIT_BUTTON() {return new Button_object('//i[contains(@class, "fa-edit")]', this.page);}
   get TAG_UPDATE_BUTTON() {return new Button_object('//input[@name="inputTag"]//following::span[text()="Update"][1]', this.page);}
   get TAG_DELETE_BUTTON() {return new Button_object('//i[contains(@class, "fa-trash")]', this.page);}
-  get TAG_LABEL() {return $('//input[@name="inputTag"]//following::div[1]');}
-  get TAG_ELEMENTS() {return $('//ul[@class="tyk-editable-list-items inline tyk-editable-list-items--inline"]');}
+  get TAG_LABEL() {this.page.locator('//input[@name="inputTag"]//following::div[1]');}
+  get TAG_ELEMENTS() {this.page.locator('//ul[@class="tyk-editable-list-items inline tyk-editable-list-items--inline"]');}
   get MAIN_METADATA_KEY_INPUT() {return new Input_object('//input[@name="metaDataKey"]', this.page);}
   get MAIN_METADATA_VALUE_INPUT() {return new Input_object('//input[@name="metaDataValue"]', this.page);}
   get METADATA_ADD_BUTTON() {return new Button_object('//input[@name="metaDataValue"]//following::span[text()="ADD"][1]', this.page);}
-  get METADATA_TABLE() {return $('//ul[@class="tyk-editable-list-items table"]');}
+  get METADATA_TABLE() {this.page.locator('//ul[@class="tyk-editable-list-items table"]');}
   get METADATA_EDIT_BUTTON() {return new Button_object('//i[contains(@class, "fa-edit")]', this.page);}
   get METADATA_KEY_INPUT() { return new Input_object('//input[@name="metaDataKey"]//following::input[@name="metaDataKey"]', this.page);}
   get METADATA_VALUE_INPUT() {return new Input_object('//input[@name="metaDataValue"]//following::input[@name="metaDataValue"]', this.page);} 
@@ -45,15 +45,15 @@ export class Policies_page extends Template_Page {
   //ERROR MESSAGES AND ICONS
   get API_ERROR_ICON() {return $('//span[text()="1. Access Rights"]//following::i[@class="tyk-icon fa fa-exclamation error-on-tab"][1]')};
   get CONFIG_ERROR_ICON() {return $('//span[text()="2.Configurations"]//following::i[@class="tyk-icon fa fa-exclamation error-on-tab"][1]')};
-  get API_MANDATORY_TEXT() {return $('p=You need to add access rights to at least one API')};
-  get NAME_MANDATORY_TEXT() {return $('p=Policy Name is a required field')};
-  get EXPIRY_MANDATORY_TEXT() {return $('p=This field is required')};
+  get API_MANDATORY_TEXT() {return this.page.locator('p').filter({ hasText: 'You need to add access rights to at least one API' })};
+  get NAME_MANDATORY_TEXT() {return this.page.locator('p').filter({ hasText: 'Policy Name is a required field' })};
+  get EXPIRY_MANDATORY_TEXT() {return this.page.locator('p').filter({ hasText: 'This field is required' })};
 
   //MODALS
-  get MODAL() {return $('.opened .tyk-modal__content');}
-  get UPDATE_CONFIRMATION_BUTTON() {return $('//div[@class="tyk-modal__content"]//button//span[text()="Update"]');}
-  get DELETE_CONFIRMATION_BUTTON() {return $('//div[@class="tyk-modal__content"]//button//span[text()="Delete"]');}
-  get CONFIRM_BUTTON() {return $('//div[contains(@class,"opened")]//div[@class="tyk-modal__content"]//button//span[text()="Confirm"]');}
+  get MODAL() {this.page.locator('.opened .tyk-modal__content');}
+  get UPDATE_CONFIRMATION_BUTTON() {this.page.locator('//div[@class="tyk-modal__content"]//button//span[text()="Update"]');}
+  get DELETE_CONFIRMATION_BUTTON() {this.page.locator('//div[@class="tyk-modal__content"]//button//span[text()="Delete"]');}
+  get CONFIRM_BUTTON() {this.page.locator('//div[contains(@class,"opened")]//div[@class="tyk-modal__content"]//button//span[text()="Confirm"]');}
 
   get policy_created_expected_mesage() {return 'Policy has been successfully created';}
   get policy_updated_expected_mesage() {return 'Policy has been successfully updated';}
@@ -65,4 +65,3 @@ export class Policies_page extends Template_Page {
     return super.waitUntilPageLoaded(this.ADD_POLICY_BUTTON);
   }
 }
-export const policies_page = new Policies_page();

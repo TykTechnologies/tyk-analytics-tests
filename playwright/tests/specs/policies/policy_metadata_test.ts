@@ -1,7 +1,7 @@
 import { test, assert } from '@fixtures';
 
 import { policies_page } from '../../../lib/pom/Policies_page';
-import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
+import { Dashboard_connection } from '@api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 
 const policyDetails = {
@@ -26,7 +26,7 @@ test('Create/update/delete metadata on policy', async ({ createUserAndLogin, mai
   });
 
   await test.step('User should be able to create new Policy with metadata', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.ADD_POLICY_BUTTON.click();
    await policies_page.API_TABLE.clickCellWithText(policyDetails.apiName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
@@ -39,20 +39,20 @@ test('Create/update/delete metadata on policy', async ({ createUserAndLogin, mai
   });
 
   await test.step('Confirmation popup should be displayed', async () => {
-    expect(policies_page.isPolicyCreatedPopUpDisplayed()).to.be.true;
+    assert(policies_page.isPolicyCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   it(`Metadata should be displayed after policy reload`, () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
-    wdioExpect(policies_page.METADATA_TABLE).toHaveTextContaining('meta-key-1');
-    wdioExpect(policies_page.METADATA_TABLE).toHaveTextContaining('meta-value-1');
+    await assert(policies_page.METADATA_TABLE).toContainText('meta-key-1');
+    await assert(policies_page.METADATA_TABLE).toContainText('meta-value-1');
     
   });
 
   await test.step('User should be able to edit metadata on Policy', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
    await policies_page.METADATA_EDIT_BUTTON.click();
@@ -64,19 +64,19 @@ test('Create/update/delete metadata on policy', async ({ createUserAndLogin, mai
   });
 
   await test.step('Confirmation popup should be displayed', async () => {
-    expect(policies_page.isPolicyUpdatedPopUpDisplayed()).to.be.true;
+    assert(policies_page.isPolicyUpdatedPopUpDisplayed()).toBeTruthy();
   });
 
   it(`Updated metadata should be displayed after policy reload`, () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
-    wdioExpect(policies_page.METADATA_TABLE).toHaveTextContaining('meta-key-2');
-    wdioExpect(policies_page.METADATA_TABLE).toHaveTextContaining('meta-value-2');
+    await assert(policies_page.METADATA_TABLE).toContainText('meta-key-2');
+    await assert(policies_page.METADATA_TABLE).toContainText('meta-value-2');
   });
 
   await test.step('User should be able to delete metadata from policy', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
    await policies_page.METADATA_DELETE_BUTTON.click();
@@ -85,18 +85,18 @@ test('Create/update/delete metadata on policy', async ({ createUserAndLogin, mai
   });
 
   await test.step('Confirmation popup should be displayed', async () => {
-    expect(policies_page.isPolicyUpdatedPopUpDisplayed()).to.be.true;
+    assert(policies_page.isPolicyUpdatedPopUpDisplayed()).toBeTruthy();
   });
   
   it(`No metadata should be displayed after policy reload`, () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
-    wdioExpect(policies_page.METADATA_TABLE).not.toExist();
+    await assert(policies_page.METADATA_TABLE).not.toExist();
   });
 
   await test.step('User should be able to add multiple metadata on Policy', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
    await policies_page.MAIN_METADATA_KEY_INPUT.fill("meta-key-1");
@@ -113,10 +113,10 @@ test('Create/update/delete metadata on policy', async ({ createUserAndLogin, mai
   });
 
   it(`Three medatada should be displayed after policy reload`, () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
-    wdioExpect(policies_page.METADATA_TABLE).toHaveChildren({ eq: 3 });
+    await assert(policies_page.METADATA_TABLE).toHaveChildren({ eq: 3 });
   });
 
 });

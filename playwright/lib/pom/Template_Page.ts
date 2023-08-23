@@ -38,7 +38,7 @@ export class Template_Page {
 
   // isErrorPopupDisplayedWithText(text) {
   //   console.debug(`>>> Looking for error popup with text ${text}`);
-  //   wdioExpect(this.ERROR_POP_UPS_LIST).toBeElementsArrayOfSize({ gte: 1 }); //checking if at least one pop up is displayed
+  //   await assert(this.ERROR_POP_UPS_LIST).toBeElementsArrayOfSize({ gte: 1 }); //checking if at least one pop up is displayed
   //   console.debug(`>>> Count of displayed error popups: ${this.ERROR_POP_UPS_LIST.length}`);
   //   const popUpsWithExpectedText = this.ERROR_POP_UPS_LIST.filter(popup => {
   //     console.log(`>>> error popup text: ${popup.getText()}`);

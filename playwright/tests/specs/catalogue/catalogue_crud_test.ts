@@ -1,7 +1,7 @@
 import { test, assert } from '@fixtures';
 
 import { policies_page } from '../../../lib/pom/Policies_page';
-import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
+import { Dashboard_connection } from '@api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 import { catalogue_page } from '../../../lib/pom/Catalogue_page';
 
@@ -49,7 +49,7 @@ await test.step('Prerequisits: creating API definition via dashboard API', async
     });
 
 await test.step('User should be able to create new Policy', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.ADD_POLICY_BUTTON.click();
    await policies_page.API_TABLE.clickCellWithText(policyDetails.apiName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
@@ -59,11 +59,11 @@ await test.step('User should be able to create new Policy', async () => {
 });
 
 await test.step('Confirmation popup should be displayed', async () => {
-    expect(policies_page.isPolicyCreatedPopUpDisplayed()).to.be.true;
+    assert(policies_page.isPolicyCreatedPopUpDisplayed()).toBeTruthy();
   });
 
 it('User should be able to add new API to Catalogue',()=>{
-    main_page.openCatalogue();
+    await main_page.openCatalogue();
    await catalogue_page.ADD_NEW_API_BUTTON.click();
    await catalogue_page.PUBLIC_API_NAME_INPUT.click();
    await catalogue_page.PUBLIC_API_NAME_INPUT.fill(catalogueDetails.publicApiName);
@@ -84,27 +84,27 @@ it('User should be able to add new API to Catalogue',()=>{
 
 it('User should be able to modify Catalogue settings',()=>{
    await catalogue_page.CATALOGUE_TABLE.clickCellWithText(catalogueDetails.publicApiName);
-    wdioExpect(catalogue_page.PUBLIC_API_NAME_INPUT).toHaveValue(catalogueDetails.publicApiName);
-    wdioExpect(catalogue_page.DESCRIBE_THIS_API_INPUT).toHaveText(catalogueDetails.descriptionOfAPI);
-    wdioExpect(catalogue_page.CATALOGUE_OWNER_EMAIL_INPUT).toHaveValue(catalogueDetails.catalogueOwnerAPI);
+    await assert(catalogue_page.PUBLIC_API_NAME_INPUT).toHaveValue(catalogueDetails.publicApiName);
+    await assert(catalogue_page.DESCRIBE_THIS_API_INPUT).toHaveText(catalogueDetails.descriptionOfAPI);
+    await assert(catalogue_page.CATALOGUE_OWNER_EMAIL_INPUT).toHaveValue(catalogueDetails.catalogueOwnerAPI);
    await catalogue_page.PUBLIC_API_NAME_INPUT.fill(updatedCatalogueDetails.publicApiName);
     catalogue_page.DESCRIBE_awaitawait this.API_INPUT.click();
     catalogue_page.DESCRIBE_await this.API_INPUT.fill(updatedCatalogueDetails.descriptionOfAPI);
    await catalogue_page.CATALOGUE_OWNER_EMAIL_INPUT.fill(updatedCatalogueDetails.catalogueOwnerAPI);
    await catalogue_page.SETTINGS_TAB_BUTTON.click();
-    expect(catalogue_page.OVERRIDE_GLOBAL_SETTINGS.isSelected()).to.be.false;
-    expect(catalogue_page.REQUIRE_KEY_APPROVAL.isSelected()).to.be.false;
+    assert(catalogue_page.OVERRIDE_GLOBAL_SETTINGS.isSelected()).to.be.false;
+    assert(catalogue_page.REQUIRE_KEY_APPROVAL.isSelected()).to.be.false;
    await catalogue_page.UPDATE_BUTTON.click();
    await catalogue_page.API_DETAILS_TAB.click();
-    wdioExpect(catalogue_page.PUBLIC_API_NAME_INPUT).toHaveValue(updatedCatalogueDetails.publicApiName);
-    wdioExpect(catalogue_page.DESCRIBE_THIS_API_INPUT).toHaveValue(updatedCatalogueDetails.descriptionOfAPI);
-    wdioExpect(catalogue_page.CATALOGUE_OWNER_EMAIL_INPUT).toHaveValue(updatedCatalogueDetails.catalogueOwnerAPI);
+    await assert(catalogue_page.PUBLIC_API_NAME_INPUT).toHaveValue(updatedCatalogueDetails.publicApiName);
+    await assert(catalogue_page.DESCRIBE_THIS_API_INPUT).toHaveValue(updatedCatalogueDetails.descriptionOfAPI);
+    await assert(catalogue_page.CATALOGUE_OWNER_EMAIL_INPUT).toHaveValue(updatedCatalogueDetails.catalogueOwnerAPI);
 });
 
 it ('User should be able to delete a catalogue',()=>{
    await catalogue_page.DELETE_BUTTON.click();
    await catalogue_page.DELETE_KEY_CONFIRMATION_BUTTON.click();
-    wdioExpect(catalogue_page.NO_APIS_REGISTERED_MESSAGE).toHaveText(NoCatalogueMessage);
+    await assert(catalogue_page.NO_APIS_REGISTERED_MESSAGE).toHaveText(NoCatalogueMessage);
 });
 
 

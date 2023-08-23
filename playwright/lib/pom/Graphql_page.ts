@@ -25,7 +25,7 @@ export class Graphql_page extends Template_Page {
   get FEDERATION_ADD_SUBGRAPH_BUTTON() { return new Button_object('button=Add Subgraph', this.page); }
   get FEDERATION_ADD_SUBGRAPH_DROPDOWN() { return new DropDown_object('//label[text()="Select subgraph"]//following-sibling::div//div[@class="tyk-form-control"]', this.page); }
   get FEDERATION_ADD_BUTTON() { return new Button_object('button=Add', this.page); }
-  get UDG_IMPORT_SCHEMA_FILE_FIELD() { return $('//div[@class="tyk-file-input__wrapper"]//input[@label="Import File"]'); }
+  get UDG_IMPORT_SCHEMA_FILE_FIELD() { this.page.locator('//div[@class="tyk-file-input__wrapper"]//input[@label="Import File"]'); }
   getUDG_OPEN_FIELD_OPTIONS_BUTTON(type, field) {
     return new Button_object(`//h3[@class="section-title" and text()="Type | "]//descendant::span[@class="field-name" and text()="${type}"]//ancestor::div[1]//descendant::label[text()="${field}"]`);
   }
@@ -43,7 +43,7 @@ export class Graphql_page extends Template_Page {
   get UDG_SELECT_GRAPHQL_API_OPEN_COMBOBOX() { return new Button_object('//span[text()="GraphQL | Tyk"]//ancestor::div[2]//descendant::span[@title="Select API"]', this.page); }
   get UDG_COMBOBOX_FILTER_INPUT() { return new Input_object('//div[@class="tyk-combobox2__combobox-search"]//input', this.page); }
   get UDG_COMBOBOX_DROPDOWN() { return new DropDown_object('//ul[@class="tyk-combobox2__combobox-list"]', this.page); }
-  get UDG_DATA_SOURCE_CONNECTED_WARNING_MESSAGE() { return $('//div[@class="tyk-message__content" and contains(text(),"This data source is connected to multiple fields.")]'); }
+  get UDG_DATA_SOURCE_CONNECTED_WARNING_MESSAGE() { this.page.locator('//div[@class="tyk-message__content" and contains(text(),"This data source is connected to multiple fields.")]'); }
   get UDG_CONFIGURE_EXTERNAL_REST_BUTTON() { return new Button_object('span=REST', this.page); }
   get UDG_CONFIGURE_EXTERNAL_GQL_BUTTON() { return new Button_object('span=GRAPHQL', this.page); }
   get UDG_CONFIGURE_EXTERNAL_KAFKA_BUTTON() { return new Button_object('span=KAFKA', this.page); }
@@ -105,8 +105,8 @@ export class Graphql_page extends Template_Page {
   verifySchemaEditorContents(verificationArray, schemaEditorXpath) {
     verificationArray.forEach((line, lineIndex) => {
       line.forEach(word => {
-        wdioExpect($(`${schemaEditorXpath}//child::div[${lineIndex + 1}]//span[contains(@class,"mtk") and text()='${word}']`)).toBeDisplayed();
-        // wdioExpect($(`//div[@class="view-lines monaco-mouse-cursor-text"]//child::div[${lineIndex + 1}]//span[contains(@class,"mtk") and text()="${word}"]`)).toBeDisplayed();
+        await assert($(`${schemaEditorXpath}//child::div[${lineIndex + 1}]//span[contains(@class,"mtk") and text()='${word}']`)).toBeDisplayed();
+        // await assert($(`//div[@class="view-lines monaco-mouse-cursor-text"]//child::div[${lineIndex + 1}]//span[contains(@class,"mtk") and text()="${word}"]`)).toBeDisplayed();
       });
     });
   }

@@ -2,7 +2,7 @@ import { test, assert } from '@fixtures';
 import { apis_page } from '../../../lib/pom/Apis_page';
 import { graphql_page } from '../../../lib/pom/Graphql_page';
 
-import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
+import { Dashboard_connection } from '@api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 const path = require('path');
 
@@ -80,12 +80,12 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
     });
 
     xawait test.step('User should be able to define external REST, GraphQL and Kafka datasources in a UDG API', async () => {
-        main_page.openAPIs();
+        await main_page.openAPIs();
         $apiTableElement = $(`span=${udgApi.name}`);
         while (!apis_page.ADD_NEW_API_BUTTON.isExisting() && refreshCounter < 5) {
             browser.refresh();
             browser.pause(2000);
-            main_page.openAPIs();
+            await main_page.openAPIs();
         }
         $apiTableElement.click();
        await graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
@@ -95,14 +95,14 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
        await graphql_page.UDG_DATA_SOURCE_NAME_INPUT.fill(udgDetails.restSource);
        await graphql_page.UDG_DATA_SOURCE_URL_INPUT.click();
         graphql_page.keys(udgDetails.restDataSourceUrl);
-        wdioExpect($(`//li//span[text()="${udgDetails.restQuery}"]`)).toExist();
-        wdioExpect($(`//li//span[text()="${udgDetails.gqlQuery}"]`)).toExist();
-        wdioExpect($(`//li//span[text()="${udgDetails.kafkaQuery}"]`)).toExist();
+        await assert($(`//li//span[text()="${udgDetails.restQuery}"]`)).toExist();
+        await assert($(`//li//span[text()="${udgDetails.gqlQuery}"]`)).toExist();
+        await assert($(`//li//span[text()="${udgDetails.kafkaQuery}"]`)).toExist();
        await graphql_page.UDG_TEMPLATING_SYNTAX_FILTER.fill("rest");
-        wdioExpect($(`//li//span[text()="${udgDetails.gqlQuery}"]`)).not.toExist();
-        wdioExpect($(`//li//span[text()="${udgDetails.kafkaQuery}"]`)).not.toExist();
+        await assert($(`//li//span[text()="${udgDetails.gqlQuery}"]`)).not.toExist();
+        await assert($(`//li//span[text()="${udgDetails.kafkaQuery}"]`)).not.toExist();
         graphql_page.UDG_TEMPLATING_SYNTAX_HINT_LIST.selectComboboxOption(udgDetails.restQuery);
-        wdioExpect(graphql_page.UDG_DATA_SOURCE_URL_INPUT).toHaveText(udgDetails.expectedFullRestDataSourceUrl);
+        await assert(graphql_page.UDG_DATA_SOURCE_URL_INPUT).toHaveText(udgDetails.expectedFullRestDataSourceUrl);
        await graphql_page.UDG_DATA_SOURCE_METHOD.selectOption("GET");
         graphql_page.UDG_ADD_HEADERS_CHECKBOX.check();
        await graphql_page.UDG_ADD_HEADER_BUTTON.click();
@@ -112,13 +112,13 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
        await graphql_page.UDG_NEW_HEADER_KEY_INPUT.fill("tempHeaderKey");
        await graphql_page.UDG_NEW_HEADER_VALUE_INPUT.fill("tempHeaderValue");
        await graphql_page.getUDG_HEADER_DELETE_BY_POSITION_BUTTON(1).click();
-        wdioExpect(graphql_page.getUDG_HEADER_KEY_BY_POSITION_INPUT(2)).not.toExist();
+        await assert(graphql_page.getUDG_HEADER_KEY_BY_POSITION_INPUT(2)).not.toExist();
         graphql_page.UDG_DISABLE_FIELD_MAPPING_CHECKBOX.uncheck();
        await graphql_page.UDG_FIELD_MAPPING_PATH_INPUT.fill(udgDetails.fieldMappingPath);
        await graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
        await apis_page.CONFIRM_BUTTON.click();
-        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.restQuery, udgDetails.restSource)).toExist();
-        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.restQuery, "REST")).toExist();
+        await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.restQuery, udgDetails.restSource)).toExist();
+        await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.restQuery, "REST")).toExist();
         //Define GQL data source for a Query type field
         graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query",await udgDetails.gqlQuery).click();
        await graphql_page.UDG_CONFIGURE_EXTERNAL_GQL_BUTTON.click();
@@ -130,13 +130,13 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
        await graphql_page.UDG_NEW_HEADER_KEY_INPUT.fill(udgDetails.headerKey);
        await graphql_page.UDG_NEW_HEADER_VALUE_INPUT.fill(udgDetails.headerValue);
        await graphql_page.getUDG_HEADER_DELETE_BY_POSITION_BUTTON(1).click();
-        wdioExpect(graphql_page.getUDG_HEADER_KEY_BY_POSITION_INPUT(2)).not.toExist();
+        await assert(graphql_page.getUDG_HEADER_KEY_BY_POSITION_INPUT(2)).not.toExist();
         graphql_page.UDG_DISABLE_FIELD_MAPPING_CHECKBOX.uncheck();
        await graphql_page.UDG_FIELD_MAPPING_PATH_INPUT.fill(udgDetails.fieldMappingPath);
        await graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
        await apis_page.CONFIRM_BUTTON.click();
-        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.gqlQuery, udgDetails.gqlSource)).toExist();
-        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.gqlQuery, "GraphQL")).toExist();
+        await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.gqlQuery, udgDetails.gqlSource)).toExist();
+        await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.gqlQuery, "GraphQL")).toExist();
         //Define Kafka data source for a Query type field
         graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query",await udgDetails.kafkaQuery).click();
        await graphql_page.UDG_CONFIGURE_EXTERNAL_KAFKA_BUTTON.click();
@@ -145,12 +145,12 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
        await graphql_page.UDG_ADD_BROKER_ADDRESSES_BUTTON.click();
        await graphql_page.getUDG_BROKER_ADDRESSES_BY_POSITION_INPUT(1).fill("BrokerAddress");
        await graphql_page.getUDG_BROKER_ADDRESSES_DELETE_BY_POSITION_BUTTON(2).click();
-        wdioExpect(graphql_page.getUDG_BROKER_ADDRESSES_BY_POSITION_INPUT(2)).not.toExist();
+        await assert(graphql_page.getUDG_BROKER_ADDRESSES_BY_POSITION_INPUT(2)).not.toExist();
        await graphql_page.getUDG_TOPICS_BY_POSITION_INPUT(1).fill("tempTopic");
        await graphql_page.UDG_ADD_TOPICS_BUTTON.click();
        await graphql_page.getUDG_TOPICS_BY_POSITION_INPUT(1).fill("BrokerAddress");
        await graphql_page.getUDG_TOPICS_DELETE_BY_POSITION_BUTTON(2).click();
-        wdioExpect(graphql_page.getUDG_TOPICS_BY_POSITION_INPUT(2)).not.toExist();
+        await assert(graphql_page.getUDG_TOPICS_BY_POSITION_INPUT(2)).not.toExist();
        await graphql_page.UDG_GROUP_ID_INPUT.fill("GroupID");
        await graphql_page.UDG_CLIENT_ID_INPUT.fill("ClientID");
         graphql_page.UDG_KAFKA_VERSION_DROPDOWN.selectFirstOption();
@@ -163,27 +163,27 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
         graphql_page.UDG_DISABLE_FIELD_MAPPING_CHECKBOX.uncheck();
        await graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
        await apis_page.CONFIRM_BUTTON.click();
-        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.kafkaQuery, udgDetails.kafkaSource)).toExist();
-        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.kafkaQuery, "Kafka")).toExist();
+        await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.kafkaQuery, udgDetails.kafkaSource)).toExist();
+        await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.kafkaQuery, "Kafka")).toExist();
     });
 
     xawait test.step('User should be able to assign an existing data source to an object in an UDG API', async () => {
         graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON(udgDetails.gqlType,await udgDetails.gqlTypeField1).click();
         graphql_page.UDG_EXPAND_DATA_SOURCES_ACCORDION.expand();
        await graphql_page.UDG_SELECT_DATA_SOURCE_OPEN_COMBOBOX.click();
-        wdioExpect($(`//li//span[text()="${udgDetails.restSource}"]`)).toExist();
-        wdioExpect($(`//li//span[text()="${udgDetails.gqlSource}"]`)).toExist();
+        await assert($(`//li//span[text()="${udgDetails.restSource}"]`)).toExist();
+        await assert($(`//li//span[text()="${udgDetails.gqlSource}"]`)).toExist();
        await graphql_page.UDG_COMBOBOX_FILTER_INPUT.fill("gql");
-        wdioExpect($(`//li//span[text()="${udgDetails.restSource}"]`)).not.toExist();
+        await assert($(`//li//span[text()="${udgDetails.restSource}"]`)).not.toExist();
         graphql_page.UDG_COMBOBOX_DROPDOWN.selectComboboxOption(udgDetails.gqlSource);
-        wdioExpect(graphql_page.UDG_DATA_SOURCE_CONNECTED_WARNING_MESSAGE).toExist();
-        wdioExpect(graphql_page.UDG_DATA_SOURCE_NAME_INPUT).toHaveValue(udgDetails.gqlSource);
-        wdioExpect(graphql_page.UDG_DATA_SOURCE_URL_INPUT).toHaveValue(udgDetails.gqlDataSourceUrl);
-        wdioExpect(graphql_page.UDG_FIELD_MAPPING_PATH_INPUT).toHaveValue(udgDetails.gqlTypeField1);
+        await assert(graphql_page.UDG_DATA_SOURCE_CONNECTED_WARNING_MESSAGE).toExist();
+        await assert(graphql_page.UDG_DATA_SOURCE_NAME_INPUT).toHaveValue(udgDetails.gqlSource);
+        await assert(graphql_page.UDG_DATA_SOURCE_URL_INPUT).toHaveValue(udgDetails.gqlDataSourceUrl);
+        await assert(graphql_page.UDG_FIELD_MAPPING_PATH_INPUT).toHaveValue(udgDetails.gqlTypeField1);
        await graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
        await apis_page.CONFIRM_BUTTON.click();
-        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME(udgDetails.gqlType, udgDetails.gqlTypeField1, udgDetails.gqlSource)).toExist();
-        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE(udgDetails.gqlType, udgDetails.gqlTypeField1, "GraphQL")).toExist();
+        await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME(udgDetails.gqlType, udgDetails.gqlTypeField1, udgDetails.gqlSource)).toExist();
+        await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE(udgDetails.gqlType, udgDetails.gqlTypeField1, "GraphQL")).toExist();
     });
 
     xawait test.step('User should be able to remove a data source from an object', async () => {
@@ -191,12 +191,12 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
        await graphql_page.UDG_DATA_SOURCE_RESET_BUTTON.click();
        await graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
        await apis_page.CONFIRM_BUTTON.click();
-        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.restQuery, udgDetails.restSource)).not.toExist();
-        wdioExpect(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.restQuery, "REST")).not.toExist();
+        await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.restQuery, udgDetails.restSource)).not.toExist();
+        await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.restQuery, "REST")).not.toExist();
     });
 
     xawait test.step('User should be able to upload a schema file in a UDG API', async () => {
-        main_page.openAPIs();
+        await main_page.openAPIs();
        await apis_page.ADD_NEW_API_BUTTON.click();
        await apis_page.API_NAME_INPUT.fill(udgDetails.fileUploadApiName);
        await apis_page.API_TYPE_UDG_BUTTON.click();
@@ -206,11 +206,11 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
         graphql_page.verifySchemaEditorContents(schemaFileUploadVerificationArray, schemaEditorXpath);
        await apis_page.SAVE_BUTTON.click();
         //Verify file upload again after saving API
-        main_page.openAPIs();
+        await main_page.openAPIs();
         $apiTableElement = $(`span=${udgDetails.fileUploadApiName}`);
         $apiTableElement.click();
        await graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
         graphql_page.verifySchemaEditorContents(schemaFileUploadVerificationArray, schemaEditorXpath);
-        wdioExpect(graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", udgDetails.restQuery));
+        await assert(graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", udgDetails.restQuery));
     });    
 });

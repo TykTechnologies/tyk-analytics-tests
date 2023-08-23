@@ -1,7 +1,7 @@
 import { test, assert } from '@fixtures';
 
 import { policies_page } from '../../../lib/pom/Policies_page';
-import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
+import { Dashboard_connection } from '@api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 
 const policyDetails = {
@@ -29,7 +29,7 @@ test('Create/update/delete tags on policy', async ({ createUserAndLogin, main_pa
   });
 
   await test.step('User should be able to create new Policy with tag', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.ADD_POLICY_BUTTON.click();
    await policies_page.API_TABLE.clickCellWithText(policyDetails.apiName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
@@ -41,18 +41,18 @@ test('Create/update/delete tags on policy', async ({ createUserAndLogin, main_pa
   });
 
   await test.step('Confirmation popup should be displayed', async () => {
-    expect(policies_page.isPolicyCreatedPopUpDisplayed()).to.be.true;
+    assert(policies_page.isPolicyCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   it(`Tag: ${policyDetails.tagName} should be displayed after policy reload`, () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
-    expect(policies_page.TAG_LABEL.getText()).to.equal(policyDetails.tagName);
+    assert(policies_page.TAG_LABEL.getText()).to.equal(policyDetails.tagName);
   });
 
   await test.step('User should be able to edit tag on Policy', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
    await policies_page.TAG_EDIT_BUTTON.click();
@@ -63,18 +63,18 @@ test('Create/update/delete tags on policy', async ({ createUserAndLogin, main_pa
   });
 
   await test.step('Confirmation popup should be displayed', async () => {
-    expect(policies_page.isPolicyUpdatedPopUpDisplayed()).to.be.true;
+    assert(policies_page.isPolicyUpdatedPopUpDisplayed()).toBeTruthy();
   });
 
   it(`Updated tag: ${policyDetails.updatedTagName} should be displayed after policy reload`, () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
-    expect(policies_page.TAG_LABEL.getText()).to.equal(policyDetails.updatedTagName);
+    assert(policies_page.TAG_LABEL.getText()).to.equal(policyDetails.updatedTagName);
   });
 
   await test.step('User should be able to delete tag from policy', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
    await policies_page.TAG_DELETE_BUTTON.click();
@@ -83,11 +83,11 @@ test('Create/update/delete tags on policy', async ({ createUserAndLogin, main_pa
   });
 
   await test.step('Confirmation popup should be displayed', async () => {
-    expect(policies_page.isPolicyUpdatedPopUpDisplayed()).to.be.true;
+    assert(policies_page.isPolicyUpdatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('User should be able to add multiple tags on Policy', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
    await policies_page.MAIN_TAG_INPUT.fill(policyDetails.tagName);
@@ -101,10 +101,10 @@ test('Create/update/delete tags on policy', async ({ createUserAndLogin, main_pa
   });
 
   it(`Three tags should be displayed after policy reload`, () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
-    wdioExpect(policies_page.TAG_ELEMENTS).toHaveChildren({ gte: 3 });
+    await assert(policies_page.TAG_ELEMENTS).toHaveChildren({ gte: 3 });
   });
 
 });

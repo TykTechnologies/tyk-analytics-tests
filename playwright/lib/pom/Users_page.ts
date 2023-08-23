@@ -26,10 +26,10 @@ export class Users_page extends Template_Page {
   get PERMISSIONS_ANALYTICS_ROW() {return $(`input[name="user_permissions.analytics"]`);}
 
   //MODALS
-  get MODAL() {return $('.opened .tyk-modal__content');}
-  get UPDATE_CONFIRMATION_BUTTON() {return $('//div[@class="tyk-modal__content"]//button//span[text()="Update"]');}
-  get DELETE_CONFIRMATION_BUTTON() {return $('//div[@class="tyk-modal__content"]//button//span[text()="Delete"]');}
-  get CONFIRM_BUTTON() {return $('//div[contains(@class,"opened")]//div[@class="tyk-modal__content"]//button//span[text()="Confirm"]');}
+  get MODAL() {this.page.locator('.opened .tyk-modal__content');}
+  get UPDATE_CONFIRMATION_BUTTON() {this.page.locator('//div[@class="tyk-modal__content"]//button//span[text()="Update"]');}
+  get DELETE_CONFIRMATION_BUTTON() {this.page.locator('//div[@class="tyk-modal__content"]//button//span[text()="Delete"]');}
+  get CONFIRM_BUTTON() {this.page.locator('//div[contains(@class,"opened")]//div[@class="tyk-modal__content"]//button//span[text()="Confirm"]');}
 
   get user_created_expected_mesage() {return 'User added successfully';}
   get user_updated_expected_mesage() {return 'User updated successfully';}
@@ -47,14 +47,13 @@ export class Users_page extends Template_Page {
 
   selectReadAccessForPermission(permissionName) {
     const $$radioButtons = page.locator(`input[name="user_permissions.${permissionName}"]`);
-    wdioExpect($$radioButtons).toBeElementsArrayOfSize({gte: 2});
+    await assert($$radioButtons).toBeElementsArrayOfSize({gte: 2});
     $$radioButtons[1].waitForClickable();
     $$radioButtons[1].click();
     browser.pause(1000);
     if ($$radioButtons[1].getValue() !== 'read'){
       $$radioButtons[1].click();
     }
-    wdioExpect($$radioButtons[1]).toHaveValue('read');
+    await assert($$radioButtons[1]).toHaveValue('read');
   }
 }
-export const users_page = new Users_page();

@@ -16,7 +16,7 @@ export class Tib_page extends Template_Page {
     get OICD_CLIENT_ID_INPUT() {return new Input_object('input[name="ProviderConfig.UseProviders[0].Key"]', this.page);}
     get OICD_CLIENT_SECRET_INPUT() {return new Input_object('input[name="ProviderConfig.UseProviders[0].Secret"]', this.page);}
     get OICD_DISCOVER_URL_INPUT() {return new Input_object('input[name="ProviderConfig.UseProviders[0].DiscoverURL"]', this.page);}
-    get SOCIAL_POLICY_DROPDOWN() {return $('span=Select policy');}
+    get SOCIAL_POLICY_DROPDOWN() {return this.page.locator('p').filter({ hasText: 'Select policy' });}
     get SOCIAL_PROVIDER_DROPDOWN() {return new DropDown_object('span=Select a provider', this.page);}
     get SOCIAL_CLIENT_ID_INPUT() {return new Input_object('input[name="ProviderConfig.UseProviders[0].Key"]', this.page);}
     get SOCIAL_CLIENT_SECRET_INPUT() {return new Input_object('input[name="ProviderConfig.UseProviders[0].Secret"]', this.page);}
@@ -32,4 +32,3 @@ export class Tib_page extends Template_Page {
     get profile_created_expected_mesage() {return 'Profile created successfully';}
     isProfileCreatedPopUpDisplayed() {return this.isSuccessPopupDisplayedWithText(this.profile_created_expected_mesage);}
 }
-export const tib_page = new Tib_page();

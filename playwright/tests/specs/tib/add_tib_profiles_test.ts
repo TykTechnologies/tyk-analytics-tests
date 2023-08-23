@@ -1,7 +1,7 @@
 import { test, assert } from '@fixtures';
 
 import { tib_page } from '../../../lib/pom/Tib_page';
-import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
+import { Dashboard_connection } from '@api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 import { newPolicyDefinitionWithDefaults } from '../../../lib/utils/Policy_object_designer';
 const path = require('path');
@@ -70,7 +70,7 @@ test('TIB profile creation tests', async ({ createUserAndLogin, main_page }) => 
   });
 
   beforeEach(() => {
-    main_page.openIdentityManagement();
+    await main_page.openIdentityManagement();
   });
 
   xawait test.step('User should be able to add SAML profile', async () => {
@@ -82,7 +82,7 @@ test('TIB profile creation tests', async ({ createUserAndLogin, main_page }) => 
     tib_page.SAML_CERTIFICATE_DROPDOWN.selectFirstOption();
    await tib_page.SAML_URL_INPUT.fill(samlProfile.url);
    await tib_page.CREATE_PROFILE_BUTTON.click();
-    expect(tib_page.isProfileCreatedPopUpDisplayed()).to.be.true;
+    assert(tib_page.isProfileCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   xawait test.step('User should be able to open SAML profile', async () => {
@@ -99,7 +99,7 @@ test('TIB profile creation tests', async ({ createUserAndLogin, main_page }) => 
    await tib_page.LDAP_PORT_INPUT.fill(ldapProfile.port);
    await tib_page.LDAP_USERDN_INPUT.fill(ldapProfile.dn);
    await tib_page.CREATE_PROFILE_BUTTON.click();
-    expect(tib_page.isProfileCreatedPopUpDisplayed()).to.be.true;
+    assert(tib_page.isProfileCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('User should be able to open LDAP profile', async () => {
@@ -116,7 +116,7 @@ test('TIB profile creation tests', async ({ createUserAndLogin, main_page }) => 
    await tib_page.OICD_CLIENT_SECRET_INPUT.fill(oidcProfile.clientSecret);
    await tib_page.OICD_DISCOVER_URL_INPUT.fill(oidcProfile.url);
    await tib_page.CREATE_PROFILE_BUTTON.click();
-    expect(tib_page.isProfileCreatedPopUpDisplayed()).to.be.true;
+    assert(tib_page.isProfileCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('User should be able to open OpenID profile', async () => {
@@ -135,7 +135,7 @@ test('TIB profile creation tests', async ({ createUserAndLogin, main_page }) => 
    await tib_page.SOCIAL_CLIENT_ID_INPUT.fill(socialProfile.clientId);
    await tib_page.SOCIAL_CLIENT_SECRET_INPUT.fill(socialProfile.clientSecret);
    await tib_page.CREATE_PROFILE_BUTTON.click();
-    expect(tib_page.isProfileCreatedPopUpDisplayed()).to.be.true;
+    assert(tib_page.isProfileCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('User should be able to open Social profile', async () => {
@@ -146,7 +146,7 @@ test('TIB profile creation tests', async ({ createUserAndLogin, main_page }) => 
     $profileTableElement = $(`td=${profileName}`);
     $profileNameHeader = $(`h1*=${profileName}`);
     $profileTableElement.click();
-    wdioExpect($profileNameHeader).toBeDisplayed();
+    await assert($profileNameHeader).toBeDisplayed();
   }
 
 });

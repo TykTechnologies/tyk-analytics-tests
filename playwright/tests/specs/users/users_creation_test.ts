@@ -23,7 +23,7 @@ test('Users creation', async ({ createUserAndLogin, main_page }) => {
   });
 
   beforeEach(() => {
-    main_page.openUsers();
+    await main_page.openUsers();
    await users_page.ADD_USER_BUTTON.click();
   });
 
@@ -31,10 +31,10 @@ test('Users creation', async ({ createUserAndLogin, main_page }) => {
     fillUserData({...userDetails, ...invalidEmail});
    await users_page.SAVE_BUTTON.click();
 
-    expect(users_page.isErrorPopUpDisplayed()).to.be.true;
-    main_page.openUsers();
+    assert(users_page.isErrorPopUpDisplayed()).toBeTruthy();
+    await main_page.openUsers();
     const userIsNotVisibleInTable = users_page.USERS_TABLE.isCellWithTextNotDisplayed(invalidEmail.emailAdress);
-    expect(userIsNotVisibleInTable).to.be.true;
+    assert(userIsNotVisibleInTable).toBeTruthy();
   });
 
   await test.step('Admin should be able to create inactive user', async () => {
@@ -43,19 +43,19 @@ test('Users creation', async ({ createUserAndLogin, main_page }) => {
    await users_page.SAVE_BUTTON.click();
    await users_page.USERS_TABLE.clickCellWithText(userDetails.firstName);
     const isUserActive = users_page.ACCOUNT_IS_ACTIVE_CHECKBOX.isSelected();
-    expect(isUserActive).to.be.false;
+    assert(isUserActive).to.be.false;
   });
 
   await test.step('Admin should NOT be able to create user with already existing email', async () => {
     fillUserData(userDetails); //user with email in userDetails is already created
    await users_page.SAVE_BUTTON.click();
-    expect(users_page.isUserAlreadyExistsPopUpDisplayed()).to.be.true;
+    assert(users_page.isUserAlreadyExistsPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Admin should NOT be able to create user with short password', async () => {
     fillUserData({...userDetails, ...shortPassword});
    await users_page.SAVE_BUTTON.click();
-    expect(users_page.isErrorPopUpDisplayed()).to.be.true;
+    assert(users_page.isErrorPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Admin should be able to create user with limited permissions', async () => {
@@ -69,10 +69,10 @@ test('Users creation', async ({ createUserAndLogin, main_page }) => {
     users_page.selectReadAccessForPermission('analytics');
    await users_page.SAVE_BUTTON.click();
     
-    expect(users_page.isUserCreatedPopUpDisplayed()).to.be.true;
-    main_page.openUsers();
+    assert(users_page.isUserCreatedPopUpDisplayed()).toBeTruthy();
+    await main_page.openUsers();
    await users_page.USERS_TABLE.clickCellWithText(userForPermissionsTest.firstName);
-    wdioExpect(users_page.PERMISSIONS_ANALYTICS_ROW).toHaveValue('read');
+    await assert(users_page.PERMISSIONS_ANALYTICS_ROW).toHaveValue('read');
   });
 });
 

@@ -24,9 +24,9 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
     let firstAPI = true;
     let apiName = 'default-values';
     openOasDesignerPage(firstAPI);
-    expect(apis_page.OAS_ENABLE_SD_TOGGLE.isSelected()).to.be.false;
+    assert(apis_page.OAS_ENABLE_SD_TOGGLE.isSelected()).to.be.false;
    await apis_page.OAS_ENABLE_SD_TOGGLE.click();
-    wdioExpect(apis_page.OAS_SD_PRESETS_DROPDOWN).toHaveText("Custom");
+    await assert(apis_page.OAS_SD_PRESETS_DROPDOWN).toHaveText("Custom");
    await apis_page.OAS_SD_PORT_IS_SEPARATE_BOX.click();
    await apis_page.OAS_SD_VALUES_ARE_NESTED_BOX.click();
     createApi(apiName);
@@ -35,10 +35,10 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
     let portDataPathErrorMessage = $('//input[@name="x-tyk-api-gateway.upstream.serviceDiscovery.portDataPath"]//following::p[1]');
     let parentDataPathErrorMessage = $('//input[@name="x-tyk-api-gateway.upstream.serviceDiscovery.parentDataPath"]//following::p[1]');
     let dataPathErrorMessage = $('//input[@name="x-tyk-api-gateway.upstream.serviceDiscovery.dataPath"]//following::p[1]');
-    wdioExpect(queryEndpointErrorMessage).toHaveText('Query Endpoint is required');  
-    wdioExpect(portDataPathErrorMessage).toHaveText('Port Data Path is required');  
-    wdioExpect(parentDataPathErrorMessage).toHaveText('Parent Data Path is required');  
-    wdioExpect(dataPathErrorMessage).toHaveText('Data Path is required');  
+    await assert(queryEndpointErrorMessage).toHaveText('Query Endpoint is required');  
+    await assert(portDataPathErrorMessage).toHaveText('Port Data Path is required');  
+    await assert(parentDataPathErrorMessage).toHaveText('Parent Data Path is required');  
+    await assert(dataPathErrorMessage).toHaveText('Data Path is required');  
   });
 
   await test.step('User can save API with Custom Preset', async () => {
@@ -59,24 +59,24 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
    await apis_page.OAS_SD_PARENT_DATA_PATH_INPUT.fill(parentDataPath);
    await apis_page.OAS_SD_DATA_PATH_INPUT.fill(dataPath);
     createApi(apiName);
-    expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
+    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Custom data is saved after reloading page', async () => {  
     browser.refresh();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
-    wdioExpect(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
-    wdioExpect(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText(targetPath);
-    wdioExpect(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('34');
+    await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
+    await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText(targetPath);
+    await assert(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('34');
     apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
-    wdioExpect(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PORT_DATA_PATH_SAVED).toHaveText(portDataPath);
-    wdioExpect(apis_page.OAS_SD_VALUES_ARE_NESTED_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PARENT_DATA_PATH_SAVED).toHaveText(parentDataPath);
-    wdioExpect(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText(dataPath);
+    await assert(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_PORT_DATA_PATH_SAVED).toHaveText(portDataPath);
+    await assert(apis_page.OAS_SD_VALUES_ARE_NESTED_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_PARENT_DATA_PATH_SAVED).toHaveText(parentDataPath);
+    await assert(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText(dataPath);
   });
 
   await test.step('User can edit and modify API with Custom Preset', async () => {
@@ -92,22 +92,22 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
    await apis_page.OAS_SD_PARENT_DATA_PATH_INPUT.fill(parentDataPath + "_new");
    await apis_page.OAS_SD_DATA_PATH_INPUT.fill(dataPath + "_new");
    await apis_page.OAS_SAVE_BUTTON.click();
-    expect(apis_page.isApiUpdatedPopUpDisplayed()).to.be.true;
+    assert(apis_page.isApiUpdatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Modified data is saved after reloading page', async () => {  
     browser.refresh();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
-    wdioExpect(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint + "_new");
-    wdioExpect(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText(targetPath + "_new");
-    wdioExpect(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint + "_new");
+    await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText(targetPath + "_new");
+    await assert(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).not.toBeChecked();
     apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
-    wdioExpect(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_SD_VALUES_ARE_NESTED_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PARENT_DATA_PATH_SAVED).toHaveText(parentDataPath + "_new");
-    wdioExpect(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText(dataPath + "_new");
+    await assert(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_SD_VALUES_ARE_NESTED_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_PARENT_DATA_PATH_SAVED).toHaveText(parentDataPath + "_new");
+    await assert(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText(dataPath + "_new");
   });
 
   await test.step('User can save API with Consul Preset', async () => {
@@ -118,23 +118,23 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
    await apis_page.OAS_SD_PRESETS_DROPDOWN.selectOption("Consul");
    await apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.fill(queryEndpoint);
     createApi(apiName);
-    expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
+    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Consul data is saved after reloading page', async () => {  
     browser.refresh();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
-    wdioExpect(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
-    wdioExpect(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText("-");
-    wdioExpect(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('20');
+    await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
+    await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText("-");
+    await assert(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('20');
     apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
-    wdioExpect(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PORT_DATA_PATH_SAVED).toHaveText('ServicePort');
-    wdioExpect(apis_page.OAS_SD_VALUES_ARE_NESTED_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText('Address');
+    await assert(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_PORT_DATA_PATH_SAVED).toHaveText('ServicePort');
+    await assert(apis_page.OAS_SD_VALUES_ARE_NESTED_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText('Address');
   });
 
   await test.step('User can save API with Mesosphere Preset', async () => {
@@ -145,24 +145,24 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
    await apis_page.OAS_SD_PRESETS_DROPDOWN.selectOption("Mesosphere");
    await apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.fill(queryEndpoint);
     createApi(apiName);
-    expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
+    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Mesosphere data is saved after reloading page', async () => {  
     browser.refresh();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
-    wdioExpect(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
-    wdioExpect(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
-    wdioExpect(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('60');
+    await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
+    await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
+    await assert(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('60');
     apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
-    wdioExpect(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PORT_DATA_PATH_SAVED).toHaveText('ports');
-    wdioExpect(apis_page.OAS_SD_VALUES_ARE_NESTED_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PARENT_DATA_PATH_SAVED).toHaveText('tasks');
-    wdioExpect(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText('host');
+    await assert(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_PORT_DATA_PATH_SAVED).toHaveText('ports');
+    await assert(apis_page.OAS_SD_VALUES_ARE_NESTED_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_PARENT_DATA_PATH_SAVED).toHaveText('tasks');
+    await assert(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText('host');
   });
 
   await test.step('User can save API with Single ETCD Preset', async () => {
@@ -173,22 +173,22 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
    await apis_page.OAS_SD_PRESETS_DROPDOWN.selectOption("Single ETCD");
    await apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.fill(queryEndpoint);
     createApi(apiName);
-    expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
+    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Single ETCD data is saved after reloading page', async () => {  
     browser.refresh();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
-    wdioExpect(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
-    wdioExpect(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
-    wdioExpect(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('60');
+    await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
+    await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
+    await assert(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('60');
     apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
-    wdioExpect(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_SD_VALUES_ARE_NESTED_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText('node.value');
+    await assert(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_SD_VALUES_ARE_NESTED_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText('node.value');
   });
 
   await test.step('User can save API with Nested ETCD Preset', async () => {
@@ -199,24 +199,24 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
    await apis_page.OAS_SD_PRESETS_DROPDOWN.selectOption("Nested ETCD");
    await apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.fill(queryEndpoint);
     createApi(apiName);
-    expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
+    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Nested ETCD data is saved after reloading page', async () => {  
     browser.refresh();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
-    wdioExpect(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
-    wdioExpect(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
-    wdioExpect(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('60');
+    await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
+    await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
+    await assert(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('60');
     apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
-    wdioExpect(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PORT_DATA_PATH_SAVED).toHaveText('port');
-    wdioExpect(apis_page.OAS_SD_VALUES_ARE_NESTED_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PARENT_DATA_PATH_SAVED).toHaveText('node.value');
-    wdioExpect(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText('hostname');
+    await assert(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_PORT_DATA_PATH_SAVED).toHaveText('port');
+    await assert(apis_page.OAS_SD_VALUES_ARE_NESTED_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_PARENT_DATA_PATH_SAVED).toHaveText('node.value');
+    await assert(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText('hostname');
   });
 
   await test.step('User can save API with Eureka Preset', async () => {
@@ -227,28 +227,28 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
    await apis_page.OAS_SD_PRESETS_DROPDOWN.selectOption("Eureka");
    await apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.fill(queryEndpoint);
     createApi(apiName);
-    expect(apis_page.isApiCreatedPopUpDisplayed()).to.be.true;
+    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('Eureka data is saved after reloading page', async () => {  
     browser.refresh();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
-    wdioExpect(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
-    wdioExpect(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
-    wdioExpect(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('60');
+    await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
+    await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
+    await assert(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('60');
     apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
-    wdioExpect(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).not.toBeChecked();
-    wdioExpect(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PORT_DATA_PATH_SAVED).toHaveText('port.$');
-    wdioExpect(apis_page.OAS_SD_VALUES_ARE_NESTED_BOX).toBeChecked();
-    wdioExpect(apis_page.OAS_SD_PARENT_DATA_PATH_SAVED).toHaveText('application.instance');
-    wdioExpect(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText('hostName');
+    await assert(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).not.toBeChecked();
+    await assert(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_PORT_DATA_PATH_SAVED).toHaveText('port.$');
+    await assert(apis_page.OAS_SD_VALUES_ARE_NESTED_BOX).toBeChecked();
+    await assert(apis_page.OAS_SD_PARENT_DATA_PATH_SAVED).toHaveText('application.instance');
+    await assert(apis_page.OAS_SD_DATA_PATH_SAVED).toHaveText('hostName');
   });
 
   function openOasDesignerPage(firstApi) {
-    main_page.openAPIs();
+    await main_page.openAPIs();
     firstApi ? apis_page.DESIGN_API_BOX.click() :await apis_page.ADD_NEW_API_BUTTON.click();
    await apis_page.API_TYPE_OAS_BUTTON.click();
    await apis_page.API_NAME_INPUT.fill('service-discovery-test');

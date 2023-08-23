@@ -1,7 +1,7 @@
 import { test, assert } from '@fixtures';
 
 import { policies_page } from '../../../lib/pom/Policies_page';
-import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection';
+import { Dashboard_connection } from '@api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
 
 const policyDetails = {
@@ -28,7 +28,7 @@ test('Create/update/delete policies', async ({ createUserAndLogin, main_page }) 
   });
 
   await test.step('User should be able to create new Policy', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.ADD_POLICY_BUTTON.click();
    await policies_page.API_TABLE.clickCellWithText(policyDetails.apiName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
@@ -38,11 +38,11 @@ test('Create/update/delete policies', async ({ createUserAndLogin, main_page }) 
   });
 
   await test.step('Confirmation popup should be displayed', async () => {
-    expect(policies_page.isPolicyCreatedPopUpDisplayed()).to.be.true;
+    assert(policies_page.isPolicyCreatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('User should be able to edit created Policy', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
    await policies_page.KEY_EXPIRY_AFTER_DROPDOWN.selectOption(policyDetails.keyEpiryTimeUpdateValue);
@@ -52,20 +52,20 @@ test('Create/update/delete policies', async ({ createUserAndLogin, main_page }) 
   });
 
   it(`Changes should be displayed after reload. Key expiry: ${policyDetails.keyEpiryTimeUpdateValue}`, () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyNameUpdate);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
-    expect(policies_page.KEY_EXPIRY_AFTER_DROPDOWN.getText()).to.equal(policyDetails.keyEpiryTimeUpdateValue);
+    assert(policies_page.KEY_EXPIRY_AFTER_DROPDOWN.getText()).to.equal(policyDetails.keyEpiryTimeUpdateValue);
   });
 
   await test.step('User should be able to delete policy', async () => {
-    main_page.openPolicies();
+    await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyNameUpdate);
    await policies_page.DELETE_BUTTON.click();
    await policies_page.DELETE_CONFIRMATION_BUTTON.click();
-    main_page.openPolicies();
+    await main_page.openPolicies();
     const wasPolicyDeleted = policies_page.POLICY_TABLE.isCellWithTextNotDisplayed(policyDetails.policyNameUpdate);
-    expect(wasPolicyDeleted).to.be.true;
+    assert(wasPolicyDeleted).toBeTruthy();
   });
 
 });
