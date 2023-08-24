@@ -22,7 +22,7 @@ const updatedKeyDetails = {
 };
 
 
-test('Create/update/delete keys without policy', async ({ main_page, keys_page }) => {
+test('Create/update/delete keys without policy', async ({ createUserAndLogin, main_page, keys_page, page }) => {
   const dashboard_connection = new Dashboard_connection();
 
   // before(() => {
@@ -33,7 +33,7 @@ test('Create/update/delete keys without policy', async ({ main_page, keys_page }
 
   await test.step('Prerequisits: creating API definition via dashboard API', async () => {
     const body = newAPIdefinitionWithDefaults(authTokenApi);
-    dashboard_connection.createAPI(body, createUserAndLogin.userSecret);
+    await dashboard_connection.createAPI(body, createUserAndLogin.userSecret);
   });
 
   await test.step('User should be able to create new Key', async () => {
@@ -49,12 +49,13 @@ test('Create/update/delete keys without policy', async ({ main_page, keys_page }
     await keys_page.KEY_EXPIRE_DROPDOWN.selectOption(apiKeysDetails.keyExpiryTime);
     await keys_page.ENABLE_DETAILED_LOGGING_BUTTON.click();
     await keys_page.CREATE_KEY_BUTTON.click();
+    console.log('>>> Key was created');
     await keys_page.OK_BUTTON.click();
-    assert(keys_page.isKeyCreatedPopUpDisplayed()).toBeTruthy();
+    await keys_page.isKeyCreatedPopUpDisplayed();
   });
 
   await test.step('User should be able to modify key', async () => {
-    const keyHashValue = await keys_page.COPY_KEY_HASH_BUTTON.getAttribute('copy');
+    const keyHashValue: string = await keys_page.COPY_KEY_HASH_BUTTON.getAttribute('copy');
     assert(keyHashValue).not.toBeNull();
     await main_page.openKeys();
     await keys_page.KEY_SEARCH_FIELD.click();
@@ -62,7 +63,7 @@ test('Create/update/delete keys without policy', async ({ main_page, keys_page }
     await keys_page.LOOKUP_KEY_BUTTON.click();
     await keys_page.CONFIGURATIONS_TAB_BUTTON.click();
     const key = await keys_page.KEY_HASH_VALUE.getAttribute('copy');
-    assert(key).toContain( keyHashValue);
+    assert(key).toContain(keyHashValue);
     await assert(keys_page.UPDATE_BUTTON).toBeVisible();
     await assert(keys_page.UPDATE_WITHOUT_QUOTA_RESET_BUTTON).toBeVisible();
     await assert(keys_page.DELETE_BUTTON).toBeVisible();
@@ -84,13 +85,14 @@ test('Create/update/delete keys without policy', async ({ main_page, keys_page }
   });
 
   await test.step('User should be able to delete key', async () => {
-    const DeletedKeyHashValue = keys_page.KEY_HASH_VALUE.getAttribute('copy');
+    const DeletedKeyHashValue = await keys_page.KEY_HASH_VALUE.getAttribute('copy');
+    assert(DeletedKeyHashValue).not.toBeNull();
     await keys_page.DELETE_BUTTON.click();
     await keys_page.DELETE_KEY_CONFIRMATION_BUTTON.click();
-    assert(keys_page.isKeyDeletedPopUpDisplayed()).toBeTruthy();
+    await keys_page.isKeyDeletedPopUpDisplayed();
     await keys_page.KEY_SEARCH_FIELD.click();
     await keys_page.KEY_SEARCH_FIELD.fill(DeletedKeyHashValue);
     await keys_page.LOOKUP_KEY_BUTTON.click();
-    assert(keys_page.isCouldNotRetrieveKeyDisplayed()).toBeTruthy();
+    await keys_page.isCouldNotRetrieveKeyDisplayed();
   });
 });

@@ -11,8 +11,8 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 1,
-      "totalTime": 2049.023
+      "actualWorkers": 2,
+      "totalTime": 10253.029999999999
     },
     "preserveOutput": "always",
     "reporter": [
@@ -44,7 +44,7 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 0
+        "timeout": 90000
       },
       {
         "outputDir": "/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/test-results",
@@ -57,7 +57,7 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 0
+        "timeout": 90000
       },
       {
         "outputDir": "/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/test-results",
@@ -70,16 +70,221 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 0
+        "timeout": 90000
       }
     ],
     "shard": null,
     "updateSnapshots": "missing",
     "version": "1.37.1",
-    "workers": 1,
+    "workers": 3,
     "webServer": null
   },
   "suites": [
+    {
+      "title": "specs/keys/keys_hash_crud_test.spec.ts",
+      "file": "specs/keys/keys_hash_crud_test.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Create/update/delete keys without policy",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 9858,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": ">>> Checking is dashboard is up\n"
+                    },
+                    {
+                      "text": ">>> Preparing new Auto-test-org2f226433-c6d4-4c53-a2af-ea529acac786 organization\n"
+                    },
+                    {
+                      "text": ">>> New organization was created: [object Object]\n"
+                    },
+                    {
+                      "text": ">>> Creating user response: [object Object]\n"
+                    },
+                    {
+                      "text": ">>> User was created: rivipoac+6_06_10@example.com, secret: d9145b7753404c5052468e725cf52755, organization: Auto-test-org2f226433-c6d4-4c53-a2af-ea529acac786\n"
+                    },
+                    {
+                      "text": ">> Opening page http://localhost:3000/\n"
+                    },
+                    {
+                      "text": ">>> Login as rivipoac+6_06_10@example.com and pass: test123\n"
+                    },
+                    {
+                      "text": ">>> User is logged in! User Email: rivipoac+6_06_10@example.com\n"
+                    },
+                    {
+                      "text": ">>> Creating API with name: authtoken\n"
+                    },
+                    {
+                      "text": ">>> New organization was created: [object Object]\n"
+                    },
+                    {
+                      "text": ">>> Clicking button: locatorLocator@a[href=\"/keys\"] >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Clicking button: locatorLocator@span:text-is(\"Add Key\") >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Clicking button: locatorLocator@span:text-is(\"Choose api\") >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Clicking cell with text locator{cellValue}\n"
+                    },
+                    {
+                      "text": ">>> Clicking button: locatorLocator@button:text-is(\"2. Configurations\") >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Setting value: test to Locator@//input[@name='alias'] >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Selecting option: locatorli=locator1 hour in locatorLocator@.tyk-combobox2__text-value >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Pause and plicking button: locatorLocator@span:text-is(\"Create Key\") >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Key was created\n"
+                    },
+                    {
+                      "text": ">>> Clicking button: locatorLocator@span:text-is(\"OK\") >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Looking for popup with text Key has been successfully created\n"
+                    },
+                    {
+                      "text": ">>> success popup text: Key has been successfully created\n"
+                    },
+                    {
+                      "text": ">>> Clicking button: locatorLocator@a[href=\"/keys\"] >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Setting value: b81f866b9ddb6d03 to Locator@input[name=\"key\"] >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Pause and plicking button: locatorLocator@span:text-is(\"Lookup Key\") >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Clicking button: locatorLocator@button:text-is(\"2. Configurations\") >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Setting value: updateAlias to Locator@//input[@name='alias'] >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Setting value: test to Locator@input[name=metaDataKey] >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Setting value: 123 to Locator@input[name=metaDataValue] >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Clicking button: locatorLocator@span:text-is(\"ADD\") >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Selecting option: locatorli=locator6 hours in locatorLocator@.tyk-combobox2__text-value >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Clicking button: locatorLocator@span:text-is(\"Update\") >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Clicking button: locatorLocator@//div[@class=\"tyk-modal__content\"]//button//span[text()=\"Confirm\"] >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Looking for popup with text Key has been successfully updated\n"
+                    },
+                    {
+                      "text": ">>> Clicking button: locatorLocator@span:text-is(\"Delete\") >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> success popup text: Your key has been created\n"
+                    },
+                    {
+                      "text": ">>> Clicking button: locatorLocator@//div[contains(@class,\"opened\")]//div[@class=\"tyk-modal__content\"]//button//span[text()=\"Confirm\"] >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> success popup text: Key has been successfully updated\n"
+                    },
+                    {
+                      "text": ">>> Looking for popup with text Key has been successfully deleted\n"
+                    },
+                    {
+                      "text": ">>> success popup text: Key has been successfully updated\n"
+                    },
+                    {
+                      "text": ">>> success popup text: Your key has been created\n"
+                    },
+                    {
+                      "text": ">>> success popup text: Key has been successfully deleted\n"
+                    },
+                    {
+                      "text": ">>> Setting value: b81f866b9ddb6d03 to Locator@input[name=\"key\"] >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Pause and plicking button: locatorLocator@span:text-is(\"Lookup Key\") >> nth=0\n"
+                    },
+                    {
+                      "text": ">>> Looking for popup with text Could not retrieve key detail\n"
+                    },
+                    {
+                      "text": ">>> success popup text: Could not retrieve key detail\n"
+                    }
+                  ],
+                  "stderr": [
+                    {
+                      "text": "(node:79378) DeprecationWarning: uuidv4() is deprecated. Use v4() from the uuid module instead.\n(Use `node --trace-deprecation ...` to show where the warning was created)\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Prerequisits: creating API definition via dashboard API",
+                      "duration": 17
+                    },
+                    {
+                      "title": "User should be able to create new Key",
+                      "duration": 4906
+                    },
+                    {
+                      "title": "User should be able to modify key",
+                      "duration": 3458
+                    },
+                    {
+                      "title": "Confirmation popup should be displayed",
+                      "duration": 1
+                    },
+                    {
+                      "title": "User should be able to delete key",
+                      "duration": 941
+                    }
+                  ],
+                  "startTime": "2023-08-24T16:06:10.298Z",
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7a4ec22750905c99e4d9-23b74fef28b9212ea406",
+          "file": "specs/keys/keys_hash_crud_test.spec.ts",
+          "line": 25,
+          "column": 5
+        }
+      ]
+    },
     {
       "title": "specs/test.spec.ts",
       "file": "specs/test.spec.ts",
@@ -88,66 +293,64 @@
       "specs": [
         {
           "title": "Login/logout check",
-          "ok": false,
+          "ok": true,
           "tags": [],
           "tests": [
             {
-              "timeout": 0,
+              "timeout": 90000,
               "annotations": [],
               "expectedStatus": "passed",
               "projectId": "chromium",
               "projectName": "chromium",
               "results": [
                 {
-                  "workerIndex": 0,
-                  "status": "failed",
-                  "duration": 1086,
-                  "error": {
-                    "message": "apiRequestContext.get: connect ECONNREFUSED ::1:3000\n=========================== logs ===========================\n→ GET http://localhost:3000/admin/hello/\n  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.5845.82 Safari/537.36\n  accept: */*\n  accept-encoding: gzip,deflate,br\n  admin-auth: 12345\n============================================================",
-                    "stack": "Error: apiRequestContext.get: connect ECONNREFUSED ::1:3000\n=========================== logs ===========================\n→ GET http://localhost:3000/admin/hello/\n  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.5845.82 Safari/537.36\n  accept: */*\n  accept-encoding: gzip,deflate,br\n  admin-auth: 12345\n============================================================\n    at /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/apiRequestContext.get: connect ECONNREFUSED ::1:3000\n    at Dashboard_admin_connection.getStatus (/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/utils/api_connections/Dashboard_admin_connection.ts:29:53)\n    at setUpEnv (/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/utils/prerequisites.ts:25:28)\n    at Object.createUserAndLogin (/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/utils/fixtures.ts:39:29)",
-                    "location": {
-                      "file": "/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/apiRequestContext.get: connect ECONNREFUSED :",
-                      "column": 3000,
-                      "line": 1
-                    }
-                  },
-                  "errors": [
-                    {
-                      "location": {
-                        "file": "/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/apiRequestContext.get: connect ECONNREFUSED :",
-                        "column": 3000,
-                        "line": 1
-                      },
-                      "message": "Error: apiRequestContext.get: connect ECONNREFUSED ::1:3000\n=========================== logs ===========================\n→ GET http://localhost:3000/admin/hello/\n  user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.5845.82 Safari/537.36\n  accept: */*\n  accept-encoding: gzip,deflate,br\n  admin-auth: 12345\n============================================================\n\n    at /Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/apiRequestContext.get: connect ECONNREFUSED ::1:3000\n    at Dashboard_admin_connection.getStatus (/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/utils/api_connections/Dashboard_admin_connection.ts:29:53)\n    at setUpEnv (/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/utils/prerequisites.ts:25:28)\n    at Object.createUserAndLogin (/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/lib/utils/fixtures.ts:39:29)"
-                    }
-                  ],
+                  "workerIndex": 1,
+                  "status": "passed",
+                  "duration": 572,
+                  "errors": [],
                   "stdout": [
                     {
                       "text": ">>> Checking is dashboard is up\n"
+                    },
+                    {
+                      "text": ">>> Preparing new Auto-test-org87dcc78c-28ff-4814-a0d3-1bbdfaf02d8b organization\n"
+                    },
+                    {
+                      "text": ">>> New organization was created: [object Object]\n"
+                    },
+                    {
+                      "text": ">>> Creating user response: [object Object]\n"
+                    },
+                    {
+                      "text": ">>> User was created: doves+6_06_10@example.com, secret: 126c5f87a3df4ff66f9ec6396c63b111, organization: Auto-test-org87dcc78c-28ff-4814-a0d3-1bbdfaf02d8b\n"
+                    },
+                    {
+                      "text": ">> Opening page http://localhost:3000/\n"
+                    },
+                    {
+                      "text": ">>> Login as doves+6_06_10@example.com and pass: test123\n"
+                    },
+                    {
+                      "text": ">>> User is logged in! User Email: doves+6_06_10@example.com\n"
                     }
                   ],
                   "stderr": [
                     {
-                      "text": "(node:91297) DeprecationWarning: uuidv4() is deprecated. Use v4() from the uuid module instead.\n(Use `node --trace-deprecation ...` to show where the warning was created)\n"
+                      "text": "(node:79379) DeprecationWarning: uuidv4() is deprecated. Use v4() from the uuid module instead.\n(Use `node --trace-deprecation ...` to show where the warning was created)\n"
                     }
                   ],
                   "retry": 0,
-                  "startTime": "2023-08-23T14:52:43.159Z",
-                  "attachments": [
+                  "steps": [
                     {
-                      "name": "screenshot",
-                      "contentType": "image/png",
-                      "path": "/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/test-results/test-Login-logout-check-chromium/test-failed-1.png"
+                      "title": "Login",
+                      "duration": 18
                     }
                   ],
-                  "errorLocation": {
-                    "file": "/Users/konrad/go/src/github.com/TykTechnologies/tyk-analytics-tests/playwright/apiRequestContext.get: connect ECONNREFUSED :",
-                    "column": 3000,
-                    "line": 1
-                  }
+                  "startTime": "2023-08-24T16:06:10.294Z",
+                  "attachments": []
                 }
               ],
-              "status": "unexpected"
+              "status": "expected"
             }
           ],
           "id": "b72ba50710186a3d173d-4cbd74aed20858c5a6ec",

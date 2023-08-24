@@ -6,23 +6,23 @@ import { DropDown_object } from '@wrappers/DropDown_object';
 export class Endpoints_page extends Template_Page {
 
   get OAS_ENDPOINTS_BUTTON() { return new Button_object('a*=Endpoints', this.page); }
-  get OAS_ADD_NEW_ENDPOINT_BUTTON() { return new Button_object('span*=Add New Endpoint', this.page); }
+  get OAS_ADD_NEW_ENDPOINT_BUTTON() { return new Button_object('span:text-is("Add New Endpoint")', this.page); }
   get OAS_ENDPOINT_METHOD_DROPDOWN() { return this.page.locator('//label[text()="Method"]//following::span[1]'); }
   get OAS_ENDPOINT_PATH_INPUT() { return new Input_object('//input[@placeholder="Type path"]', this.page); }
-  get OAS_ADD_ENDPOINT_BUTTON() { return new Button_object('span*=Add Endpoint', this.page); }
-  get OAS_ENDPOINT_WHITELIST_BUTTON() { return new Button_object('span*=Add Whitelist', this.page); }
-  get OAS_OPTIONS_BUTTON() { return new Button_object('span*=OPTIONS', this.page); }
-  get OAS_EDIT_ENDPOINT_BUTTON() { return new Button_object('span*=Edit Endpoint', this.page); }
+  get OAS_ADD_ENDPOINT_BUTTON() { return new Button_object('span:text-is("Add Endpoint")', this.page); }
+  get OAS_ENDPOINT_WHITELIST_BUTTON() { return new Button_object('span:text-is("Add Whitelist")', this.page); }
+  get OAS_OPTIONS_BUTTON() { return new Button_object('span:text-is("OPTIONS")', this.page); }
+  get OAS_EDIT_ENDPOINT_BUTTON() { return new Button_object('span:text-is("Edit Endpoint")', this.page); }
   get OAS_REMOVE_ENDPOINT_BUTTON() { return new Button_object('//ul[@class="tyk-dropdown-menu tyk-dropdown opened"]//following::span[text()="Remove Endpoint"]', this.page); }
   get OAS_SEARCH_ENDPOINTS_INPUT() { return new Input_object('//input[@placeholder="Search Endpoints"]', this.page); }
   get OAS_FILTER_METHOD_DROPDOWN() { return new DropDown_object('//span[contains(text(), "Show")]//following::span[1]', this.page); }
   get OAS_REMOVE_CONFIRMATION_BUTTON() { return new Button_object('//button/span[text()="Remove Endpoint"]', this.page); }
-  get OAS_UPDATE_ENDPOINT_BUTTON() { return new Button_object('span*=Update Endpoint', this.page); }
+  get OAS_UPDATE_ENDPOINT_BUTTON() { return new Button_object('span:text-is("Update Endpoint")', this.page); }
   get OAS_NO_ENDPOINTS_MESSAGE() { return this.page.locator('//h2[text()="No endpoints yet."]'); }
   get OAS_ADD_MIDDLEWARE_BUTTON_TOP() { return new Button_object('(//button/span[text()="Add Middleware"])[1]', this.page); }
   get OAS_ADD_MIDDLEWARE_BUTTON_BOTTOM() { return new Button_object('(//button/span[text()="Add Middleware"])[2]', this.page); }
-  get OAS_UPDATE_MIDDLEWARE_BUTTON() { return new Button_object('span*=Update Middleware', this.page); }
-  get OAS_ENDPOINTS_MIDDLEWARE_TEXT() { return this.page.locator('h2*=Middleware'); }
+  get OAS_UPDATE_MIDDLEWARE_BUTTON() { return new Button_object('span:text-is("Update Middleware")', this.page); }
+  get OAS_ENDPOINTS_MIDDLEWARE_TEXT() { return this.page.locator('h2:text-is("Middleware")'); }
 
   async addMiddlewareByName(middleware: any) {
     const middlewareSelector = new Button_object(this.page.locator('p').filter({ hasText: `${middleware}` }), this.page);

@@ -8,7 +8,7 @@ import { OasMapToPolicyTable_object } from '@wrappers/OasMapToPolicyTable_object
 
 export class Apis_page extends Template_Page {
   //MAIN PAGE
-  get ADD_NEW_API_BUTTON() { return new Button_object('span*=Add new API', this.page); }
+  get ADD_NEW_API_BUTTON() { return new Button_object('span:text-is("Add new API")', this.page); }
   get API_TABLE() { return this.page.locator('.tyk-table'); }
   get API_TYPE_GRAPHQL_BUTTON() { return this.page.locator('p').filter({ hasText: 'GraphQL' }); }
   get API_TYPE_UDG_BUTTON() { return this.page.locator('p').filter({ hasText: 'UDG' }); }
@@ -17,8 +17,8 @@ export class Apis_page extends Template_Page {
   get API_TYPE_SUPERGRAPH_BUTTON() { return this.page.locator('//input[@name="subType" and @value="supergraph"]'); }
 
   //LANDING PAGE
-  get IMPORT_API_BOX() { return this.page.locator('h2*=Import API'); }
-  get DESIGN_API_BOX() { return new Button_object('h2*=Design new API', this.page); }
+  get IMPORT_API_BOX() { return this.page.locator('h2:text-is("Import API")'); }
+  get DESIGN_API_BOX() { return new Button_object('h2:text-is("Design new API")', this.page); }
 
   //OAS SIDE MENU
   get SIDE_MENU_BASE_LINK() { return this.page.locator('//span[text()="Info"]'); }
@@ -28,7 +28,7 @@ export class Apis_page extends Template_Page {
 
   //OAS API PAGE
   get API_TYPE_OAS_BUTTON() { return this.page.locator('p').filter({ hasText: 'OAS HTTP' }); }
-  get EDIT_BUTTON() { return new Button_object('span*=Edit', this.page); }
+  get EDIT_BUTTON() { return new Button_object('span:text-is("Edit")', this.page); }
   get API_NAME_INPUT() { return new Input_object('//input[@name="x-tyk-api-gateway.info.name"]', this.page); }
   get OAS_GW_STATUS_DROPDOWN() { return new DropDown_object('//span[@title="Select status"]', this.page); }
   get OAS_ACCESS_DROPDOWN() { return new DropDown_object('//span[@title="Select access"]', this.page); }
@@ -180,7 +180,7 @@ export class Apis_page extends Template_Page {
 
   //OpenID Connect
   get OAS_OIDC_ENABLE_RL_PER_CLIENT_BOX() { return this.page.locator('//input[@name="x-tyk-api-gateway.server.authentication.oidc.segregateByClientId"]'); }
-  get OAS_OIDC_ADD_NEW_ISSUER_BUTTON() { return new Button_object('span*=Add New Issuer', this.page); }
+  get OAS_OIDC_ADD_NEW_ISSUER_BUTTON() { return new Button_object('span:text-is("Add New Issuer")', this.page); }
   get OAS_OIDC_ISSUER_ONE_TARGET_URL_INPUT() { return new Input_object('//input[@name="x-tyk-api-gateway.server.authentication.oidc.providers[0].issuer"]', this.page); }
   get OAS_OIDC_ISSUER_TWO_TARGET_URL_INPUT() { return new Input_object('//input[@name="x-tyk-api-gateway.server.authentication.oidc.providers[1].issuer"]', this.page); }
   get OAS_OIDC_ADD_CLIENT_ONE_BUTTON() { return new Button_object('//input[@name="x-tyk-api-gateway.server.authentication.oidc.providers[0].issuer"]//following::span[text()="Add Client"][1]', this.page); }
@@ -189,7 +189,7 @@ export class Apis_page extends Template_Page {
   get OAS_OIDC_MAP_CLIENT_TO_POLICY_TWO_TABLE() { return new OasMapToPolicyTable_object('//input[@name="x-tyk-api-gateway.server.authentication.oidc.providers[1].issuer"]//following::ul[1]', this.page); }
   get OAS_OIDC_ENABLE_SCOPE_CLAIMS_BOX() { return this.page.locator('//input[@name="enableScopeClaim"]'); }
   get OAS_OIDC_SCOPE_NAME_INPUT() { return new Input_object('//input[@name="x-tyk-api-gateway.server.authentication.oidc.scopes.claimName"]', this.page); }
-  get OAS_OIDC_ADD_CLAIM_BUTTON() { return new Button_object('span*=Add Claim', this.page); }
+  get OAS_OIDC_ADD_CLAIM_BUTTON() { return new Button_object('span:text-is("Add Claim")', this.page); }
   get OAS_OIDC_MAP_CLAIM_TO_POLICY_FIRST_TABLE() { return new OasMapToPolicyTable_object('//input[@name="x-tyk-api-gateway.server.authentication.oidc.scopes.claimName"]//following::ul[1]', this.page); }
   get OAS_OIDC_USE_HEADER_BOX() { return this.page.locator('//input[@name="x-tyk-api-gateway.server.authentication.oidc.header.enabled"]'); }
   get OAS_OIDC_AUTH_HEADER_INPUT() { return new Input_object('//input[@name="x-tyk-api-gateway.server.authentication.oidc.header.name"]', this.page); }
@@ -223,11 +223,11 @@ export class Apis_page extends Template_Page {
 
 
   //TOP BUTTONS
-  get CONFIGURE_API_BUTTON() { return new Button_object('span*=Configure Api', this.page); }
+  get CONFIGURE_API_BUTTON() { return new Button_object('span:text-is("Configure Api")', this.page); }
   get SAVE_BUTTON() { return new Button_object('.//div[@class="tyk-fixed-wrapper "]//span[normalize-space() = "Save"]', this.page); }
-  get OPTIONS_BUTTON() { return new Button_object('span*=OPTIONS', this.page); }
-  get DELETE_BUTTON() { return new Button_object('span=Delete', this.page); }
-  get UPDATE_BUTTON() { return new Button_object('span=Update', this.page); }
+  get OPTIONS_BUTTON() { return new Button_object('span:text-is("OPTIONS")', this.page); }
+  get DELETE_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText:'Delete' }), this.page); }
+  get UPDATE_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText:'Update' }), this.page); }
 
   //MODALS
   get MODAL() { return this.page.locator('.tyk-modal__content'); }

@@ -23,7 +23,7 @@ export class Template_Page {
   
   async isSuccessPopupDisplayedWithText(text: string) {
     console.debug(`>>> Looking for popup with text ${text}`);
-    await this.SUCCESS_POP_UPS_LIST.waitFor();
+    await this.SUCCESS_POP_UPS_LIST.first().waitFor();
     await expect.poll( async () => {
       const popUps = await this.SUCCESS_POP_UPS_LIST.all();
       for (const popUp of popUps) {
@@ -36,7 +36,7 @@ export class Template_Page {
     }).toBeTruthy();
   }
 
-  async isErrorPopupDisplayedWithText(text: string) {
+  async isErrorPopupDisplayedWithText(text: string): Promise<void> {
     console.debug(`>>> Looking for popup with text ${text}`);
     await expect.poll( async () => {
       await this.ERROR_POP_UPS_LIST.waitFor();

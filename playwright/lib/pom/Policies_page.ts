@@ -6,16 +6,16 @@ import { Input_object } from '@wrappers/Input_object';
 
 export class Policies_page extends Template_Page {
   //MAIN PAGE
-  get ADD_POLICY_BUTTON() {return new Button_object('span*=Add Policy', this.page);}
+  get ADD_POLICY_BUTTON() {return new Button_object('span:text-is("Add Policy")', this.page);}
   get POLICY_TABLE() {return new Table_object('.tyk-table', this.page);}
   get NAME_SEARCH_INPUT() {return new Input_object('input[label="Search"]', this.page);}
   get ACCESS_RIGHTS_DROPDOWN() {return new DropDown_object("//div[@name='apis']//span", this.page);}
   get AUTH_TYPES_DROPDOWN() {return new DropDown_object("//div[@name='auth_type']//span", this.page);}
   
   //POLICY DETAILS PAGE
-  get CONFIGURATIONS_TAB_BUTTON() {return new Button_object('button*=2.Configurations', this.page);}
-  get CREATE_POLICY_BUTTON() {return new Button_object('span*=Create Policy', this.page);}
-  get UPDATE_POLICY_BUTTON() {return new Button_object('span*=Update', this.page);}
+  get CONFIGURATIONS_TAB_BUTTON() {return new Button_object('button:text-is("2.Configurations")', this.page);}
+  get CREATE_POLICY_BUTTON() {return new Button_object('span:text-is("Create Policy")', this.page);}
+  get UPDATE_POLICY_BUTTON() {return new Button_object('span:text-is("Update")', this.page);}
   get DELETE_BUTTON() {return new Button_object('//button[contains(@class,"tyk-button--danger-outline")]//span[text()="Delete"]', this.page);}
   get API_SECTION_HEADER() {return new Button_object('h3=Add API Access Rights', this.page);}
   get API_NAME_INPUT() {return new Input_object('input[name="apiName"]', this.page);}

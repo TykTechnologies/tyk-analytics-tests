@@ -8,13 +8,13 @@ import { expect } from '@playwright/test';
 
 export class Users_page extends Template_Page {
   //MAIN PAGE
-  get ADD_USER_BUTTON() {return new Button_object('span*= Add user', this.page);}
+  get ADD_USER_BUTTON() {return new Button_object('span:text-is(" Add user")', this.page);}
   get USERS_TABLE() {return new Table_object('.tyk-table', this.page);}
   
   //ADD/EDIT USER PAGE
-  get SAVE_BUTTON() {return new Button_object('span=Save', this.page);}
-  get UPDATE_BUTTON() {return new Button_object('span=Update', this.page);}
-  get DELETE_BUTTON() {return new Button_object('span=Delete', this.page);}
+  get SAVE_BUTTON() {return new Button_object(this.page.locator('span').filter({ hasText:'Save' }), this.page);}
+  get UPDATE_BUTTON() {return new Button_object(this.page.locator('span').filter({ hasText:'Update' }), this.page);}
+  get DELETE_BUTTON() {return new Button_object(this.page.locator('span').filter({ hasText:'Delete' }), this.page);}
   get FIRST_NAME_INPUT() {return new Input_object('input[name="first_name"]', this.page);}
   get LAST_NAME_INPUT() {return new Input_object('input[name="last_name"]', this.page);}
   get EMAIL_ADRESS_INPUT() {return new Input_object('input[name="email_address"]', this.page);}

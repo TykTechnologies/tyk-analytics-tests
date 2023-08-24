@@ -1,84 +1,99 @@
-var { API_connection } = require('./API_connection');
-const config_variables = require('../../../config_variables');
-const fs = require('fs');
+import { APIRequestContext, APIResponse, request } from '@playwright/test';
+import { config } from '@variables';
+import { assert } from '@fixtures';
+import fs from 'fs';
 
-export class Dashboard_connection extends API_connection {
-    constructor(){
-        super(config.DASHBOARD_API);
-    }
-    
-    getUserWithEmail(userEmail, secret) {
-        console.debug(`>>> Getting user with email ${userEmail}`);
-        const response = this.sendGetRequest({path: config.USERS_API_PATH, Authorization: secret});
-        const usersList = response.body.users;
-        console.debug(usersList);
-        return usersList.filter((user) => user.email_address === userEmail);
-    }
+enum RequestTypes {
+    GET,
+    POST,
+    PUT,
+    DELETE
+}
+export class Dashboard_connection {
+    dashAPI = config.DASHBOARD_API;
+    // getUserWithEmail(userEmail: string, secret: string) {
+    //     console.debug(`>>> Getting user with email ${userEmail}`);
+    //     const response = this.sendGetRequest({path: config.USERS_API_PATH, Authorization: secret});
+    //     const usersList = response.body.users;
+    //     console.debug(usersList);
+    //     return usersList.filter((user) => user.email_address === userEmail);
+    // }
 
-    createAPI(apiDefinition, userSecret){
+    async createAPI(apiDefinition: any, userSecret: string): Promise<string>{
         console.log(`>>> Creating API with name: ${apiDefinition.api_definition.name}`);
-        const config = {
-            path: "apis/",
-            body: apiDefinition,
-            headers: {Authorization: userSecret}
-        };
-        const response = this.sendPostRequest(config);
-        assert(response.status).to.equal(200, 'Failed to create API definition!');
-        console.log(`>>> API created. API definition id: ${response.body.Meta}`);
-        return response.body.Meta;
+        const path = this.dashAPI + "apis/";
+        const headers = {Authorization: userSecret};
+        const context: APIRequestContext = await request.newContext({});
+        const response: APIResponse = await context.post(path, {data: apiDefinition, headers: headers});
+        assert(response.ok()).toBeTruthy();
+        const responseBody = await response.json();
+        assert(responseBody.Meta !== undefined);
+        console.debug(`>>> New organization was created: ${responseBody}`);
+        return responseBody.Meta; 
     }
 
-    getAPI(meta, userSecret){
+    async getAPI(meta: string, userSecret: string): Promise<string>{
         console.log(`>>> Get API for meta: ${meta}`);
-        const config = {
-            path: "apis/" + meta,
-            headers: {Authorization: userSecret}
-        };
-        const response = this.sendGetRequest(config);
-        assert(response.status).to.equal(200, 'Failed to retrieve API details!');
-        console.log(`>>> API received. API definition: ${response.body}`);
-        return response.body.api_definition;
+        const path = this.dashAPI + "apis/" + meta;
+        const headers = {Authorization: userSecret};
+        const context: APIRequestContext = await request.newContext({});
+        const response: APIResponse = await context.get(path, {headers: headers});
+        assert(response.ok()).toBeTruthy();
+        const responseBody = await response.json();
+        console.log(`>>> API received. API definition: ${responseBody}`);
+        return responseBody.api_definition;
     }
 
-    createPolicy(policyDefinition, userSecret){
+    async sendRequest(endpoint: string, type: RequestTypes, userSecret: string, body?: any): Promise<APIResponse> {
+        const context: APIRequestContext = await request.newContext({});
+        const path = this.dashAPI + endpoint;
+        const headers = {Authorization: userSecret};
+        let response: APIResponse;
+        switch (type) {
+            case RequestTypes.GET:
+                response = await context.get(path, {headers: headers});
+            case RequestTypes.POST:
+                response = await context.post(path, {data: body, headers: headers});
+            case RequestTypes.PUT:
+                response = await context.put(path, {data: body, headers: headers});
+            case RequestTypes.DELETE:
+                response = await context.delete(path, {headers: headers});
+            default:
+                response = await context.get(path, {headers: headers});
+            }
+        assert(response.ok()).toBeTruthy();
+        const responseBody = await response.json();
+        console.log(`>>> Response received. Body: ${responseBody}`);
+        return responseBody;
+    }
+
+    async createPolicy(policyDefinition: any, userSecret: string): Promise<void>{
         console.log(`>>> Creating Policy with name: ${policyDefinition.name}`);
-        const config = {
-            path: "portal/policies/",
-            body: policyDefinition,
-            headers: {Authorization: userSecret}
-        };
-        const response = this.sendPostRequest(config);
-        assert(response.status).to.equal(200, 'Failed to create Policy definition!');
-        console.log(`>>> Policy created. Policy definition id: ${response.Meta}`);
+        const responseBody: any = await this.sendRequest("portal/policies/", RequestTypes.POST, userSecret, policyDefinition);
+        console.log(`>>> Policy created. Policy definition id: ${responseBody.Meta}`);
     }
 
-    getPolicyByName(name, userSecret){
+    async getPolicyByName(name: string, userSecret: string): Promise<string>{
         console.log(`>>> Get Policy by name: ${name}`);
-        const config = {
-            path: "portal/policies/search/?q=" + name,
-            headers: {Authorization: userSecret}
-        };
-        const response = this.sendGetRequest(config);
-        assert(response.status).to.equal(200, 'Failed to retrieve Policy details!');
-        console.log(`>>> Policy received. Policy definition: ${response.body}`);
-        return response.body;
+        const responseBody: any = await this.sendRequest("portal/policies/search/?q=" + name, RequestTypes.GET, userSecret);
+        console.log(`>>> Policy received. Policy definition: ${responseBody}`);
+        return responseBody;
     }
 
-    uploadCert(certFile, userSecret){
+    async uploadCert(certFile: any, userSecret: string){
         console.log('>>> Uploading Certificate');
-        const config = {
-            path: "certs/",
-            file: certFile,
-            headers: { Authorization: userSecret }
-        };
-        const response = this.sendPostRequest(config);
-        assert(response.status).to.equal(200, 'Failed to upload Certificate!');
-        console.log(`>>> Certificate added. Cert id: ${response.id}`);
-    }
-
-    prepareConfig(config) {
-        if (config.headers === undefined) {config.headers = {};}
-        config.headers.Authorization = config.USER_SECRET;
-        return config;
+        throw new Error('Not implemented');
+        // const context: APIRequestContext = await request.newContext({});
+        // const path = config.URL + "certs/";
+        // const headers = {Authorization: userSecret, 'ContentType':'multipart/form-data', };
+        // const response: APIResponse = await context.post(path, {file: certFile, headers: headers});
+        // const config = {
+        //     path: "certs/",
+        //     file: certFile,
+        //     headers: { Authorization: userSecret }
+        // };
+        // const response = this.sendPostRequest(config);
+        // assert(response.status).to.equal(200, 'Failed to upload Certificate!');
+        // console.log(`>>> Certificate added. Cert id: ${response.id}`);
     }
 }

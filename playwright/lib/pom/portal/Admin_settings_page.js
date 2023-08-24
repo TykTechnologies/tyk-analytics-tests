@@ -8,10 +8,10 @@ const Table_object = require('@wrappers/Table_object');
 export class Admin_settings_page extends Template_Page {
   get SAVE_BUTTON() {return new Button_object('#save-portal-settings-btn', this.page);}    
   //TABS BUTTONS
-  get ADMIN_TAB_BUTTON() {return new Button_object('button=Admin', this.page);}    
-  get API_ACCESS_TAB_BUTTON() {return new Button_object('button=API Access', this.page);}    
-  get EMAILS_TAB_BUTTON() {return new Button_object('button=Emails', this.page);}    
-  get FORMS_TAB_BUTTON() {return new Button_object('button=Forms', this.page);}
+  get ADMIN_TAB_BUTTON() {return new Button_object('button:text("Admin")', this.page);}    
+  get API_ACCESS_TAB_BUTTON() {return new Button_object('button:text("API Access")', this.page);}    
+  get EMAILS_TAB_BUTTON() {return new Button_object('button:text("Emails")', this.page);}    
+  get FORMS_TAB_BUTTON() {return new Button_object('button:text("Forms")', this.page);}
   //ADMIN
   get ACCESS_REQUEST_INPUT() {return new Input_object('#access-request', this.page);}
   get DEVELOPER_SIGN_UP_TOGGLE() {return new Toggle_object('input[name="disable_signup"]');}
@@ -38,7 +38,7 @@ export class Admin_settings_page extends Template_Page {
   get FROM_ADDRESS_INPUT() {return new Input_object('input[name="mail_options.mail_from_email"]', this.page);}
   get NAME_OF_SENDER_INPUT() {return new Input_object('input[name="mail_options.mail_from_name"]', this.page);}
   get RESET_ALL_EMAILS_BUTTON() {return new Button_object('#reset-emails-btn', this.page);}    
-  get CONTINUE_AND_RESET_BUTTON() {return new Button_object('span=Continue and Reset', this.page);}    
+  get CONTINUE_AND_RESET_BUTTON() {return new Button_object(this.page.locator('span').filter({ hasText:'Continue and Reset' }), this.page);}    
   get EDIT_GLOBAL_EMAIL_CSS_BUTTON() {return new Button_object('#edit-css-btn', this.page);}    
   get TABLE() {return new Table_object('.tyk-table', this.page);}
   get EXIT_CSS_EDITOR_BUTTON() {return new Button_object('#exit-email-editor-btn', this.page);} 
@@ -49,7 +49,7 @@ export class Admin_settings_page extends Template_Page {
   get EMAIL_OPTIONS_SUBJECT_INPUT() {return new Input_object('#welcome_email-subject', this.page);}
   get EMAIL_OPTIONS_BODY_INPUT() {return new Input_object('.ql-editor', this.page);}
   get EMAIL_OPTIONS_SIGNOFF_INPUT() {return new Input_object('textarea[name*="sign_off"]', this.page);}
-  get EMAIL_OPTIONS_SAVE_BUTTON() {return new Button_object('span=SAVE CHANGES', this.page);}
+  get EMAIL_OPTIONS_SAVE_BUTTON() {return new Button_object(this.page.locator('span').filter({ hasText:'SAVE CHANGES' }), this.page);}
   //CONST
   get updatedConfigurationMessageText() {return 'Portal configuration updated';}
   
