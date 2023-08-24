@@ -115,7 +115,7 @@ jobs:
 
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-      working-directory: ui-tests
+      working-directory: tyk-analytics-tests
     
     - name: Waiting for dashboard
       run: |
