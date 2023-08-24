@@ -111,11 +111,11 @@ jobs:
     - name: Install test dependecies
       run: |
         npm ci
-      working-directory: tyk-analytics-tests
+      working-directory: tyk-analytics-tests/playwright
 
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-      working-directory: tyk-analytics-tests
+      working-directory: tyk-analytics-tests/playwright
     
     - name: Waiting for dashboard
       run: |
@@ -126,13 +126,13 @@ jobs:
       id: test_execution
       run: |
         npm run test
-      working-directory: tyk-analytics-tests
+      working-directory: tyk-analytics-tests/playwright
         
     - uses: actions/upload-artifact@v3
       if: always()
       with:
         name: playwright-report
-        path: ui-tests/playwright-report/
+        path: ui-tests//playwright/playwright-report/
         retention-days: 30
     
     - name: Slack notify
