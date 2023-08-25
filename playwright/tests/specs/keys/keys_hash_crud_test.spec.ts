@@ -1,6 +1,6 @@
 import { test, assert } from '@fixtures';
 import { Dashboard_connection } from '@api_connections/Dashboard_connection';
-import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
+import { newAPIdefinitionWithDefaults } from '@lib/utils/API_object_designer';
 
 const authTokenApi = {
   "name": "authtoken",
@@ -33,7 +33,7 @@ test('Create/update/delete keys without policy', async ({ createUserAndLogin, ma
 
   await test.step('Prerequisits: creating API definition via dashboard API', async () => {
     const body = newAPIdefinitionWithDefaults(authTokenApi);
-    await dashboard_connection.createAPI(body, createUserAndLogin.userSecret);
+    await await dashboard_connection.createAPI(body, createUserAndLogin.userSecret);
   });
 
   await test.step('User should be able to create new Key', async () => {

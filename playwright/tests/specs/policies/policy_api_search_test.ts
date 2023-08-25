@@ -2,7 +2,7 @@ import { test, assert } from '@fixtures';
 
 import { policies_page } from '../../../lib/pom/Policies_page';
 import { Dashboard_connection } from '@api_connections/Dashboard_connection';
-import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
+import { newAPIdefinitionWithDefaults } from '@lib/utils/API_object_designer';
 
 const keylessApi = {
   "name": "keyless"
@@ -74,7 +74,7 @@ test('Test API search functionality on Add Policy Page', async ({ createUserAndL
   await test.step('Prerequisits: creating API definitions via dashboard API', async () => {
     [keylessApi, authTokenApi, oauthApi, multi1Api, multi2Api, jwtApi].forEach(authType => {
       let body = newAPIdefinitionWithDefaults(authType);
-      dashboard_connection.createAPI(body, envDetails.userSecret);
+      await dashboard_connection.createAPI(body, envDetails.userSecret);
     })
   });
 

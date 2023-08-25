@@ -1,5 +1,5 @@
 import { Dashboard_admin_connection } from './api_connections/Dashboard_admin_connection';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 import { generateRandomEmail } from './utils';
 import { assert } from 'lib/utils/fixtures';
 import { config } from '@variables';
@@ -21,9 +21,14 @@ export const setUpEnv = async () => {
     const adminEmail = generateRandomEmail();
     const adminPassword = config.USER_PASSWORD;
 
-    //CHECKING IF ENV IS UP
+    //CHECKING IF ENV IS UP - TODO: move it to before all tests (to execute only once)
     const statusResponse = await dashboard_admin_request.getStatus(authorizationHeader);
     assert(statusResponse.ok()).toBeTruthy();
+    const context: APIRequestContext = await request.newContext({});
+    const gwStatusResponse: any = await context.get(config.GW_HELLO_API);
+    assert(gwStatusResponse.ok()).toBeTruthy();
+    const body = await gwStatusResponse.json();
+    assert(body.details.dashboard.status).toEqual("pass");
     //PREPARING ORG
     console.debug(`>>> Preparing new ${orgCname} organization`);
     const testOrgBody = {"cname": orgCname,"cname_enabled": true,"owner_name": "test-org1","owner_slug": "default"};
@@ -37,7 +42,7 @@ export const setUpEnv = async () => {
         "org_id": orgID,
         "user_permissions": { "IsAdmin": "admin" }
     };
-    const context: APIRequestContext = await request.newContext({});
+    // const context: APIRequestContext = await request.newContext({});
     const adminUserResponse = await context.post(config.DASHBOARD_ADMIN_API + config.USERS_API_PATH, {data: adminUserBody, headers: authorizationHeader});
     const reposneJson = await adminUserResponse.json();
     console.debug(`>>> Creating user response: ${reposneJson}`);

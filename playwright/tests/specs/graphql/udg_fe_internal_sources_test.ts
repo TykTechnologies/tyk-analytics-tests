@@ -3,7 +3,7 @@ import { apis_page } from '../../../lib/pom/Apis_page';
 import { graphql_page } from '../../../lib/pom/Graphql_page';
 
 import { Dashboard_connection } from '@api_connections/Dashboard_connection';
-import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
+import { newAPIdefinitionWithDefaults } from '@lib/utils/API_object_designer';
 
 test('UDG with internal REST and GQL datasources', async ({ createUserAndLogin, main_page }) => {
 
@@ -79,7 +79,7 @@ test('UDG with internal REST and GQL datasources', async ({ createUserAndLogin, 
     xawait test.step('Prerequisites: creating APIs for internal datasources via dashboard API', async () => {
         [restApi, gqlApi].forEach(api => {
             let body = newAPIdefinitionWithDefaults(api);
-            dashboard_connection.createAPI(body, envDetails.userSecret);
+            await dashboard_connection.createAPI(body, envDetails.userSecret);
         })
     });
 

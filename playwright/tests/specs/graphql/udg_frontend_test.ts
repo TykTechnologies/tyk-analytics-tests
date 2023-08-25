@@ -3,7 +3,7 @@ import { apis_page } from '../../../lib/pom/Apis_page';
 import { graphql_page } from '../../../lib/pom/Graphql_page';
 
 import { Dashboard_connection } from '@api_connections/Dashboard_connection';
-import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
+import { newAPIdefinitionWithDefaults } from '@lib/utils/API_object_designer';
 const path = require('path');
 
 
@@ -76,7 +76,7 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
 
     xawait test.step('Prerequisites: creating the UDG api via Dashboard API', async () => {
         let body = newAPIdefinitionWithDefaults(udgApi);
-        dashboard_connection.createAPI(body, envDetails.userSecret)
+        await dashboard_connection.createAPI(body, envDetails.userSecret)
     });
 
     xawait test.step('User should be able to define external REST, GraphQL and Kafka datasources in a UDG API', async () => {

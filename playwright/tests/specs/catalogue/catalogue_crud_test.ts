@@ -2,7 +2,7 @@ import { test, assert } from '@fixtures';
 
 import { policies_page } from '../../../lib/pom/Policies_page';
 import { Dashboard_connection } from '@api_connections/Dashboard_connection';
-import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
+import { newAPIdefinitionWithDefaults } from '@lib/utils/API_object_designer';
 import { catalogue_page } from '../../../lib/pom/Catalogue_page';
 
 const authTokenApi = {
@@ -45,7 +45,7 @@ before(() => {
   
 await test.step('Prerequisits: creating API definition via dashboard API', async () => {
     const body = newAPIdefinitionWithDefaults(authTokenApi);
-    dashboard_connection.createAPI(body, envDetails.userSecret);
+    await dashboard_connection.createAPI(body, envDetails.userSecret);
     });
 
 await test.step('User should be able to create new Policy', async () => {

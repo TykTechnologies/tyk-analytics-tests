@@ -2,7 +2,7 @@ import { test, assert } from '@fixtures';
 
 import { policies_page } from '../../../lib/pom/Policies_page';
 import { Dashboard_connection } from '@api_connections/Dashboard_connection';
-import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
+import { newAPIdefinitionWithDefaults } from '@lib/utils/API_object_designer';
 
 const policyDetails = {
   apiName: 'test_api',
@@ -22,7 +22,7 @@ test('Create/update/delete metadata on policy', async ({ createUserAndLogin, mai
 
   await test.step('Prerequisits: creating API definition via dashboard API', async () => {
     const apiDefinition = newAPIdefinitionWithDefaults({"name":policyDetails.apiName});
-    dashboard_connection.createAPI(apiDefinition, envDetails.userSecret);
+    await dashboard_connection.createAPI(apiDefinition, envDetails.userSecret);
   });
 
   await test.step('User should be able to create new Policy with metadata', async () => {

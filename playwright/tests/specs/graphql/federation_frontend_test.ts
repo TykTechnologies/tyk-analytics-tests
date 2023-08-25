@@ -4,7 +4,7 @@ import { test, assert } from '@fixtures';
 
 import { FEDERATION_UPSTREAM_HOST } from '../../../config_variables';
 import { Dashboard_connection } from '@api_connections/Dashboard_connection';
-import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
+import { newAPIdefinitionWithDefaults } from '@lib/utils/API_object_designer';
 
 test('Federation API frontend', async ({ createUserAndLogin, main_page }) => {
     const apiDetails = {
@@ -119,7 +119,7 @@ test('Federation API frontend', async ({ createUserAndLogin, main_page }) => {
             let body = newAPIdefinitionWithDefaults(api);
             console.log('>>>>>> REQUEST BODY <<<<<<<')
             console.log(JSON.stringify(body))
-            dashboard_connection.createAPI(body, envDetails.userSecret);
+            await dashboard_connection.createAPI(body, envDetails.userSecret);
         })
     });
 

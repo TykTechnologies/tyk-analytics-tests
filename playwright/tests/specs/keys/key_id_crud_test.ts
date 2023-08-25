@@ -2,7 +2,7 @@ import { test, assert } from '@fixtures';
 
 import { keys_page } from '../../../lib/pom/Keys_page.js';
 import { Dashboard_connection } from '../../../lib/utils/api_connections/Dashboard_connection.js';
-import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
+import { newAPIdefinitionWithDefaults } from '@lib/utils/API_object_designer';
 
 const BasicAuthApi = {
     "name": "basic_auth",
@@ -39,7 +39,7 @@ xtest('Create/update/delete keys by ID without policy', async ({ createUserAndLo
 
   await test.step('Prerequisits: creating API definition via dashboard API', async () => {
       const body = newAPIdefinitionWithDefaults(BasicAuthApi);
-      dashboard_connection.createAPI(body, envDetails.userSecret);
+      await dashboard_connection.createAPI(body, envDetails.userSecret);
   });
 
   await test.step('User should be able to create new Key', async () => {

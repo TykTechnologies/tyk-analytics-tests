@@ -2,7 +2,7 @@ import { test, assert } from '@fixtures';
 
 import { tib_page } from '../../../lib/pom/Tib_page';
 import { Dashboard_connection } from '@api_connections/Dashboard_connection';
-import { newAPIdefinitionWithDefaults } from '../../../lib/utils/API_object_designer';
+import { newAPIdefinitionWithDefaults } from '@lib/utils/API_object_designer';
 import { newPolicyDefinitionWithDefaults } from '../../../lib/utils/Policy_object_designer';
 const path = require('path');
 
@@ -51,7 +51,7 @@ test('TIB profile creation tests', async ({ createUserAndLogin, main_page }) => 
     envDetails = setUpEnv();
     dashboard_connection.uploadCert(certFileLocation, envDetails.userSecret);
     let apiBody = newAPIdefinitionWithDefaults(keylessApi);
-    let apiMeta = dashboard_connection.createAPI(apiBody, envDetails.userSecret);
+    let apiMeta = await dashboard_connection.createAPI(apiBody, envDetails.userSecret);
     let apiId = dashboard_connection.getAPI(apiMeta, envDetails.userSecret).api_id;
     let policyDetails = {
       "access_rights": {
