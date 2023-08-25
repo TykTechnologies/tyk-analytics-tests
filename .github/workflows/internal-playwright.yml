@@ -117,9 +117,10 @@ jobs:
       run: npx playwright install --with-deps
       working-directory: tyk-analytics-tests/playwright
     
-    - name: Waiting for dashboard
+    - name: Waiting for dashboard and GW
       run: |
-        while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:3000/hello/)" != "200" ]]; do sleep 60 && echo "waiting for dashboard '$(date +"%T")'"; done
+        while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:3000/hello/)" != "200" ]]; do sleep 20 && echo "waiting for dashboard '$(date +"%T")'"; done
+        while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:8080/hello/)" != "200" ]]; do sleep 20 && echo "waiting for GW '$(date +"%T")'"; done
       timeout-minutes: 15
     
     - name: Execute UI tests
