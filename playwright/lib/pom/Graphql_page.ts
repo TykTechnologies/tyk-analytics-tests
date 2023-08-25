@@ -4,7 +4,7 @@ import { Input_object } from '@wrappers/Input_object';
 import { DropDown_object } from '@wrappers/DropDown_object';
 import { Toggle_object } from '@wrappers/Toggle_object';
 import { Accordion_object } from '@wrappers/Accordion_object';
-import { Checkbox_object } from '@wrappers/Checkbox_object';
+import { Checkbox_object } from '@wrappers/CheckBox_object';
 import { expect } from '@playwright/test';
 export class Graphql_page extends Template_Page {
   get GRAPHQL_SCHEMA_TAB_BUTTON() { return new Button_object('button:text("Schema")', this.page); }  
