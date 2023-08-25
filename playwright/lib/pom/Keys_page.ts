@@ -14,7 +14,7 @@ get ADD_KEY_BUTTON() {return new Button_object(this.page.locator('span:text-is("
 // get ADD_KEY_BUTTON() {return new Button_object(this.page.locator('span').filter({ hasText: 'Add Key' }), this.page);}
 get CHOOSE_API_TOGGLE() {return new Button_object('span:text-is("Choose api")', this.page);}
 get CHOOSE_API_TABLE() {return new Table_object('.tyk-table', this.page);}
-get LOOKUP_KEY_BUTTON() {return new Button_object('span:text-is("Lookup Key")', this.page);}
+get LOOKUP_KEY_BUTTON() {return new SlowButton_object('span:text-is("Lookup Key")', this.page);}
 get KEY_SEARCH_FIELD() {return new Input_object('input[name="key"]', this.page);}
 get UPDATE_BUTTON() {return new Button_object('span:text-is("Update")', this.page);}
 get UPDATE_WITHOUT_QUOTA_RESET_BUTTON() {return new Button_object('span:text-is("Update without quota reset")', this.page);}
