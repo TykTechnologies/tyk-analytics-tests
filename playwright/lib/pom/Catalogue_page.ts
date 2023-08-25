@@ -2,7 +2,7 @@ import { Template_Page } from './Template_Page';
 import { Button_object } from '@wrappers/Button_object';
 import { DropDown_object } from '@wrappers/DropDown_object';
 import { Input_object } from '@wrappers/Input_object';
-import { Checkbox_object } from '@wrappers/Checkbox_object';
+import { Checkbox_object } from '@wrappers/CheckBox_object';
 import { Table_object } from '@wrappers/Table_object';
 
 export class Catalogue_page extends Template_Page {

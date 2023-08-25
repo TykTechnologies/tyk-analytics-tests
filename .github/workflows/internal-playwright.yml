@@ -121,10 +121,6 @@ jobs:
       run: |
         while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:3000/hello/)" != "200" ]]; do sleep 60 && echo "waiting for dashboard '$(date +"%T")'"; done
       timeout-minutes: 15
-      
-    - name: ls wrappers
-      run: ls node_modules/tyk-test-automation-wrappers/lib
-      working-directory: tyk-analytics-tests/playwright
     
     - name: Execute UI tests
       id: test_execution
