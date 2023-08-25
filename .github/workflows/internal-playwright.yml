@@ -27,7 +27,7 @@ jobs:
     
     steps:
     - name: Install Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2.4.1
+      uses: actions/setup-node@v3.8.0
       with:
         node-version: ${{ matrix.node-version }}
 
@@ -51,13 +51,13 @@ jobs:
       run: |
         echo "::set-output name=branch::master"
         if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.base_ref	}}; then
-          echo "::set-output name=branch::${{ github.base_ref	}}"
+          echo "branch=${{ github.base_ref	}}" >> $GITHUB_OUTPUT
         fi
         if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.head_ref }}; then
-          echo "::set-output name=branch::${{ github.head_ref	}}"
+          echo "branch=${{ github.head_ref	}}" >> $GITHUB_OUTPUT
         fi
         if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.ref }}; then
-          echo "::set-output name=branch::${{ github.ref }}"
+          echo "branch=${{ github.ref	}}" >> $GITHUB_OUTPUT
         fi
         echo "Branch from dash: ${branch}"
     
