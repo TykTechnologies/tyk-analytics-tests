@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "Framework for Dashboard UI automated tests",
   "scripts": {
-    "notify-slack": "node ./node_modules/ui_test_automation/utils/SlackNotification.js",
+    "notify-slack": "node ./slack_notify.js",
     "test": "npx playwright test --project='chromium'",
     "generate-coverage-doc": "PATH_TO_RESULTS=`PWD`/results/json/wdio-merged.json node ./node_modules/ui_test_automation/utils/GenerateCoverageDoc.js",
     "gui": "npx playwright test --project='chromium' --ui"

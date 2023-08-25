@@ -141,14 +141,14 @@ jobs:
       run: |
         export GIT_BRANCH=$(git branch --show-current) 
         npm run notify-slack
-      working-directory: tyk-analytics-tests
+      working-directory: ui-tests
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.KONRAD_SLACK }}
-        WDIO_TEST_ENV: This is a test of change in Test Framework branch - ${{ steps.check_test_branch.outputs.branch	 }} ${{ github.ref }} (commit message -> ${{ github.event.head_commit.message }}${{ github.event.pull_request.title }})
+        JOB_NAME: Postgres Test - ${{ github.ref }} (commit used -> ${{ github.event.head_commit.message }})
         FRAMEWORK_REPO: ${{ github.repository }}
         EVENT_TRIGGER: ${{ github.event_name }} (${{ github.actor }})
         JOB_RUN_ID: ${{ github.run_id }}
-        JOB_NAME: ${{ github.job }}
+        STATUS: ${{ steps.test_execution.outcome }}
 
     - name: Notify if custom notification failed
       if: steps.slack_notify.outcome == 'failure' && failure()
