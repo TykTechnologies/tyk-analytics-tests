@@ -16,8 +16,8 @@ export class Policies_page extends Template_Page {
   //POLICY DETAILS PAGE
   get CONFIGURATIONS_TAB_BUTTON() {return new Button_object('button:text-is("2.Configurations")', this.page);}
   get CREATE_POLICY_BUTTON() {return new SlowButton_object('span:text-is("Create Policy")', this.page);}
-  get UPDATE_POLICY_BUTTON() {return new Button_object('span:text-is("Update")', this.page);}
-  get DELETE_BUTTON() {return new Button_object('//button[contains(@class,"tyk-button--danger-outline")]//span[text()="Delete"]', this.page);}
+  get UPDATE_POLICY_BUTTON() {return new SlowButton_object('span:text-is("Update")', this.page);}
+  get DELETE_BUTTON() {return new SlowButton_object('//button[contains(@class,"tyk-button--danger-outline")]//span[text()="Delete"]', this.page);}
   get API_SECTION_HEADER() {return new SlowButton_object('h3:text("Add API Access Rights")', this.page);}
   get API_NAME_INPUT() {return new Input_object('input[name="apiName"]', this.page);}
   get AUTHENTICATION_TYPE_DROPDOWN() {return new DropDown_object('.tyk-combobox2__text-value', this.page);}
@@ -59,8 +59,8 @@ export class Policies_page extends Template_Page {
   get policy_created_expected_mesage() {return 'Policy has been successfully created';}
   get policy_updated_expected_mesage() {return 'Policy has been successfully updated';}
 
-  isPolicyCreatedPopUpDisplayed() {return this.isSuccessPopupDisplayedWithText(this.policy_created_expected_mesage);}
-  isPolicyUpdatedPopUpDisplayed() {return this.isSuccessPopupDisplayedWithText(this.policy_updated_expected_mesage);}
+  async checkIfPolicyCreatedPopUpDisplayed() {return await this.isSuccessPopupDisplayedWithText(this.policy_created_expected_mesage);}
+  async checkIfPolicyUpdatedPopUpDisplayed() {return await this.isSuccessPopupDisplayedWithText(this.policy_updated_expected_mesage);}
 
   waitUntilPageLoaded() {
     return super.waitUntilPageLoaded(this.ADD_POLICY_BUTTON);

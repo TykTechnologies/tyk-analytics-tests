@@ -1,6 +1,4 @@
 import { test, assert } from '@fixtures';
-
-import { policies_page } from '../../../lib/pom/Policies_page';
 import { Dashboard_connection } from '@api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '@lib/utils/API_object_designer';
 
@@ -61,27 +59,20 @@ const policyDetails = {
   keyEpiryTime: "1 hour",
 };
 
-test('Test API search functionality on Add Policy Page', async ({ createUserAndLogin, main_page }) => {
+test('Test API search functionality on Add Policy Page', async ({ createUserAndLogin, main_page, policies_page }) => {
   const dashboard_connection = new Dashboard_connection();
-  let envDetails;
-
-  before(() => {
-    envDetails = setUpEnv();
-    login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
 
   await test.step('Prerequisits: creating API definitions via dashboard API', async () => {
-    [keylessApi, authTokenApi, oauthApi, multi1Api, multi2Api, jwtApi].forEach(authType => {
+    for (const authType of [keylessApi, authTokenApi, oauthApi, multi1Api, multi2Api, jwtApi]) {
       let body = newAPIdefinitionWithDefaults(authType);
-      await dashboard_connection.createAPI(body, envDetails.userSecret);
-    })
+      await dashboard_connection.createAPI(body, createUserAndLogin.userSecret);
+    }
   });
 
   await test.step('User should be able search API by name', async () => {
     await main_page.openPolicies();
-   await policies_page.ADD_POLICY_BUTTON.click();
-   await policies_page.API_NAME_INPUT.fill(keylessApi.name);
+    await policies_page.ADD_POLICY_BUTTON.click();
+    await policies_page.API_NAME_INPUT.fill(keylessApi.name);
     await assert(policies_page.API_TABLE).toContainText(keylessApi.name);
     await assert(policies_page.API_TABLE).not.toContainText(authTokenApi.name);
     await assert(policies_page.API_TABLE).not.toContainText(oauthApi.name);
@@ -91,7 +82,7 @@ test('Test API search functionality on Add Policy Page', async ({ createUserAndL
   });
 
   await test.step('User should be able to change API name in search criteria', async () => {
-   await policies_page.API_NAME_INPUT.fill(authTokenApi.name);
+    await policies_page.API_NAME_INPUT.fill(authTokenApi.name);
     await assert(policies_page.API_TABLE).not.toContainText(keylessApi.name);
     await assert(policies_page.API_TABLE).toContainText(authTokenApi.name);
     await assert(policies_page.API_TABLE).not.toContainText(oauthApi.name);
@@ -111,7 +102,7 @@ test('Test API search functionality on Add Policy Page', async ({ createUserAndL
   });
 
   await test.step('User should be able to search by single Authentication type ', async () => {
-   await policies_page.AUTHENTICATION_TYPE_DROPDOWN.selectOption("JSON Web Token");
+    await policies_page.AUTHENTICATION_TYPE_DROPDOWN.selectOption("JSON Web Token");
     await assert(policies_page.API_TABLE).not.toContainText(keylessApi.name);
     await assert(policies_page.API_TABLE).not.toContainText(authTokenApi.name);
     await assert(policies_page.API_TABLE).not.toContainText(oauthApi.name);
@@ -121,7 +112,7 @@ test('Test API search functionality on Add Policy Page', async ({ createUserAndL
   });
 
   await test.step('User should be able to clear Authentication type in search criteria', async () => {
-   await policies_page.AUTHENTICATION_TYPE_DROPDOWN.selectOption("All authentication types");
+    await policies_page.AUTHENTICATION_TYPE_DROPDOWN.selectOption("All authentication types");
     await assert(policies_page.API_TABLE).toContainText(keylessApi.name);
     await assert(policies_page.API_TABLE).toContainText(authTokenApi.name);
     await assert(policies_page.API_TABLE).toContainText(oauthApi.name);
@@ -131,8 +122,8 @@ test('Test API search functionality on Add Policy Page', async ({ createUserAndL
   });
 
   await test.step('User should be able to search by multiple Authentication types ', async () => {
-   await policies_page.AUTHENTICATION_TYPE_DROPDOWN.selectOption("Mutual TLS");
-   await policies_page.AUTHENTICATION_TYPE_DROPDOWN.selectOption("OAuth 2.0");
+    await policies_page.AUTHENTICATION_TYPE_DROPDOWN.selectOption("Mutual TLS");
+    await policies_page.AUTHENTICATION_TYPE_DROPDOWN.selectOption("OAuth 2.0");
     await assert(policies_page.API_TABLE).not.toContainText(keylessApi.name);
     await assert(policies_page.API_TABLE).not.toContainText(authTokenApi.name);
     await assert(policies_page.API_TABLE).toContainText(oauthApi.name);
@@ -142,7 +133,7 @@ test('Test API search functionality on Add Policy Page', async ({ createUserAndL
   });
 
   await test.step('User should be able to search by Api name plus Authentication type ', async () => {
-   await policies_page.API_NAME_INPUT.fill(oauthApi.name);
+    await policies_page.API_NAME_INPUT.fill(oauthApi.name);
     await assert(policies_page.API_TABLE).not.toContainText(keylessApi.name);
     await assert(policies_page.API_TABLE).not.toContainText(authTokenApi.name);
     await assert(policies_page.API_TABLE).toContainText(oauthApi.name);
@@ -150,5 +141,5 @@ test('Test API search functionality on Add Policy Page', async ({ createUserAndL
     await assert(policies_page.API_TABLE).not.toContainText(multi2Api.name);
     await assert(policies_page.API_TABLE).not.toContainText(jwtApi.name);
   });
-  
+
 });
