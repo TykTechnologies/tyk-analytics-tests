@@ -4,18 +4,20 @@
 
 ## Dashboard UI automation test suite based on:
 
-1. Node.js
-2. [Webdriverio](https://webdriver.io/)
-3. [Timeline reporter](https://github.com/QualityOps/wdio-timeline-reporter) for reporting
+1. TypeScript
+2. [Playwright](https://playwright.dev/)
 
 ## How to run tests
 1. Clone repository
 2. Install Dependencies
 ```
 'npm install'
+npx playwright install --with-deps
 ```
-4. Execute tests using ```npm test``` or ```npm headless-test```
-5. Report will be generated in results/report
+4. Execute tests using ```npm run test``` 
+5. Report will be generated in playwright-report
+
+Note: You can also use VS code pluggin or ```npm run gui``` to run tests on local
 
 ## Configuration
 We can execute test with following variables [default values]:

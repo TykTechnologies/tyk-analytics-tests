@@ -2,6 +2,7 @@
 node_modules/
 
 # Don't keep recordings from test runs
+playwright-report/
 results/
 *.log
 # Local files
