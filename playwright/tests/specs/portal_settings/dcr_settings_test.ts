@@ -23,7 +23,7 @@ test('Portal Settings - API access manipulations', async ({ createUserAndLogin, 
   await test.step('DCR should be disabled by default', async () => {
     await main_page.openPortalSettings();
    await admin_settings_page.API_ACCESS_TAB_BUTTON.click();
-    assert(admin_settings_page.DCR_TOGGLE.isSelected()).to.be.false;
+    assert(admin_settings_page.DCR_TOGGLE.isSelected()).toBeFalsy();
   });
 
   await test.step('If DCR is enabled fields become mandatory', async () => {
@@ -68,7 +68,7 @@ test('Portal Settings - API access manipulations', async ({ createUserAndLogin, 
    await admin_settings_page.DCR_HOST_INPUT.click();
     admin_settings_page.DCR_HOST_INPUT.clear();
    await admin_settings_page.DCR_TOGGLE.click();
-    assert(admin_settings_page.DCR_TOGGLE.isSelected()).to.be.false;
+    assert(admin_settings_page.DCR_TOGGLE.isSelected()).toBeFalsy();
    await admin_settings_page.SAVE_BUTTON.click();
     assert(admin_settings_page.isSettingsUpdatedPopUpDisplayed()).toBeTruthy();
   });

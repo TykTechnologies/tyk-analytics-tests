@@ -39,7 +39,7 @@ export class Template_Page {
   async isErrorPopupDisplayedWithText(text: string): Promise<void> {
     console.debug(`>>> Looking for popup with text ${text}`);
     await expect.poll( async () => {
-      await this.ERROR_POP_UPS_LIST.waitFor();
+      await this.ERROR_POP_UPS_LIST.first().waitFor();
       const popUps = await this.ERROR_POP_UPS_LIST.all();
       for (const popUp of popUps) {
         console.debug(`>>> success popup text: ${await popUp.textContent()}`);
@@ -51,7 +51,7 @@ export class Template_Page {
     }).toBeTruthy();
   }
 
-  async isErrorPopUpDisplayed() {
+  async checkIfErrorPopUpDisplayed() {
     await expect.poll( async () => {
       if (await this.ERROR_POP_UPS_LIST.count() > 0) {
         return true;

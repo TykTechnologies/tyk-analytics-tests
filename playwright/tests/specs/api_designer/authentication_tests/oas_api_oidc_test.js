@@ -159,7 +159,7 @@ test('Test OIDC Authentication in OAS API designer page', async ({ createUserAnd
     browser.refresh();
     apis_page.OAS_OIDC_ISSUER_ONE_ACCORDTION.expand();
     let clientToPolicyMappingSaved = new OasMapToPolicyTable_object('//label[text()="Map Client to Policy"]//following::ul[1]');
-    assert(clientToPolicyMappingSaved.checkIfRowExists('https://client-c.com')).to.be.false;
+    assert(clientToPolicyMappingSaved.checkIfRowExists('https://client-c.com')).toBeFalsy();
     assert(clientToPolicyMappingSaved.getPolicyValueForCell('http://client-b.com')).to.equal('policyC');
   });
 
@@ -240,7 +240,7 @@ test('Test OIDC Authentication in OAS API designer page', async ({ createUserAnd
     browser.refresh();
     await assert(apis_page.OAS_OIDC_ENABLE_SCOPE_CLAIMS_BOX).toBeChecked();
     let claimToPolicyMappingSaved = new OasMapToPolicyTable_object('//label[text()="Map Claim to Policy"]//following::ul[1]');
-    assert(claimToPolicyMappingSaved.checkIfRowExists('claimB')).to.be.false;
+    assert(claimToPolicyMappingSaved.checkIfRowExists('claimB')).toBeFalsy();
     assert(claimToPolicyMappingSaved.getPolicyValueForCell('claimD')).to.equal('policyA');
     await assert(apis_page.OAS_OIDC_ALLOW_QUERY_PARAM_BOX).not.toBeChecked();
     await assert(apis_page.OAS_OIDC_USE_COOKIE_BOX).not.toBeChecked();

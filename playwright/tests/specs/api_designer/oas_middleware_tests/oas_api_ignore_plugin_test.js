@@ -61,7 +61,7 @@ test('Test Ignore plugin on OAS Endpoints designer page', async ({ createUserAnd
   await test.step('Ignore plugin is enabled after page reload', async () => {
     browser.refresh();
    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
-    assert(endpoints_page.verifyMiddlewareDisabledByName("Ignore Authentication")).to.be.false;
+    assert(endpoints_page.verifyMiddlewareDisabledByName("Ignore Authentication")).toBeFalsy();
   });
 
   await test.step('User can remove Ignore plugin and save API', async () => {
@@ -76,7 +76,7 @@ test('Test Ignore plugin on OAS Endpoints designer page', async ({ createUserAnd
   await test.step('Ignore plugin is removed after page reload', async () => {
     browser.refresh();
    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
-    assert(endpoints_page.verifyMiddlewareExistsByName("Ignore Authentication")).to.be.false;
+    assert(endpoints_page.verifyMiddlewareExistsByName("Ignore Authentication")).toBeFalsy();
   });
 
 });

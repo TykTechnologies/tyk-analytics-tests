@@ -24,7 +24,7 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
     let firstAPI = true;
     let apiName = 'default-values';
     openOasDesignerPage(firstAPI);
-    assert(apis_page.OAS_ENABLE_SD_TOGGLE.isSelected()).to.be.false;
+    assert(apis_page.OAS_ENABLE_SD_TOGGLE.isSelected()).toBeFalsy();
    await apis_page.OAS_ENABLE_SD_TOGGLE.click();
     await assert(apis_page.OAS_SD_PRESETS_DROPDOWN).toHaveText("Custom");
    await apis_page.OAS_SD_PORT_IS_SEPARATE_BOX.click();

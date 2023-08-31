@@ -15,9 +15,9 @@ test('Portal Settings - API access manipulations', async ({ createUserAndLogin, 
   await test.step('User should see proper default values', async () => {
     await main_page.openPortalSettings();
    await admin_settings_page.API_ACCESS_TAB_BUTTON.click();
-    assert(admin_settings_page.MANUAL_ACCESS_APPROVAL_TOGGLE.isSelected()).to.be.false;
-    assert(admin_settings_page.MULTIPLE_API_SUBSCRIPTION_TOGGLE.isSelected()).to.be.false;
-    assert(admin_settings_page.THIRD_PARTY_REDIRECT_TOGGLE.isSelected()).to.be.false;
+    assert(admin_settings_page.MANUAL_ACCESS_APPROVAL_TOGGLE.isSelected()).toBeFalsy();
+    assert(admin_settings_page.MULTIPLE_API_SUBSCRIPTION_TOGGLE.isSelected()).toBeFalsy();
+    assert(admin_settings_page.THIRD_PARTY_REDIRECT_TOGGLE.isSelected()).toBeFalsy();
     await assert(admin_settings_page.NUMBER_OF_ALLOWED_REQUESTS_INPUT).toHaveValue("0");
   });
 

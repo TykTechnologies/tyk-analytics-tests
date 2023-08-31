@@ -20,7 +20,7 @@ test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin,
     let enableCors = false;
     let firstApi = true;
     openOasDesignerPage(firstApi, enableCors);
-    assert(apis_page.OAS_ENABLE_CORS_TOGGLE.isSelected()).to.be.false;
+    assert(apis_page.OAS_ENABLE_CORS_TOGGLE.isSelected()).toBeFalsy();
     await assert(apis_page.OAS_OPTIONS_PASS_THROUGH_BOX).not.toBeDisplayed();
   });
 

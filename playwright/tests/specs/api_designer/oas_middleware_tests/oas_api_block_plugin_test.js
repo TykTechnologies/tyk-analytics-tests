@@ -61,7 +61,7 @@ test('Test Block List plugin on OAS Endpoints designer page', async ({ createUse
   await test.step('Block List plugin is enabled after page reload', async () => {
     browser.refresh();
    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
-    assert(endpoints_page.verifyMiddlewareDisabledByName("Block List")).to.be.false;
+    assert(endpoints_page.verifyMiddlewareDisabledByName("Block List")).toBeFalsy();
   });
 
   await test.step('User can remove Block List plugin and save API', async () => {
@@ -76,7 +76,7 @@ test('Test Block List plugin on OAS Endpoints designer page', async ({ createUse
   await test.step('Block List plugin is removed after page reload', async () => {
     browser.refresh();
    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
-    assert(endpoints_page.verifyMiddlewareExistsByName("Block List")).to.be.false;
+    assert(endpoints_page.verifyMiddlewareExistsByName("Block List")).toBeFalsy();
   });
 
 });

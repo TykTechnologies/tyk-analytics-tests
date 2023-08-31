@@ -92,8 +92,8 @@ it('User should be able to modify Catalogue settings',()=>{
     catalogue_page.DESCRIBE_await this.API_INPUT.fill(updatedCatalogueDetails.descriptionOfAPI);
    await catalogue_page.CATALOGUE_OWNER_EMAIL_INPUT.fill(updatedCatalogueDetails.catalogueOwnerAPI);
    await catalogue_page.SETTINGS_TAB_BUTTON.click();
-    assert(catalogue_page.OVERRIDE_GLOBAL_SETTINGS.isSelected()).to.be.false;
-    assert(catalogue_page.REQUIRE_KEY_APPROVAL.isSelected()).to.be.false;
+    assert(catalogue_page.OVERRIDE_GLOBAL_SETTINGS.isSelected()).toBeFalsy();
+    assert(catalogue_page.REQUIRE_KEY_APPROVAL.isSelected()).toBeFalsy();
    await catalogue_page.UPDATE_BUTTON.click();
    await catalogue_page.API_DETAILS_TAB.click();
     await assert(catalogue_page.PUBLIC_API_NAME_INPUT).toHaveValue(updatedCatalogueDetails.publicApiName);

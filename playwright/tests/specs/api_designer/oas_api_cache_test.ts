@@ -16,7 +16,7 @@ test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin
   await test.step('CACHE settings is off by default', async () => {
     let firstAPI = true;
     openOasDesignerPage(firstAPI);
-    assert(apis_page.OAS_ENABLE_CACHE_TOGGLE.isSelected()).to.be.false;
+    assert(apis_page.OAS_ENABLE_CACHE_TOGGLE.isSelected()).toBeFalsy();
   });
 
   await test.step('User can change Cache Timeout and save API', async () => {
