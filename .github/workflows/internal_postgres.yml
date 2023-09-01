@@ -7,6 +7,9 @@ on:
         default: "master"
         description: "tyk-analytics repo branch name"
         required: true
+  push:
+    branches:
+      - *postgres*
 
 env:
   GOPRIVATE: github.com/TykTechnologies
