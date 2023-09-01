@@ -9,7 +9,7 @@ on:
         required: true
   push:
     branches:
-      - *postgres*
+      - '**postgres**'
 
 env:
   GOPRIVATE: github.com/TykTechnologies
