@@ -1,4 +1,4 @@
-name: Internal framework check
+name: Internal framework check - playwright
 
 on:
   pull_request:
@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - master
+      - test/*
       - release-*
 
 env:
@@ -21,12 +22,12 @@ jobs:
         go-version: [1.19.x]
         platform: [ubuntu-latest]
         arch: [amd64]
-        node-version: [15.x]
+        node-version: [18.16]
     runs-on: ${{ matrix.platform }}
     
     steps:
     - name: Install Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2.4.1
+      uses: actions/setup-node@v3.8.0
       with:
         node-version: ${{ matrix.node-version }}
 
@@ -43,12 +44,6 @@ jobs:
         token: ${{ secrets.ORG_GH_TOKEN }}
         submodules: true
 
-    - name: Set up Chrome with proper version
-      uses: abhi1693/setup-browser@v0.3.4
-      with:
-        browser: chrome
-        version: '1097615' #revision for chrome v111
-
     - name: Check if Dashboard branch exists
       id: check_test_branch
       env:
@@ -56,13 +51,13 @@ jobs:
       run: |
         echo "::set-output name=branch::master"
         if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.base_ref	}}; then
-          echo "::set-output name=branch::${{ github.base_ref	}}"
+          echo "branch=${{ github.base_ref	}}" >> $GITHUB_OUTPUT
         fi
         if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.head_ref }}; then
-          echo "::set-output name=branch::${{ github.head_ref	}}"
+          echo "branch=${{ github.head_ref	}}" >> $GITHUB_OUTPUT
         fi
         if git ls-remote --exit-code --heads https://${TOKEN}@github.com/TykTechnologies/tyk-analytics ${{ github.ref }}; then
-          echo "::set-output name=branch::${{ github.ref }}"
+          echo "branch=${{ github.ref	}}" >> $GITHUB_OUTPUT
         fi
         echo "Branch from dash: ${branch}"
     
@@ -116,27 +111,30 @@ jobs:
     - name: Install test dependecies
       run: |
         npm ci
-      working-directory: tyk-analytics-tests
+      working-directory: tyk-analytics-tests/playwright
+
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+      working-directory: tyk-analytics-tests/playwright
     
-    - name: Waiting for dashboard
+    - name: Waiting for dashboard and GW
       run: |
-        while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:3000/hello/)" != "200" ]]; do sleep 60 && echo "waiting for dashboard '$(date +"%T")'"; done
-      timeout-minutes: 15    
+        while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:3000/hello/)" != "200" ]]; do sleep 20 && echo "waiting for dashboard '$(date +"%T")'"; done
+        while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:8080/hello)" != "200" ]]; do sleep 20 && echo "waiting for GW '$(date +"%T")'"; done
+      timeout-minutes: 15
     
     - name: Execute UI tests
       id: test_execution
       run: |
-        npm run headless-test
-      working-directory: tyk-analytics-tests
-      env:
-        FIXED_CHROME_VERSION: '1097615'
+        npm run test
+      working-directory: tyk-analytics-tests/playwright
         
-    - name: Archive UI test report
-      if: ${{ always() }}
-      uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
+      if: always()
       with:
-        name: ui-test-report
-        path: ./tyk-analytics-tests/results/report/index.html
+        name: playwright-report
+        path: tyk-analytics-tests/playwright/playwright-report/
+        retention-days: 30
     
     - name: Slack notify
       if: ${{ always() }}
@@ -144,14 +142,14 @@ jobs:
       run: |
         export GIT_BRANCH=$(git branch --show-current) 
         npm run notify-slack
-      working-directory: tyk-analytics-tests
+      working-directory: tyk-analytics-tests/playwright
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.KONRAD_SLACK }}
-        WDIO_TEST_ENV: This is a test of change in Test Framework branch - ${{ steps.check_test_branch.outputs.branch	 }} ${{ github.ref }} (commit message -> ${{ github.event.head_commit.message }}${{ github.event.pull_request.title }})
+        JOB_NAME: Postgres Test - ${{ github.ref }} (commit used -> ${{ github.event.head_commit.message }})
         FRAMEWORK_REPO: ${{ github.repository }}
         EVENT_TRIGGER: ${{ github.event_name }} (${{ github.actor }})
         JOB_RUN_ID: ${{ github.run_id }}
-        JOB_NAME: ${{ github.job }}
+        STATUS: ${{ steps.test_execution.outcome }}
 
     - name: Notify if custom notification failed
       if: steps.slack_notify.outcome == 'failure' && failure()

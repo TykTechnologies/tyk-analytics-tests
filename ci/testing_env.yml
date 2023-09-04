@@ -2,6 +2,7 @@ version: '3.3'
 services:
     tyk-dashboard:
         build: ./Dashboard
+        # image: tykio/tyk-dashboard:v5.0.2
         container_name: tyk-dashboard
         ports:
             - "3000:3000"
