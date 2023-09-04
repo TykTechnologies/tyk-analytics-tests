@@ -19,7 +19,7 @@ get SAVE_BUTTON() {return new Button_object('span:text-is("Save")', this.page);}
 get DELETE_BUTTON() {return new Button_object('span:text-is("Delete")', this.page);}
 get DELETE_KEY_MODAL() {return this.page.locator('.tyk-modal__content');}
 get DELETE_KEY_CONFIRMATION_BUTTON() {return new Button_object('//div[contains(@class,"opened")]//div[@class="tyk-modal__content"]//button//span[text()="Delete"]', this.page);}
-get NO_APIS_REGISTERED_MESSAGE() {return this.page.locator('.tyk-message--info');}
+get NO_APIS_REGISTERED_MESSAGE() {return this.page.getByText('No APIs registered for the portal.');}
 
 //Settings tab
 get OVERRIDE_GLOBAL_SETTINGS() {return new Checkbox_object('input[name="config.override"]', this.page);}
