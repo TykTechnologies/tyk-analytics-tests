@@ -1,12 +1,11 @@
 import { Template_Page } from './Template_Page';
 import { Button_object } from '@wrappers/Button_object';
+import { SlowButton_object } from '@wrappers/SlowButton_object';
 import { config } from '@variables';
 
 export class Main_page extends Template_Page {
-  get PAGE_H1() {return this.page.locator('h1*=API Activity Dashboard');}
-
   //NAVIGATION
-  get APIs_NAVIAGTION_BUTTON() {return new Button_object('a[href="/apis"]', this.page);}
+  get APIs_NAVIAGTION_BUTTON() {return new SlowButton_object('a[href="/apis"]', this.page);}
   get KEYS_NAVIAGTION_BUTTON() {return new Button_object('a[href="/keys"]', this.page);}
   get POLICIES_NAVIAGTION_BUTTON() {return new Button_object('a[href="/policies"]', this.page);}
   get USERS_NAVIAGTION_BUTTON() {return new Button_object('a[href="/users"]', this.page);}
@@ -41,7 +40,7 @@ export class Main_page extends Template_Page {
   }
 
   async waitUntilPageLoaded() {
-    await super.waitUntilPageLoaded(this.PAGE_H1);
+    await super.waitUntilPageLoaded(this.APIs_NAVIAGTION_BUTTON);
   }
 
   async logOut() {

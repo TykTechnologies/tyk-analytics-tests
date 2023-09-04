@@ -34,7 +34,7 @@ test('CRUD basic Federation API', async ({ createUserAndLogin, main_page }) => {
        await apis_page.API_TYPE_SUBGRAPH_BUTTON.click();
        await apis_page.OAS_TARGET_URL_INPUT.fill(apiDetails.usersSubgraphUrl);
        await apis_page.CONFIGURE_API_BUTTON.click();
-        await assert(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
+        await assert(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toBeVisible();
        await apis_page.SAVE_BUTTON.click();
     });
     
@@ -50,7 +50,7 @@ test('CRUD basic Federation API', async ({ createUserAndLogin, main_page }) => {
         await assert(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE).toBeSelected();
        await apis_page.UPDATE_BUTTON.click();
        await apis_page.UPDATE_API_BUTTON.click();
-        await assert(apis_page.API_UPDATED_MESSAGE).toExist();
+        await assert(apis_page.API_UPDATED_MESSAGE).toBeVisible();
         await main_page.openAPIs();
       await $usersTableElement.click();
         await assert(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE).toBeSelected();
@@ -65,7 +65,7 @@ test('CRUD basic Federation API', async ({ createUserAndLogin, main_page }) => {
        await apis_page.API_TYPE_SUBGRAPH_BUTTON.click();
        await apis_page.OAS_TARGET_URL_INPUT.fill(apiDetails.productsSubgraphUrl);
        await apis_page.CONFIGURE_API_BUTTON.click();
-        await assert(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
+        await assert(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toBeVisible();
        await apis_page.SAVE_BUTTON.click();
         //Reviews subgraph
         await main_page.openAPIs();
@@ -75,7 +75,7 @@ test('CRUD basic Federation API', async ({ createUserAndLogin, main_page }) => {
        await apis_page.API_TYPE_SUBGRAPH_BUTTON.click();
        await apis_page.OAS_TARGET_URL_INPUT.fill(apiDetails.reviewsSubgraphUrl);
        await apis_page.CONFIGURE_API_BUTTON.click();
-        await assert(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
+        await assert(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toBeVisible();
        await apis_page.SAVE_BUTTON.click();
     });
        
@@ -94,7 +94,7 @@ test('CRUD basic Federation API', async ({ createUserAndLogin, main_page }) => {
        await apis_page.API_TYPE_SUPERGRAPH_BUTTON.click();
         graphql_page.GRAPHQL_SUBGRAPHS_DROPDOWN.selectOptions([apiDetails.usersSubgraphName, apiDetails.productsSubgraphName, apiDetails.reviewsSubgraphName])
        await apis_page.CONFIGURE_API_BUTTON.click();
-        await assert(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
+        await assert(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toBeVisible();
        await apis_page.SAVE_BUTTON.click();
     });
 
@@ -110,7 +110,7 @@ test('CRUD basic Federation API', async ({ createUserAndLogin, main_page }) => {
         await assert(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE).toBeSelected();
        await apis_page.UPDATE_BUTTON.click();
        await apis_page.UPDATE_API_BUTTON.click();
-        await assert(apis_page.API_UPDATED_MESSAGE).toExist();
+        await assert(apis_page.API_UPDATED_MESSAGE).toBeVisible();
         await main_page.openAPIs();
       await $supergraphTableElement.click();
         await assert(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE).toBeSelected();
@@ -123,28 +123,28 @@ test('CRUD basic Federation API', async ({ createUserAndLogin, main_page }) => {
        await apis_page.OPTIONS_BUTTON.click();
        await apis_page.DELETE_BUTTON.click();
        await apis_page.DELETE_API_BUTTON.click();
-        await assert(apis_page.API_DELETED_MESSAGE).toExist();
+        await assert(apis_page.API_DELETED_MESSAGE).toBeVisible();
         //Users subgraph
         await main_page.openAPIs();
       await $usersTableElement.click();
        await apis_page.OPTIONS_BUTTON.click();
        await apis_page.DELETE_BUTTON.click();
        await apis_page.DELETE_API_BUTTON.click();
-        await assert(apis_page.API_DELETED_MESSAGE).toExist();
+        await assert(apis_page.API_DELETED_MESSAGE).toBeVisible();
         //Products subgraph
         await main_page.openAPIs();
       await $productsTableElement.click();
        await apis_page.OPTIONS_BUTTON.click();
        await apis_page.DELETE_BUTTON.click();
        await apis_page.DELETE_API_BUTTON.click();
-        await assert(apis_page.API_DELETED_MESSAGE).toExist();
+        await assert(apis_page.API_DELETED_MESSAGE).toBeVisible();
         //Reviews subgraph
         await main_page.openAPIs();
       await $reviewsTableElement.click();
        await apis_page.OPTIONS_BUTTON.click();
        await apis_page.DELETE_BUTTON.click();
        await apis_page.DELETE_API_BUTTON.click();
-        await assert(apis_page.API_DELETED_MESSAGE).toExist();
+        await assert(apis_page.API_DELETED_MESSAGE).toBeVisible();
     });
 
     await test.step('Deleted APIs should not be visible', async () => {

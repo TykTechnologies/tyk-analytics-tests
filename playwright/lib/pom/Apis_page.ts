@@ -1,5 +1,6 @@
 import { Template_Page } from './Template_Page';
 import { Button_object } from '@wrappers/Button_object';
+import { SlowButton_object } from '@wrappers/SlowButton_object';
 import { Input_object } from '@wrappers/Input_object';
 import { DropDown_object } from '@wrappers/DropDown_object';
 import { Toggle_object } from'@wrappers/Toggle_object';
@@ -10,10 +11,10 @@ export class Apis_page extends Template_Page {
   //MAIN PAGE
   get ADD_NEW_API_BUTTON() { return new Button_object('span:text-is("Add new API")', this.page); }
   get API_TABLE() { return this.page.locator('.tyk-table'); }
-  get API_TYPE_GRAPHQL_BUTTON() { return this.page.locator('p').filter({ hasText: 'GraphQL' }); }
-  get API_TYPE_UDG_BUTTON() { return this.page.locator('p').filter({ hasText: 'UDG' }); }
-  get API_TYPE_FEDERATION_BUTTON() { return this.page.locator('p').filter({ hasText: 'Federation' }); }
-  get API_TYPE_SUBGRAPH_BUTTON() { return this.page.locator('p').filter({ hasText: 'Subgraph' }); }
+  get API_TYPE_GRAPHQL_BUTTON() { return this.page.getByLabel('GraphQL'); }
+  get API_TYPE_UDG_BUTTON() { return this.page.getByLabel('UDG'); }
+  get API_TYPE_FEDERATION_BUTTON() { return this.page.getByLabel('Federation'); }
+  get API_TYPE_SUBGRAPH_BUTTON() { return this.page.getByLabel('Subgraph'); }
   get API_TYPE_SUPERGRAPH_BUTTON() { return this.page.locator('//input[@name="subType" and @value="supergraph"]'); }
 
   //LANDING PAGE
@@ -223,10 +224,10 @@ export class Apis_page extends Template_Page {
 
 
   //TOP BUTTONS
-  get CONFIGURE_API_BUTTON() { return new Button_object('span:text-is("Configure Api")', this.page); }
-  get SAVE_BUTTON() { return new Button_object('.//div[@class="tyk-fixed-wrapper "]//span[normalize-space() = "Save"]', this.page); }
+  get CONFIGURE_API_BUTTON() { return new SlowButton_object('span:text-is("Configure Api")', this.page); }
+  get SAVE_BUTTON() { return new Button_object(this.page.getByRole('button', { name: 'Save' }), this.page); }
   get OPTIONS_BUTTON() { return new Button_object('span:text-is("OPTIONS")', this.page); }
-  get DELETE_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText:'Delete' }), this.page); }
+  get DELETE_BUTTON() { return new SlowButton_object(this.page.locator('a').filter({ hasText:'Delete' }), this.page); }
   get UPDATE_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText:'Update' }), this.page); }
 
   //MODALS
