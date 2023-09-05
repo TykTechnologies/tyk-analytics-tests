@@ -4,14 +4,9 @@ import { URL, LANDING_PAGE_PATH } from './../../../config_variables';
 
 xtest('Test Search functionality on OAS API Page', async ({ createUserAndLogin, main_page }) => {
   const apiName = "oas-api-search-test";
-  let envDetails;
+  
 
-  before(() => {
-    envDetails = setUpEnv();
-    login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
-
+  
   await test.step('User should be able to open search bar by clicking search icon', async () => {
     browser.navigateTo(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
    await apis_page.DESIGN_API_BOX.click();

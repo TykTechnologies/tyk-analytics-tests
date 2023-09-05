@@ -12,17 +12,11 @@ const policyDetails = {
 
 test('Create/update/delete tags on policy', async ({ createUserAndLogin, main_page }) => {
   const dashboard_connection = new Dashboard_connection();
-  let envDetails;
-
-  before(() => {
-    envDetails = setUpEnv();
-    login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
+  
 
   await test.step('Prerequisits: creating API definition via dashboard API', async () => {
     const apiDefinition = newAPIdefinitionWithDefaults({"name":policyDetails.apiName});
-    await dashboard_connection.createAPI(apiDefinition, envDetails.userSecret);
+    await dashboard_connection.createAPI(apiDefinition, createUserAndLogin.userSecret);
   });
 
   await test.step('User should see error message on Access Rights tab if no API was selected', async () => {

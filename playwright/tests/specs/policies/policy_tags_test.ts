@@ -15,17 +15,12 @@ const policyDetails = {
 
 test('Create/update/delete tags on policy', async ({ createUserAndLogin, main_page }) => {
   const dashboard_connection = new Dashboard_connection();
-  let envDetails;
+  
 
-  before(() => {
-    envDetails = setUpEnv();
-    login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
-
+  
   await test.step('Prerequisits: creating API definition via dashboard API', async () => {
     const apiDefinition = newAPIdefinitionWithDefaults({"name":policyDetails.apiName});
-    await dashboard_connection.createAPI(apiDefinition, envDetails.userSecret);
+    await dashboard_connection.createAPI(apiDefinition, createUserAndLogin.userSecret);
   });
 
   await test.step('User should be able to create new Policy with tag', async () => {

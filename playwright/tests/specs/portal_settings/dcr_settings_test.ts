@@ -14,16 +14,10 @@ test('Portal Settings - API access manipulations', async ({ createUserAndLogin, 
   };
   const errorElementClass = "has-error";
 
-  before(() => {
-    const envDetails = setUpEnv();
-    login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
-
   await test.step('DCR should be disabled by default', async () => {
     await main_page.openPortalSettings();
    await admin_settings_page.API_ACCESS_TAB_BUTTON.click();
-    assert(admin_settings_page.DCR_TOGGLE.isSelected()).toBeFalsy();
+    assert(await admin_settings_page.DCR_TOGGLE.isSelected()).toBeFalsy();
   });
 
   await test.step('If DCR is enabled fields become mandatory', async () => {
@@ -52,9 +46,9 @@ test('Portal Settings - API access manipulations', async ({ createUserAndLogin, 
   });
 
   await test.step('User should see saved values after re-load values', async () => {
-    browser.refresh();
+    page.reload();
    await admin_settings_page.API_ACCESS_TAB_BUTTON.click();
-    assert(admin_settings_page.DCR_TOGGLE.isSelected()).toBeTruthy();
+    assert(await admin_settings_page.DCR_TOGGLE.isSelected()).toBeTruthy();
     await assert(admin_settings_page.DCR_PROVIDERS_DROPDOWN.locator(`span=${inputs.provider}`)).toBeDisplayed();
     inputs.grant_types.forEach(grant_type => await assert(admin_settings_page.DCR_GRANT_TYPES_DROPDOWN.locator(`span=${grant_type}`)).toBeDisplayed());
     await assert(admin_settings_page.DCR_TOKEN_ENDPOINT_DROPDOWN.locator(`span=${inputs.token_endpoint_auth}`)).toBeDisplayed();
@@ -68,7 +62,7 @@ test('Portal Settings - API access manipulations', async ({ createUserAndLogin, 
    await admin_settings_page.DCR_HOST_INPUT.click();
     admin_settings_page.DCR_HOST_INPUT.clear();
    await admin_settings_page.DCR_TOGGLE.click();
-    assert(admin_settings_page.DCR_TOGGLE.isSelected()).toBeFalsy();
+    assert(await admin_settings_page.DCR_TOGGLE.isSelected()).toBeFalsy();
    await admin_settings_page.SAVE_BUTTON.click();
     assert(admin_settings_page.isSettingsUpdatedPopUpDisplayed()).toBeTruthy();
   });

@@ -13,12 +13,6 @@ const userDetails = {
 
 test('Create/update/delete users', async ({ createUserAndLogin, main_page }) => {
 
-  before(() => {
-    const envDetails = setUpEnv();
-    login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
-
   await test.step('Admin should be able to create new user', async () => {
     await main_page.openUsers();
    await users_page.ADD_USER_BUTTON.click();

@@ -105,13 +105,13 @@ test('Federation API frontend', async ({ createUserAndLogin, main_page }) => {
     const dashboard_connection = new Dashboard_connection();
 
     let $supergraphTableElement;
-    let envDetails;
+    
     let refreshCounter = 0;
 
     before(() => {
         envDetails = setUpEnv();
         login_page.open();
-        login_page.login(envDetails.userEmail, envDetails.userPassword);
+        login_page.login(createUserAndLogin.userEmail, createUserAndLogin.userPassword);
     });
 
     await test.step('Prerequisites: creating subgraph APIs via dashboard API', async () => {
@@ -119,14 +119,14 @@ test('Federation API frontend', async ({ createUserAndLogin, main_page }) => {
             let body = newAPIdefinitionWithDefaults(api);
             console.log('>>>>>> REQUEST BODY <<<<<<<')
             console.log(JSON.stringify(body))
-            await dashboard_connection.createAPI(body, envDetails.userSecret);
+            await dashboard_connection.createAPI(body, createUserAndLogin.userSecret);
         })
     });
 
     await test.step('Prerequisites: creating a supergraph to be used in further tests', async () => {
         await main_page.openAPIs();
         while (!apis_page.ADD_NEW_API_BUTTON.isExisting() && refreshCounter < 5) {
-            browser.refresh();
+            page.reload();
             browser.pause(2000);
             refreshCounter++;
         }

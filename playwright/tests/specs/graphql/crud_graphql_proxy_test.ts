@@ -10,12 +10,6 @@ test('CRUD simple GraphQL (proxy-only) API', async ({ createUserAndLogin, main_p
     };
     let $apiTableElement;
 
-    before(() => {
-        const envDetails = setUpEnv();
-        login_page.open();
-        login_page.login(envDetails.userEmail, envDetails.userPassword);
-    });
-
     await test.step('User should be able to create new GraphQL API', async () => {
         await main_page.openAPIs();
        await apis_page.DESIGN_API_BOX.click();
@@ -36,13 +30,13 @@ test('CRUD simple GraphQL (proxy-only) API', async ({ createUserAndLogin, main_p
     await test.step('User should be able to update GraphQL API', async () => {
       await $apiTableElement.click();
        await graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.click();
-        assert(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.isSelected()).toBeTruthy();
+        assert(await graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.isSelected()).toBeTruthy();
        await apis_page.UPDATE_BUTTON.click();
        await apis_page.UPDATE_API_BUTTON.click();        
         await assert(apis_page.API_UPDATED_MESSAGE).toBeVisible();
         await main_page.openAPIs();
       await $apiTableElement.click();
-        assert(graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.isSelected()).toBeTruthy();
+        assert(await graphql_page.GRAPHQL_ENABLE_PLAYGROUND_TOGGLE.isSelected()).toBeTruthy();
     });
 
     await test.step('User should be able to delete GraphQL API', async () => {

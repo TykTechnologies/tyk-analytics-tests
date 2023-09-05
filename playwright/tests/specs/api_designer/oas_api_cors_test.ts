@@ -4,23 +4,18 @@ import { apis_page } from '../../../lib/pom/Apis_page';
 import { expect } from 'chai';
 
 test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin, main_page }) => {
-  let envDetails;
+  
   let enableCors = true;
   let firstApi = false;
   let originValue = 'https://*.domain.com';
   let headerValue = 'my-custom-header';
 
-  before(() => {
-    envDetails = setUpEnv();
-    login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
-
+  
   await test.step('CORS default state is disabled', async () => {
     let enableCors = false;
     let firstApi = true;
     openOasDesignerPage(firstApi, enableCors);
-    assert(apis_page.OAS_ENABLE_CORS_TOGGLE.isSelected()).toBeFalsy();
+    assert(await apis_page.OAS_ENABLE_CORS_TOGGLE.isSelected()).toBeFalsy();
     await assert(apis_page.OAS_OPTIONS_PASS_THROUGH_BOX).not.toBeDisplayed();
   });
 
@@ -60,7 +55,7 @@ test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin,
   });
 
   await test.step('Options Pass Through is persistent after reloading the page', async () => {
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     await assert(apis_page.OAS_OPTIONS_PASS_THROUGH_BOX).toBeChecked();
     corsOptionPassThruHidesOtherElements();
@@ -75,7 +70,7 @@ test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin,
   });
 
   await test.step('Allowed Methods are persistent after reloading the page', async () => {
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     await assert(apis_page.OAS_ALLOWED_METHODS_SAVED).toHaveText("GET, PATCH, DELETE");
   });
@@ -91,7 +86,7 @@ test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin,
   });
 
   await test.step('Data are persistent after reloading the page', async () => {
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     await assert(apis_page.OAS_ALLOW_CREDENTIALS_BOX).toBeChecked();
     await assert(apis_page.OAS_DEBUG_BOX).toBeChecked();
@@ -108,7 +103,7 @@ test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin,
   });
 
   await test.step('Allowed Origins are persistent after reloading the page', async () => {
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     await assert(apis_page.OAS_ALLOWED_ORIGINS_SAVED).toHaveText(originValue);
   });
@@ -123,7 +118,7 @@ test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin,
   });
 
   await test.step('Allowed Headers are persistent after reloading the page', async () => {
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     await assert(apis_page.OAS_ALLOWED_HEADERS_SAVED).toHaveText("Content-Type, X-Requested-With, Authorization, " + headerValue);
   });
@@ -138,7 +133,7 @@ test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin,
   });
 
   await test.step('Exposed Headers are persistent after reloading the page', async () => {
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     await assert(apis_page.OAS_EXPOSED_HEADERS_SAVED).toHaveText("value-1-header, value-2");
   });

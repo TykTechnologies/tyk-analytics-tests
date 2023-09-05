@@ -6,7 +6,7 @@ import { newAPIdefinitionWithDefaults } from '@lib/utils/API_object_designer';
 import { newPolicyDefinitionWithDefaults } from '../../../lib/utils/Policy_object_designer';
 const path = require('path');
 
-let envDetails;
+
 const certFileLocation = './test/specs/tib/public_key.pem';
 
 const samlProfile = {
@@ -49,10 +49,10 @@ test('TIB profile creation tests', async ({ createUserAndLogin, main_page }) => 
 
   before(() => {
     envDetails = setUpEnv();
-    dashboard_connection.uploadCert(certFileLocation, envDetails.userSecret);
+    dashboard_connection.uploadCert(certFileLocation, createUserAndLogin.userSecret);
     let apiBody = newAPIdefinitionWithDefaults(keylessApi);
-    let apiMeta = await dashboard_connection.createAPI(apiBody, envDetails.userSecret);
-    let apiId = dashboard_connection.getAPI(apiMeta, envDetails.userSecret).api_id;
+    let apiMeta = await dashboard_connection.createAPI(apiBody, createUserAndLogin.userSecret);
+    let apiId = dashboard_connection.getAPI(apiMeta, createUserAndLogin.userSecret).api_id;
     let policyDetails = {
       "access_rights": {
         [apiId]: {
@@ -64,9 +64,9 @@ test('TIB profile creation tests', async ({ createUserAndLogin, main_page }) => 
       "name": keylessApi.name + "_policy"
     };
     let policy = newPolicyDefinitionWithDefaults(policyDetails);
-    dashboard_connection.createPolicy(policy, envDetails.userSecret);
+    dashboard_connection.createPolicy(policy, createUserAndLogin.userSecret);
     login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
+    login_page.login(createUserAndLogin.userEmail, createUserAndLogin.userPassword);
   });
 
   beforeEach(() => {

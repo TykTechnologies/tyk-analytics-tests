@@ -64,26 +64,20 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
     const schemaFileRelativePath = "../../test/specs/graphql/udg-schema.gql";
     let $apiTableElement;
     let refreshCounter = 0;
-    let envDetails;
+    
     
     const dashboard_connection = new Dashboard_connection();
 
-    before(() => {
-        envDetails = setUpEnv();
-        login_page.open();
-        login_page.login(envDetails.userEmail, envDetails.userPassword);
-    });
-
     xawait test.step('Prerequisites: creating the UDG api via Dashboard API', async () => {
         let body = newAPIdefinitionWithDefaults(udgApi);
-        await dashboard_connection.createAPI(body, envDetails.userSecret)
+        await dashboard_connection.createAPI(body, createUserAndLogin.userSecret)
     });
 
     xawait test.step('User should be able to define external REST, GraphQL and Kafka datasources in a UDG API', async () => {
         await main_page.openAPIs();
         $apiTableElement = await this.page.locator(`span=${udgApi.name}`);
         while (!apis_page.ADD_NEW_API_BUTTON.isExisting() && refreshCounter < 5) {
-            browser.refresh();
+            page.reload();
             browser.pause(2000);
             await main_page.openAPIs();
         }

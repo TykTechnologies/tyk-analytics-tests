@@ -22,12 +22,6 @@ test('Portal Settings - emails', async ({ createUserAndLogin, main_page }) => {
 
   const cssExample = "h1 {color: red;}";
 
-  before(() => {
-    const envDetails = setUpEnv();
-    login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
-
   await test.step('User should see proper default values', async () => {
     await main_page.openPortalSettings();
    await admin_settings_page.EMAILS_TAB_BUTTON.click();
@@ -57,7 +51,7 @@ test('Portal Settings - emails', async ({ createUserAndLogin, main_page }) => {
   });
 
   await test.step('User is able to edit global email CSS', async () => {
-    browser.refresh();
+    page.reload();
    await admin_settings_page.EMAILS_TAB_BUTTON.click();
    await admin_settings_page.EDIT_GLOBAL_EMAIL_CSS_BUTTON.click();
    await admin_settings_page.CSS_EDITOR_INPUT.fill(cssExample);
@@ -68,7 +62,7 @@ test('Portal Settings - emails', async ({ createUserAndLogin, main_page }) => {
   });
 
   await test.step('User should see saved values after re-load', async () => {
-    browser.refresh();
+    page.reload();
    await admin_settings_page.EMAILS_TAB_BUTTON.click();
    await admin_settings_page.GLOBAL_EMAIL_SETTINGS_BUTTON.click();
     await assert(admin_settings_page.FROM_ADDRESS_INPUT).toHaveValue(globalSettingsInputs.from_address);
@@ -80,13 +74,13 @@ test('Portal Settings - emails', async ({ createUserAndLogin, main_page }) => {
   });
 
   await test.step('User should be  able to reset email settings', async () => {
-    browser.refresh();
+    page.reload();
    await admin_settings_page.EMAILS_TAB_BUTTON.click();
    await admin_settings_page.RESET_ALL_EMAILS_BUTTON.click();
    await admin_settings_page.CONTINUE_AND_RESET_BUTTON.click();
     await assert(admin_settings_page.EDIT_GLOBAL_EMAIL_CSS_BUTTON).toBeDisplayed();
    await admin_settings_page.SAVE_BUTTON.click();
-    browser.refresh();
+    page.reload();
    await admin_settings_page.EMAILS_TAB_BUTTON.click();
     compareTableRowsWithExpected(tableExpectedValues.first_row, tableExpectedValues.second_row);
   });  

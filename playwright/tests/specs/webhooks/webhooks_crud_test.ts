@@ -22,13 +22,8 @@ const emptyWebhookMessage = "No data to display";
 
 test('Create/update/delete keys by ID without policy', async ({ createUserAndLogin, main_page }) => {
     const dashboard_connection = new Dashboard_connection();
-    let envDetails;
-    before(() => {
-    envDetails = setUpEnv();
-    login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
-
+    
+    
 it('User should be able to add new webhook', ()=>{
     await main_page.openWebhooks();
    await webhook_page.ADD_WEBHOOK.click();
