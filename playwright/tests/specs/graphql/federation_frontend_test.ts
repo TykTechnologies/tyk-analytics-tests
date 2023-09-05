@@ -136,7 +136,7 @@ test('Federation API frontend', async ({ createUserAndLogin, main_page }) => {
        await apis_page.API_TYPE_SUPERGRAPH_BUTTON.click();
         graphql_page.GRAPHQL_SUBGRAPHS_DROPDOWN.selectOptions([apiDetails.usersSubgraphName, apiDetails.productsSubgraphName]);
        await apis_page.CONFIGURE_API_BUTTON.click();
-        await assert(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toExist();
+        await assert(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toBeVisible();
        await apis_page.SAVE_BUTTON.click();
     });
 
@@ -150,8 +150,8 @@ test('Federation API frontend', async ({ createUserAndLogin, main_page }) => {
 
     await test.step('Subgraphs tab should show subgraphs the supergraph consists of', async () => {
        await graphql_page.GRAPHQL_SUBGRAPHS_TAB_BUTTON.click();
-        await assert(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.usersSubgraphName)).toExist();
-        await assert(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.productsSubgraphName)).toExist();
+        await assert(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.usersSubgraphName)).toBeVisible();
+        await assert(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.productsSubgraphName)).toBeVisible();
     });
 
     await test.step('Subgraphs tab should show subgraph schemas', async () => {
@@ -163,13 +163,13 @@ test('Federation API frontend', async ({ createUserAndLogin, main_page }) => {
        await graphql_page.FEDERATION_ADD_SUBGRAPH_BUTTON.click();
         graphql_page.FEDERATION_ADD_SUBGRAPH_DROPDOWN.selectOptions([apiDetails.reviewsSubgraphName]);
        await graphql_page.FEDERATION_ADD_BUTTON.click();
-        await assert(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.reviewsSubgraphName)).toExist();
+        await assert(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.reviewsSubgraphName)).toBeVisible();
     });
 
     await test.step('User should be able to remove a subgraph from a supergraph', async () => {
        await graphql_page.getFEDERATION_REMOVE_SUBGRAPH_BUTTON(apiDetails.reviewsSubgraphName).click();
        await graphql_page.FEDERATION_REMOVE_SUBGRAPH_CONFIRM_CHECKBOX.click();
        await graphql_page.FEDERATION_REMOVE_SUBGRAPH_MODAL_BUTTON.click();
-        await assert(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.reviewsSubgraphName)).not.toExist();
+        await assert(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.reviewsSubgraphName)).not.toBeVisible();
     });
 });

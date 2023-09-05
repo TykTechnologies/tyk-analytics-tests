@@ -92,7 +92,7 @@ test('Create/update/delete metadata on policy', async ({ createUserAndLogin, mai
     await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
-    await assert(policies_page.METADATA_TABLE).not.toExist();
+    await assert(policies_page.METADATA_TABLE).not.toBeVisible();
   });
 
   await test.step('User should be able to add multiple metadata on Policy', async () => {

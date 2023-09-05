@@ -50,7 +50,7 @@ test('Test Custom Authentication in OAS API designer page', async ({ createUserA
     let pythonAuthUrl = $('a*=Learn more about custom Python plugin');
     await assert(goAuthUrl).toHaveLink(customPluginDetails.url1);
     await assert(pythonAuthUrl).toHaveLink(customPluginDetails.url2);
-    await assert(apis_page.OAS_STRIP_AUTHORIZATION_DATA_BOX).not.toExist();
+    await assert(apis_page.OAS_STRIP_AUTHORIZATION_DATA_BOX).not.toBeVisible();
    await apis_page.OAS_SAVE_BUTTON.click();
     assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
   });
