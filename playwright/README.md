@@ -7,11 +7,23 @@
 1. TypeScript
 2. [Playwright](https://playwright.dev/)
 
+## How to start env
+You can execute tests on any env (each test will create separate org and users in it).
+In this repo we have simple docker compose that will build and start all components for you. Just make sure you don't have any dash or GW running on your local and you provided the dash license.
+
+Provide paths and license in .env file and execute command that will create images from your local repo:
+```
+make start-env
+```
+Or command that will images available in docker hub:
+```
+make start-env-images
+```
 ## How to run tests
 1. Clone repository
 2. Install Dependencies
 ```
-'npm install'
+npm install
 npx playwright install --with-deps
 ```
 4. Execute tests using ```npm run test``` 
