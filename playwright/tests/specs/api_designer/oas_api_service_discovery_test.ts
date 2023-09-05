@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import waitForClickable from 'webdriverio/build/commands/element/waitForClickable';
 
 xtest('Test Service Discovery settings on OAS API designer page', async ({ createUserAndLogin, main_page }) => {
-  let envDetails;
+  
   let firstAPI = false;
   let queryEndpoint = 'http://service-discovery.com/endpoint';
   let targetPath = '/api-target-path';
@@ -14,17 +14,12 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
   let parentDataPath = 'parent';
   let dataPath = 'some.path';
 
-  before(() => {
-    envDetails = setUpEnv();
-    login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
-
+  
   await test.step('Test default Service Discovery settings and mandatory fields', async () => {
     let firstAPI = true;
     let apiName = 'default-values';
     openOasDesignerPage(firstAPI);
-    assert(apis_page.OAS_ENABLE_SD_TOGGLE.isSelected()).toBeFalsy();
+    assert(await apis_page.OAS_ENABLE_SD_TOGGLE.isSelected()).toBeFalsy();
    await apis_page.OAS_ENABLE_SD_TOGGLE.click();
     await assert(apis_page.OAS_SD_PRESETS_DROPDOWN).toHaveText("Custom");
    await apis_page.OAS_SD_PORT_IS_SEPARATE_BOX.click();
@@ -63,7 +58,7 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
   });
 
   await test.step('Custom data is saved after reloading page', async () => {  
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText(targetPath);
@@ -96,7 +91,7 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
   });
 
   await test.step('Modified data is saved after reloading page', async () => {  
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint + "_new");
     await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText(targetPath + "_new");
@@ -122,7 +117,7 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
   });
 
   await test.step('Consul data is saved after reloading page', async () => {  
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText("-");
@@ -149,7 +144,7 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
   });
 
   await test.step('Mesosphere data is saved after reloading page', async () => {  
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
@@ -177,7 +172,7 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
   });
 
   await test.step('Single ETCD data is saved after reloading page', async () => {  
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
@@ -203,7 +198,7 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
   });
 
   await test.step('Nested ETCD data is saved after reloading page', async () => {  
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
@@ -231,7 +226,7 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
   });
 
   await test.step('Eureka data is saved after reloading page', async () => {  
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');

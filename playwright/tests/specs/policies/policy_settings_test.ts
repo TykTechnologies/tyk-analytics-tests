@@ -37,17 +37,12 @@ const activePolicyDetails = {
 
 test('Create policy page - settings tests', async ({ createUserAndLogin, main_page }) => {
   const dashboard_connection = new Dashboard_connection();
-  let envDetails;
+  
 
-  before(() => {
-    envDetails = setUpEnv();
-    login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
-
+  
   await test.step('Prerequisits: creating API definition via dashboard API', async () => {
     const apiDefinition = newAPIdefinitionWithDefaults({"name" : "test_api"});
-    await dashboard_connection.createAPI(apiDefinition, envDetails.userSecret);
+    await dashboard_connection.createAPI(apiDefinition, createUserAndLogin.userSecret);
   });
 
   await test.step('User should be able to create policy with Access Denied status', async () => {

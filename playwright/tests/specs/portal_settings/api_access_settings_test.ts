@@ -6,18 +6,12 @@ test('Portal Settings - API access manipulations', async ({ createUserAndLogin, 
   const redirectUrl = "http://test";
   const numberfAllowedRequests = "5";
 
-  before(() => {
-    const envDetails = setUpEnv();
-    login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
-
   await test.step('User should see proper default values', async () => {
     await main_page.openPortalSettings();
    await admin_settings_page.API_ACCESS_TAB_BUTTON.click();
-    assert(admin_settings_page.MANUAL_ACCESS_APPROVAL_TOGGLE.isSelected()).toBeFalsy();
-    assert(admin_settings_page.MULTIPLE_API_SUBSCRIPTION_TOGGLE.isSelected()).toBeFalsy();
-    assert(admin_settings_page.THIRD_PARTY_REDIRECT_TOGGLE.isSelected()).toBeFalsy();
+    assert(await admin_settings_page.MANUAL_ACCESS_APPROVAL_TOGGLE.isSelected()).toBeFalsy();
+    assert(await admin_settings_page.MULTIPLE_API_SUBSCRIPTION_TOGGLE.isSelected()).toBeFalsy();
+    assert(await admin_settings_page.THIRD_PARTY_REDIRECT_TOGGLE.isSelected()).toBeFalsy();
     await assert(admin_settings_page.NUMBER_OF_ALLOWED_REQUESTS_INPUT).toHaveValue("0");
   });
 
@@ -33,13 +27,13 @@ test('Portal Settings - API access manipulations', async ({ createUserAndLogin, 
   });
 
   await test.step('User should see saved values after re-load values', async () => {
-    browser.refresh();
+    page.reload();
    await admin_settings_page.API_ACCESS_TAB_BUTTON.click();
     await assert(admin_settings_page.REDIRECT_URL_INPUT).toHaveValue(redirectUrl);
     await assert(admin_settings_page.NUMBER_OF_ALLOWED_REQUESTS_INPUT).toHaveValue(numberfAllowedRequests);
-    assert(admin_settings_page.MANUAL_ACCESS_APPROVAL_TOGGLE.isSelected()).toBeTruthy();
-    assert(admin_settings_page.HIDE_API_SECRET_TOGGLE.isSelected()).toBeTruthy();
-    assert(admin_settings_page.MULTIPLE_API_SUBSCRIPTION_TOGGLE.isSelected()).toBeTruthy();
-    assert(admin_settings_page.THIRD_PARTY_REDIRECT_TOGGLE.isSelected()).toBeTruthy();
+    assert(await admin_settings_page.MANUAL_ACCESS_APPROVAL_TOGGLE.isSelected()).toBeTruthy();
+    assert(await admin_settings_page.HIDE_API_SECRET_TOGGLE.isSelected()).toBeTruthy();
+    assert(await admin_settings_page.MULTIPLE_API_SUBSCRIPTION_TOGGLE.isSelected()).toBeTruthy();
+    assert(await admin_settings_page.THIRD_PARTY_REDIRECT_TOGGLE.isSelected()).toBeTruthy();
   });
 });

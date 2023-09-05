@@ -67,19 +67,14 @@ const jwtApi2 = {
 
 test('Test Policy search functionality on Main Policy Page', async ({ createUserAndLogin, main_page }) => {
   const dashboard_connection = new Dashboard_connection();
-  let envDetails;
+  
 
-  before(() => {
-    envDetails = setUpEnv();
-    login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
-
+  
   await test.step('Prerequisits: creating API and Policy definitions via dashboard API', async () => {
     [keylessApi, authTokenApi, oauthApi, multi1Api, multi2Api, jwtApi, jwtApi2].forEach(authType => {
       let apiBody = newAPIdefinitionWithDefaults(authType);
-      let apiMeta = await dashboard_connection.createAPI(apiBody, envDetails.userSecret);
-      let apiId = dashboard_connection.getAPI(apiMeta, envDetails.userSecret).api_id;
+      let apiMeta = await dashboard_connection.createAPI(apiBody, createUserAndLogin.userSecret);
+      let apiId = dashboard_connection.getAPI(apiMeta, createUserAndLogin.userSecret).api_id;
       let policyDetails = {
         "access_rights": {
           [apiId]: {
@@ -91,7 +86,7 @@ test('Test Policy search functionality on Main Policy Page', async ({ createUser
         "name": authType.name + "_policy"
       }
       let policy = newPolicyDefinitionWithDefaults(policyDetails);
-      dashboard_connection.createPolicy(policy, envDetails.userSecret);
+      dashboard_connection.createPolicy(policy, createUserAndLogin.userSecret);
   })
 });
 
@@ -108,7 +103,7 @@ test('Test Policy search functionality on Main Policy Page', async ({ createUser
   });
 
   await test.step('User should be able search policy by Policy id', async () => {
-    let policyId = dashboard_connection.getPolicyByName(oauthApi.name + "_policy", envDetails.userSecret).Data[0]._id;
+    let policyId = dashboard_connection.getPolicyByName(oauthApi.name + "_policy", createUserAndLogin.userSecret).Data[0]._id;
    await policies_page.NAME_SEARCH_INPUT.fill(policyId);
     await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(authTokenApi.name);

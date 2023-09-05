@@ -4,19 +4,14 @@ import { apis_page } from '../../../lib/pom/Apis_page';
 import { expect } from 'chai';
 
 test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin, main_page }) => {
-  let envDetails;
+  
   let firstAPI = false;
 
-  before(() => {
-    envDetails = setUpEnv();
-    login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
-
+  
   await test.step('CACHE settings is off by default', async () => {
     let firstAPI = true;
     openOasDesignerPage(firstAPI);
-    assert(apis_page.OAS_ENABLE_CACHE_TOGGLE.isSelected()).toBeFalsy();
+    assert(await apis_page.OAS_ENABLE_CACHE_TOGGLE.isSelected()).toBeFalsy();
   });
 
   await test.step('User can change Cache Timeout and save API', async () => {
@@ -32,7 +27,7 @@ test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin
   });
 
   await test.step('Cache Timeout is persistent after reloading the page', async () => {
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     await assert(apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX).toBeChecked();
     await assert(apis_page.OAS_CACHE_TIMEOUT_SAVED).toHaveText("44");
@@ -51,7 +46,7 @@ test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin
   });
 
   await test.step('Cache Response Codes are persistent after reloading the page', async () => {
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     await assert(apis_page.OAS_CACHE_RESPONSE_CODES_SAVED).toHaveText("200 OK, 403 Forbidden, 410 Gone, 299");
   });
@@ -73,7 +68,7 @@ test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin
   });
 
   await test.step('Cache All Safe Requests is persistent after reloading the page', async () => {
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     await assert(apis_page.OAS_CACHE_ALL_SAVE_REQUEST_BOX).toBeChecked();
   });
@@ -92,7 +87,7 @@ test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin
   });
 
   await test.step('Cache by Headers are persistent after reloading the page', async () => {
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     await assert(apis_page.OAS_UPSTREAM_CACHE_CONTROL_BOX).toBeChecked();
     apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.expand();
@@ -111,7 +106,7 @@ test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin
   });
 
   await test.step('Cache Control TTL Header is persistent after reloading the page', async () => {
-    browser.refresh();
+    page.reload();
    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     apis_page.OAS_ADVANCED_OPTIONS_ACCORDION.expand();
     await assert(apis_page.OAS_CACHE_CONTROL_TTL_HEADER_SAVED).toHaveText("header-ttl");

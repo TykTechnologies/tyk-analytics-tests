@@ -25,15 +25,9 @@ const updatedKeyDetails = {
 test('Create/update/delete keys without policy', async ({ createUserAndLogin, main_page, keys_page, page }) => {
   const dashboard_connection = new Dashboard_connection();
 
-  // before(() => {
-  //   envDetails = setUpEnv();
-  //   login_page.open();
-  //   login_page.login(envDetails.userEmail, envDetails.userPassword);
-  // });
-
   await test.step('Prerequisits: creating API definition via dashboard API', async () => {
     const body = newAPIdefinitionWithDefaults(authTokenApi);
-    await await dashboard_connection.createAPI(body, createUserAndLogin.userSecret);
+    await dashboard_connection.createAPI(body, createUserAndLogin.userSecret);
   });
 
   await test.step('User should be able to create new Key', async () => {

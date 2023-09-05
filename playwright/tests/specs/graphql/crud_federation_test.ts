@@ -23,7 +23,7 @@ test('CRUD basic Federation API', async ({ createUserAndLogin, main_page }) => {
     before(() => {
         const envDetails = setUpEnv();
         login_page.open();
-        login_page.login(envDetails.userEmail, envDetails.userPassword);
+        login_page.login(createUserAndLogin.userEmail, createUserAndLogin.userPassword);
     });
 
     await test.step('User should be able to create new Federation Subgraph API', async () => {

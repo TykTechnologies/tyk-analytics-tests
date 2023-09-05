@@ -5,14 +5,9 @@ import { expect } from 'chai';
 
 xtest('Test mandatory fields on OAS API designer page', async ({ createUserAndLogin, main_page }) => {
   const apiName = "oas-api-validation-test";
-  let envDetails;
+  
 
-  before(() => {
-    envDetails = setUpEnv();
-    login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
-
+  
   await test.step('API Name is required on popup', async () => {
     browser.navigateTo(URL + LANDING_PAGE_PATH); //TO BE REMOVED WHEN RELEASED
    await apis_page.DESIGN_API_BOX.click();

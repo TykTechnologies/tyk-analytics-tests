@@ -5,7 +5,7 @@ import { endpoints_page } from '../../../lib/pom/Endpoints_page';
 import { expect } from 'chai';
 
 test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin, main_page }) => {
-  let envDetails;
+  
   const createdEndpointsList = [
     {
       endpoint: '/ip',
@@ -37,12 +37,7 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
     }
   ];
 
-  before(() => {
-    envDetails = setUpEnv();
-    login_page.open();
-    login_page.login(envDetails.userEmail, envDetails.userPassword);
-  });
-
+  
   await test.step('Initially Endpoint list is empty', async () => {
     await main_page.openAPIs();
    await apis_page.DESIGN_API_BOX.click();
@@ -65,7 +60,7 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
 
   
   await test.step('All Endpoints are displayed after page relaod', async () => {
-    browser.refresh();
+    page.reload();
    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
     createdEndpointsList.forEach (e => {
       verifyDisplayedEndpoints(e, createdEndpointsList);
@@ -134,27 +129,27 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
   });
 
   await test.step('User can modify endpoints and save API', async () => {
-    browser.refresh();
+    page.reload();
     let oldEendpointSelector = await this.page.locator('//a[contains(@href, "-ipget")]');
     let newEendpointSelector = await this.page.locator('//a[contains(@href, "-headershead")]');
    await apis_page.EDIT_BUTTON.click();
     endpoints_page.modifyEndpoint("/ip", "GET", "/headers", "HEAD");
    await apis_page.OAS_SAVE_BUTTON.click();
     assert(apis_page.isApiUpdatedPopUpDisplayed()).toBeTruthy(); 
-    browser.refresh();
+    page.reload();
    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
     await assert(oldEendpointSelector).not.toBeDisplayed();
     await assert(newEendpointSelector).toBeDisplayed();
   });
 
   await test.step('User can remove endpoints and save API', async () => {
-    browser.refresh();
+    page.reload();
     let removeEendpointSelector = await this.page.locator('//a[contains(@href, "-ippost")]');
    await apis_page.EDIT_BUTTON.click();
     endpoints_page.removeEndpoint("/ip", "POST");
    await apis_page.OAS_SAVE_BUTTON.click();
     assert(apis_page.isApiUpdatedPopUpDisplayed()).toBeTruthy(); 
-    browser.refresh();
+    page.reload();
    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
     await assert(removeEendpointSelector).not.toBeDisplayed();
   });
