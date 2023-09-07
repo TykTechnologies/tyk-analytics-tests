@@ -148,10 +148,10 @@ test('CRUD basic Federation API', async ({ createUserAndLogin, main_page }) => {
     });
 
     await test.step('Deleted APIs should not be visible', async () => {
-        await assert($supergraphTableElement).not.toBeDisplayed();
-        await assert($usersTableElement).not.toBeDisplayed();
-        await assert($productsTableElement).not.toBeDisplayed();
-        await assert($reviewsTableElement).not.toBeDisplayed();
+        await assert($supergraphTableElement).not.toBeVisible();
+        await assert($usersTableElement).not.toBeVisible();
+        await assert($productsTableElement).not.toBeVisible();
+        await assert($reviewsTableElement).not.toBeVisible();
     });
     
 });

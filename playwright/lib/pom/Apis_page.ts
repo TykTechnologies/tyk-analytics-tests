@@ -3,6 +3,7 @@ import { Button_object } from '@wrappers/Button_object';
 import { SlowButton_object } from '@wrappers/SlowButton_object';
 import { Input_object } from '@wrappers/Input_object';
 import { DropDown_object } from '@wrappers/DropDown_object';
+import { Checkbox_object } from '@wrappers/CheckBox_object';
 import { Toggle_object } from'@wrappers/Toggle_object';
 import { Accordion_object } from '@wrappers/Accordion_object';
 import { OasMapToPolicyTable_object } from '@wrappers/OasMapToPolicyTable_object';
@@ -28,7 +29,7 @@ export class Apis_page extends Template_Page {
   get SIDE_MENU_UPSTREAM_LINK() { return this.page.locator('//span[text()="Upstream"]'); }
 
   //OAS API PAGE
-  get API_TYPE_OAS_BUTTON() { return this.page.locator('p').filter({ hasText: 'OAS HTTP' }); }
+  get API_TYPE_OAS_BUTTON() { return this.page.getByLabel('OAS HTTPEarly Access'); }
   get EDIT_BUTTON() { return new Button_object('span:text-is("Edit")', this.page); }
   get API_NAME_INPUT() { return new Input_object('//input[@name="x-tyk-api-gateway.info.name"]', this.page); }
   get OAS_GW_STATUS_DROPDOWN() { return new DropDown_object('//span[@title="Select status"]', this.page); }
@@ -40,13 +41,13 @@ export class Apis_page extends Template_Page {
   get OAS_CHOSEN_AUTH_TYPES_DROPDOWN() { return new DropDown_object('//div[@name="multi-auth"]//div[@class="tyk-form-control"]', this.page); }
   get OAS_BASE_IDENTITY_PROVIDER_DROPDOWN() { return new DropDown_object('//div[@name="x-tyk-api-gateway.server.authentication.baseIdentityProvider"]//div[@class="tyk-form-control"]', this.page); }
   get OAS_TARGET_URL_INPUT() { return new Input_object('//input[@name="x-tyk-api-gateway.upstream.url"]', this.page); }
-  get OAS_NEXT_BUTTON() { return new Button_object('//span[text()="Configure Api"]', this.page); }
+  get OAS_NEXT_BUTTON() { return new SlowButton_object('span:text("Configure Api")', this.page); }
   get OAS_SEARCH_ICON() { return new Button_object('//i[contains(@class,"fa-search")]', this.page); }
   get OAS_SEARCH_BAR() { return new Input_object('//input[@name="search"]', this.page); }
   get OAS_SEARCH_BAR_CLOSE_ICON() { return new Button_object('//button[contains(@class, "search-input__close-btn")]', this.page); }
   get OAS_SEARCH_BAR_CLEAR_ICON() { return new Button_object('//input[@name="search"]//following::button[1]', this.page); }
   get OAS_HIDDEN_MATCH_MSG() { return this.page.locator('//p[contains(@class, "hidden-search-results__message")]'); }
-  get OAS_SAVE_BUTTON() { return new Button_object('//button[@type="submit"]', this.page); }
+  get OAS_SAVE_BUTTON() { return new SlowButton_object('//button[@type="submit"]', this.page); }
   get OAS_AUTHENTICATION_SAVED() { return this.page.locator('//label[text()="Authentication"]//following::p[1]'); }
   get OAS_CHOSEN_AUTH_TYPES_SAVED() { return this.page.locator('//label[text()="Chosen Authentication Types"]//following::div[2]'); }
   get OAS_BASE_IDENTITY_PROVIDER_SAVED() { return this.page.locator('//label[text()="Base Identity Provider"]//following::div[2]'); }
@@ -72,7 +73,7 @@ export class Apis_page extends Template_Page {
 
   //OAS CACHE FIELDS
   get OAS_ENABLE_CACHE_TOGGLE() { return new Toggle_object('//label[text()="Enable Caching"]//following::li[contains(@class, "tyk-toggle__item ")]//input', this.page); }
-  get OAS_UPSTREAM_CACHE_CONTROL_BOX() { return this.page.locator('//input[@name="x-tyk-api-gateway.middleware.global.cache.enableUpstreamCacheControl"]'); }
+  get OAS_UPSTREAM_CACHE_CONTROL_BOX() { return new Checkbox_object('//input[@name="x-tyk-api-gateway.middleware.global.cache.enableUpstreamCacheControl"]', this.page); }
   get OAS_CACHE_TIMEOUT_INPUT() { return new Input_object('//input[@name="x-tyk-api-gateway.middleware.global.cache.timeout"]', this.page); }
   get OAS_CACHE_RESPONSE_CODES_DROPDOWN() { return new DropDown_object('//div[@name="x-tyk-api-gateway.middleware.global.cache.cacheResponseCodes"]//div[@class="tyk-form-control"]', this.page); }
   get OAS_CACHE_ALL_SAVE_REQUEST_BOX() { return this.page.locator('//input[@name="x-tyk-api-gateway.middleware.global.cache.cacheAllSafeRequests"]'); }

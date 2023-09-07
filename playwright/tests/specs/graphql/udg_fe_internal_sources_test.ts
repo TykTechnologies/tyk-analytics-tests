@@ -80,7 +80,7 @@ test('UDG with internal REST and GQL datasources', async ({ createUserAndLogin, 
     xawait test.step('User should be able to create a UDG API with internal REST and GraphQL datasources', async () => {
         await main_page.openAPIs();
         while(!apis_page.ADD_NEW_API_BUTTON.isExisting() && refreshCounter < 5){
-            page.reload();
+            await page.reload();
             browser.pause(2000);
             refreshCounter++;
         }

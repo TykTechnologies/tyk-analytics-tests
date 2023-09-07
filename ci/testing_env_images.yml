@@ -1,7 +1,7 @@
 version: '3.3'
 services:
     tyk-dashboard:
-        image: tykio/tyk-dashboard:v5.1.0
+        image: tykio/tyk-dashboard:v5.2rc2
         container_name: tyk-dashboard
         ports:
             - "3000:3000"
@@ -18,7 +18,7 @@ services:
             - tyk-mongo
             - tyk-gateway
     tyk-gateway:
-        image: tykio/tyk-gateway:v5.1.0
+        image: tykio/tyk-gateway:v5.2rc2
         container_name: tyk-gateway
         ports:
             - "6000:6000"

@@ -21,7 +21,7 @@ test('Portal Settings main Admin page', async ({ createUserAndLogin, main_page, 
   });
 
   await test.step('User should see saved values after re-load values', async () => {
-    page.reload();
+    await page.reload();
     await assert(admin_settings_page.ACCESS_REQUEST_INPUT).toHaveValue(email);
     assert(await admin_settings_page.DEVELOPER_SIGN_UP_TOGGLE.isSelected()).toBeTruthy();
     assert(await admin_settings_page.DEVELOPER_LOGIN_TOGGLE.isSelected()).toBeTruthy();

@@ -51,36 +51,36 @@ test('Portal Settings - emails', async ({ createUserAndLogin, main_page }) => {
   });
 
   await test.step('User is able to edit global email CSS', async () => {
-    page.reload();
+    await page.reload();
    await admin_settings_page.EMAILS_TAB_BUTTON.click();
    await admin_settings_page.EDIT_GLOBAL_EMAIL_CSS_BUTTON.click();
    await admin_settings_page.CSS_EDITOR_INPUT.fill(cssExample);
    await admin_settings_page.SAVE_EMAIL_CSS_BUTTON.click();
    await admin_settings_page.EXIT_CSS_EDITOR_BUTTON.click();
-    await assert(admin_settings_page.EDIT_GLOBAL_EMAIL_CSS_BUTTON).toBeDisplayed();
+    await assert(admin_settings_page.EDIT_GLOBAL_EMAIL_CSS_BUTTON).toBeVisible();
    await admin_settings_page.SAVE_BUTTON.click();
   });
 
   await test.step('User should see saved values after re-load', async () => {
-    page.reload();
+    await page.reload();
    await admin_settings_page.EMAILS_TAB_BUTTON.click();
    await admin_settings_page.GLOBAL_EMAIL_SETTINGS_BUTTON.click();
     await assert(admin_settings_page.FROM_ADDRESS_INPUT).toHaveValue(globalSettingsInputs.from_address);
     await assert(admin_settings_page.NAME_OF_SENDER_INPUT).toHaveValue(globalSettingsInputs.name_of_sender);
     compareTableRowsWithExpected(tableExpectedValues.first_row_active, tableExpectedValues.second_row);
    await admin_settings_page.EDIT_GLOBAL_EMAIL_CSS_BUTTON.click();
-    await assert($(`span=h1`)).toBeDisplayed();
+    await assert($(`span=h1`)).toBeVisible();
    await admin_settings_page.EXIT_CSS_EDITOR_BUTTON.click();
   });
 
   await test.step('User should be  able to reset email settings', async () => {
-    page.reload();
+    await page.reload();
    await admin_settings_page.EMAILS_TAB_BUTTON.click();
    await admin_settings_page.RESET_ALL_EMAILS_BUTTON.click();
    await admin_settings_page.CONTINUE_AND_RESET_BUTTON.click();
-    await assert(admin_settings_page.EDIT_GLOBAL_EMAIL_CSS_BUTTON).toBeDisplayed();
+    await assert(admin_settings_page.EDIT_GLOBAL_EMAIL_CSS_BUTTON).toBeVisible();
    await admin_settings_page.SAVE_BUTTON.click();
-    page.reload();
+    await page.reload();
    await admin_settings_page.EMAILS_TAB_BUTTON.click();
     compareTableRowsWithExpected(tableExpectedValues.first_row, tableExpectedValues.second_row);
   });  

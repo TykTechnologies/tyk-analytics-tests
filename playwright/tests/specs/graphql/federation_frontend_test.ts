@@ -126,7 +126,7 @@ test('Federation API frontend', async ({ createUserAndLogin, main_page }) => {
     await test.step('Prerequisites: creating a supergraph to be used in further tests', async () => {
         await main_page.openAPIs();
         while (!apis_page.ADD_NEW_API_BUTTON.isExisting() && refreshCounter < 5) {
-            page.reload();
+            await page.reload();
             browser.pause(2000);
             refreshCounter++;
         }
