@@ -47,7 +47,7 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
    await apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
    await apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");
    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
-    await assert(endpoints_page.OAS_NO_ENDPOINTS_MESSAGE).toBeDisplayed();
+    await assert(endpoints_page.OAS_NO_ENDPOINTS_MESSAGE).toBeVisible();
   });
 
   await test.step('User can add endpoints and save API', async () => {
@@ -55,12 +55,12 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
       endpoints_page.addNewEndpoint(e.endpoint, e.method);
     });
    await apis_page.OAS_SAVE_BUTTON.click();
-    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy(); 
+    await apis_page.isApiCreatedPopUpDisplayed(); 
   });
 
   
   await test.step('All Endpoints are displayed after page relaod', async () => {
-    page.reload();
+    await page.reload();
    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
     createdEndpointsList.forEach (e => {
       verifyDisplayedEndpoints(e, createdEndpointsList);
@@ -129,29 +129,29 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
   });
 
   await test.step('User can modify endpoints and save API', async () => {
-    page.reload();
+    await page.reload();
     let oldEendpointSelector = await this.page.locator('//a[contains(@href, "-ipget")]');
     let newEendpointSelector = await this.page.locator('//a[contains(@href, "-headershead")]');
    await apis_page.EDIT_BUTTON.click();
     endpoints_page.modifyEndpoint("/ip", "GET", "/headers", "HEAD");
    await apis_page.OAS_SAVE_BUTTON.click();
     assert(apis_page.isApiUpdatedPopUpDisplayed()).toBeTruthy(); 
-    page.reload();
+    await page.reload();
    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
-    await assert(oldEendpointSelector).not.toBeDisplayed();
-    await assert(newEendpointSelector).toBeDisplayed();
+    await assert(oldEendpointSelector).not.toBeVisible();
+    await assert(newEendpointSelector).toBeVisible();
   });
 
   await test.step('User can remove endpoints and save API', async () => {
-    page.reload();
+    await page.reload();
     let removeEendpointSelector = await this.page.locator('//a[contains(@href, "-ippost")]');
    await apis_page.EDIT_BUTTON.click();
     endpoints_page.removeEndpoint("/ip", "POST");
    await apis_page.OAS_SAVE_BUTTON.click();
     assert(apis_page.isApiUpdatedPopUpDisplayed()).toBeTruthy(); 
-    page.reload();
+    await page.reload();
    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
-    await assert(removeEendpointSelector).not.toBeDisplayed();
+    await assert(removeEendpointSelector).not.toBeVisible();
   });
 
 /**
@@ -165,10 +165,10 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
     let endpointUrlLink = encodeURIComponent(endpointObject.endpoint.split('/').join('-')) + endpointObject.method.toLowerCase();
     let endpointSelector = await this.page.locator(`//a[contains(@href, "${endpointUrlLink}")]`);
     if (JSON.stringify(expectedEndpoints).includes(JSON.stringify(endpointObject))){
-      await assert(endpointSelector).toBeDisplayed();
+      await assert(endpointSelector).toBeVisible();
     } 
     else {
-      await assert(endpointSelector).not.toBeDisplayed();
+      await assert(endpointSelector).not.toBeVisible();
     }
   }
 

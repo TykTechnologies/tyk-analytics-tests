@@ -27,7 +27,7 @@ test('Portal Settings - API access manipulations', async ({ createUserAndLogin, 
   });
 
   await test.step('User should see saved values after re-load values', async () => {
-    page.reload();
+    await page.reload();
    await admin_settings_page.API_ACCESS_TAB_BUTTON.click();
     await assert(admin_settings_page.REDIRECT_URL_INPUT).toHaveValue(redirectUrl);
     await assert(admin_settings_page.NUMBER_OF_ALLOWED_REQUESTS_INPUT).toHaveValue(numberfAllowedRequests);

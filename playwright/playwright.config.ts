@@ -32,7 +32,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
-    viewport: { width: 1600, height: 1200 }
+    viewport: { width: 1800, height: 1600 }
   },
 
   /* Configure projects for major browsers */
@@ -40,7 +40,7 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'],
-      viewport: { width: 1600, height: 1200 }
+      viewport: { width: 1800, height: 1600 }
     },
       grepInvert: [/@prerequisits/],
       testDir: './tests/specs',

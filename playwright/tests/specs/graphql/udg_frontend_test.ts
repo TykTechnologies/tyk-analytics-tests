@@ -77,7 +77,7 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
         await main_page.openAPIs();
         $apiTableElement = await this.page.locator(`span=${udgApi.name}`);
         while (!apis_page.ADD_NEW_API_BUTTON.isExisting() && refreshCounter < 5) {
-            page.reload();
+            await page.reload();
             browser.pause(2000);
             await main_page.openAPIs();
         }

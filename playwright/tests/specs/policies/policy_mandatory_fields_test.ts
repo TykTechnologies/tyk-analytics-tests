@@ -23,30 +23,30 @@ test('Create/update/delete tags on policy', async ({ createUserAndLogin, main_pa
     await main_page.openPolicies();
    await policies_page.ADD_POLICY_BUTTON.click();
    await policies_page.CREATE_POLICY_BUTTON.click();
-    await assert(policies_page.API_ERROR_ICON).toBeDisplayed();
-    await assert(policies_page.CONFIG_ERROR_ICON).toBeDisplayed();
-    await assert(policies_page.API_MANDATORY_TEXT).toBeDisplayed();
+    await assert(policies_page.API_ERROR_ICON).toBeVisible();
+    await assert(policies_page.CONFIG_ERROR_ICON).toBeVisible();
+    await assert(policies_page.API_MANDATORY_TEXT).toBeVisible();
   });
 
   await test.step('User should not see errors on Access Rights tab if 1 API was selected', async () => {
    await policies_page.API_TABLE.clickCellWithText(policyDetails.apiName);
-    await assert(policies_page.API_ERROR_ICON).not.toBeDisplayed();
-    await assert(policies_page.API_MANDATORY_TEXT).not.toBeDisplayed();
-    await assert(policies_page.CONFIG_ERROR_ICON).toBeDisplayed();
+    await assert(policies_page.API_ERROR_ICON).not.toBeVisible();
+    await assert(policies_page.API_MANDATORY_TEXT).not.toBeVisible();
+    await assert(policies_page.CONFIG_ERROR_ICON).toBeVisible();
   });
 
   await test.step('User should see errors on Configurations tab - Name and Expiry missing', async () => {
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
-    await assert(policies_page.NAME_MANDATORY_TEXT).toBeDisplayed();
-    await assert(policies_page.EXPIRY_MANDATORY_TEXT).toBeDisplayed();
+    await assert(policies_page.NAME_MANDATORY_TEXT).toBeVisible();
+    await assert(policies_page.EXPIRY_MANDATORY_TEXT).toBeVisible();
   });
 
   await test.step('User should be able to save Policy onces all mandatory fields are entered', async () => {
    await policies_page.NAME_INPUT.fill(policyDetails.policyName);
    await policies_page.KEY_EXPIRY_AFTER_DROPDOWN.selectOption(policyDetails.keyEpiryTime);
-    await assert(policies_page.CONFIG_ERROR_ICON).not.toBeDisplayed();
-    await assert(policies_page.NAME_MANDATORY_TEXT).not.toBeDisplayed();
-    await assert(policies_page.EXPIRY_MANDATORY_TEXT).not.toBeDisplayed();
+    await assert(policies_page.CONFIG_ERROR_ICON).not.toBeVisible();
+    await assert(policies_page.NAME_MANDATORY_TEXT).not.toBeVisible();
+    await assert(policies_page.EXPIRY_MANDATORY_TEXT).not.toBeVisible();
    await policies_page.CREATE_POLICY_BUTTON.click();
   });
 

@@ -46,13 +46,13 @@ test('Portal Settings - API access manipulations', async ({ createUserAndLogin, 
   });
 
   await test.step('User should see saved values after re-load values', async () => {
-    page.reload();
+    await page.reload();
    await admin_settings_page.API_ACCESS_TAB_BUTTON.click();
     assert(await admin_settings_page.DCR_TOGGLE.isSelected()).toBeTruthy();
-    await assert(admin_settings_page.DCR_PROVIDERS_DROPDOWN.locator(`span=${inputs.provider}`)).toBeDisplayed();
-    inputs.grant_types.forEach(grant_type => await assert(admin_settings_page.DCR_GRANT_TYPES_DROPDOWN.locator(`span=${grant_type}`)).toBeDisplayed());
-    await assert(admin_settings_page.DCR_TOKEN_ENDPOINT_DROPDOWN.locator(`span=${inputs.token_endpoint_auth}`)).toBeDisplayed();
-    inputs.response_types.forEach(response_type => await assert(admin_settings_page.DCR_RESPONSE_TYPE_DROPDOWN.locator(`span=${response_type}`)).toBeDisplayed());
+    await assert(admin_settings_page.DCR_PROVIDERS_DROPDOWN.locator(`span=${inputs.provider}`)).toBeVisible();
+    inputs.grant_types.forEach(grant_type => await assert(admin_settings_page.DCR_GRANT_TYPES_DROPDOWN.locator(`span=${grant_type}`)).toBeVisible());
+    await assert(admin_settings_page.DCR_TOKEN_ENDPOINT_DROPDOWN.locator(`span=${inputs.token_endpoint_auth}`)).toBeVisible();
+    inputs.response_types.forEach(response_type => await assert(admin_settings_page.DCR_RESPONSE_TYPE_DROPDOWN.locator(`span=${response_type}`)).toBeVisible());
     await assert(admin_settings_page.DCR_HOST_INPUT).toHaveValue(inputs.idp_host);
     await assert(admin_settings_page.DCR_CLIENT_REGISTRATION_ENDPOINT_INPUT).toHaveValue(inputs.client_registration_endpoint);
     await assert(admin_settings_page.DCR_TOKEN_INPUT).toHaveValue(inputs.token);

@@ -97,7 +97,5 @@ test('Create/update/delete operations on Catalogue page', async ({ createUserAnd
         await catalogue_page.DELETE_KEY_CONFIRMATION_BUTTON.click();
         await assert(catalogue_page.NO_APIS_REGISTERED_MESSAGE).toHaveText(NoCatalogueMessage);
     });
-
-
 });
 

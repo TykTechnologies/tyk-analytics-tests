@@ -47,6 +47,6 @@ test('CRUD simple GraphQL (proxy-only) API', async ({ createUserAndLogin, main_p
     });
 
     await test.step('Deleted API should not be visible', async () => {
-        await assert($apiTableElement).not.toBeDisplayed();
+        await assert($apiTableElement).not.toBeVisible();
     });
 });

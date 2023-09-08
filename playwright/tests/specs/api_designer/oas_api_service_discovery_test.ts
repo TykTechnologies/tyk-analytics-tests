@@ -18,13 +18,13 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
   await test.step('Test default Service Discovery settings and mandatory fields', async () => {
     let firstAPI = true;
     let apiName = 'default-values';
-    openOasDesignerPage(firstAPI);
+    await openOasDesignerPage(firstAPI);
     assert(await apis_page.OAS_ENABLE_SD_TOGGLE.isSelected()).toBeFalsy();
    await apis_page.OAS_ENABLE_SD_TOGGLE.click();
     await assert(apis_page.OAS_SD_PRESETS_DROPDOWN).toHaveText("Custom");
    await apis_page.OAS_SD_PORT_IS_SEPARATE_BOX.click();
    await apis_page.OAS_SD_VALUES_ARE_NESTED_BOX.click();
-    createApi(apiName);
+    await createApi(apiName);
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     let queryEndpointErrorMessage = await this.page.locator('//input[@name="x-tyk-api-gateway.upstream.serviceDiscovery.queryEndpoint"]//following::p[1]');
     let portDataPathErrorMessage = await this.page.locator('//input[@name="x-tyk-api-gateway.upstream.serviceDiscovery.portDataPath"]//following::p[1]');
@@ -39,7 +39,7 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
   await test.step('User can save API with Custom Preset', async () => {
     let firstAPI = true;
     let apiName = 'custom-sd-preset';
-    openOasDesignerPage(firstAPI);
+    await openOasDesignerPage(firstAPI);
    await apis_page.OAS_ENABLE_SD_TOGGLE.click();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
    await apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.fill(queryEndpoint);
@@ -53,18 +53,18 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
    await apis_page.OAS_SD_VALUES_ARE_NESTED_BOX.click();
    await apis_page.OAS_SD_PARENT_DATA_PATH_INPUT.fill(parentDataPath);
    await apis_page.OAS_SD_DATA_PATH_INPUT.fill(dataPath);
-    createApi(apiName);
-    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
+    await createApi(apiName);
+    await apis_page.isApiCreatedPopUpDisplayed();
   });
 
   await test.step('Custom data is saved after reloading page', async () => {  
-    page.reload();
+    await page.reload();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText(targetPath);
     await assert(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
     await assert(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('34');
-    apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
+    await apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
     await assert(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).toBeChecked();
     await assert(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
     await assert(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).toBeChecked();
@@ -80,7 +80,7 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
    await apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.fill(queryEndpoint + "_new");
    await apis_page.OAS_SD_TARGET_PATH_INPUT.fill(targetPath + "_new");
    await apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX.click();
-    apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
+    await apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
    await apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX.click();
    await apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX.click();
    await apis_page.OAS_SD_PORT_IS_SEPARATE_BOX.click();
@@ -91,12 +91,12 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
   });
 
   await test.step('Modified data is saved after reloading page', async () => {  
-    page.reload();
+    await page.reload();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint + "_new");
     await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText(targetPath + "_new");
     await assert(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).not.toBeChecked();
-    apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
+    await apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
     await assert(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).not.toBeChecked();
     await assert(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).not.toBeChecked();
     await assert(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).not.toBeChecked();
@@ -107,23 +107,23 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
 
   await test.step('User can save API with Consul Preset', async () => {
     let apiName = "consul-preset";
-    openOasDesignerPage(firstAPI);
+    await openOasDesignerPage(firstAPI);
    await apis_page.OAS_ENABLE_SD_TOGGLE.click();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
    await apis_page.OAS_SD_PRESETS_DROPDOWN.selectOption("Consul");
    await apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.fill(queryEndpoint);
-    createApi(apiName);
-    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
+    await createApi(apiName);
+    await apis_page.isApiCreatedPopUpDisplayed();
   });
 
   await test.step('Consul data is saved after reloading page', async () => {  
-    page.reload();
+    await page.reload();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText("-");
     await assert(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
     await assert(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('20');
-    apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
+    await apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
     await assert(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).toBeChecked();
     await assert(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
     await assert(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).toBeChecked();
@@ -134,23 +134,23 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
 
   await test.step('User can save API with Mesosphere Preset', async () => {
     let apiName = "mesosphere-preset";
-    openOasDesignerPage(firstAPI);
+    await openOasDesignerPage(firstAPI);
    await apis_page.OAS_ENABLE_SD_TOGGLE.click();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
    await apis_page.OAS_SD_PRESETS_DROPDOWN.selectOption("Mesosphere");
    await apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.fill(queryEndpoint);
-    createApi(apiName);
-    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
+    await createApi(apiName);
+    await apis_page.isApiCreatedPopUpDisplayed();
   });
 
   await test.step('Mesosphere data is saved after reloading page', async () => {  
-    page.reload();
+    await page.reload();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
     await assert(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
     await assert(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('60');
-    apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
+    await apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
     await assert(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).not.toBeChecked();
     await assert(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
     await assert(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).toBeChecked();
@@ -162,23 +162,23 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
 
   await test.step('User can save API with Single ETCD Preset', async () => {
     let apiName = "single-etcd-preset";
-    openOasDesignerPage(firstAPI);
+    await openOasDesignerPage(firstAPI);
    await apis_page.OAS_ENABLE_SD_TOGGLE.click();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
    await apis_page.OAS_SD_PRESETS_DROPDOWN.selectOption("Single ETCD");
    await apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.fill(queryEndpoint);
-    createApi(apiName);
-    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
+    await createApi(apiName);
+    await apis_page.isApiCreatedPopUpDisplayed();
   });
 
   await test.step('Single ETCD data is saved after reloading page', async () => {  
-    page.reload();
+    await page.reload();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
     await assert(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
     await assert(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('60');
-    apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
+    await apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
     await assert(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).not.toBeChecked();
     await assert(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
     await assert(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).not.toBeChecked();
@@ -188,23 +188,23 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
 
   await test.step('User can save API with Nested ETCD Preset', async () => {
     let apiName = "nested-etcd-preset";
-    openOasDesignerPage(firstAPI);
+    await openOasDesignerPage(firstAPI);
    await apis_page.OAS_ENABLE_SD_TOGGLE.click();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
    await apis_page.OAS_SD_PRESETS_DROPDOWN.selectOption("Nested ETCD");
    await apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.fill(queryEndpoint);
-    createApi(apiName);
-    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
+    await createApi(apiName);
+    await apis_page.isApiCreatedPopUpDisplayed();
   });
 
   await test.step('Nested ETCD data is saved after reloading page', async () => {  
-    page.reload();
+    await page.reload();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
     await assert(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
     await assert(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('60');
-    apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
+    await apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
     await assert(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).not.toBeChecked();
     await assert(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
     await assert(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).toBeChecked();
@@ -216,23 +216,23 @@ xtest('Test Service Discovery settings on OAS API designer page', async ({ creat
 
   await test.step('User can save API with Eureka Preset', async () => {
     let apiName = "eureka-preset";
-    openOasDesignerPage(firstAPI);
+    await openOasDesignerPage(firstAPI);
    await apis_page.OAS_ENABLE_SD_TOGGLE.click();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
    await apis_page.OAS_SD_PRESETS_DROPDOWN.selectOption("Eureka");
    await apis_page.OAS_SD_QUERY_ENDPOINT_INPUT.fill(queryEndpoint);
-    createApi(apiName);
-    assert(apis_page.isApiCreatedPopUpDisplayed()).toBeTruthy();
+    await createApi(apiName);
+    await apis_page.isApiCreatedPopUpDisplayed();
   });
 
   await test.step('Eureka data is saved after reloading page', async () => {  
-    page.reload();
+    await page.reload();
    await apis_page.SIDE_MENU_UPSTREAM_LINK.click();
     await assert(apis_page.OAS_SD_QUERY_ENDPOINT_SAVED).toHaveText(queryEndpoint);
     await assert(apis_page.OAS_SD_TARGET_PATH_SAVED).toHaveText('/api-slug');
     await assert(apis_page.OAS_SD_ENABLE_CACHE_TIMEOUT_BOX).toBeChecked();
     await assert(apis_page.OAS_SD_CACHE_TIMEOUT_SAVED).toHaveText('60');
-    apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
+    await apis_page.OAS_SD_RESPONSE_CONFIG_ACCORDTION.expand();
     await assert(apis_page.OAS_SD_ENDPOINT_RETURNS_LIST_BOX).not.toBeChecked();
     await assert(apis_page.OAS_SD_ENDPOINT_PROVIDES_TARGET_LIST_BOX).toBeChecked();
     await assert(apis_page.OAS_SD_PORT_IS_SEPARATE_BOX).toBeChecked();
