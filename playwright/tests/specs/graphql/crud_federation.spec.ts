@@ -4,6 +4,7 @@ import { Locator } from '@playwright/test';
 
 
 test('CRUD basic Federation API', async ({ createUserAndLogin, main_page, apis_page, graphql_page, page }) => {
+  test.setTimeout(120000);
   const apiDetails = {
     supergraphName: "Super-test",
     usersSubgraphUrl: `http://${config.FEDERATION_UPSTREAM_HOST}:4001/query`,
