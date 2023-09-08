@@ -1,11 +1,25 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices, expect, Locator } from '@playwright/test';
+import { Toggle_object } from '@wrappers/Toggle_object';
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
 // require('dotenv').config();
+expect.extend({
+  async toBeSelected(element: Locator) {
+    await expect.poll(async () => {
+      const wrapper = new Toggle_object(element, this.page);
+      const isSelected = await wrapper.isSelected();
+      return isSelected;
+    }).toBeTruthy();
+    return {
+      pass: true,
+      message: () => `Expected element not to be selected`,
+    };
+  }
 
+});
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -39,9 +53,10 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'],
-      viewport: { width: 1800, height: 1600 }
-    },
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1800, height: 1600 }
+      },
       grepInvert: [/@prerequisits/],
       testDir: './tests/specs',
     },
@@ -83,4 +98,5 @@ export default defineConfig({
   //   url: 'http://127.0.0.1:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
+
 });

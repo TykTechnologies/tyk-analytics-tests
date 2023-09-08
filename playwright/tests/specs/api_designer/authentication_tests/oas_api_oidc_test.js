@@ -123,8 +123,8 @@ test('Test OIDC Authentication in OAS API designer page', async ({ createUserAnd
     let clientToPolicyMappingSaved = new OasMapToPolicyTable_object('//label[text()="Map Client to Policy"]//following::ul[1]');
     let issuerTargetURLSaved = $('//span[text()="Issuer Target URL"]//following::div[2]');
     await assert(issuerTargetURLSaved).toHaveText('http://new-issuer.com');
-    assert(clientToPolicyMappingSaved.getPolicyValueForCell('http://client-a.com')).to.equal('policyA');
-    assert(clientToPolicyMappingSaved.getPolicyValueForCell('http://client-b.com')).to.equal('policyB');
+    assert(clientToPolicyMappingSaved.getPolicyValueForCell('http://client-a.com')).toEqual('policyA');
+    assert(clientToPolicyMappingSaved.getPolicyValueForCell('http://client-b.com')).toEqual('policyB');
   });
 
   await test.step('User can modify Clients to Policies mappings and Save API', async () => {
@@ -143,8 +143,8 @@ test('Test OIDC Authentication in OAS API designer page', async ({ createUserAnd
     await assert(apis_page.OAS_OIDC_ENABLE_RL_PER_CLIENT_BOX).not.toBeChecked();
     apis_page.OAS_OIDC_ISSUER_ONE_ACCORDTION.expand();
     let clientToPolicyMappingSaved = new OasMapToPolicyTable_object('//label[text()="Map Client to Policy"]//following::ul[1]');
-    assert(clientToPolicyMappingSaved.getPolicyValueForCell('https://client-c.com')).to.equal('policyA');
-    assert(clientToPolicyMappingSaved.getPolicyValueForCell('http://client-b.com')).to.equal('policyC');
+    assert(clientToPolicyMappingSaved.getPolicyValueForCell('https://client-c.com')).toEqual('policyA');
+    assert(clientToPolicyMappingSaved.getPolicyValueForCell('http://client-b.com')).toEqual('policyC');
   });
 
   await test.step('User can remove Client mapping and Save API', async () => {
@@ -160,7 +160,7 @@ test('Test OIDC Authentication in OAS API designer page', async ({ createUserAnd
     apis_page.OAS_OIDC_ISSUER_ONE_ACCORDTION.expand();
     let clientToPolicyMappingSaved = new OasMapToPolicyTable_object('//label[text()="Map Client to Policy"]//following::ul[1]');
     assert(clientToPolicyMappingSaved.checkIfRowExists('https://client-c.com')).toBeFalsy();
-    assert(clientToPolicyMappingSaved.getPolicyValueForCell('http://client-b.com')).to.equal('policyC');
+    assert(clientToPolicyMappingSaved.getPolicyValueForCell('http://client-b.com')).toEqual('policyC');
   });
 
   await test.step('User can set Scope Claims and Save API', async () => {
@@ -188,8 +188,8 @@ test('Test OIDC Authentication in OAS API designer page', async ({ createUserAnd
     let authKeyHeaderNameSaved = $('//label[text()="Auth Key Header Name"]//following::div[1]');
     let queryParamNameSaved = $('//label[text()="Query parameter Name"]//following::div[1]');
     await assert(scopeNameSaved).toHaveText('my-scope');
-    assert(claimToPolicyMappingSaved.getPolicyValueForCell('claimA')).to.equal('policyA');
-    assert(claimToPolicyMappingSaved.getPolicyValueForCell('claimB')).to.equal('policyB');
+    assert(claimToPolicyMappingSaved.getPolicyValueForCell('claimA')).toEqual('policyA');
+    assert(claimToPolicyMappingSaved.getPolicyValueForCell('claimB')).toEqual('policyB');
     await assert(apis_page.OAS_OIDC_ALLOW_QUERY_PARAM_BOX).toBeChecked();
     await assert(apis_page.OAS_STRIP_AUTHORIZATION_DATA_BOX).toBeChecked();
     await assert(authKeyHeaderNameSaved).toHaveText('Authorization-new');
@@ -218,8 +218,8 @@ test('Test OIDC Authentication in OAS API designer page', async ({ createUserAnd
     let queryParamNameSaved = $('//label[text()="Query parameter Name"]//following::div[1]');
     let cookieNameSaved = $('//label[text()="Cookie Name"]//following::div[1]');
     await assert(scopeNameSaved).toHaveText('my-scope-new');
-    assert(claimToPolicyMappingSaved.getPolicyValueForCell('claimD')).to.equal('policyA');
-    assert(claimToPolicyMappingSaved.getPolicyValueForCell('claimB')).to.equal('policyC');
+    assert(claimToPolicyMappingSaved.getPolicyValueForCell('claimD')).toEqual('policyA');
+    assert(claimToPolicyMappingSaved.getPolicyValueForCell('claimB')).toEqual('policyC');
     await assert(apis_page.OAS_OIDC_ALLOW_QUERY_PARAM_BOX).toBeChecked();
     await assert(apis_page.OAS_STRIP_AUTHORIZATION_DATA_BOX).not.toBeChecked();
     await assert(queryParamNameSaved).toHaveText('query-param-new');
@@ -241,7 +241,7 @@ test('Test OIDC Authentication in OAS API designer page', async ({ createUserAnd
     await assert(apis_page.OAS_OIDC_ENABLE_SCOPE_CLAIMS_BOX).toBeChecked();
     let claimToPolicyMappingSaved = new OasMapToPolicyTable_object('//label[text()="Map Claim to Policy"]//following::ul[1]');
     assert(claimToPolicyMappingSaved.checkIfRowExists('claimB')).toBeFalsy();
-    assert(claimToPolicyMappingSaved.getPolicyValueForCell('claimD')).to.equal('policyA');
+    assert(claimToPolicyMappingSaved.getPolicyValueForCell('claimD')).toEqual('policyA');
     await assert(apis_page.OAS_OIDC_ALLOW_QUERY_PARAM_BOX).not.toBeChecked();
     await assert(apis_page.OAS_OIDC_USE_COOKIE_BOX).not.toBeChecked();
   });
@@ -284,8 +284,8 @@ test('Test OIDC Authentication in OAS API designer page', async ({ createUserAnd
     let issuerTwoTargetURLSaved = $('//h3[text()="Issuer two"]//following::span[text()="Issuer Target URL"]//following::div[2]');
     await assert(issuerOneTargetURLSaved).toHaveText('http://second-issuer.com');
     await assert(issuerTwoTargetURLSaved).toHaveText('http://new-issuer.com');
-    assert(clientToPolicyMappingOneSaved.getPolicyValueForCell('http://second-client.com')).to.equal('policyA');
-    assert(clientToPolicyMappingTwoSaved.getPolicyValueForCell('http://client-b.com')).to.equal('policyC');
+    assert(clientToPolicyMappingOneSaved.getPolicyValueForCell('http://second-client.com')).toEqual('policyA');
+    assert(clientToPolicyMappingTwoSaved.getPolicyValueForCell('http://client-b.com')).toEqual('policyC');
   });
 
   await test.step('User can remove issuer', async () => {
@@ -305,7 +305,7 @@ test('Test OIDC Authentication in OAS API designer page', async ({ createUserAnd
     let clientToPolicyMappingSaved = new OasMapToPolicyTable_object('//label[text()="Map Client to Policy"]//following::ul[1]');
     let issuerTargetURLSaved = $('//span[text()="Issuer Target URL"]//following::div[2]');
     await assert(issuerTargetURLSaved).toHaveText('http://second-issuer.com');
-    assert(clientToPolicyMappingSaved.getPolicyValueForCell('http://second-client.com')).to.equal('policyA');
+    assert(clientToPolicyMappingSaved.getPolicyValueForCell('http://second-client.com')).toEqual('policyA');
   });
 
   function openInitPage(firstApi) {

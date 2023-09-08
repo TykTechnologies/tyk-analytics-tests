@@ -2,6 +2,7 @@ import { Template_Page } from './Template_Page';
 import { Button_object } from '@wrappers/Button_object';
 import { Table_object } from '@wrappers/Table_object';
 import { DropDown_object } from '@wrappers/DropDown_object';
+import { SlowDropDown_object } from '@wrappers/SlowDropDown_object';
 import { Input_object } from '@wrappers/Input_object';
 import { SlowButton_object } from 'tyk-test-automation-wrappers/lib/SlowButton_object';
 
@@ -23,8 +24,8 @@ export class Policies_page extends Template_Page {
   get AUTHENTICATION_TYPE_DROPDOWN() {return new DropDown_object('.tyk-combobox2__text-value', this.page);}
   get API_TABLE() {return new Table_object('.tyk-table', this.page);}
   get NAME_INPUT() {return new Input_object('input[name="name"]', this.page);}
-  get POLICY_STATE_DROPDOWN() {return new DropDown_object('.tyk-combobox2__current-values', this.page);}
-  get KEY_EXPIRY_AFTER_DROPDOWN() {return new DropDown_object('.tyk-combobox2__text-value', this.page);}
+  get POLICY_STATE_DROPDOWN() {return new SlowDropDown_object('.tyk-combobox2__current-values', this.page);}
+  get KEY_EXPIRY_AFTER_DROPDOWN() {return new SlowDropDown_object('.tyk-combobox2__text-value', this.page);}
   get MAIN_TAG_INPUT() {return new Input_object('input[name="inputTag"]', this.page);}
   get TAG_ADD_BUTTON() {return new Button_object('//input[@name="inputTag"]//following::span[text()="ADD"][1]', this.page);}
   get TAG_INPUT() {return new Input_object('//input[@name="inputTag"]//following::input[@name="inputTag"]', this.page);}
