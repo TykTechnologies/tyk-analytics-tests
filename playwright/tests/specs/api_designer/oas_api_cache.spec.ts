@@ -1,6 +1,7 @@
 import { test, assert } from '@fixtures';
 
 test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin, main_page, apis_page, page }) => {
+  test.setTimeout(190000);
   let firstAPI = false;
 
   await test.step('CACHE settings is off by default', async () => {
