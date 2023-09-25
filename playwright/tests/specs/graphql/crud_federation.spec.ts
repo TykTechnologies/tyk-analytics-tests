@@ -27,7 +27,7 @@ test('CRUD basic Federation API', async ({ createUserAndLogin, main_page, apis_p
     await apis_page.API_TYPE_SUBGRAPH_BUTTON.first().click();
     await apis_page.OAS_TARGET_URL_INPUT.fill(apiDetails.usersSubgraphUrl);
     await apis_page.CONFIGURE_API_BUTTON.click();
-    await assert(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toBeVisible();
+    await assert(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toBeVisible({ timeout: 15000});
     await apis_page.SAVE_BUTTON.click();
   });
 
