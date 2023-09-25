@@ -14,7 +14,7 @@ export class Users_page extends Template_Page {
 
   //ADD/EDIT USER PAGE
   get SAVE_BUTTON() { return new SlowButton_object(this.page.locator('span').filter({ hasText: 'Save' }), this.page); }
-  get UPDATE_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText: 'Update' }), this.page); }
+  get UPDATE_BUTTON() { return new SlowButton_object(this.page.locator('span').filter({ hasText: 'Update' }), this.page); }
   get DELETE_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText: 'Delete' }), this.page); }
   get FIRST_NAME_INPUT() { return new Input_object('input[name="first_name"]', this.page); }
   get LAST_NAME_INPUT() { return new Input_object('input[name="last_name"]', this.page); }
