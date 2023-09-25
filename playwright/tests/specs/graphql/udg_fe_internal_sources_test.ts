@@ -92,7 +92,7 @@ test('UDG with internal REST and GQL datasources', async ({ createUserAndLogin, 
         graphql_page.uploadSchemaFile(schemaFileRelativePath);
        await apis_page.SAVE_BUTTON.click();
         await main_page.openAPIs();
-        $apiTableElement = await this.page.locator(`span=${udgDetails.apiName}`);
+        $apiTableElement = await this.page.locator(`span:text("${udgDetails.apiName}")`);
       await $apiTableElement.click();
        await graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
         //Define internal REST data source for a Query type field

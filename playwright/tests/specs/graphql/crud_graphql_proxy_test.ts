@@ -23,7 +23,7 @@ test('CRUD simple GraphQL (proxy-only) API', async ({ createUserAndLogin, main_p
     
     await test.step('New GraphQL API should be visible in table', async () => {
         await main_page.openAPIs();
-        $apiTableElement = await this.page.locator(`span=${apiDetails.name}`);
+        $apiTableElement = await this.page.locator(`span:text("${apiDetails.name}")`);
         await assert($apiTableElement).toBeVisible();
     });
 

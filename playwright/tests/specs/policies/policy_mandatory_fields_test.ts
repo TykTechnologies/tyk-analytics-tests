@@ -51,7 +51,7 @@ test('Create/update/delete tags on policy', async ({ createUserAndLogin, main_pa
   });
 
   await test.step('Confirmation popup should be displayed', async () => {
-    assert(policies_page.isPolicyCreatedPopUpDisplayed()).toBeTruthy();
+    await policies_page.checkIfPolicyCreatedPopUpDisplayed();
   });
 
 });

@@ -36,14 +36,14 @@ test('Create/update/delete tags on policy', async ({ createUserAndLogin, main_pa
   });
 
   await test.step('Confirmation popup should be displayed', async () => {
-    assert(policies_page.isPolicyCreatedPopUpDisplayed()).toBeTruthy();
+    await policies_page.checkIfPolicyCreatedPopUpDisplayed();
   });
 
   it(`Tag: ${policyDetails.tagName} should be displayed after policy reload`, () => {
     await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
-    assert(policies_page.TAG_LABEL.getText()).to.equal(policyDetails.tagName);
+    await assert(policies_page.TAG_LABEL).toHaveText(policyDetails.tagName);
   });
 
   await test.step('User should be able to edit tag on Policy', async () => {
@@ -58,14 +58,14 @@ test('Create/update/delete tags on policy', async ({ createUserAndLogin, main_pa
   });
 
   await test.step('Confirmation popup should be displayed', async () => {
-    assert(policies_page.isPolicyUpdatedPopUpDisplayed()).toBeTruthy();
+    await policies_page.checkIfPolicyUpdatedPopUpDisplayed();
   });
 
   it(`Updated tag: ${policyDetails.updatedTagName} should be displayed after policy reload`, () => {
     await main_page.openPolicies();
    await policies_page.POLICY_TABLE.clickCellWithText(policyDetails.policyName);
    await policies_page.CONFIGURATIONS_TAB_BUTTON.click();
-    assert(policies_page.TAG_LABEL.getText()).to.equal(policyDetails.updatedTagName);
+    await assert(policies_page.TAG_LABEL).toHaveText(policyDetails.updatedTagName);
   });
 
   await test.step('User should be able to delete tag from policy', async () => {
@@ -78,7 +78,7 @@ test('Create/update/delete tags on policy', async ({ createUserAndLogin, main_pa
   });
 
   await test.step('Confirmation popup should be displayed', async () => {
-    assert(policies_page.isPolicyUpdatedPopUpDisplayed()).toBeTruthy();
+    await policies_page.checkIfPolicyUpdatedPopUpDisplayed();
   });
 
   await test.step('User should be able to add multiple tags on Policy', async () => {

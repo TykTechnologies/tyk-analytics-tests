@@ -10,7 +10,7 @@ export class Graphql_page extends Template_Page {
   get GRAPHQL_SCHEMA_TAB_BUTTON() { return new Button_object('button:text("Schema")', this.page); }  
   get GRAPHQL_SUBGRAPHS_TAB_BUTTON() { return new Button_object('button:text("Subgraphs")', this.page); }
   get GRAPHQL_UPDATE_SCHEMA_BUTTON() { return new Button_object('//span[@class="schema-message-button"]//span[text()="UPDATE"]', this.page); }
-  get GRAPHQL_ENABLE_PLAYGROUND_TOGGLE() { return new Toggle_object(this.page.locator('span').filter({ hasText:'Enable Playground' }), this.page); }  
+  get GRAPHQL_ENABLE_PLAYGROUND_TOGGLE() { return new Toggle_object(this.page.getByText('Enable Playground'), this.page); }  
   getFEDERATION_SUBGRAPHS_LIST_PANEL(subgraphName: any) {
     return new Button_object(`//div[@class="supergraph-panels"]//h3[text()="${subgraphName}"]`, this.page);
   }

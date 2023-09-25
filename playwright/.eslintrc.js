@@ -3,6 +3,8 @@ module.exports = {
     browser: true,
     es2021: true
   },
+  plugins:
+  ['playwright'],
   extends: [`plugin:@typescript-eslint/recommended`],
   parser: `@typescript-eslint/parser`,
   parserOptions: {
@@ -12,7 +14,13 @@ module.exports = {
   },
   rules: {
     semi: [`error`, `always`],
-    "@typescript-eslint/no-floating-promises": ["error"]
+    "@typescript-eslint/no-floating-promises": ["error"],
+    'playwright/await-async-selector': 'error'
   },
-  ignorePatterns: ['**/*.js']
+  ignorePatterns: ['**/*.js'],
+  settings: {
+    "playwright": {
+      "additionalAssertFunctionNames": ["toBeSelected"]
+    }
+  }
 }
