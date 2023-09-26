@@ -41,9 +41,9 @@ export class Users_page extends Template_Page {
     return super.waitUntilPageLoaded(this.USERS_TABLE);
   }
 
-  async checkIfUserCreatedPopUpDisplayed(): Promise<void> { return await this.isSuccessPopupDisplayedWithText(this.user_created_expected_mesage); }
+  async checkIfUserCreatedPopUpDisplayed(): Promise<void> { return await this.checkIfSuccessPopupDisplayedWithText(this.user_created_expected_mesage); }
 
-  async checkIfUserUpdatedPopUpDisplayed(): Promise<void> { return await this.isSuccessPopupDisplayedWithText(this.user_updated_expected_mesage); }
+  async checkIfUserUpdatedPopUpDisplayed(): Promise<void> { return await this.checkIfSuccessPopupDisplayedWithText(this.user_updated_expected_mesage); }
 
   async checkIfUserAlreadyExistsPopUpDisplayed(): Promise<void> { return await this.isErrorPopupDisplayedWithText(this.user_already_exists_expected_mesage); }
 

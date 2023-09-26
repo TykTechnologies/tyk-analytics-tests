@@ -17,7 +17,7 @@ test('Portal Settings main Admin page', async ({ createUserAndLogin, main_page, 
    await admin_settings_page.DEVELOPER_LOGIN_TOGGLE.click();
    await admin_settings_page.RESTRICTED_CATALOGUE_TOGGLE.click();
    await admin_settings_page.SAVE_BUTTON.click();
-  await admin_settings_page.isSettingsUpdatedPopUpDisplayed();
+  await admin_settings_page.checkIfSettingsUpdatedPopUpDisplayed();
   });
 
   await test.step('User should see saved values after re-load values', async () => {

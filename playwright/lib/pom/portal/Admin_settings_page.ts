@@ -35,7 +35,7 @@ export class Admin_settings_page extends Template_Page {
   get DCR_CLIENT_REGISTRATION_ENDPOINT_INPUT() {return new Input_object('#configuration-dcr-registration-endpoint', this.page);}
   get DCR_TOKEN_INPUT() {return new Input_object('#configuration-dcr-access-token', this.page);}
   //EMAILS
-  get GLOBAL_EMAIL_SETTINGS_BUTTON() {return new Button_object('h3=Global Email Settings', this.page);}    
+  get GLOBAL_EMAIL_SETTINGS_BUTTON() {return new Button_object('h3:text("Global Email Settings")', this.page);}    
   get FROM_ADDRESS_INPUT() {return new Input_object('input[name="mail_options.mail_from_email"]', this.page);}
   get NAME_OF_SENDER_INPUT() {return new Input_object('input[name="mail_options.mail_from_name"]', this.page);}
   get RESET_ALL_EMAILS_BUTTON() {return new Button_object('#reset-emails-btn', this.page);}    
@@ -43,7 +43,7 @@ export class Admin_settings_page extends Template_Page {
   get EDIT_GLOBAL_EMAIL_CSS_BUTTON() {return new Button_object('#edit-css-btn', this.page);}    
   get TABLE() {return new Table_object('.tyk-table', this.page);}
   get EXIT_CSS_EDITOR_BUTTON() {return new Button_object('#exit-email-editor-btn', this.page);} 
-  get SAVE_EMAIL_CSS_BUTTON() {return new Button_object('#save-email-settings-btn', this.page);} 
+  get SAVE_EMAIL_CSS_BUTTON() {return new SlowButton_object('#save-email-settings-btn', this.page);} 
   get CSS_EDITOR_INPUT() {return new Input_object('#email_css textarea', this.page);}
   //EMAILS editor
   get EMAILS_OPTIONS_ENABLE_TOGGLE() {return new Toggle_object('input[type="checkbox"]', this.page);}
@@ -54,6 +54,6 @@ export class Admin_settings_page extends Template_Page {
   //CONST
   get updatedConfigurationMessageText() {return 'Portal configuration updated';}
 
-  async isSettingsUpdatedPopUpDisplayed() {return await this.isSuccessPopupDisplayedWithText(this.updatedConfigurationMessageText);}
+  async checkIfSettingsUpdatedPopUpDisplayed() {return await this.checkIfSuccessPopupDisplayedWithText(this.updatedConfigurationMessageText);}
 }
      

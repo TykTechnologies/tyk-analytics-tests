@@ -60,9 +60,9 @@ get key_deleted_expected_message() {return 'Key has been successfully deleted';}
 get key_created_expected_message() {return 'Key has been successfully created';}
 get key_not_retrive_detail_message() {return 'Could not retrieve key detail';}
 
-    async isKeyUpdatedPopUpDisplayed() {return await this.isSuccessPopupDisplayedWithText(this.key_updated_expected_message);}
-    async isKeyDeletedPopUpDisplayed() {return await this.isSuccessPopupDisplayedWithText(this.key_deleted_expected_message);}
-    async isKeyCreatedPopUpDisplayed() {return await this.isSuccessPopupDisplayedWithText(this.key_created_expected_message);}
+    async isKeyUpdatedPopUpDisplayed() {return await this.checkIfSuccessPopupDisplayedWithText(this.key_updated_expected_message);}
+    async isKeyDeletedPopUpDisplayed() {return await this.checkIfSuccessPopupDisplayedWithText(this.key_deleted_expected_message);}
+    async isKeyCreatedPopUpDisplayed() {return await this.checkIfSuccessPopupDisplayedWithText(this.key_created_expected_message);}
     async isCouldNotRetrieveKeyDisplayed() {return await this.isErrorPopupDisplayedWithText(this.key_not_retrive_detail_message);}
 }
 

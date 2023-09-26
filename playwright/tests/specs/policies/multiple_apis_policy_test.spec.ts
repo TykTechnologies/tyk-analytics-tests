@@ -57,7 +57,7 @@ test('Multiple APIs policies', async ({ createUserAndLogin, main_page, policies_
     await page.waitForTimeout(1000);
     await policies_page.KEY_EXPIRY_AFTER_DROPDOWN.selectOption(policyDetails.keyExpiryTime);
     await policies_page.CREATE_POLICY_BUTTON.click();
-    await policies_page.isSuccessPopupDisplayedWithText(policies_page.policy_created_expected_mesage);
+    await policies_page.checkIfSuccessPopupDisplayedWithText(policies_page.policy_created_expected_mesage);
   });
 
   await test.step(`User can't add policy with different Authorization type to policy`, async () => {

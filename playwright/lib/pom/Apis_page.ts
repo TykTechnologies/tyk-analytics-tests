@@ -242,10 +242,10 @@ export class Apis_page extends Template_Page {
   get API_DELETED_MESSAGE() { return this.page.locator('//div[contains(@class, "alert-success")]//span[text()="The Api has been successfully deleted"]').first(); }
 
   get api_created_expected_mesage() { return 'API successfully created'; }
-  async isApiCreatedPopUpDisplayed() { return await this.isSuccessPopupDisplayedWithText(this.api_created_expected_mesage); }
+  async isApiCreatedPopUpDisplayed() { return await this.checkIfSuccessPopupDisplayedWithText(this.api_created_expected_mesage); }
 
   get api_updated_expected_mesage() { return 'API successfuly updated'; }
-  async isApiUpdatedPopUpDisplayed() { return await this.isSuccessPopupDisplayedWithText(this.api_updated_expected_mesage); }
+  async isApiUpdatedPopUpDisplayed() { return await this.checkIfSuccessPopupDisplayedWithText(this.api_updated_expected_mesage); }
 
   async waitUntilPageLoaded() {
     return await super.waitUntilPageLoaded(this.ADD_NEW_API_BUTTON);

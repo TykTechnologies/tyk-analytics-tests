@@ -60,8 +60,8 @@ export class Policies_page extends Template_Page {
   get policy_created_expected_mesage() {return 'Policy has been successfully created';}
   get policy_updated_expected_mesage() {return 'Policy has been successfully updated';}
 
-  async checkIfPolicyCreatedPopUpDisplayed() {return await this.isSuccessPopupDisplayedWithText(this.policy_created_expected_mesage);}
-  async checkIfPolicyUpdatedPopUpDisplayed() {return await this.isSuccessPopupDisplayedWithText(this.policy_updated_expected_mesage);}
+  async checkIfPolicyCreatedPopUpDisplayed() {return await this.checkIfSuccessPopupDisplayedWithText(this.policy_created_expected_mesage);}
+  async checkIfPolicyUpdatedPopUpDisplayed() {return await this.checkIfSuccessPopupDisplayedWithText(this.policy_updated_expected_mesage);}
 
   waitUntilPageLoaded() {
     return super.waitUntilPageLoaded(this.ADD_POLICY_BUTTON);
