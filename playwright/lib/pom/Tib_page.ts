@@ -31,5 +31,5 @@ export class Tib_page extends Template_Page {
     }
 
     get profile_created_expected_mesage() {return 'Profile created successfully';}
-    async isProfileCreatedPopUpDisplayed() {return await this.isSuccessPopupDisplayedWithText(this.profile_created_expected_mesage);}
+    async isProfileCreatedPopUpDisplayed() {return await this.checkIfSuccessPopupDisplayedWithText(this.profile_created_expected_mesage);}
 }

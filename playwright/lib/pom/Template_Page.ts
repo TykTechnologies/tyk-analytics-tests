@@ -21,7 +21,7 @@ export class Template_Page {
     return await webElementOnPage.waitFor({ timeout: timeout});
   }
   
-  async isSuccessPopupDisplayedWithText(text: string) {
+  async checkIfSuccessPopupDisplayedWithText(text: string): Promise<void> {
     console.debug(`>>> Looking for popup with text ${text}`);
     await this.SUCCESS_POP_UPS_LIST.first().waitFor();
     await expect.poll( async () => {
