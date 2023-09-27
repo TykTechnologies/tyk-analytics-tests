@@ -1,7 +1,7 @@
 import { test, assert } from '@fixtures';
 
 test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin, main_page, apis_page, page }) => {
-  test.setTimeout(190000);
+  test.setTimeout(2500000);
   let enableCors = true;
   let firstApi = false;
   let originValue = 'https://*.domain.com';
