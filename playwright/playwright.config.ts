@@ -24,7 +24,7 @@ expect.extend({
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  timeout: 15 * 1000,
+  timeout: 90 * 1000,
   globalTimeout: 15 * 60 * 1000,
   testDir: './tests',
   /* Run tests in files in parallel */

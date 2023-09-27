@@ -15,7 +15,7 @@ export class Policies_page extends Template_Page {
   get AUTH_TYPES_DROPDOWN() {return new DropDown_object("//div[@name='auth_type']//span", this.page);}
   
   //POLICY DETAILS PAGE
-  get CONFIGURATIONS_TAB_BUTTON() {return new Button_object('button:text-is("2.Configurations")', this.page);}
+  get CONFIGURATIONS_TAB_BUTTON() {return new SlowButton_object(this.page.getByText("2.Configurations"), this.page);}
   get CREATE_POLICY_BUTTON() {return new SlowButton_object('span:text-is("Create Policy")', this.page);}
   get UPDATE_POLICY_BUTTON() {return new SlowButton_object('span:text-is("Update")', this.page);}
   get DELETE_BUTTON() {return new SlowButton_object('//button[contains(@class,"tyk-button--danger-outline")]//span[text()="Delete"]', this.page);}
