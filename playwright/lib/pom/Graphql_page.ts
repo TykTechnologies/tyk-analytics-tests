@@ -18,11 +18,11 @@ export class Graphql_page extends Template_Page {
     return new Button_object(`//h3[text()="${subgraphName}"]//button[@id="removeSubgraph"]`, this.page);
   }
   get FEDERATION_REMOVE_SUBGRAPH_CONFIRM_CHECKBOX() { return new Checkbox_object('//input[@name="remove subgraph"]', this.page); }
-  get FEDERATION_REMOVE_SUBGRAPH_MODAL_BUTTON() { return new Button_object('button:text("Remove Subgraph")', this.page); }
+  get FEDERATION_REMOVE_SUBGRAPH_MODAL_BUTTON() { return new Button_object('span:text("Remove Subgraph")', this.page); }
   get GRAPHQL_SUBGRAPHS_DROPDOWN() { return new DropDown_object(`//div[@name="x-tyk-api-gateway.server.graphql.superGraph.subgraphs"]//div[@class="tyk-form-control"]`, this.page);}
-  get FEDERATION_ADD_SUBGRAPH_BUTTON() { return new Button_object('button:text("Add Subgraph")', this.page); }
+  get FEDERATION_ADD_SUBGRAPH_BUTTON() { return new Button_object('span:text("Add Subgraph")', this.page); }
   get FEDERATION_ADD_SUBGRAPH_DROPDOWN() { return new DropDown_object('//label[text()="Select subgraph"]//following-sibling::div//div[@class="tyk-form-control"]', this.page); }
-  get FEDERATION_ADD_BUTTON() { return new Button_object('button:text("Add")', this.page); }
+  get FEDERATION_ADD_BUTTON() { return new Button_object(this.page.getByRole('button', { name: 'Add', exact: true }), this.page); }
   get UDG_IMPORT_SCHEMA_FILE_FIELD() { return this.page.locator('//div[@class="tyk-file-input__wrapper"]//input[@label="Import File"]'); }
   getUDG_OPEN_FIELD_OPTIONS_BUTTON(type: any, field: any) {
     return new Button_object(`//h3[@class="section-title" and text()="Type | "]//descendant::span[@class="field-name" and text()="${type}"]//ancestor::div[1]//descendant::label[text()="${field}"]`, this.page);

@@ -73,9 +73,9 @@ export class Dashboard_connection {
         console.log(`>>> Policy created. Policy definition id: ${responseBody.Meta}`);
     }
 
-    async getPolicyByName(name: string, userSecret: string): Promise<string>{
+    async getPolicyByName(name: string, userSecret: string): Promise<APIResponse>{
         console.log(`>>> Get Policy by name: ${name}`);
-        const responseBody: any = await this.sendRequest("portal/policies/search/?q=" + name, RequestTypes.GET, userSecret);
+        const responseBody: APIResponse = await this.sendRequest("portal/policies/search/?q=" + name, RequestTypes.GET, userSecret);
         console.log(`>>> Policy received. Policy definition: ${responseBody}`);
         return responseBody;
     }
