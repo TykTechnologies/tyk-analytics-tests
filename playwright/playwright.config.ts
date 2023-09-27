@@ -24,7 +24,7 @@ expect.extend({
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  timeout: 90 * 1000,
+  timeout: 15 * 1000,
   globalTimeout: 15 * 60 * 1000,
   testDir: './tests',
   /* Run tests in files in parallel */
@@ -34,7 +34,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 1 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 3 : 3,
+  workers: process.env.CI ? 2 : 3,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: process.env.CI ? [['github'], ['html']] : [['html'], ['json', { outputFile: 'playwright-report/summary.json' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
