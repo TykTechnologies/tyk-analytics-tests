@@ -1,9 +1,9 @@
 import { test, assert } from '@fixtures';
 
-import { policies_page } from '../../../lib/pom/Policies_page';
 import { Dashboard_connection } from '@api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '@lib/utils/API_object_designer';
 import { newPolicyDefinitionWithDefaults } from '../../../lib/utils/Policy_object_designer';
+import { APIResponse } from '@playwright/test';
 
 const keylessApi = {
   "name": "keyless"
@@ -16,7 +16,7 @@ const authTokenApi = {
 };
 
 const oauthApi = {
-  "name": "oauth",
+  "name": "oauthPolicy",
   "use_keyless": false,
   "oauth_meta": {
     "allowed_access_types": [
@@ -65,34 +65,37 @@ const jwtApi2 = {
   "jwt_identity_base_field": "sub"
 };
 
-test('Test Policy search functionality on Main Policy Page', async ({ createUserAndLogin, main_page }) => {
+test('Test Policy search functionality on Main Policy Page', async ({ createUserAndLogin, main_page, policies_page, page }) => {
   const dashboard_connection = new Dashboard_connection();
-  
 
-  
+  const reopenPolicyPage = async () => {
+    await main_page.openKeys();
+    await main_page.openPolicies();
+  }
+
   await test.step('Prerequisits: creating API and Policy definitions via dashboard API', async () => {
-    [keylessApi, authTokenApi, oauthApi, multi1Api, multi2Api, jwtApi, jwtApi2].forEach(authType => {
+    for (let authType of [keylessApi, authTokenApi, oauthApi, multi1Api, multi2Api, jwtApi, jwtApi2]) {
       let apiBody = newAPIdefinitionWithDefaults(authType);
       let apiMeta = await dashboard_connection.createAPI(apiBody, createUserAndLogin.userSecret);
-      let apiId = dashboard_connection.getAPI(apiMeta, createUserAndLogin.userSecret).api_id;
+      let apiId = await dashboard_connection.getAPI(apiMeta, createUserAndLogin.userSecret);
       let policyDetails = {
         "access_rights": {
           [apiId]: {
             "api_id": apiId,
-            "api_name": authType.name,
+            "api_name": authType['name'],
             "versions": ["Default"]
-          } 
+          }
         },
-        "name": authType.name + "_policy"
+        "name": authType['name'] + "_policy"
       }
       let policy = newPolicyDefinitionWithDefaults(policyDetails);
-      dashboard_connection.createPolicy(policy, createUserAndLogin.userSecret);
-  })
-});
+      await dashboard_connection.createPolicy(policy, createUserAndLogin.userSecret);
+    }
+  });
 
   await test.step('User should be able search policy by Policy name', async () => {
     await main_page.openPolicies();
-   await policies_page.NAME_SEARCH_INPUT.fill(keylessApi.name);
+    await policies_page.NAME_SEARCH_INPUT.fill(keylessApi.name);
     await assert(policies_page.POLICY_TABLE).toContainText(keylessApi.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(authTokenApi.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(oauthApi.name);
@@ -103,8 +106,9 @@ test('Test Policy search functionality on Main Policy Page', async ({ createUser
   });
 
   await test.step('User should be able search policy by Policy id', async () => {
-    let policyId = dashboard_connection.getPolicyByName(oauthApi.name + "_policy", createUserAndLogin.userSecret).Data[0]._id;
-   await policies_page.NAME_SEARCH_INPUT.fill(policyId);
+    let policyDetails: any = await dashboard_connection.getPolicyByName(oauthApi.name + "_policy", createUserAndLogin.userSecret);
+    const policyId = policyDetails.Data[0]._id;
+    await policies_page.NAME_SEARCH_INPUT.fill(policyId);
     await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(authTokenApi.name);
     await assert(policies_page.POLICY_TABLE).toContainText(oauthApi.name);
@@ -115,8 +119,8 @@ test('Test Policy search functionality on Main Policy Page', async ({ createUser
   });
 
   await test.step('User should be able search policy by Access Right', async () => {
-   await policies_page.NAME_SEARCH_INPUT.fill("");
-   await policies_page.ACCESS_RIGHTS_DROPDOWN.selectOption(authTokenApi.name);
+    await reopenPolicyPage();
+    await policies_page.ACCESS_RIGHTS_DROPDOWN.selectOption(authTokenApi.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);
     await assert(policies_page.POLICY_TABLE).toContainText(authTokenApi.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(oauthApi.name);
@@ -127,8 +131,8 @@ test('Test Policy search functionality on Main Policy Page', async ({ createUser
   });
 
   await test.step('User should be able search policy by Authentication type', async () => {
-   await policies_page.ACCESS_RIGHTS_DROPDOWN.selectOption("All apis");
-   await policies_page.AUTH_TYPES_DROPDOWN.selectOption("JSON Web Token");
+    await reopenPolicyPage();
+    await policies_page.AUTH_TYPES_DROPDOWN.selectOption("JSON Web Token");
     await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(authTokenApi.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(oauthApi.name);
@@ -137,9 +141,10 @@ test('Test Policy search functionality on Main Policy Page', async ({ createUser
     await assert(policies_page.POLICY_TABLE).toContainText(jwtApi.name);
     await assert(policies_page.POLICY_TABLE).toContainText(jwtApi2.name);
   });
-  
+
   await test.step('User should be able search policy by multiple criteria - Name + Auth type', async () => {
-   await policies_page.NAME_SEARCH_INPUT.fill(jwtApi2.name);
+    await reopenPolicyPage();
+    await policies_page.NAME_SEARCH_INPUT.fill(jwtApi2.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(authTokenApi.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(oauthApi.name);
@@ -150,10 +155,11 @@ test('Test Policy search functionality on Main Policy Page', async ({ createUser
   });
 
   await test.step('User should be able search policy by multiple criteria - Name + Access Right', async () => {
-   await policies_page.AUTH_TYPES_DROPDOWN.selectOption("All authentication methods");
-   await policies_page.ACCESS_RIGHTS_DROPDOWN.selectOption(authTokenApi.name);
-   await policies_page.ACCESS_RIGHTS_DROPDOWN.selectOption(multi2Api.name);
-   await policies_page.NAME_SEARCH_INPUT.fill(multi2Api.name);
+    await policies_page.AUTH_TYPES_DROPDOWN.selectOption('Auth Token');
+    await policies_page.AUTH_TYPES_DROPDOWN.selectOption("All authentication methods");
+    await policies_page.ACCESS_RIGHTS_DROPDOWN.selectOption(authTokenApi.name);
+    await policies_page.ACCESS_RIGHTS_DROPDOWN.selectOption(multi2Api.name);
+    await policies_page.NAME_SEARCH_INPUT.fill(multi2Api.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(authTokenApi.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(oauthApi.name);
@@ -164,8 +170,9 @@ test('Test Policy search functionality on Main Policy Page', async ({ createUser
   });
 
   await test.step('User should be able search policy by multiple criteria - Auth Type + Access Right', async () => {
-   await policies_page.NAME_SEARCH_INPUT.fill("");
-   await policies_page.AUTH_TYPES_DROPDOWN.selectOption("Auth Token");
+    await reopenPolicyPage();
+    await policies_page.NAME_SEARCH_INPUT.clear();
+    await policies_page.AUTH_TYPES_DROPDOWN.selectOption("Auth Token");
     await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);
     await assert(policies_page.POLICY_TABLE).toContainText(authTokenApi.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(oauthApi.name);
