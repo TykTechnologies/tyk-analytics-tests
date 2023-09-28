@@ -42,9 +42,9 @@ export class Graphql_page extends Template_Page {
   get UDG_COMBOBOX_FILTER_INPUT() { return new Input_object('//div[@class="tyk-combobox2__combobox-search"]//input', this.page); }
   get UDG_COMBOBOX_DROPDOWN() { return new DropDown_object('//ul[@class="tyk-combobox2__combobox-list"]', this.page); }
   get UDG_DATA_SOURCE_CONNECTED_WARNING_MESSAGE() { return this.page.locator('//div[@class="tyk-message__content" and contains(text(),"This data source is connected to multiple fields.")]'); }
-  get UDG_CONFIGURE_EXTERNAL_REST_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText:'REST' }), this.page); }
-  get UDG_CONFIGURE_EXTERNAL_GQL_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText:'GRAPHQL' }), this.page); }
-  get UDG_CONFIGURE_EXTERNAL_KAFKA_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText:'KAFKA' }), this.page); }
+  get UDG_CONFIGURE_EXTERNAL_REST_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText: /^REST$/ }), this.page); }
+  get UDG_CONFIGURE_EXTERNAL_GQL_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText: /^GRAPHQL$/ }), this.page); }
+  get UDG_CONFIGURE_EXTERNAL_KAFKA_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText: /^KAFKA$/ }), this.page); }
   get UDG_DATA_SOURCE_NAME_INPUT() { return new Input_object('//input[@label="Data source name"]', this.page); }
   get UDG_DATA_SOURCE_URL_INPUT() { return new Input_object('//textarea[@placeholder="Enter data source url"]', this.page); }
   get UDG_DATA_SOURCE_ENDPOINT_INPUT() { return new Input_object('//textarea[@placeholder="Enter endpoint"]', this.page); }
@@ -52,7 +52,7 @@ export class Graphql_page extends Template_Page {
   get UDG_TEMPLATING_SYNTAX_HINT_LIST() { return new DropDown_object('//ul[@class="string-builder-list"]', this.page); }
   get UDG_DATA_SOURCE_METHOD() { return new DropDown_object('//label[text()="Method"]//following::div[1]//child::div', this.page); }
   get UDG_ADD_HEADERS_CHECKBOX() { return new Checkbox_object('//label[text()="Add headers"]//child::input', this.page); }
-  get UDG_ADD_HEADER_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText:'Add' }), this.page); }
+  get UDG_ADD_HEADER_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText: /^Add$/ }), this.page); }
   get UDG_NEW_HEADER_KEY_INPUT() { return new Input_object('//ul[@class="editable-list__list"]//li[position() = last() - 1]//div[1]//input', this.page); }
   get UDG_NEW_HEADER_VALUE_INPUT() { return new Input_object('//ul[@class="editable-list__list"]//li[position() = last() - 1]//div[2]//input', this.page); }
   getUDG_HEADER_KEY_BY_POSITION_INPUT(positionFromTop: any) {
@@ -90,8 +90,8 @@ export class Graphql_page extends Template_Page {
   get UDG_ENABLE_SASL_CHECKBOX() { return new Checkbox_object('label=Enable SASL', this.page); }
   get UDG_SASL_USER_INPUT() { return new Input_object('//input[@label="User"]', this.page); }
   get UDG_SASL_PASSWORD_INPUT() { return new Input_object('//input[@label="Password"]', this.page); }
-  get UDG_DATA_SOURCE_RESET_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText:'Reset' }), this.page); }
-  get UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText:'Save and Update API' }), this.page); }
+  get UDG_DATA_SOURCE_RESET_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText: /^Reset$/ }), this.page); }
+  get UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText: /^Save and Update API$/ }), this.page); }
 
   async uploadSchemaFile(schemaFileRelativePath: string) {
     // const filePath = path.join(__dirname, schemaFileRelativePath);
@@ -110,11 +110,13 @@ export class Graphql_page extends Template_Page {
     });
   }
 
+  //TO BE REMOVED
+  //Can be replaced by page.keyboard.type()
   async keys(value: any) {
     const arrValue = [...value]; //convert string to charArray
     arrValue.forEach(async e => {
       await this.page.keyboard.press(e);
-      await this.page.waitForTimeout(100);
+      await this.page.waitForTimeout(200);
     });
   }
 
