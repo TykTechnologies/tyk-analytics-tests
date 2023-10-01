@@ -6,26 +6,34 @@ const path = require('path');
 
 
 test('Import certificates', async ({ main_page, certificates_page, page }) => {
-  const FileRelativePath = "./full-cert.pem";
+  // const FileRelativePath = "./full_cert.pem"
 
   const userDetails = await setUpEnv();
   const login_page = new Login_page(page);
   await login_page.open();
   await login_page.login(userDetails.userEmail, userDetails.userPassword);
   console.log(`>>> User is logged in! User Email: ${userDetails.userEmail}`);
-  use(userDetails); 
 
+
+  const uploadZipFile = async (browser: any) => {
+    const filePath = path.join(__dirname, "./full_cert.pem");
+    console.log(`>>> Uploading certificate from path: ${filePath}`);
+
+    // const remoteFilePath = browser.uploadFile(filePath);
+    await page.getByLabel('Upload certificate file').setInputFiles("./full_cert.pem");
+  };
+  
   await test.step('User should be able to import certificate', async () => {
     await main_page.openCertificates();
     await certificates_page.ADD_CERTIFICATE_BUTTON.click();
-    await uploadZipFile();
+    await uploadZipFile(page); // pass the page argument to the function
     await certificates_page.UPLOAD_BUTTON.click();
     await assert(certificates_page.ADDED_CERT_MESAGE_ALERT).toBeVisible();
   });
 
   await test.step('User should not be able to import duplicated certificate', async() => {
     await certificates_page.ADD_NEW_CERTIFICATE.click();
-    await uploadZipFile();
+    await uploadZipFile(page); // pass the page argument to the function
     await certificates_page.UPLOAD_BUTTON.click();
     await assert(certificates_page.UPLOAD_ERROR_MESSAGE).toBeVisible();
   });
@@ -38,16 +46,5 @@ test('Import certificates', async ({ main_page, certificates_page, page }) => {
     await certificates_page.POPUP_DELETE.click();
     await assert(certificates_page.REMOVED_CERT_MESSAGE_ALERT).toBeVisible();
   });
-
-  const uploadZipFile = async () => {
-    // const filePath = path.join(__dirname, FileRelativePath);
-    await page.getByLabel('Upload file').setInputFiles(path.join(__dirname, './full-cert.pem'));
-    console.log('>>> Uploading certificate from path: ${filePath}');
-    // const remoteFilePath = browser.uploadFile(filePath);
-    // certificates_page.CHOOSE_FILE_BUTTON.setValue(remoteFilePath);
-  };
 });
-function use(userDetails: { userEmail: any; userPassword: string; userSecret: any; }) {
-  throw new Error('Function not implemented.');
-}
 
