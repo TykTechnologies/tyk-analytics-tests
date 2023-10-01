@@ -39,14 +39,15 @@ test('Import certificates', async ({ main_page, certificates_page, page }) => {
     await assert(certificates_page.REMOVED_CERT_MESSAGE_ALERT).toBeVisible();
   });
 
-  const uploadZipFile = () => {
-    const filePath = path.join(__dirname, FileRelativePath);
+  const uploadZipFile = async () => {
+    // const filePath = path.join(__dirname, FileRelativePath);
+    await page.getByLabel('Upload file').setInputFiles(path.join(__dirname, './full-cert.pem'));
     console.log('>>> Uploading certificate from path: ${filePath}');
-    const remoteFilePath = browser.uploadFile(filePath);
-    certificates_page.CHOOSE_FILE_BUTTON.setValue(remoteFilePath);
+    // const remoteFilePath = browser.uploadFile(filePath);
+    // certificates_page.CHOOSE_FILE_BUTTON.setValue(remoteFilePath);
   };
 });
-
-function use(userDetails: any) {
-    throw new Error('Function not implemented.');
+function use(userDetails: { userEmail: any; userPassword: string; userSecret: any; }) {
+  throw new Error('Function not implemented.');
 }
+
