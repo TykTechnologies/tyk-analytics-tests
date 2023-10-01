@@ -13,6 +13,7 @@ export class Main_page extends Template_Page {
   get TIB_NAVIGATION_BUTTON() {return new Button_object('a[href="/tib/profiles"]', this.page);}
   get WEBHOOKS_NAVIGATION_BUTTON() {return new Button_object('a[href="/webhooks"]', this.page);}
   get CATALOGUE_NAVIGATION_BUTTON() {return new Button_object('a[href="/portal-catalogue"]', this.page);}
+  get CERTIFICATES_NAVIGATION_BUTTON() { return new Button_object('a[href="/certificates"]', this.page);}
 
 
   async openAPIs() {
@@ -53,6 +54,10 @@ export class Main_page extends Template_Page {
   
   async openCatalogue(){
     await this.CATALOGUE_NAVIGATION_BUTTON.click();
+  }
+
+  async openCertificates() {
+    await this.CERTIFICATES_NAVIGATION_BUTTON.click();
   }
 
 }
