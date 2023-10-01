@@ -13,6 +13,7 @@ import { Tib_page } from '@pom/Tib_page';
 import { Users_page } from '@pom/Users_page';
 import { Webhooks_page } from '@pom/Webhooks_page';
 import { Admin_settings_page } from '@lib/pom/portal/Admin_settings_page';
+import { Certificates_page } from '@pom/Certificates_page';
 
 export function assert(wrapper: Wrapper | Locator | any) {
     if (wrapper instanceof Wrapper) {
@@ -36,6 +37,7 @@ export const test = base.extend<{
     users_page: Users_page,
     webhooks_page: Webhooks_page,
     admin_settings_page: Admin_settings_page
+    certificates_page: Certificates_page
 }>({
     createUserAndLogin: async ({ page }, use: any) => {
         const userDetails = await setUpEnv();
@@ -80,5 +82,8 @@ export const test = base.extend<{
     },
     admin_settings_page: async ({ page }, use) => {
         await use(new Admin_settings_page(page));
+    },
+    certificates_page: async ({ page }, use) => {
+        await use(new Certificates_page(page));
     }
 });
