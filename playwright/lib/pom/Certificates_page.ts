@@ -4,7 +4,8 @@ import { DropDown_object } from '@wrappers/DropDown_object';
 import { Input_object } from '@wrappers/Input_object';
 import { Table_object } from '@wrappers/Table_object';
 
-class Certificates_page extends Template_Page{
+export class Certificates_page extends Template_Page{
+
 //MAIN PAGE
 get ADD_CERTIFICATE_BUTTON() {return new Button_object ('span*=Add Certificate', this.page);}
 get FILTER_BY_CERTIFICATE_ID () {return new Input_object ('input[name="certID"]', this.page);}
@@ -15,8 +16,8 @@ get ACTIONS_VIEW_BUTTON() {return new Button_object('span*=View', this.page);}
 get ACTIONS_VIEW_DELETE() {return new Button_object('//div[contains(@class,"opened")]//li[2]//a//span[text()="Delete"]', this.page);}
 get POPUP_CANCEL() {return new Button_object('span*=Cancel', this.page);}
 get POPUP_DELETE() {return new Button_object ('//div[contains(@class,"opened")]//div[@class="tyk-modal__content"]//button//span[text()="Delete"]', this.page);}
-get REMOVED_CERT_MESSAGE_ALERT() {return $('span*=Certificate successfully deleted', this.page);}
-get UPLOAD_ERROR_MESSAGE() {return $('.tyk-message__content', this.page)}
+get REMOVED_CERT_MESSAGE_ALERT() {return this.page.locator('span*=Certificate successfully deleted');}
+get UPLOAD_ERROR_MESSAGE() {return this.page.locator('.tyk-message__content')}
 
 
 
@@ -29,7 +30,7 @@ get UPLOAD_BUTTON(){return new Button_object ('span*=Upload', this.page);}
 get BACK_BUTTON() {return new Button_object('span*=Back', this.page);}
 get ADD_NEW_CERTIFICATE() {return new Button_object('span*=Add new certificate', this.page);}
 get DELETE_BUTTON() {return new Button_object('.tyk-button.tyk-button--danger.tyk-button--md', this.page);}
-get ADDED_CERT_MESAGE_ALERT() {return $('span*=Certificate added', this.page);}
+get ADDED_CERT_MESAGE_ALERT() {return this.page.locator('span*=Certificate added');}
 
 
 }
