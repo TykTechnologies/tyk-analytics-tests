@@ -39,7 +39,7 @@ export const test = base.extend<{
     admin_settings_page: Admin_settings_page
     certificates_page: Certificates_page
 }>({
-    createUserAndLogin: async ({ page }, use: any) => {
+    createUserAndLogin: async ({ page }: { page: Page }, use: any) => {
         const userDetails = await setUpEnv();
         const login_page = new Login_page(page);
         await login_page.open();
