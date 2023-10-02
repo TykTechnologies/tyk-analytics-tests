@@ -27,6 +27,7 @@
     "eslint-plugin-playwright": "^0.16.0",
     "eslint-plugin-promise": "^6.1.1",
     "moment": "^2.27.0",
+    "playwright-slack-report": "^1.1.24",
     "random-email": "^1.0.3",
     "superagent": "^6.1.0",
     "timediff": "^1.1.1",
