@@ -41,7 +41,7 @@ export class Dashboard_connection {
         assert(response.ok()).toBeTruthy();
         const responseBody = await response.json();
         console.log(`>>> API received. API definition: ${responseBody}`);
-        return responseBody.api_definition;
+        return responseBody.api_definition.api_id;
     }
 
     async sendRequest(endpoint: string, type: RequestTypes, userSecret: string, body?: any): Promise<APIResponse> {
@@ -73,27 +73,39 @@ export class Dashboard_connection {
         console.log(`>>> Policy created. Policy definition id: ${responseBody.Meta}`);
     }
 
-    async getPolicyByName(name: string, userSecret: string): Promise<string>{
+    async getPolicyByName(name: string, userSecret: string): Promise<APIResponse>{
         console.log(`>>> Get Policy by name: ${name}`);
-        const responseBody: any = await this.sendRequest("portal/policies/search/?q=" + name, RequestTypes.GET, userSecret);
+        const responseBody: APIResponse = await this.sendRequest("portal/policies/search/?q=" + name, RequestTypes.GET, userSecret);
         console.log(`>>> Policy received. Policy definition: ${responseBody}`);
         return responseBody;
     }
 
-    async uploadCert(certFile: any, userSecret: string){
+    async uploadCert(certFileLocation: any, userSecret: string){
         console.log('>>> Uploading Certificate');
-        throw new Error('Not implemented');
-        // const context: APIRequestContext = await request.newContext({});
-        // const path = config.URL + "certs/";
-        // const headers = {Authorization: userSecret, 'ContentType':'multipart/form-data', };
-        // const response: APIResponse = await context.post(path, {file: certFile, headers: headers});
-        // const config = {
+        const certFile = fs.createReadStream(certFileLocation);
+        const context: APIRequestContext = await request.newContext({});
+        const path = config.DASHBOARD_API + "certs/";
+        const headers = {Authorization: userSecret /*'ContentType':'multipart/form-data'*/ };
+        const response: APIResponse = await context.post(path, { 
+            headers: headers,
+            multipart: {
+                fileField: certFile
+                // file: {
+                //     name: 'certFile',
+                //     buffer: certFile,
+                //     mimeType: 'application/x-pem-file'
+                // }
+            }
+        });
+        // const config2 = {
         //     path: "certs/",
         //     file: certFile,
         //     headers: { Authorization: userSecret }
         // };
         // const response = this.sendPostRequest(config);
-        // assert(response.status).to.equal(200, 'Failed to upload Certificate!');
-        // console.log(`>>> Certificate added. Cert id: ${response.id}`);
+        const responseBody = await response.json();
+        assert(response.ok()).toBeTruthy();
+        // const responseBody = await response.json();
+        console.log(`>>> Certificate added. Cert id: ${responseBody.id}`);
     }
 }

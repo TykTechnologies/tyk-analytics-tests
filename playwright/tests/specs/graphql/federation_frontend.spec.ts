@@ -1,19 +1,18 @@
-import { apis_page } from '../../../lib/pom/Apis_page';
-import { graphql_page } from '../../../lib/pom/Graphql_page';
 import { test, assert } from '@fixtures';
+import { expect } from '@playwright/test';
 
-import { FEDERATION_UPSTREAM_HOST } from '../../../config_variables';
+import { config } from '@variables';
 import { Dashboard_connection } from '@api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '@lib/utils/API_object_designer';
 
-test('Federation API frontend', async ({ createUserAndLogin, main_page }) => {
+test('Federation API frontend', async ({ createUserAndLogin, main_page, apis_page, graphql_page, page }) => {
     const apiDetails = {
         supergraphName: "Super-test",
-        usersSubgraphUrl: `http://${FEDERATION_UPSTREAM_HOST}:4001/query`,
+        usersSubgraphUrl: `http://${config.FEDERATION_UPSTREAM_HOST}:4001/query`,
         usersSubgraphName: "Users-test",
-        productsSubgraphUrl: `http://${FEDERATION_UPSTREAM_HOST}:4002/query`,
+        productsSubgraphUrl: `http://${config.FEDERATION_UPSTREAM_HOST}:4002/query`,
         productsSubgraphName: "Products-test",
-        reviewsSubgraphUrl: `http://${FEDERATION_UPSTREAM_HOST}:4003/query`,
+        reviewsSubgraphUrl: `http://${config.FEDERATION_UPSTREAM_HOST}:4003/query`,
         reviewsSubgraphName: "Reviews-test"
     };
 
@@ -101,75 +100,68 @@ test('Federation API frontend', async ({ createUserAndLogin, main_page }) => {
     ];
 
     const supergraphSchemaEditorXpath = '//div[@id="graphql-schema"]//div[@class="view-lines monaco-mouse-cursor-text"]';
-
     const dashboard_connection = new Dashboard_connection();
-
     let $supergraphTableElement;
-    
     let refreshCounter = 0;
 
-    before(() => {
-        envDetails = setUpEnv();
-        login_page.open();
-        login_page.login(createUserAndLogin.userEmail, createUserAndLogin.userPassword);
-    });
-
     await test.step('Prerequisites: creating subgraph APIs via dashboard API', async () => {
-        [usersSubgraphApi, productsSubgraphApi, reviewsSubgraphApi].forEach(api => {
-            let body = newAPIdefinitionWithDefaults(api);
+        for (let subgraph of [usersSubgraphApi, productsSubgraphApi, reviewsSubgraphApi]) {
+            let body = newAPIdefinitionWithDefaults(subgraph);
             console.log('>>>>>> REQUEST BODY <<<<<<<')
             console.log(JSON.stringify(body))
             await dashboard_connection.createAPI(body, createUserAndLogin.userSecret);
-        })
+        }
     });
 
     await test.step('Prerequisites: creating a supergraph to be used in further tests', async () => {
         await main_page.openAPIs();
-        while (!apis_page.ADD_NEW_API_BUTTON.isExisting() && refreshCounter < 5) {
-            await page.reload();
-            browser.pause(2000);
-            refreshCounter++;
-        }
-       await apis_page.ADD_NEW_API_BUTTON.click();
-       await apis_page.API_NAME_INPUT.fill(apiDetails.supergraphName);
-       await apis_page.API_TYPE_FEDERATION_BUTTON.click();
-       await apis_page.API_TYPE_SUPERGRAPH_BUTTON.click();
-        graphql_page.GRAPHQL_SUBGRAPHS_DROPDOWN.selectOptions([apiDetails.usersSubgraphName, apiDetails.productsSubgraphName]);
-       await apis_page.CONFIGURE_API_BUTTON.click();
+        expect.poll(async () => {
+            let isAddNewApiButtonVisible = await apis_page.ADD_NEW_API_BUTTON.isVisible();
+            if (isAddNewApiButtonVisible) {
+                await page.reload();
+            }
+            return isAddNewApiButtonVisible;
+        }, { timeout: 20000 });
+        await apis_page.ADD_NEW_API_BUTTON.click();
+        await apis_page.API_NAME_INPUT.fill(apiDetails.supergraphName);
+        await apis_page.API_TYPE_FEDERATION_BUTTON.click();
+        await apis_page.API_TYPE_SUPERGRAPH_BUTTON.click();
+        await graphql_page.GRAPHQL_SUBGRAPHS_DROPDOWN.selectOptions([apiDetails.usersSubgraphName, apiDetails.productsSubgraphName]);
+        await apis_page.CONFIGURE_API_BUTTON.click();
         await assert(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toBeVisible();
-       await apis_page.SAVE_BUTTON.click();
+        await apis_page.SAVE_BUTTON.click();
     });
 
     await test.step('Supergraph schema should be generated from subgraphs', async () => {
         await main_page.openAPIs();
-        $supergraphTableElement = await this.page.locator(`span=${apiDetails.supergraphName}`);
-      await $supergraphTableElement.click();
-       await graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
-        graphql_page.verifySchemaEditorContents(supergraphVerificationArray, supergraphSchemaEditorXpath);
+        $supergraphTableElement = page.locator(`span:text("${apiDetails.supergraphName}")`);
+        await $supergraphTableElement.click();
+        await graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
+        await graphql_page.verifySchemaEditorContents(supergraphVerificationArray, supergraphSchemaEditorXpath);
     });
 
     await test.step('Subgraphs tab should show subgraphs the supergraph consists of', async () => {
-       await graphql_page.GRAPHQL_SUBGRAPHS_TAB_BUTTON.click();
+        await graphql_page.GRAPHQL_SUBGRAPHS_TAB_BUTTON.click();
         await assert(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.usersSubgraphName)).toBeVisible();
         await assert(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.productsSubgraphName)).toBeVisible();
     });
 
     await test.step('Subgraphs tab should show subgraph schemas', async () => {
-       await graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.usersSubgraphName).click();
-        graphql_page.verifySchemaEditorContents(usersVerificationArray, usersSchemaEditorXpath);
+        await graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.usersSubgraphName).click();
+        await graphql_page.verifySchemaEditorContents(usersVerificationArray, usersSchemaEditorXpath);
     });
 
     await test.step('User should be able to add a subgraph to an existing supergraph', async () => {
-       await graphql_page.FEDERATION_ADD_SUBGRAPH_BUTTON.click();
-        graphql_page.FEDERATION_ADD_SUBGRAPH_DROPDOWN.selectOptions([apiDetails.reviewsSubgraphName]);
-       await graphql_page.FEDERATION_ADD_BUTTON.click();
+        await graphql_page.FEDERATION_ADD_SUBGRAPH_BUTTON.click();
+        await graphql_page.FEDERATION_ADD_SUBGRAPH_DROPDOWN.selectOptions([apiDetails.reviewsSubgraphName]);
+        await graphql_page.FEDERATION_ADD_BUTTON.click();
         await assert(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.reviewsSubgraphName)).toBeVisible();
     });
 
     await test.step('User should be able to remove a subgraph from a supergraph', async () => {
-       await graphql_page.getFEDERATION_REMOVE_SUBGRAPH_BUTTON(apiDetails.reviewsSubgraphName).click();
-       await graphql_page.FEDERATION_REMOVE_SUBGRAPH_CONFIRM_CHECKBOX.click();
-       await graphql_page.FEDERATION_REMOVE_SUBGRAPH_MODAL_BUTTON.click();
+        await graphql_page.getFEDERATION_REMOVE_SUBGRAPH_BUTTON(apiDetails.reviewsSubgraphName).click();
+        await graphql_page.FEDERATION_REMOVE_SUBGRAPH_CONFIRM_CHECKBOX.click();
+        await graphql_page.FEDERATION_REMOVE_SUBGRAPH_MODAL_BUTTON.click();
         await assert(graphql_page.getFEDERATION_SUBGRAPHS_LIST_PANEL(apiDetails.reviewsSubgraphName)).not.toBeVisible();
     });
 });

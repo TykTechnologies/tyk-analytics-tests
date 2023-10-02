@@ -2,6 +2,7 @@ import { Template_Page } from './Template_Page';
 import { Button_object } from '@wrappers/Button_object';
 import { Table_object } from '@wrappers/Table_object';
 import { DropDown_object } from '@wrappers/DropDown_object';
+import { SlowDropDown_object } from '@wrappers/SlowDropDown_object';
 import { Input_object } from '@wrappers/Input_object';
 import { SlowButton_object } from 'tyk-test-automation-wrappers/lib/SlowButton_object';
 
@@ -14,7 +15,7 @@ export class Policies_page extends Template_Page {
   get AUTH_TYPES_DROPDOWN() {return new DropDown_object("//div[@name='auth_type']//span", this.page);}
   
   //POLICY DETAILS PAGE
-  get CONFIGURATIONS_TAB_BUTTON() {return new Button_object('button:text-is("2.Configurations")', this.page);}
+  get CONFIGURATIONS_TAB_BUTTON() {return new SlowButton_object(this.page.getByText("2.Configurations"), this.page);}
   get CREATE_POLICY_BUTTON() {return new SlowButton_object('span:text-is("Create Policy")', this.page);}
   get UPDATE_POLICY_BUTTON() {return new SlowButton_object('span:text-is("Update")', this.page);}
   get DELETE_BUTTON() {return new SlowButton_object('//button[contains(@class,"tyk-button--danger-outline")]//span[text()="Delete"]', this.page);}
@@ -23,8 +24,8 @@ export class Policies_page extends Template_Page {
   get AUTHENTICATION_TYPE_DROPDOWN() {return new DropDown_object('.tyk-combobox2__text-value', this.page);}
   get API_TABLE() {return new Table_object('.tyk-table', this.page);}
   get NAME_INPUT() {return new Input_object('input[name="name"]', this.page);}
-  get POLICY_STATE_DROPDOWN() {return new DropDown_object('.tyk-combobox2__current-values', this.page);}
-  get KEY_EXPIRY_AFTER_DROPDOWN() {return new DropDown_object('.tyk-combobox2__text-value', this.page);}
+  get POLICY_STATE_DROPDOWN() {return new SlowDropDown_object('.tyk-combobox2__current-values', this.page);}
+  get KEY_EXPIRY_AFTER_DROPDOWN() {return new SlowDropDown_object('.tyk-combobox2__text-value', this.page);}
   get MAIN_TAG_INPUT() {return new Input_object('input[name="inputTag"]', this.page);}
   get TAG_ADD_BUTTON() {return new Button_object('//input[@name="inputTag"]//following::span[text()="ADD"][1]', this.page);}
   get TAG_INPUT() {return new Input_object('//input[@name="inputTag"]//following::input[@name="inputTag"]', this.page);}
@@ -59,8 +60,8 @@ export class Policies_page extends Template_Page {
   get policy_created_expected_mesage() {return 'Policy has been successfully created';}
   get policy_updated_expected_mesage() {return 'Policy has been successfully updated';}
 
-  async checkIfPolicyCreatedPopUpDisplayed() {return await this.isSuccessPopupDisplayedWithText(this.policy_created_expected_mesage);}
-  async checkIfPolicyUpdatedPopUpDisplayed() {return await this.isSuccessPopupDisplayedWithText(this.policy_updated_expected_mesage);}
+  async checkIfPolicyCreatedPopUpDisplayed() {return await this.checkIfSuccessPopupDisplayedWithText(this.policy_created_expected_mesage);}
+  async checkIfPolicyUpdatedPopUpDisplayed() {return await this.checkIfSuccessPopupDisplayedWithText(this.policy_updated_expected_mesage);}
 
   waitUntilPageLoaded() {
     return super.waitUntilPageLoaded(this.ADD_POLICY_BUTTON);

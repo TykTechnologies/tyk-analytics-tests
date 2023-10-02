@@ -1,11 +1,25 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices, expect, Locator } from '@playwright/test';
+import { Toggle_object } from '@wrappers/Toggle_object';
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
 // require('dotenv').config();
+expect.extend({
+  async toBeSelected(element: Locator) {
+    await expect.poll(async () => {
+      const wrapper = new Toggle_object(element, this.page);
+      const isSelected = await wrapper.isSelected();
+      return isSelected;
+    }).toBeTruthy();
+    return {
+      pass: true,
+      message: () => `Expected element not to be selected`,
+    };
+  }
 
+});
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -20,7 +34,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 1 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 3 : 3,
+  workers: process.env.CI ? 2 : 3,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: process.env.CI ? [['github'], ['html']] : [['html'], ['json', { outputFile: 'playwright-report/summary.json' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -39,9 +53,10 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'],
-      viewport: { width: 1800, height: 1600 }
-    },
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1800, height: 1600 }
+      },
       grepInvert: [/@prerequisits/],
       testDir: './tests/specs',
     },
@@ -83,4 +98,5 @@ export default defineConfig({
   //   url: 'http://127.0.0.1:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
+
 });

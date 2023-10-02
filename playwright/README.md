@@ -44,3 +44,7 @@ Below variables will be used only if __CLEAN_TEST__ set to **false**
 
 ## Test template
 For creating new tests please copy and rename **template_test.js** file into test/specs/
+
+## Wrappers
+In all UI frameworks we share the logic that encapsulate the objects on web page - we call it _wrappers_, and we store it in separate repo.
+If you want to add/modify _wrapper_ method please follow the instruction [here](https://github.com/TykTechnologies/tyk-test-automation-wrappers#how-to-update-wrappers)

@@ -15,7 +15,7 @@ export class Apis_page extends Template_Page {
   get API_TYPE_GRAPHQL_BUTTON() { return this.page.getByLabel('GraphQL'); }
   get API_TYPE_UDG_BUTTON() { return this.page.getByLabel('UDG'); }
   get API_TYPE_FEDERATION_BUTTON() { return this.page.getByLabel('Federation'); }
-  get API_TYPE_SUBGRAPH_BUTTON() { return this.page.getByLabel('Subgraph'); }
+  get API_TYPE_SUBGRAPH_BUTTON() { return this.page.getByLabel('Subgraph').first(); }
   get API_TYPE_SUPERGRAPH_BUTTON() { return this.page.locator('//input[@name="subType" and @value="supergraph"]'); }
 
   //LANDING PAGE
@@ -239,13 +239,13 @@ export class Apis_page extends Template_Page {
 
   //API MESSAGE POPUPS
   get API_UPDATED_MESSAGE() { return this.page.locator('//div[contains(@class, "alert-success")]//span[text()="The Api has been successfully updated"]'); }
-  get API_DELETED_MESSAGE() { return this.page.locator('//div[contains(@class, "alert-success")]//span[text()="The Api has been successfully deleted"]'); }
+  get API_DELETED_MESSAGE() { return this.page.locator('//div[contains(@class, "alert-success")]//span[text()="The Api has been successfully deleted"]').first(); }
 
   get api_created_expected_mesage() { return 'API successfully created'; }
-  async isApiCreatedPopUpDisplayed() { return await this.isSuccessPopupDisplayedWithText(this.api_created_expected_mesage); }
+  async isApiCreatedPopUpDisplayed() { return await this.checkIfSuccessPopupDisplayedWithText(this.api_created_expected_mesage); }
 
   get api_updated_expected_mesage() { return 'API successfuly updated'; }
-  async isApiUpdatedPopUpDisplayed() { return await this.isSuccessPopupDisplayedWithText(this.api_updated_expected_mesage); }
+  async isApiUpdatedPopUpDisplayed() { return await this.checkIfSuccessPopupDisplayedWithText(this.api_updated_expected_mesage); }
 
   async waitUntilPageLoaded() {
     return await super.waitUntilPageLoaded(this.ADD_NEW_API_BUTTON);

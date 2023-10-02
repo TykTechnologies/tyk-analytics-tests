@@ -3,7 +3,7 @@ dotenv.config();
 
 const URL = process.env.URL || "http://localhost:3000/";
 const GW_URL = process.env.GW_URL || "http://localhost:8080/";
-const FEDERATION_UPSTREAM_HOST = (process.env.CI) ? "federation" : "localhost";
+const FEDERATION_UPSTREAM_HOST = (process.env.LOCAL_PROCESS) ? "localhost" : "federation";
 
 export const config = {
     CLEAN_TEST: process.env.CLEAN_TEST || true,
