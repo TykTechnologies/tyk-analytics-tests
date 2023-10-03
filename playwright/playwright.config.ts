@@ -40,22 +40,26 @@ export default defineConfig({
     ['github'], ['html'], [
       "./node_modules/playwright-slack-report/dist/src/SlackReporter.js",
       {
-        slackWebHookUrl: process.env.SLACK_WEBHOOK_URL,
+        // slackWebHookUrl: process.env.SLACK_WEBHOOK_URL,
         sendResults: "always", // "always" , "on-failure", "off",
         maxNumberOfFailuresToShow: 2,
         slackLogLevel: "WARN",
+        slackOAuthToken: process.env.SLACK_AUTH_TOKEN,
+        channels: ["@konrad"],
+        showInThread: true,
+        disableUnfurl: true,
         meta: [
           {
-            key: "Author",
+            key: ":computer: *test env*",
+            value: process.env.JOB_NAME
+          },
+          {
+            key: ":tyk-new: Author",
             value: process.env.EVENT_TRIGGER            
           },
           {
-            key: "Branch",
-            value: process.env.BRANCH_NAME
-          },
-          {
-            key: "Results",
-            value: `:link: <https://github.com/tyk-analytics-tests/actions/runs/${process.env.GITHUB_JOB_ID}|Execution page>`
+            key: ":link: Results",
+            value: `<https://github.com/tyk-analytics-tests/actions/runs/${process.env.GITHUB_JOB_ID}|Execution page>`
           }
 
         ]
