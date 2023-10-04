@@ -45,12 +45,12 @@ export default defineConfig({
         maxNumberOfFailuresToShow: 2,
         slackLogLevel: "WARN",
         slackOAuthToken: process.env.SLACK_AUTH_TOKEN,
-        channels: ["@konrad"],
+        channels: ["@Wojciech"],
         showInThread: true,
         disableUnfurl: true,
         meta: [
           {
-            key: ":computer: *test env*",
+            key: ":computer: test env",
             value: process.env.JOB_NAME
           },
           {
@@ -75,7 +75,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',
-    viewport: { width: 1200, height: 900 }
+    viewport: { width: 1800, height: 1200 }
   },
 
   /* Configure projects for major browsers */
@@ -84,7 +84,7 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        viewport: { width: 1200, height: 900 }
+        viewport: { width: 1800, height: 1200 }
       },
       grepInvert: [/@prerequisits/],
       testDir: './tests/specs',
