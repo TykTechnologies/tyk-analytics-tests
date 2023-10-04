@@ -45,7 +45,7 @@ export default defineConfig({
         maxNumberOfFailuresToShow: 2,
         slackLogLevel: "WARN",
         slackOAuthToken: process.env.SLACK_AUTH_TOKEN,
-        channels: ["@Wojciech"],
+        channels: ["@konrad"],
         showInThread: true,
         disableUnfurl: true,
         meta: [
@@ -59,7 +59,7 @@ export default defineConfig({
           },
           {
             key: ":link: Results",
-            value: `<https://github.com/tyk-analytics-tests/actions/runs/${process.env.GITHUB_JOB_ID}|Execution page>`
+            value: `<https://github.com/tyk-analytics-tests/actions/runs/${process.env.JOB_RUN_ID}|Execution page>`
           }
 
         ]
