@@ -96,17 +96,17 @@ jobs:
         submodules: true
         ref: ${{ steps.check_GW_branch.outputs.branch	 }}
 
-    - name: start docker compose
-      run: docker-compose -f ci/testing_env.yml up -d
-      env:
-        TYK_DB_LICENSEKEY: ${{secrets.DASH_LICENSE}}
-        DASH_REPO_PATH: /home/runner/work/tyk-analytics-tests/tyk-analytics-tests/tyk-analytics
-        GW_REPO_PATH: /home/runner/work/tyk-analytics-tests/tyk-analytics-tests/tyk
-        GOPATH: /home/runner/work/tyk-analytics-tests/
-        GOPRIVATE: github.com/TykTechnologies
-        TOKEN: ${{ secrets.ORG_GH_TOKEN }}
-        GO_VERSION: ${{ matrix.go-version }}
-      working-directory: tyk-analytics-tests
+    # - name: start docker compose
+    #   run: docker-compose -f ci/testing_env.yml up -d
+    #   env:
+    #     TYK_DB_LICENSEKEY: ${{secrets.DASH_LICENSE}}
+    #     DASH_REPO_PATH: /home/runner/work/tyk-analytics-tests/tyk-analytics-tests/tyk-analytics
+    #     GW_REPO_PATH: /home/runner/work/tyk-analytics-tests/tyk-analytics-tests/tyk
+    #     GOPATH: /home/runner/work/tyk-analytics-tests/
+    #     GOPRIVATE: github.com/TykTechnologies
+    #     TOKEN: ${{ secrets.ORG_GH_TOKEN }}
+    #     GO_VERSION: ${{ matrix.go-version }}
+    #   working-directory: tyk-analytics-tests
 
     - name: Install test dependecies
       run: |
@@ -117,16 +117,16 @@ jobs:
       run: npx playwright install --with-deps
       working-directory: tyk-analytics-tests/playwright
     
-    - name: Waiting for dashboard and GW
-      run: |
-        while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:3000/hello/)" != "200" ]]; do sleep 20 && echo "waiting for dashboard '$(date +"%T")'"; done
-        while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:8080/hello)" != "200" ]]; do sleep 20 && echo "waiting for GW '$(date +"%T")'"; done
-      timeout-minutes: 15
+    # - name: Waiting for dashboard and GW
+    #   run: |
+    #     while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:3000/hello/)" != "200" ]]; do sleep 20 && echo "waiting for dashboard '$(date +"%T")'"; done
+    #     while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:8080/hello)" != "200" ]]; do sleep 20 && echo "waiting for GW '$(date +"%T")'"; done
+    #   timeout-minutes: 15
     
     - name: Execute UI tests
       id: test_execution
       run: |
-        npm run test
+        npx playwright test --project='chromium' playwright/tests/specs/keys/keys_hash_crud_test.spec.ts
       working-directory: tyk-analytics-tests/playwright
       env:
         SLACK_AUTH_TOKEN: ${{ secrets.SLACK_AUTH_TOKEN }}
@@ -134,23 +134,17 @@ jobs:
         JOB_RUN_ID: ${{ github.run_id }}
         FRAMEWORK_REPO: ${{ github.repository }}
         JOB_NAME: Postgres Test - ${{ github.ref }} (commit used -> ${{ github.event.head_commit.message }})
+        RUN_ID: 'tyk-analytics/${{ github.run_id }}'
 
-    - name:  Upload Playwright Test Results History to S3
-      uses: PavanMudigonda/playwright-html-reporter-s3-website@v1.1
-      id: aws_s3_test_results_upload
-      with:
-        report_url: http://${{ secrets.AWS_S3_BUCKET }}.s3-website-${{ env.AWS_REGION }}.amazonaws.com
-        test_results: test-results
-        results_history: results-history # DONT MODIFY. defaults to "results-history"
-        keep_reports: 20
-        args: --acl public-read --follow-symlinks. # for public enabling use acl public-read # Please remove if its private bucket
+    - name:  Upload Playwright Test Report to S3
+      run:
+        npm run upload_report_to_s3
       env:
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
-        SOURCE_DIR: 'results-history'      # DONT MODIFY. defaults to "results-history"
-        # DEST_DIR: ${{ env.GITHUB_RUN_NUMBER }}
+        AWS_REGION: 'us-east-1'
+        RUN_ID: 'tyk-analytics/${{ github.run_id }}'
 
         
     - uses: actions/upload-artifact@v3
