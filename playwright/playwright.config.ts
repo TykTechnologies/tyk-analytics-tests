@@ -63,8 +63,11 @@ export default defineConfig({
           {
             key: ":link: Results",
             value: `<https://github.com/${process.env.FRAMEWORK_REPO}/actions/runs/${process.env.JOB_RUN_ID}|Execution page>`
+          },
+          {
+            key: ":link: Report",
+            value: `<https://tyk-qa-reports.s3.eu-central-1.amazonaws.com/${process.env.RUN_ID}playwright-report/index.html|Link to report>`
           }
-
         ]
       },
     ]] : [
