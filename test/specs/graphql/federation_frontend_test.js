@@ -30,7 +30,8 @@ describe('Federation API frontend', () => {
         },
         "internal": true,
         "proxy": {
-            "target_url": `${apiDetails.usersSubgraphUrl}`
+            "target_url": `${apiDetails.usersSubgraphUrl}`,
+            "listen_path": `/${apiDetails.usersSubgraphName}/`
         }
     };
 
@@ -58,7 +59,8 @@ describe('Federation API frontend', () => {
         },
         "internal": true,
         "proxy": {
-            "target_url": `${apiDetails.productsSubgraphUrl}`
+            "target_url": `${apiDetails.productsSubgraphUrl}`,
+            "listen_path": `/${apiDetails.productsSubgraphName}/`
         }
     };
 
@@ -75,7 +77,8 @@ describe('Federation API frontend', () => {
         },
         "internal": true,
         "proxy": {
-            "target_url": `${apiDetails.reviewsSubgraphUrl}`
+            "target_url": `${apiDetails.reviewsSubgraphUrl}`,
+            "listen_path": `/${apiDetails.reviewsSubgraphName}/`
         }
     };
 
