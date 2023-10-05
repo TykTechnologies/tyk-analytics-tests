@@ -44,7 +44,8 @@ var mime = require('mime-types');
 var AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
 var AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
 var AWS_REGION = process.env.AWS_REGION;
-var BUCKET_NAME = process.env.S3_BUCKET_NAME; // Replace with your S3 bucket name
+var BUCKET_NAME = process.env.AWS_S3_BUCKET;
+var RUN_ID = process.env.RUN_ID;
 var BASE_FOLDER_PATH = './playwright-report';
 if (!AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY || !AWS_REGION || !BUCKET_NAME || !BASE_FOLDER_PATH) {
     console.error('Missing required environment variables.');
@@ -62,7 +63,7 @@ for (var _i = 0, _a = fs.readdirSync(BASE_FOLDER_PATH); _i < _a.length; _i++) {
 }
 function uploadFolderToS3(folderPath) {
     return __awaiter(this, void 0, void 0, function () {
-        var items, _i, items_1, item, itemPath, itemStat, fileContent, ID, s3Key, error_1;
+        var items, _i, items_1, item, itemPath, itemStat, fileContent, s3Key, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -78,12 +79,11 @@ function uploadFolderToS3(folderPath) {
                     console.log(itemPath);
                     if (!itemStat.isFile()) return [3 /*break*/, 3];
                     fileContent = fs.readFileSync(itemPath);
-                    ID = "fwefefe";
                     s3Key = path.relative(BASE_FOLDER_PATH, itemPath).replace(/\\/g, '/');
                     return [4 /*yield*/, s3
                             .upload({
                             Bucket: BUCKET_NAME,
-                            Key: ID + "/" + s3Key,
+                            Key: RUN_ID + "/" + s3Key,
                             Body: fileContent,
                             ContentType: mime.lookup(itemPath) || undefined,
                         })
