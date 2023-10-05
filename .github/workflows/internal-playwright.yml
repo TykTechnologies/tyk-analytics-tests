@@ -135,6 +135,23 @@ jobs:
         FRAMEWORK_REPO: ${{ github.repository }}
         JOB_NAME: Postgres Test - ${{ github.ref }} (commit used -> ${{ github.event.head_commit.message }})
 
+    - name:  Upload Playwright Test Results History to S3
+      uses: PavanMudigonda/playwright-html-reporter-s3-website@v1.1
+      id: aws_s3_test_results_upload
+      with:
+        report_url: http://${{ secrets.AWS_S3_BUCKET }}.s3-website-${{ env.AWS_REGION }}.amazonaws.com
+        test_results: test-results
+        results_history: results-history # DONT MODIFY. defaults to "results-history"
+        keep_reports: 20
+        args: --acl public-read --follow-symlinks. # for public enabling use acl public-read # Please remove if its private bucket
+      env:
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: 'us-east-1'   # optional: defaults to us-east-1
+        SOURCE_DIR: 'results-history'      # DONT MODIFY. defaults to "results-history"
+        # DEST_DIR: ${{ env.GITHUB_RUN_NUMBER }}
+
         
     - uses: actions/upload-artifact@v3
       if: always()
