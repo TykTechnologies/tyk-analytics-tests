@@ -87,7 +87,7 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        viewport: { width: 1800, height: 1200 }
+        viewport: { width: 1800, height: 1000 }
       },
       grepInvert: [/@prerequisits/],
       testDir: './tests/specs',
