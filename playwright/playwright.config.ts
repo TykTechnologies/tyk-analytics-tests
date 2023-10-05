@@ -66,7 +66,7 @@ export default defineConfig({
           },
           {
             key: ":link: Report",
-            value: `<https://tyk-qa-reports.s3.eu-central-1.amazonaws.com/${process.env.RUN_ID}playwright-report/index.html|Link to report>`
+            value: `<https://tyk-qa-reports.s3.eu-central-1.amazonaws.com/${process.env.RUN_ID}/playwright-report/index.html|Link to report>`
           }
         ]
       },
