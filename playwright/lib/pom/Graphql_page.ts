@@ -6,6 +6,7 @@ import { Toggle_object } from '@wrappers/Toggle_object';
 import { Accordion_object } from '@wrappers/Accordion_object';
 import { Checkbox_object } from '@wrappers/CheckBox_object';
 import { expect } from '@playwright/test';
+import { SlowButton_object } from 'tyk-test-automation-wrappers/lib/SlowButton_object';
 export class Graphql_page extends Template_Page {
   get GRAPHQL_SCHEMA_TAB_BUTTON() { return new Button_object('button:text("Schema")', this.page); }  
   get GRAPHQL_SUBGRAPHS_TAB_BUTTON() { return new Button_object('button:text("Subgraphs")', this.page); }
@@ -52,7 +53,7 @@ export class Graphql_page extends Template_Page {
   get UDG_TEMPLATING_SYNTAX_HINT_LIST() { return new DropDown_object('//ul[@class="string-builder-list"]', this.page); }
   get UDG_DATA_SOURCE_METHOD() { return new DropDown_object('//label[text()="Method"]//following::div[1]//child::div', this.page); }
   get UDG_ADD_HEADERS_CHECKBOX() { return new Checkbox_object('//label[text()="Add headers"]//child::input', this.page); }
-  get UDG_ADD_HEADER_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText: /^Add$/ }), this.page); }
+  get UDG_ADD_HEADER_BUTTON() { return new SlowButton_object(this.page.locator('span').filter({ hasText: /^Add$/ }), this.page); }
   get UDG_NEW_HEADER_KEY_INPUT() { return new Input_object('//ul[@class="editable-list__list"]//li[position() = last() - 1]//div[1]//input', this.page); }
   get UDG_NEW_HEADER_VALUE_INPUT() { return new Input_object('//ul[@class="editable-list__list"]//li[position() = last() - 1]//div[2]//input', this.page); }
   getUDG_HEADER_KEY_BY_POSITION_INPUT(positionFromTop: any) {
@@ -84,14 +85,14 @@ export class Graphql_page extends Template_Page {
   get UDG_CLIENT_ID_INPUT() { return new Input_object('//input[@placeholder="Enter client ID"]', this.page); }
   get UDG_KAFKA_VERSION_DROPDOWN() { return new DropDown_object('//label[text() = "Kafka Version"]//following-sibling::div//div[@class="tyk-form-control"]', this.page); }
   get UDG_BALANCE_STRATEGY_DROPDOWN() { return new DropDown_object('//label[text() = "Balance strategy"]//following-sibling::div//div[@class="tyk-form-control"]', this.page); }
-  get UDG_START_CONSUMING_LATEST_CHECKBOX() { return new Checkbox_object('label=Start consuming latest', this.page); }
-  get UDG_READ_COMMITTED_BUTTON() { return new Button_object('label=Read committed', this.page); }
-  get UDG_READ_UNCOMMITTED_BUTTON() { return new Button_object('label=Read un-committed', this.page); }
-  get UDG_ENABLE_SASL_CHECKBOX() { return new Checkbox_object('label=Enable SASL', this.page); }
+  get UDG_START_CONSUMING_LATEST_CHECKBOX() { return new Checkbox_object(this.page.locator('label').filter({ hasText: /^Start consuming latest$/ }), this.page); }
+  get UDG_READ_COMMITTED_BUTTON() { return new Button_object(this.page.locator('label').filter({ hasText: /^Read committed$/ }), this.page); }
+  get UDG_READ_UNCOMMITTED_BUTTON() { return new Button_object(this.page.locator('label').filter({ hasText: /^Read un-committed$/ }), this.page); }
+  get UDG_ENABLE_SASL_CHECKBOX() { return new Checkbox_object(this.page.locator('label').filter({ hasText: /^Enable SASL$/ }), this.page); }
   get UDG_SASL_USER_INPUT() { return new Input_object('//input[@label="User"]', this.page); }
   get UDG_SASL_PASSWORD_INPUT() { return new Input_object('//input[@label="Password"]', this.page); }
   get UDG_DATA_SOURCE_RESET_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText: /^Reset$/ }), this.page); }
-  get UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON() { return new Button_object(this.page.locator('span').filter({ hasText: /^Save and Update API$/ }), this.page); }
+  get UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON() { return new SlowButton_object(this.page.locator('span').filter({ hasText: /^Save and Update API$/ }), this.page); }
 
   async uploadSchemaFile(schemaFileRelativePath: string) {
     // const filePath = path.join(__dirname, schemaFileRelativePath);

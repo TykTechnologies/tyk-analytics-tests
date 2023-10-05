@@ -61,27 +61,36 @@ test('UDG with internal REST and GQL datasources', async ({ createUserAndLogin, 
         }
     };
 
-    const schemaFileRelativePath = "../../test/specs/graphql/udg-schema.gql";
+    //TODO: can be removed once file upload is implemented
+    const udgApi = {
+        "name": `${udgDetails.apiName}`,
+        "graphql": {
+            "enabled": true,
+            "execution_mode": "executionEngine",
+            "version": "2",
+            "schema": `type Query {\n  restQuery: RestType\n  gqlQuery: GqlType\n  kafkaQuery: KafkaType\n}\n\ntype RestType{\n  restTypeField1: String\n}\n\ntype GqlType{\n  gqlTypeField1: String\n}\n\ntype KafkaType{\n  kafkaTypeField1: String\n}`
+        },
+        "internal": false
+    }
+
+    //TODO: not used until file upload is implemented
+    //const schemaFileRelativePath = "udg-schema.gql"; 
     let $apiTableElement: Locator;
 
-    let refreshCounter = 0;
+    // let refreshCounter = 0;
 
     const dashboard_connection = new Dashboard_connection();
 
     await test.step('Prerequisites: creating APIs for internal datasources via dashboard API', async () => {
-        [restApi, gqlApi].forEach(api => {
+        [restApi, gqlApi, udgApi].forEach(api => { //TODO: remove udgApi once file upload is implemented
             let body = newAPIdefinitionWithDefaults(api);
-            await dashboard_connection.createAPI(body, createUserAndLogin.userSecret);
+            dashboard_connection.createAPI(body, createUserAndLogin.userSecret);
         })
     });
 
     await test.step('User should be able to create a UDG API with internal REST and GraphQL datasources', async () => {
-        await main_page.openAPIs();
-        // while(!apis_page.ADD_NEW_API_BUTTON.isExisting() && refreshCounter < 5){
-        //     await page.reload();
-        //     // browser.pause(2000);
-        //     refreshCounter++;
-        // }
+        await main_page.openAPIs();     
+        /* TODO: not used until file upload is implemented
         await apis_page.ADD_NEW_API_BUTTON.click();
         await apis_page.API_NAME_INPUT.fill(udgDetails.apiName);
         await apis_page.API_TYPE_UDG_BUTTON.click();
@@ -90,26 +99,27 @@ test('UDG with internal REST and GQL datasources', async ({ createUserAndLogin, 
         await graphql_page.uploadSchemaFile(schemaFileRelativePath);
         await apis_page.SAVE_BUTTON.click();
         await main_page.openAPIs();
+        */
         $apiTableElement = page.locator(`span:text-is('${udgDetails.apiName}')`);
         await $apiTableElement.click();
         await graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
         //Define internal REST data source for a Query type field
-        graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", await udgDetails.restQuery).click();
-        graphql_page.UDG_EXPAND_REST_TYK_ACCORDION.expand();
+        await graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", udgDetails.restQuery).click();
+        await graphql_page.UDG_EXPAND_REST_TYK_ACCORDION.expand();
         await graphql_page.UDG_SELECT_REST_API_OPEN_COMBOBOX.click();
-        graphql_page.UDG_COMBOBOX_DROPDOWN.selectComboboxOption(restApi.name);
+        await graphql_page.UDG_COMBOBOX_DROPDOWN.selectComboboxOption(restApi.name);
         await graphql_page.UDG_DATA_SOURCE_NAME_INPUT.fill(udgDetails.restSource);
-        await graphql_page.UDG_DATA_SOURCE_ENDPOINT_INPUT.fill(udgDetails.restApiEndpoint);
-        await graphql_page.UDG_DATA_SOURCE_METHOD.selectOption("GET");
+        await graphql_page.UDG_DATA_SOURCE_ENDPOINT_INPUT.element.pressSequentially(udgDetails.restApiEndpoint, {delay: 25});
+        await graphql_page.UDG_DATA_SOURCE_METHOD.selectOption(/^GET$/);
         await graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
         await apis_page.CONFIRM_BUTTON.click();
         await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_NAME("Query", udgDetails.restQuery, udgDetails.restSource)).toBeVisible();
         await assert(graphql_page.getUDG_FIELD_DATA_SOURCE_LABEL_TYPE("Query", udgDetails.restQuery, "REST")).toBeVisible();
         //Define internal GQL data source for a Query type field
-        graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", await udgDetails.gqlQuery).click();
-        graphql_page.UDG_EXPAND_GRAPHQL_TYK_ACCORDION.expand();
+        await graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", udgDetails.gqlQuery).click();
+        await graphql_page.UDG_EXPAND_GRAPHQL_TYK_ACCORDION.expand();
         await graphql_page.UDG_SELECT_GRAPHQL_API_OPEN_COMBOBOX.click();
-        graphql_page.UDG_COMBOBOX_DROPDOWN.selectComboboxOption(gqlApi.name);
+        await graphql_page.UDG_COMBOBOX_DROPDOWN.selectComboboxOption(gqlApi.name);
         await graphql_page.UDG_DATA_SOURCE_NAME_INPUT.fill(udgDetails.gqlSource);
         await graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
         await apis_page.CONFIRM_BUTTON.click();
@@ -118,7 +128,7 @@ test('UDG with internal REST and GQL datasources', async ({ createUserAndLogin, 
     });
 
     await test.step('User should be able to remove an internal data source from an object', async () => {
-        graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", await udgDetails.restQuery).click();
+        await graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", udgDetails.restQuery).click();
         await graphql_page.UDG_DATA_SOURCE_RESET_BUTTON.click();
         await graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
         await apis_page.CONFIRM_BUTTON.click();

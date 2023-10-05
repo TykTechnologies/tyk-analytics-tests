@@ -1,9 +1,7 @@
 import { test, assert } from '@fixtures';
 import { Locator } from '@playwright/test';
-
 import { Dashboard_connection } from '@api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '@lib/utils/API_object_designer';
-// const path = require('path');
 
 test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page, apis_page, graphql_page, page }) => {
 
@@ -41,6 +39,7 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
         "internal": false
     }
 
+    //Not used until file uploading is implemented
     const schemaFileUploadVerificationArray = [
         ["type", "Query"],
         ["restQuery", "RestType"],
@@ -60,8 +59,7 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
     const schemaEditorXpath = '//div[@class="view-lines monaco-mouse-cursor-text"]';
 
     const schemaFileRelativePath = "../../test/specs/graphql/udg-schema.gql";
-    let $apiTableElement;
-    let refreshCounter = 0;
+    let $apiTableElement: Locator;    
 
     const dashboard_connection = new Dashboard_connection();
 
@@ -73,32 +71,22 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
     await test.step('User should be able to define external REST, GraphQL and Kafka datasources in a UDG API', async () => {
         await main_page.openAPIs();
         $apiTableElement = page.locator(`span:text-is('${udgApi.name}')`);
-        // while (!apis_page.ADD_NEW_API_BUTTON.isExisting() && refreshCounter < 5) {
-        //     await page.reload();
-        //     browser.pause(2000);
-        //     await main_page.openAPIs();
-        // }
         await $apiTableElement.click();
         await graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON.click();
         //Define REST data source for a Query type field
         await graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", udgDetails.restQuery).click();
         await graphql_page.UDG_CONFIGURE_EXTERNAL_REST_BUTTON.click();
         await graphql_page.UDG_DATA_SOURCE_NAME_INPUT.fill(udgDetails.restSource);
-        await graphql_page.UDG_DATA_SOURCE_URL_INPUT.click();
-        await page.keyboard.type(udgDetails.restDataSourceUrl);
+        await graphql_page.UDG_DATA_SOURCE_URL_INPUT.element.pressSequentially(udgDetails.restDataSourceUrl, {delay: 25});
         await assert(page.locator(`//li//span[text()="${udgDetails.restQuery}"]`)).toBeVisible();
         await assert(page.locator(`//li//span[text()="${udgDetails.gqlQuery}"]`)).toBeVisible();
         await assert(page.locator(`//li//span[text()="${udgDetails.kafkaQuery}"]`)).toBeVisible();
         await graphql_page.UDG_TEMPLATING_SYNTAX_FILTER.fill("rest");
         await assert(page.locator(`//li//span[text()="${udgDetails.gqlQuery}"]`)).not.toBeVisible();
         await assert(page.locator(`//li//span[text()="${udgDetails.kafkaQuery}"]`)).not.toBeVisible();
-        // await graphql_page.UDG_TEMPLATING_SYNTAX_HINT_LIST.selectComboboxOption('/^restQuery$/'); <---- doesn't work
         await graphql_page.UDG_TEMPLATING_SYNTAX_HINT_LIST.element.getByText(udgDetails.restQuery, {exact: true}).click() //looks shitty, but works
-        // await graphql_page.UDG_TEMPLATING_SYNTAX_HINT_LIST.element.selectOption(udgDetails.restQuery); <--- doesn't work
         await assert(graphql_page.UDG_DATA_SOURCE_URL_INPUT).toHaveText(udgDetails.expectedFullRestDataSourceUrl);
-        await graphql_page.UDG_DATA_SOURCE_METHOD.selectOption("GET"); // <--- detects 'uptime targets' as well
-        // await graphql_page.UDG_DATA_SOURCE_METHOD.click();
-        // await graphql_page.UDG_DATA_SOURCE_METHOD.element.getByText("GET", {exact: true}).click()
+        await graphql_page.UDG_DATA_SOURCE_METHOD.selectOption(/^GET$/);
         await graphql_page.UDG_ADD_HEADERS_CHECKBOX.check();
         await graphql_page.UDG_ADD_HEADER_BUTTON.click();
         await graphql_page.UDG_NEW_HEADER_KEY_INPUT.fill(udgDetails.headerKey);
@@ -118,8 +106,7 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
         await graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", udgDetails.gqlQuery).click();
         await graphql_page.UDG_CONFIGURE_EXTERNAL_GQL_BUTTON.click();
         await graphql_page.UDG_DATA_SOURCE_NAME_INPUT.fill(udgDetails.gqlSource);
-        await graphql_page.UDG_DATA_SOURCE_URL_INPUT.click();
-        await graphql_page.keys(udgDetails.gqlDataSourceUrl);
+        await graphql_page.UDG_DATA_SOURCE_URL_INPUT.element.pressSequentially(udgDetails.gqlDataSourceUrl, {delay: 25});
         await graphql_page.UDG_ADD_HEADERS_CHECKBOX.check();
         await graphql_page.UDG_ADD_HEADER_BUTTON.click();
         await graphql_page.UDG_NEW_HEADER_KEY_INPUT.fill(udgDetails.headerKey);
@@ -148,7 +135,9 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
         await assert(graphql_page.getUDG_TOPICS_BY_POSITION_INPUT(2)).not.toBeVisible();
         await graphql_page.UDG_GROUP_ID_INPUT.fill("GroupID");
         await graphql_page.UDG_CLIENT_ID_INPUT.fill("ClientID");
+        await graphql_page.UDG_KAFKA_VERSION_DROPDOWN.click();
         await graphql_page.UDG_KAFKA_VERSION_DROPDOWN.selectFirstOption();
+        await graphql_page.UDG_BALANCE_STRATEGY_DROPDOWN.click();
         await graphql_page.UDG_BALANCE_STRATEGY_DROPDOWN.selectFirstOption();
         await graphql_page.UDG_START_CONSUMING_LATEST_CHECKBOX.check();
         await graphql_page.UDG_READ_COMMITTED_BUTTON.click();
@@ -170,7 +159,9 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
         await assert(page.locator(`//li//span[text()="${udgDetails.gqlSource}"]`)).toBeVisible();
         await graphql_page.UDG_COMBOBOX_FILTER_INPUT.fill("gql");
         await assert(page.locator(`//li//span[text()="${udgDetails.restSource}"]`)).not.toBeVisible();
-        await graphql_page.UDG_COMBOBOX_DROPDOWN.selectComboboxOption(udgDetails.gqlSource);
+        // let regexp = new RegExp("/^"+udgDetails.gqlSource+"$/")
+        // await graphql_page.UDG_COMBOBOX_DROPDOWN.selectComboboxOption(udgDetails.gqlSource);
+        await graphql_page.UDG_COMBOBOX_DROPDOWN.element.getByText(udgDetails.gqlSource, {exact: true}).click() //looks shitty, but works
         await assert(graphql_page.UDG_DATA_SOURCE_CONNECTED_WARNING_MESSAGE).toBeVisible();
         await assert(graphql_page.UDG_DATA_SOURCE_NAME_INPUT).toHaveValue(udgDetails.gqlSource);
         await assert(graphql_page.UDG_DATA_SOURCE_URL_INPUT).toHaveValue(udgDetails.gqlDataSourceUrl);
