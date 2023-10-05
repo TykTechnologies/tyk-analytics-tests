@@ -145,8 +145,8 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: 'us-east-1'
         RUN_ID: 'tyk-analytics/${{ github.run_id }}'
+      working-directory: tyk-analytics-tests/playwright
 
-        
     - uses: actions/upload-artifact@v3
       if: always()
       with:
