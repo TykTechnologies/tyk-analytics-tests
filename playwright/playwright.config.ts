@@ -50,6 +50,9 @@ export default defineConfig({
         disableUnfurl: true,
         meta: [
           {
+            key: ":checkered_flag: STATUS",
+          },
+          {
             key: ":computer: test env",
             value: process.env.JOB_NAME
           },
@@ -59,7 +62,7 @@ export default defineConfig({
           },
           {
             key: ":link: Results",
-            value: `<https://github.com/tyk-analytics-tests/actions/runs/${process.env.JOB_RUN_ID}|Execution page>`
+            value: `<https://github.com/${process.env.FRAMEWORK_REPO}/actions/runs/${process.env.JOB_RUN_ID}|Execution page>`
           }
 
         ]

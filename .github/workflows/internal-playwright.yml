@@ -132,6 +132,7 @@ jobs:
         SLACK_AUTH_TOKEN: ${{ secrets.SLACK_AUTH_TOKEN }}
         EVENT_TRIGGER: ${{ github.event_name }} (${{ github.actor }})
         JOB_RUN_ID: ${{ github.run_id }}
+        FRAMEWORK_REPO: ${{ github.repository }}
         JOB_NAME: Postgres Test - ${{ github.ref }} (commit used -> ${{ github.event.head_commit.message }})
 
         
