@@ -77,7 +77,7 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
         await graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", udgDetails.restQuery).click();
         await graphql_page.UDG_CONFIGURE_EXTERNAL_REST_BUTTON.click();
         await graphql_page.UDG_DATA_SOURCE_NAME_INPUT.fill(udgDetails.restSource);
-        await graphql_page.UDG_DATA_SOURCE_URL_INPUT.element.pressSequentially(udgDetails.restDataSourceUrl, {delay: 25});
+        await graphql_page.UDG_DATA_SOURCE_URL_INPUT.element.pressSequentially(udgDetails.restDataSourceUrl, {delay: 50});
         await assert(page.locator(`//li//span[text()="${udgDetails.restQuery}"]`)).toBeVisible();
         await assert(page.locator(`//li//span[text()="${udgDetails.gqlQuery}"]`)).toBeVisible();
         await assert(page.locator(`//li//span[text()="${udgDetails.kafkaQuery}"]`)).toBeVisible();
@@ -106,7 +106,7 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
         await graphql_page.getUDG_OPEN_FIELD_OPTIONS_BUTTON("Query", udgDetails.gqlQuery).click();
         await graphql_page.UDG_CONFIGURE_EXTERNAL_GQL_BUTTON.click();
         await graphql_page.UDG_DATA_SOURCE_NAME_INPUT.fill(udgDetails.gqlSource);
-        await graphql_page.UDG_DATA_SOURCE_URL_INPUT.element.pressSequentially(udgDetails.gqlDataSourceUrl, {delay: 25});
+        await graphql_page.UDG_DATA_SOURCE_URL_INPUT.element.pressSequentially(udgDetails.gqlDataSourceUrl, {delay: 50});
         await graphql_page.UDG_ADD_HEADERS_CHECKBOX.check();
         await graphql_page.UDG_ADD_HEADER_BUTTON.click();
         await graphql_page.UDG_NEW_HEADER_KEY_INPUT.fill(udgDetails.headerKey);
