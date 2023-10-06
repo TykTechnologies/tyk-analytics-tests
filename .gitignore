@@ -8,8 +8,11 @@ results/
 .DS_Store
 
 # Env files
-.env*
+.env
 
-#IDE settings
+# IDE settings
 .idea/
 .vscode/*
+
+# Playwright test reports
+playwright/playwright-report/

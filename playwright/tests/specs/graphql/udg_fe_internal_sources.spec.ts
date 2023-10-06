@@ -109,7 +109,7 @@ test('UDG with internal REST and GQL datasources', async ({ createUserAndLogin, 
         await graphql_page.UDG_SELECT_REST_API_OPEN_COMBOBOX.click();
         await graphql_page.UDG_COMBOBOX_DROPDOWN.selectComboboxOption(restApi.name);
         await graphql_page.UDG_DATA_SOURCE_NAME_INPUT.fill(udgDetails.restSource);
-        await graphql_page.UDG_DATA_SOURCE_ENDPOINT_INPUT.element.pressSequentially(udgDetails.restApiEndpoint, {delay: 25});
+        await graphql_page.UDG_DATA_SOURCE_ENDPOINT_INPUT.element.pressSequentially(udgDetails.restApiEndpoint, {delay: 50});
         await graphql_page.UDG_DATA_SOURCE_METHOD.selectOption(/^GET$/);
         await graphql_page.UDG_DATA_SOURCE_SAVEANDUPDATE_BUTTON.click();
         await apis_page.CONFIRM_BUTTON.click();
