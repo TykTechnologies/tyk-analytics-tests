@@ -18,7 +18,6 @@ expect.extend({
       message: () => `Expected element not to be selected`,
     };
   }
-
 });
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -41,8 +40,8 @@ export default defineConfig({
       "./node_modules/playwright-slack-report/dist/src/SlackReporter.js",
       {
         // slackWebHookUrl: process.env.SLACK_WEBHOOK_URL,
-        sendResults: "always", // "always" , "on-failure", "off",
-        maxNumberOfFailuresToShow: 2,
+        sendResults: "on-failure", // "always" , "on-failure", "off",
+        maxNumberOfFailuresToShow: 5,
         slackLogLevel: "WARN",
         slackOAuthToken: process.env.SLACK_AUTH_TOKEN,
         channels: ["@konrad"],
@@ -58,8 +57,8 @@ export default defineConfig({
             value: process.env.EVENT_TRIGGER            
           },
           {
-            key: ":link: Results",
-            value: `<https://github.com/${process.env.FRAMEWORK_REPO}/actions/runs/${process.env.JOB_RUN_ID}|Execution page>`
+            key: ":link: Execution Page",
+            value: `<https://github.com/${process.env.FRAMEWORK_REPO}/actions/runs/${process.env.JOB_RUN_ID}|github>`
           },
           {
             key: ":link: Report",

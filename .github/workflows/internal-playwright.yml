@@ -136,6 +136,7 @@ jobs:
         RUN_ID: 'tyk-analytics/${{ github.run_id }}'
 
     - name:  Upload Playwright Test Report to S3
+      if: ${{ failure() }}  
       run:
         npm run upload_report_to_s3
       env:
