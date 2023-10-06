@@ -126,14 +126,13 @@ jobs:
     - name: Execute UI tests
       id: test_execution
       run: |
-        npx playwright test --project='chromium' playwright/tests/specs/keys/keys_hash_crud_test.spec.ts
+        npx playwright test --project='chromium'
       working-directory: tyk-analytics-tests/playwright
       env:
         SLACK_AUTH_TOKEN: ${{ secrets.SLACK_AUTH_TOKEN }}
         EVENT_TRIGGER: ${{ github.event_name }} (${{ github.actor }})
         JOB_RUN_ID: ${{ github.run_id }}
-        FRAMEWORK_REPO: ${{ github.repository }}
-        JOB_NAME: Postgres Test - ${{ github.ref }} (commit used -> ${{ github.event.head_commit.message }})
+        JOB_NAME: tyk-analytics-test - ${{ github.ref }} ${{ github.event.head_commit.message }}
         RUN_ID: 'tyk-analytics/${{ github.run_id }}'
 
     - name:  Upload Playwright Test Report to S3
@@ -153,30 +152,6 @@ jobs:
         name: playwright-report
         path: tyk-analytics-tests/playwright/playwright-report/
         retention-days: 30
-    
-    - name: Slack notify
-      if: ${{ always() }}
-      id: slack_notify
-      run: |
-        export GIT_BRANCH=$(git branch --show-current) 
-        npm run notify-slack
-      working-directory: tyk-analytics-tests/playwright
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.KONRAD_SLACK }}
-        JOB_NAME: Postgres Test - ${{ github.ref }} (commit used -> ${{ github.event.head_commit.message }})
-        FRAMEWORK_REPO: ${{ github.repository }}
-        EVENT_TRIGGER: ${{ github.event_name }} (${{ github.actor }})
-        JOB_RUN_ID: ${{ github.run_id }}
-        STATUS: ${{ steps.test_execution.outcome }}
-
-    - name: Notify if custom notification failed
-      if: steps.slack_notify.outcome == 'failure' && failure()
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_WEBHOOK: ${{ secrets.KONRAD_SLACK }}
-        SLACK_TITLE: "Tests were NOT executed!"
-        SLACK_USERNAME: Test automation
-        SLACK_FOOTER: "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|execution details>"
         
     - name: Getting dashboard logs on failure
       if: ${{ failure() }}

@@ -50,9 +50,6 @@ export default defineConfig({
         disableUnfurl: true,
         meta: [
           {
-            key: ":checkered_flag: STATUS",
-          },
-          {
             key: ":computer: test env",
             value: process.env.JOB_NAME
           },
