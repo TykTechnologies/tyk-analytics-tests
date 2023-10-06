@@ -162,6 +162,15 @@ jobs:
       if: ${{ failure() }}
       run: docker logs tyk-gateway
 
+    - name: Notify if custom notification failed
+      if: steps.test_execution.outcome == 'cancelled' || steps.test_execution.outcome == 'skipped'
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.KONRAD_SLACK }}
+        SLACK_TITLE: "Tests were NOT executed!"
+        SLACK_USERNAME: Test automation
+        SLACK_FOOTER: "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|execution details>"
+
     - name: Comment on PR
       if: ${{ always() }} && github.event.issue.pull_request
       uses: mshick/add-pr-comment@v1

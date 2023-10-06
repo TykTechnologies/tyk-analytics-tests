@@ -44,7 +44,7 @@ export default defineConfig({
         maxNumberOfFailuresToShow: 5,
         slackLogLevel: "WARN",
         slackOAuthToken: process.env.SLACK_AUTH_TOKEN,
-        channels: ["@konrad"],
+        channels: ["service-dashboard-automated-test"],
         showInThread: true,
         disableUnfurl: true,
         meta: [
