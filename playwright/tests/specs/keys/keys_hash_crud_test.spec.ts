@@ -45,7 +45,7 @@ test('Create/update/delete keys without policy', async ({ createUserAndLogin, ma
     await keys_page.CREATE_KEY_BUTTON.click();
     console.log('>>> Key was created');
     await keys_page.OK_BUTTON.click();
-    await keys_page.isKeyCreatedPopUpDisplayed();
+    await keys_page.checkIfKeyCreatedPopUpDisplayed();
   });
 
   await test.step('User should be able to modify key', async () => {
@@ -75,7 +75,7 @@ test('Create/update/delete keys without policy', async ({ createUserAndLogin, ma
   });
 
   await test.step('Confirmation popup should be displayed', async () => {
-    assert(keys_page.isKeyUpdatedPopUpDisplayed()).toBeTruthy();
+    assert(keys_page.checkIfKeyUpdatedPopUpDisplayed()).toBeTruthy();
   });
 
   await test.step('User should be able to delete key', async () => {
@@ -83,7 +83,7 @@ test('Create/update/delete keys without policy', async ({ createUserAndLogin, ma
     assert(DeletedKeyHashValue).not.toBeNull();
     await keys_page.DELETE_BUTTON.click();
     await keys_page.DELETE_KEY_CONFIRMATION_BUTTON.click();
-    await keys_page.isKeyDeletedPopUpDisplayed();
+    await keys_page.checkIfKeyDeletedPopUpDisplayed();
     await keys_page.KEY_SEARCH_FIELD.click();
     await keys_page.KEY_SEARCH_FIELD.fill(DeletedKeyHashValue);
     await keys_page.LOOKUP_KEY_BUTTON.click();
