@@ -6,7 +6,7 @@ import { Toggle_object } from '@wrappers/Toggle_object';
 import { Accordion_object } from '@wrappers/Accordion_object';
 import { Checkbox_object } from '@wrappers/CheckBox_object';
 import { expect } from '@playwright/test';
-import { SlowButton_object } from 'tyk-test-automation-wrappers/lib/SlowButton_object';
+import { SlowButton_object } from '@wrappers/SlowButton_object';
 export class Graphql_page extends Template_Page {
   get GRAPHQL_SCHEMA_TAB_BUTTON() { return new Button_object('button:text("Schema")', this.page); }  
   get GRAPHQL_SUBGRAPHS_TAB_BUTTON() { return new Button_object('button:text("Subgraphs")', this.page); }

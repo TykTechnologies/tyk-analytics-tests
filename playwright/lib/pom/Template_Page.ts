@@ -1,6 +1,6 @@
 import { Locator, Page, expect } from '@playwright/test';
 import { assert } from 'console';
-import { Wrapper } from 'tyk-test-automation-wrappers/lib/Wrapper';
+import { Wrapper } from '@wrappers/Wrapper';
 
 export class Template_Page {
   readonly page: Page;  

@@ -4,7 +4,7 @@ import { Table_object } from '@wrappers/Table_object';
 import { DropDown_object } from '@wrappers/DropDown_object';
 import { SlowDropDown_object } from '@wrappers/SlowDropDown_object';
 import { Input_object } from '@wrappers/Input_object';
-import { SlowButton_object } from 'tyk-test-automation-wrappers/lib/SlowButton_object';
+import { SlowButton_object } from '@wrappers/SlowButton_object';
 
 export class Policies_page extends Template_Page {
   //MAIN PAGE

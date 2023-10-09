@@ -162,14 +162,15 @@ jobs:
       if: ${{ failure() }}
       run: docker logs tyk-gateway
 
-    - name: Notify if custom notification failed
-      if: steps.test_execution.outcome == 'cancelled' || steps.test_execution.outcome == 'skipped'
-      uses: rtCamp/action-slack-notify@v2
+    - name: Post message to automation team
+      if: ${{ failure() }}  
+      id: slack
+      uses: slackapi/slack-github-action@v1.24.0
+      with:
+        channel-id: '@konrad'
+        slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
       env:
-        SLACK_WEBHOOK: ${{ secrets.KONRAD_SLACK }}
-        SLACK_TITLE: "Tests were NOT executed!"
-        SLACK_USERNAME: Test automation
-        SLACK_FOOTER: "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|execution details>"
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_AUTH_TOKEN }}
 
     - name: Comment on PR
       if: ${{ always() }} && github.event.issue.pull_request

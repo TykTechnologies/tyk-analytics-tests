@@ -5,7 +5,7 @@ import { Table_object } from '@wrappers/Table_object';
 import { DropDown_object } from '@wrappers/DropDown_object';
 import { Input_object } from '@wrappers/Input_object';
 import { expect } from '@playwright/test';
-import { SlowButton_object } from 'tyk-test-automation-wrappers/lib/SlowButton_object';
+import { SlowButton_object } from '@wrappers/SlowButton_object';
 
 export class Users_page extends Template_Page {
   //MAIN PAGE

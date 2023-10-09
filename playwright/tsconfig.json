@@ -36,7 +36,7 @@
       "@pom/*":["lib/pom/*"],
       "@variables":["config_variables.ts"],
       "@playwright/*":["node_modules/@playwright/*"],
-      "@wrappers/*":["node_modules/tyk-test-automation-wrappers/lib/*"],
+      "@wrappers/*":["node_modules/tyk-test-automation-wrappers/lib/wrappers/*"],
       "@fixtures":["lib/utils/fixtures.ts"]
     },                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
