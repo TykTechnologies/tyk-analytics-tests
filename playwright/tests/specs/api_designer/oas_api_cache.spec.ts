@@ -2,17 +2,17 @@ import { test, assert } from '@fixtures';
 
 test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin, main_page, apis_page, page }) => {
   test.setTimeout(190000);
-  let firstAPI = false;
+  const firstAPI = false;
 
   await test.step('CACHE settings is off by default', async () => {
-    let firstAPI = true;
+    const firstAPI = true;
     await openOasDesignerPage(firstAPI);
     assert(await apis_page.OAS_ENABLE_CACHE_TOGGLE.isSelected()).toBeFalsy();
   });
 
   await test.step('User can change Cache Timeout and save API', async () => {
-    let firstAPI = true;
-    let apiName = 'cache-timeout';
+    const firstAPI = true;
+    const apiName = 'cache-timeout';
     await openOasDesignerPage(firstAPI);
     await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     await apis_page.OAS_ENABLE_CACHE_TOGGLE.click();
@@ -30,7 +30,7 @@ test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin
   });
 
   await test.step('User can set Cache Response Codes and save API', async () => {
-    let apiName = 'cache-response-codes';
+    const apiName = 'cache-response-codes';
     await openOasDesignerPage(firstAPI);
     await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     await apis_page.OAS_ENABLE_CACHE_TOGGLE.click();
@@ -54,7 +54,7 @@ test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin
   });
 
   await test.step('User can set Cache All Safe Requests and save API', async () => {
-    let apiName = 'cache-all-safe-requests';
+    const apiName = 'cache-all-safe-requests';
     await openOasDesignerPage(firstAPI);
     await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     await apis_page.OAS_ENABLE_CACHE_TOGGLE.click();
@@ -70,7 +70,7 @@ test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin
   });
 
   await test.step('User can set Cache by Headers and save API', async () => {
-    let apiName = 'cache-by-headers';
+    const apiName = 'cache-by-headers';
     await openOasDesignerPage(firstAPI);
     await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     await apis_page.OAS_ENABLE_CACHE_TOGGLE.click();
@@ -91,7 +91,7 @@ test('Test CACHE settings on OAS API designer page', async ({ createUserAndLogin
   });
 
   await test.step('User can set Cache Control TTL Header and save API', async () => {
-    let apiName = 'cache-ttl-header';
+    const apiName = 'cache-ttl-header';
     await openOasDesignerPage(firstAPI);
     await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
     await apis_page.OAS_ENABLE_CACHE_TOGGLE.click();

@@ -3,7 +3,7 @@ import { config } from '@variables';
 import { Locator } from '@playwright/test';  
 
 
-test('CRUD basic Federation API', async ({ createUserAndLogin, main_page, apis_page, graphql_page, page }) => {
+test('CRUD basic Federation API', async ({ main_page, apis_page, graphql_page, page }) => {
   test.setTimeout(180000);
   const apiDetails = {
     supergraphName: "Super-test",
@@ -27,7 +27,7 @@ test('CRUD basic Federation API', async ({ createUserAndLogin, main_page, apis_p
     await apis_page.API_TYPE_SUBGRAPH_BUTTON.first().click();
     await apis_page.OAS_TARGET_URL_INPUT.fill(apiDetails.usersSubgraphUrl);
     await apis_page.CONFIGURE_API_BUTTON.click();
-    await assert(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toBeVisible({ timeout: 15000});
+    await assert(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toBeVisible({ timeout: 15000 });
     await apis_page.SAVE_BUTTON.click();
   });
 
@@ -85,7 +85,7 @@ test('CRUD basic Federation API', async ({ createUserAndLogin, main_page, apis_p
     await apis_page.API_NAME_INPUT.fill(apiDetails.supergraphName);
     await apis_page.API_TYPE_FEDERATION_BUTTON.click();
     await apis_page.API_TYPE_SUPERGRAPH_BUTTON.click();
-    await graphql_page.GRAPHQL_SUBGRAPHS_DROPDOWN.selectOptions([apiDetails.usersSubgraphName, apiDetails.productsSubgraphName, apiDetails.reviewsSubgraphName])
+    await graphql_page.GRAPHQL_SUBGRAPHS_DROPDOWN.selectOptions([apiDetails.usersSubgraphName, apiDetails.productsSubgraphName, apiDetails.reviewsSubgraphName]);
     await apis_page.CONFIGURE_API_BUTTON.click();
     await assert(graphql_page.GRAPHQL_SCHEMA_TAB_BUTTON).toBeVisible();
     await apis_page.SAVE_BUTTON.click();

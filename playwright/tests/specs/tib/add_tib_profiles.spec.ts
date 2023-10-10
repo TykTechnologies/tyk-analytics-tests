@@ -9,11 +9,11 @@ import { Page } from '@playwright/test';
 
 const certFileLocation = './tests/specs/tib/public_key.pem';
 
-const samlProfile = {
-  name: "samlProfile",
-  type: "SAML",
-  url: "https://cosiek.com"
-};
+// const samlProfile = {
+//   name: "samlProfile",
+//   type: "SAML",
+//   url: "https://cosiek.com"
+// };
 
 const ldapProfile = {
   name: "ldapProfile",

@@ -40,13 +40,13 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
   
   await test.step('Initially Endpoint list is empty', async () => {
     await main_page.openAPIs();
-   await apis_page.DESIGN_API_BOX.click();
-   await apis_page.API_TYPE_OAS_BUTTON.click();
-   await apis_page.API_NAME_INPUT.fill('endpoint-test');
-   await apis_page.OAS_NEXT_BUTTON.click();
-   await apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
-   await apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");
-   await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
+    await apis_page.DESIGN_API_BOX.click();
+    await apis_page.API_TYPE_OAS_BUTTON.click();
+    await apis_page.API_NAME_INPUT.fill('endpoint-test');
+    await apis_page.OAS_NEXT_BUTTON.click();
+    await apis_page.OAS_GW_STATUS_DROPDOWN.selectOption("Active");
+    await apis_page.OAS_ACCESS_DROPDOWN.selectOption("External");
+    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
     await assert(endpoints_page.OAS_NO_ENDPOINTS_MESSAGE).toBeVisible();
   });
 
@@ -54,14 +54,14 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
     createdEndpointsList.forEach (e => {
       endpoints_page.addNewEndpoint(e.endpoint, e.method);
     });
-   await apis_page.OAS_SAVE_BUTTON.click();
+    await apis_page.OAS_SAVE_BUTTON.click();
     await apis_page.isApiCreatedPopUpDisplayed(); 
   });
 
   
   await test.step('All Endpoints are displayed after page relaod', async () => {
     await page.reload();
-   await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
+    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
     createdEndpointsList.forEach (e => {
       verifyDisplayedEndpoints(e, createdEndpointsList);
     });
@@ -130,31 +130,31 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
 
   await test.step('User can modify endpoints and save API', async () => {
     await page.reload();
-    let oldEendpointSelector = await this.page.locator('//a[contains(@href, "-ipget")]');
-    let newEendpointSelector = await this.page.locator('//a[contains(@href, "-headershead")]');
-   await apis_page.EDIT_BUTTON.click();
+    const oldEendpointSelector = await this.page.locator('//a[contains(@href, "-ipget")]');
+    const newEendpointSelector = await this.page.locator('//a[contains(@href, "-headershead")]');
+    await apis_page.EDIT_BUTTON.click();
     endpoints_page.modifyEndpoint("/ip", "GET", "/headers", "HEAD");
-   await apis_page.OAS_SAVE_BUTTON.click();
+    await apis_page.OAS_SAVE_BUTTON.click();
     assert(apis_page.isApiUpdatedPopUpDisplayed()).toBeTruthy(); 
     await page.reload();
-   await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
+    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
     await assert(oldEendpointSelector).not.toBeVisible();
     await assert(newEendpointSelector).toBeVisible();
   });
 
   await test.step('User can remove endpoints and save API', async () => {
     await page.reload();
-    let removeEendpointSelector = await this.page.locator('//a[contains(@href, "-ippost")]');
-   await apis_page.EDIT_BUTTON.click();
+    const removeEendpointSelector = await this.page.locator('//a[contains(@href, "-ippost")]');
+    await apis_page.EDIT_BUTTON.click();
     endpoints_page.removeEndpoint("/ip", "POST");
-   await apis_page.OAS_SAVE_BUTTON.click();
+    await apis_page.OAS_SAVE_BUTTON.click();
     assert(apis_page.isApiUpdatedPopUpDisplayed()).toBeTruthy(); 
     await page.reload();
-   await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
+    await endpoints_page.OAS_ENDPOINTS_BUTTON.click();
     await assert(removeEendpointSelector).not.toBeVisible();
   });
 
-/**
+  /**
  * Verify if endpoint is displayed or not.
  * Function checks if tested endpoint is included in array of expected endpoints.
  * @param {Object} endpointObject Represents endpoint to test
@@ -162,9 +162,9 @@ test('Test Endpoints list on OAS API designer page', async ({ createUserAndLogin
  * @function
  */
   function verifyDisplayedEndpoints(endpointObject, expectedEndpoints) {
-    let endpointUrlLink = encodeURIComponent(endpointObject.endpoint.split('/').join('-')) + endpointObject.method.toLowerCase();
-    let endpointSelector = await this.page.locator(`//a[contains(@href, "${endpointUrlLink}")]`);
-    if (JSON.stringify(expectedEndpoints).includes(JSON.stringify(endpointObject))){
+    const endpointUrlLink = encodeURIComponent(endpointObject.endpoint.split('/').join('-')) + endpointObject.method.toLowerCase();
+    const endpointSelector = await this.page.locator(`//a[contains(@href, "${endpointUrlLink}")]`);
+    if (JSON.stringify(expectedEndpoints).includes(JSON.stringify(endpointObject))) {
       await assert(endpointSelector).toBeVisible();
     } 
     else {

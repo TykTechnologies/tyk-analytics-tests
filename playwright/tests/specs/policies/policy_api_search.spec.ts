@@ -54,17 +54,12 @@ const jwtApi = {
   "jwt_identity_base_field": "sub"
 };
 
-const policyDetails = {
-  authTokenPolicyName: 'api_search_test_policy',
-  keyEpiryTime: "1 hour",
-};
-
 test('Test API search functionality on Add Policy Page', async ({ createUserAndLogin, main_page, policies_page }) => {
   const dashboard_connection = new Dashboard_connection();
 
   await test.step('Prerequisits: creating API definitions via dashboard API', async () => {
     for (const authType of [keylessApi, authTokenApi, oauthApi, multi1Api, multi2Api, jwtApi]) {
-      let body = newAPIdefinitionWithDefaults(authType);
+      const body = newAPIdefinitionWithDefaults(authType);
       await dashboard_connection.createAPI(body, createUserAndLogin.userSecret);
     }
   });
@@ -92,7 +87,7 @@ test('Test API search functionality on Add Policy Page', async ({ createUserAndL
   });
 
   await test.step('User should be able to clear API name in search criteria', async () => {
-    policies_page.API_NAME_INPUT.clear();
+    await policies_page.API_NAME_INPUT.clear();
     await assert(policies_page.API_TABLE).toContainText(keylessApi.name);
     await assert(policies_page.API_TABLE).toContainText(authTokenApi.name);
     await assert(policies_page.API_TABLE).toContainText(oauthApi.name);

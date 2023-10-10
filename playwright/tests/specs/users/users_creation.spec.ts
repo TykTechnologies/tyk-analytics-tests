@@ -11,7 +11,7 @@ const userDetails = {
 const invalidEmail = { emailAdress: "not_an_email" };
 const shortPassword = { password: "test" };
 
-test('Users creation', async ({ createUserAndLogin, main_page, users_page, page }) => {
+test('Users creation', async ({ main_page, users_page, page }) => {
 
   const fillUserData = async (userDetailsObject: any) => {
     await users_page.ADD_USER_BUTTON.click();
@@ -28,7 +28,7 @@ test('Users creation', async ({ createUserAndLogin, main_page, users_page, page 
     await main_page.openUsers();
     await fillUserData({ ...userDetails, ...invalidEmail });
     await users_page.SAVE_BUTTON.click();
-    await users_page.checkIfErrorPopUpDisplayed()
+    await users_page.checkIfErrorPopUpDisplayed();
     await main_page.openUsers();
     await users_page.USERS_TABLE.isCellWithTextNotDisplayed(invalidEmail.emailAdress);
   });
@@ -59,7 +59,7 @@ test('Users creation', async ({ createUserAndLogin, main_page, users_page, page 
 
   await test.step('Admin should be able to create user with limited permissions', async () => {
     await main_page.openUsers();
-    let userForPermissionsTest = {
+    const userForPermissionsTest = {
       firstName: "user_permissions",
       lastName: "user_last_name",
       emailAdress: generateRandomEmail(),
@@ -67,6 +67,7 @@ test('Users creation', async ({ createUserAndLogin, main_page, users_page, page 
     };
     await fillUserData(userForPermissionsTest);
     await users_page.selectReadAccessForPermission('analytics');
+    await page.waitForTimeout(1000);
     await users_page.SAVE_BUTTON.click();
 
     await users_page.checkIfUserCreatedPopUpDisplayed();

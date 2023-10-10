@@ -10,7 +10,7 @@ const userDetails = {
   password: "test123"
 };
 
-test('Create/update/delete users', async ({ createUserAndLogin, main_page, users_page, page }) => {
+test('Create/update/delete users', async ({ main_page, users_page }) => {
 
   await test.step('Admin should be able to create new user', async () => {
     await main_page.openUsers();

@@ -71,24 +71,24 @@ test('Test Policy search functionality on Main Policy Page', async ({ createUser
   const reopenPolicyPage = async () => {
     await main_page.openKeys();
     await main_page.openPolicies();
-  }
+  };
 
   await test.step('Prerequisits: creating API and Policy definitions via dashboard API', async () => {
-    for (let authType of [keylessApi, authTokenApi, oauthApi, multi1Api, multi2Api, jwtApi, jwtApi2]) {
-      let apiBody = newAPIdefinitionWithDefaults(authType);
-      let apiMeta = await dashboard_connection.createAPI(apiBody, createUserAndLogin.userSecret);
-      let apiId = await dashboard_connection.getAPI(apiMeta, createUserAndLogin.userSecret);
-      let policyDetails = {
+    for (const authType of [keylessApi, authTokenApi, oauthApi, multi1Api, multi2Api, jwtApi, jwtApi2]) {
+      const apiBody = newAPIdefinitionWithDefaults(authType);
+      const apiMeta = await dashboard_connection.createAPI(apiBody, createUserAndLogin.userSecret);
+      const apiId = await dashboard_connection.getAPI(apiMeta, createUserAndLogin.userSecret);
+      const policyDetails = {
         "access_rights": {
           [apiId]: {
             "api_id": apiId,
-            "api_name": authType['name'],
+            "api_name": authType.name,
             "versions": ["Default"]
           }
         },
-        "name": authType['name'] + "_policy"
-      }
-      let policy = newPolicyDefinitionWithDefaults(policyDetails);
+        "name": authType.name + "_policy"
+      };
+      const policy = newPolicyDefinitionWithDefaults(policyDetails);
       await dashboard_connection.createPolicy(policy, createUserAndLogin.userSecret);
     }
   });
@@ -106,7 +106,7 @@ test('Test Policy search functionality on Main Policy Page', async ({ createUser
   });
 
   await test.step('User should be able search policy by Policy id', async () => {
-    let policyDetails: any = await dashboard_connection.getPolicyByName(oauthApi.name + "_policy", createUserAndLogin.userSecret);
+    const policyDetails: any = await dashboard_connection.getPolicyByName(oauthApi.name + "_policy", createUserAndLogin.userSecret);
     const policyId = policyDetails.Data[0]._id;
     await policies_page.NAME_SEARCH_INPUT.fill(policyId);
     await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);

@@ -2,22 +2,22 @@ import { test, assert } from '@fixtures';
 
 test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin, main_page, apis_page, page }) => {
   test.setTimeout(2500000);
-  let enableCors = true;
-  let firstApi = false;
-  let originValue = 'https://*.domain.com';
-  let headerValue = 'my-custom-header';
+  const enableCors = true;
+  const firstApi = false;
+  const originValue = 'https://*.domain.com';
+  const headerValue = 'my-custom-header';
 
 
   await test.step('CORS default state is disabled', async () => {
-    let enableCors = false;
-    let firstApi = true;
+    const enableCors = false;
+    const firstApi = true;
     await openOasDesignerPage(firstApi, enableCors);
     assert(await apis_page.OAS_ENABLE_CORS_TOGGLE.isSelected()).toBeFalsy();
     await assert(apis_page.OAS_OPTIONS_PASS_THROUGH_BOX).not.toBeVisible();
   });
 
   await test.step('User can enable CORS and see default CORS values', async () => {
-    let firstApi = true;
+    const firstApi = true;
     await openOasDesignerPage(firstApi, enableCors);
     await assert(apis_page.OAS_OPTIONS_PASS_THROUGH_BOX).not.toBeChecked();
     await assert(apis_page.OAS_ALLOW_CREDENTIALS_BOX).not.toBeChecked();
@@ -32,9 +32,9 @@ test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin,
   });
 
   await test.step('User can save API with default CORS values', async () => {
-    let firstApi = true;
+    const firstApi = true;
     await openOasDesignerPage(firstApi, enableCors);
-    let apiName = "defaults defaults everywhere";
+    const apiName = "defaults defaults everywhere";
     await createApi(apiName);
     await apis_page.isApiCreatedPopUpDisplayed();
   });
@@ -46,7 +46,7 @@ test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin,
   });
 
   await test.step('User can save API with enabled Enable Options Pass Through', async () => {
-    let apiName = "option-pass-through";
+    const apiName = "option-pass-through";
     await createApi(apiName);
     await apis_page.isApiCreatedPopUpDisplayed();
   });
@@ -59,7 +59,7 @@ test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin,
   });
 
   await test.step('User can change Allowed Methods and save API', async () => {
-    let apiName = 'allowed-methods';
+    const apiName = 'allowed-methods';
     await openOasDesignerPage(firstApi, enableCors);
     await apis_page.OAS_EXPOSED_HEADERS_DROPDOWN.scrollIntoView();
     // await apis_page.OAS_ALLOWED_METHODS_DROPDOWN.selectOptions(["HEAD", "POST", "PATCH", "DELETE"]);
@@ -75,7 +75,7 @@ test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin,
   });
 
   await test.step('User can change Allow Credentials, Debug, Max Age and save API', async () => {
-    let apiName = 'Hey you out there on your own';
+    const apiName = 'Hey you out there on your own';
     await openOasDesignerPage(firstApi, enableCors);
     await apis_page.OAS_ALLOW_CREDENTIALS_BOX.click();
     await apis_page.OAS_DEBUG_BOX.click();
@@ -93,7 +93,7 @@ test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin,
   });
 
   await test.step('User can enter Allowed Origins and save API', async () => {
-    let apiName = 'allowed-origins';
+    const apiName = 'allowed-origins';
     await openOasDesignerPage(firstApi, enableCors);
     await apis_page.OAS_ALLOW_ALL_ORIGINS_BOX.click();
     await apis_page.OAS_ALLOWED_ORIGINS_DROPDOWN.setValue(originValue);
@@ -108,7 +108,7 @@ test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin,
   });
 
   await test.step('User can slect Allowed Headers or enter his own value and save API', async () => {
-    let apiName = 'allowed-headers';
+    const apiName = 'allowed-headers';
     await openOasDesignerPage(firstApi, enableCors);
     await apis_page.OAS_EXPOSED_HEADERS_DROPDOWN.scrollIntoView();
     await apis_page.OAS_ALLOWED_HEADERS_DROPDOWN.selectOptions(["Accept", "Origin"]);
@@ -124,7 +124,7 @@ test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin,
   });
 
   await test.step('User can input Exposed Headers and save API', async () => {
-    let apiName = 'exposed-headers';
+    const apiName = 'exposed-headers';
     await openOasDesignerPage(firstApi, enableCors);
     await apis_page.OAS_EXPOSED_HEADERS_DROPDOWN.setValue("value-1-header");
     await apis_page.OAS_EXPOSED_HEADERS_DROPDOWN.setValue("value-2");
@@ -145,14 +145,14 @@ test('Test CORS settings on OAS API designer page', async ({ createUserAndLogin,
     await apis_page.API_NAME_INPUT.fill('cors-test');
     await apis_page.OAS_NEXT_BUTTON.click();
     if (enableCors) {
-    await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
-    await apis_page.OAS_ENABLE_CORS_TOGGLE.click();
+      await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
+      await apis_page.OAS_ENABLE_CORS_TOGGLE.click();
     }
     await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
   }
 
   async function selectAllowedMethods(methods: string[]) {
-    for (let method of methods) {
+    for (const method of methods) {
       await apis_page.SIDE_MENU_MIDDLEWARE_LINK.click();
       await apis_page.OAS_ALLOWED_METHODS_DROPDOWN.selectOption(method);
     }

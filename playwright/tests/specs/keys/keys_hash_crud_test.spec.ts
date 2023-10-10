@@ -22,7 +22,7 @@ const updatedKeyDetails = {
 };
 
 
-test('Create/update/delete keys without policy', async ({ createUserAndLogin, main_page, keys_page, page }) => {
+test('Create/update/delete keys without policy', async ({ createUserAndLogin, main_page, keys_page }) => {
   const dashboard_connection = new Dashboard_connection();
 
   await test.step('Prerequisits: creating API definition via dashboard API', async () => {

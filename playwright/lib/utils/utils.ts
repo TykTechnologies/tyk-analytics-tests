@@ -6,6 +6,6 @@ import randomEmailGenerator from 'random-email';
  * @return {string} random email
 **/
 export const generateRandomEmail = () => {
-    const randomEmail = randomEmailGenerator({ domain: 'example.com' });
-    return randomEmail.replace('@', `+${moment().format('h_mm_ss')}@`);
+  const randomEmail = randomEmailGenerator({ domain: 'example.com' });
+  return randomEmail.replace('@', `+${moment().format('h_mm_ss')}@`);
 };
