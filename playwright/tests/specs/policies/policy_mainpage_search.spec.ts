@@ -132,6 +132,7 @@ test('Test Policy search functionality on Main Policy Page', async ({ createUser
 
   await test.step('User should be able search policy by Authentication type', async () => {
     await reopenPolicyPage();
+    await page.waitForTimeout(1000);
     await policies_page.AUTH_TYPES_DROPDOWN.selectOption("JSON Web Token");
     await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(authTokenApi.name);
