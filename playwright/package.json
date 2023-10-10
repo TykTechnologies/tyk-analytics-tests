@@ -7,7 +7,7 @@
     "test": "npx playwright test --project='chromium'",
     "generate-coverage-doc": "PATH_TO_RESULTS=`PWD`/results/json/wdio-merged.json node ./node_modules/ui_test_automation/utils/GenerateCoverageDoc.js",
     "gui": "npx playwright test --project='chromium' --ui",
-    "upload_report_to_s3": "node lib/uploadReport.js"
+    "upload_report_to_s3": "node ./node_modules/tyk-test-automation-wrappers/lib/utils/uploadReport.js"
   },
   "keywords": [],
   "author": "Konrad Soltys",

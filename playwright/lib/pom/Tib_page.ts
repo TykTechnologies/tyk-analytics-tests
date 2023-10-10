@@ -2,7 +2,7 @@ import { Template_Page } from './Template_Page';
 import { Button_object } from '@wrappers/Button_object';
 import { DropDown_object } from '@wrappers/DropDown_object';
 import { Input_object } from '@wrappers/Input_object';
-import { SlowButton_object } from 'tyk-test-automation-wrappers/lib/SlowButton_object';
+import { SlowButton_object } from '@wrappers/SlowButton_object';
 
 export class Tib_page extends Template_Page {
     get CREATE_PROFILE_BUTTON() {return new SlowButton_object('span:text-is("Create Profile")', this.page);}
