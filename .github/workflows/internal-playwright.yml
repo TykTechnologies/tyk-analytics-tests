@@ -182,10 +182,10 @@ jobs:
           Commit: ${{ github.event.after }} ${{ github.event.commits[0].message }}
           Triggered by: ${{ github.event_name }} (@${{ github.actor }})
           [Execution page](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
-          "${{ steps.test_execution.outcome == 'success' && '' || env.S3_REPORT_URL }}"
+          ${{ steps.test_execution.outcome == 'success' && '' || env.S3_REPORT_URL }}
         repo-token: ${{ secrets.ORG_GH_TOKEN }}
         allow-repeats: true
       env:
         STATUS: "${{ steps.test_execution.outcome == 'success' && ':white_check_mark:' || ':no_entry_sign:' }}"
-        S3_REPORT_URL: "[REPORT](https://tyk-qa-reports.s3.eu-central-1.amazonaws.com/tyk-analytics/${{ github.run_id }}/index.html)"
+        S3_REPORT_URL: "[Report](https://tyk-qa-reports.s3.eu-central-1.amazonaws.com/tyk-analytics/${{ github.run_id }}/index.html)"
 
