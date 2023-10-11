@@ -102,7 +102,6 @@ test('Federation API frontend', async ({ createUserAndLogin, main_page, apis_pag
   const supergraphSchemaEditorXpath = '//div[@id="graphql-schema"]//div[@class="view-lines monaco-mouse-cursor-text"]';
   const dashboard_connection = new Dashboard_connection();
   let $supergraphTableElement;
-  const refreshCounter = 0;
 
   await test.step('Prerequisites: creating subgraph APIs via dashboard API', async () => {
     for (const subgraph of [usersSubgraphApi, productsSubgraphApi, reviewsSubgraphApi]) {

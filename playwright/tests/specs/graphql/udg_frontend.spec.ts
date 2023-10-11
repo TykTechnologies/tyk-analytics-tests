@@ -40,25 +40,25 @@ test('UDG with REST and GQL datasources', async ({ createUserAndLogin, main_page
   };
 
   //Not used until file uploading is implemented
-  const schemaFileUploadVerificationArray = [
-    ["type", "Query"],
-    ["restQuery", "RestType"],
-    ["gqlQuery", "GqlType"],
-    ["kafkaQuery", "KafkaType"],
-    [], [],
-    ["type", "RestType"],
-    ["restTypeField1", "String"],
-    [], [],
-    ["type", "GqlType"],
-    ["gqlTypeField1", "String"],
-    [], [],
-    ["type", "KafkaType"],
-    ["kafkaTypeField1", "String"]
-  ];
+  // const schemaFileUploadVerificationArray = [
+  //   ["type", "Query"],
+  //   ["restQuery", "RestType"],
+  //   ["gqlQuery", "GqlType"],
+  //   ["kafkaQuery", "KafkaType"],
+  //   [], [],
+  //   ["type", "RestType"],
+  //   ["restTypeField1", "String"],
+  //   [], [],
+  //   ["type", "GqlType"],
+  //   ["gqlTypeField1", "String"],
+  //   [], [],
+  //   ["type", "KafkaType"],
+  //   ["kafkaTypeField1", "String"]
+  // ];
 
-  const schemaEditorXpath = '//div[@class="view-lines monaco-mouse-cursor-text"]';
+  // const schemaEditorXpath = '//div[@class="view-lines monaco-mouse-cursor-text"]';
 
-  const schemaFileRelativePath = "../../test/specs/graphql/udg-schema.gql";
+  // const schemaFileRelativePath = "../../test/specs/graphql/udg-schema.gql";
   let $apiTableElement: Locator;    
 
   const dashboard_connection = new Dashboard_connection();

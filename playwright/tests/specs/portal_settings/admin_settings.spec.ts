@@ -1,6 +1,6 @@
 import { test, assert } from '@fixtures';
 
-test('Portal Settings main Admin page', async ({ createUserAndLogin, main_page, admin_settings_page, page }) => {
+test('Portal Settings main Admin page', async ({ main_page, admin_settings_page, page }) => {
   const email = "test_notification_email@tyk.io";
   
   await test.step('User should see proper default values', async () => {

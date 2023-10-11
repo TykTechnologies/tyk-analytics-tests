@@ -1,6 +1,6 @@
 import { test, assert } from '@fixtures';
 
-test('Portal Settings - API access manipulations', async ({ createUserAndLogin, main_page, admin_settings_page, page }) => {
+test('Portal Settings - API access manipulations', async ({ main_page, admin_settings_page, page }) => {
   const inputs = {
     provider: "Okta",
     grant_types: ["Refresh Token", "Password"],

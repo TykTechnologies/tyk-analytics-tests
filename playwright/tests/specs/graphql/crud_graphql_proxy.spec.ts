@@ -1,7 +1,7 @@
 import { test, assert } from '@fixtures';
 import { Locator } from '@playwright/test';
 
-test('CRUD simple GraphQL (proxy-only) API', async ({ createUserAndLogin, page, main_page, apis_page, graphql_page }) => {
+test('CRUD simple GraphQL (proxy-only) API', async ({ page, main_page, apis_page, graphql_page }) => {
   const apiDetails = {
     name: "GraphQL-test"
   };

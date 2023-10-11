@@ -3,7 +3,6 @@ import { test, assert } from '@fixtures';
 import { Dashboard_connection } from '@api_connections/Dashboard_connection';
 import { newAPIdefinitionWithDefaults } from '@lib/utils/API_object_designer';
 import { newPolicyDefinitionWithDefaults } from '../../../lib/utils/Policy_object_designer';
-import { APIResponse } from '@playwright/test';
 
 const keylessApi = {
   "name": "keyless"

@@ -28,7 +28,7 @@ export const prepareFederationExampleUpstream = () => {
 
 const checkIfFederationFilesExists = () => {
   console.log('>>> Checking presence of federation start.sh file');
-  exec('ls graphql-go-tools/examples/federation | grep start.sh', (error, stdout, stderr) => {
+  exec('ls graphql-go-tools/examples/federation | grep start.sh', (error, stdout) => {
     if(error) {
       console.error(`>>> Files in federation folder: ${stdout}`);
       console.error('>>> Error: ', error.message);

@@ -28,7 +28,6 @@ module.exports = {
   rules: {
     semi: [`error`, `always`],
     "@typescript-eslint/no-floating-promises": ["error"],
-'playwright/await-async-selector': 'error',
     "block-spacing": ["error"],
     "space-before-blocks": ["error"],
     "object-curly-spacing": ["error", "always", { "objectsInObjects": true }],
