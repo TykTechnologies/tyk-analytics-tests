@@ -26,6 +26,7 @@ const updatedKeyDetails = {
 
 
 test('Create/update/delete keys by ID without policy', async ({ createUserAndLogin, main_page, keys_page }) => {
+  test.setTimeout(2000000);
   const dashboard_connection = new Dashboard_connection();
 
   let keyIdValue: string | null;

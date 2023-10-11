@@ -108,6 +108,7 @@ test('Test Policy search functionality on Main Policy Page', async ({ createUser
   await test.step('User should be able search policy by Policy id', async () => {
     const policyDetails: any = await dashboard_connection.getPolicyByName(oauthApi.name + "_policy", createUserAndLogin.userSecret);
     const policyId = policyDetails.Data[0]._id;
+    await page.waitForTimeout(1000);
     await policies_page.NAME_SEARCH_INPUT.fill(policyId);
     await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(authTokenApi.name);
@@ -120,6 +121,7 @@ test('Test Policy search functionality on Main Policy Page', async ({ createUser
 
   await test.step('User should be able search policy by Access Right', async () => {
     await reopenPolicyPage();
+    await page.waitForTimeout(1000);
     await policies_page.ACCESS_RIGHTS_DROPDOWN.selectOption(authTokenApi.name);
     await assert(policies_page.POLICY_TABLE).not.toContainText(keylessApi.name);
     await assert(policies_page.POLICY_TABLE).toContainText(authTokenApi.name);

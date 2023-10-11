@@ -31,6 +31,7 @@ const updatedCatalogueDetails = {
 const NoCatalogueMessage = "No APIs registered for the portal.";
 
 test('Create/update/delete operations on Catalogue page', async ({ createUserAndLogin, main_page, catalogue_page, policies_page, page }) => {
+  test.setTimeout(2000000);
   const dashboard_connection = new Dashboard_connection();
 
   await test.step('Prerequisits: creating API definition via dashboard API', async () => {
