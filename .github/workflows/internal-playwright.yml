@@ -177,12 +177,17 @@ jobs:
       uses: mshick/add-pr-comment@v1
       with:
         message: |
-          **UI tests result: ${{ steps.test_execution.outcome }}** ${{ env.STATUS }} 
+          **UI playwright tests result: ${{ steps.test_execution.outcome }}** ${{ env.STATUS }} 
           Branch used: ${{ github.ref }}
           Commit: ${{ github.event.after }} ${{ github.event.commits[0].message }}
           Triggered by: ${{ github.event_name }} (@${{ github.actor }})
           [Execution page](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          [Report](${{ env.REPORT_URL }})
         repo-token: ${{ secrets.ORG_GH_TOKEN }}
         allow-repeats: true
       env:
         STATUS: "${{ steps.test_execution.outcome == 'success' && ':white_check_mark:' || ':no_entry_sign:' }}"
+        REPORT_URL: ${{ steps.test_execution.outcome == 'success' && env.GITHUB_REPORT || env.S3_REPORT_URL }}
+        GITHUB_REPORT: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        S3_REPORT_URL: https://tyk-qa-reports.s3.eu-central-1.amazonaws.com/tyk-analytics/${{ github.run_id }}/index.html
+

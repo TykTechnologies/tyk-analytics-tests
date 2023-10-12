@@ -105,8 +105,8 @@ export class Endpoints_page extends Template_Page {
     await this.OAS_SEARCH_ENDPOINTS_INPUT.fill(endpoint);
   }
 
-  clearSerachCriteria() {
-    this.OAS_SEARCH_ENDPOINTS_INPUT.clear();
+  async clearSerachCriteria() {
+    await this.OAS_SEARCH_ENDPOINTS_INPUT.clear();
   }
 
   async filterEndpointsByMethod(method: any) {

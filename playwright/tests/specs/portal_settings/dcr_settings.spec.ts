@@ -1,6 +1,6 @@
 import { test, assert } from '@fixtures';
 
-test('Portal Settings - API access manipulations', async ({ createUserAndLogin, main_page, admin_settings_page, page }) => {
+test('Portal Settings - API access manipulations', async ({ main_page, admin_settings_page, page }) => {
   const inputs = {
     provider: "Okta",
     grant_types: ["Refresh Token", "Password"],
@@ -22,10 +22,10 @@ test('Portal Settings - API access manipulations', async ({ createUserAndLogin, 
     await admin_settings_page.DCR_TOGGLE.click();
     await admin_settings_page.SAVE_BUTTON.click();
     const dropdowns = [admin_settings_page.DCR_PROVIDERS_DROPDOWN, admin_settings_page.DCR_TOKEN_ENDPOINT_DROPDOWN,
-    admin_settings_page.DCR_GRANT_TYPES_DROPDOWN, admin_settings_page.DCR_RESPONSE_TYPE_DROPDOWN];
-    for (let dropdown of dropdowns) {
-      await assert(dropdown).toHaveAttribute("class", errorElementClass)
-    };
+      admin_settings_page.DCR_GRANT_TYPES_DROPDOWN, admin_settings_page.DCR_RESPONSE_TYPE_DROPDOWN];
+    for (const dropdown of dropdowns) {
+      await assert(dropdown).toHaveAttribute("class", errorElementClass);
+    }
     await assert(admin_settings_page.DCR_HOST_INPUT).toHaveAttribute("error", "Enter an IDP host");
     await assert(admin_settings_page.DCR_CLIENT_REGISTRATION_ENDPOINT_INPUT).toHaveAttribute("error", "Enter an endpoint");
     await assert(admin_settings_page.DCR_TOKEN_INPUT).toHaveAttribute("error", ""); //Token is not a mandatory field -> no error
@@ -49,11 +49,11 @@ test('Portal Settings - API access manipulations', async ({ createUserAndLogin, 
     await admin_settings_page.API_ACCESS_TAB_BUTTON.click();
     assert(await admin_settings_page.DCR_TOGGLE.isSelected()).toBeTruthy();
     await assert(admin_settings_page.DCR_PROVIDERS_DROPDOWN.locator(`span:text("${inputs.provider}")`)).toBeVisible();
-    for (let grant_type of inputs.grant_types) {
+    for (const grant_type of inputs.grant_types) {
       await assert(admin_settings_page.DCR_GRANT_TYPES_DROPDOWN.locator(`span:text("${grant_type}")`)).toBeVisible();
     }
     await assert(admin_settings_page.DCR_TOKEN_ENDPOINT_DROPDOWN.locator(`span:text("${inputs.token_endpoint_auth}")`)).toBeVisible();
-    for (let response_type of inputs.response_types) {
+    for (const response_type of inputs.response_types) {
       await assert(admin_settings_page.DCR_RESPONSE_TYPE_DROPDOWN.locator(`span:text("${response_type}")`)).toBeVisible();
     }
     await assert(admin_settings_page.DCR_HOST_INPUT).toHaveValue(inputs.idp_host);

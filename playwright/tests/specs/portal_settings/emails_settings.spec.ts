@@ -1,6 +1,6 @@
 import { test, assert } from '@fixtures';
 
-test('Portal Settings - emails', async ({ createUserAndLogin, main_page, admin_settings_page, page }) => {
+test('Portal Settings - emails', async ({ main_page, admin_settings_page, page }) => {
   const globalSettingsInputs = {
     from_address: "example@tyk.io",
     name_of_sender: "sender example"

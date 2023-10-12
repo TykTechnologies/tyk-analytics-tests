@@ -16,3 +16,4 @@ results/
 
 # Playwright test reports
 playwright/playwright-report/
+playwright/test-results/

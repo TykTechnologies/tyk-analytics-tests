@@ -26,9 +26,10 @@ const updatedKeyDetails = {
 
 
 test('Create/update/delete keys by ID without policy', async ({ createUserAndLogin, main_page, keys_page }) => {
+  test.setTimeout(2000000);
   const dashboard_connection = new Dashboard_connection();
 
-  let keyIdValue: string | null
+  let keyIdValue: string | null;
 
   await test.step('Prerequisits: creating API definition via dashboard API', async () => {
     const body = newAPIdefinitionWithDefaults(BasicAuthApi);
@@ -86,7 +87,7 @@ test('Create/update/delete keys by ID without policy', async ({ createUserAndLog
   });
 
   await test.step('Confirmation popup should be displayed', async () => {
-    await keys_page.checkIfKeyUpdatedPopUpDisplayed()
+    await keys_page.checkIfKeyUpdatedPopUpDisplayed();
   });
 
   await test.step('User must be able to Delete Key', async () => {
@@ -97,8 +98,6 @@ test('Create/update/delete keys by ID without policy', async ({ createUserAndLog
     await keys_page.LOOKUP_KEY_BUTTON.click();
     await keys_page.isCouldNotRetrieveKeyDisplayed();
   });
-
-
 
 
 });

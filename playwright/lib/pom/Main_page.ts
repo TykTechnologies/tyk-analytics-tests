@@ -5,14 +5,14 @@ import { config } from '@variables';
 
 export class Main_page extends Template_Page {
   //NAVIGATION
-  get APIs_NAVIAGTION_BUTTON() {return new SlowButton_object('a[href="/apis"]', this.page);}
-  get KEYS_NAVIAGTION_BUTTON() {return new Button_object('a[href="/keys"]', this.page);}
-  get POLICIES_NAVIAGTION_BUTTON() {return new Button_object('a[href="/policies"]', this.page);}
-  get USERS_NAVIAGTION_BUTTON() {return new Button_object('a[href="/users"]', this.page);}
-  get SETTINGS_NAVIAGTION_BUTTON() {return new Button_object('a[href="/portal-configuration"]', this.page);}
-  get TIB_NAVIGATION_BUTTON() {return new Button_object('a[href="/tib/profiles"]', this.page);}
-  get WEBHOOKS_NAVIGATION_BUTTON() {return new Button_object('a[href="/webhooks"]', this.page);}
-  get CATALOGUE_NAVIGATION_BUTTON() {return new Button_object('a[href="/portal-catalogue"]', this.page);}
+  get APIs_NAVIAGTION_BUTTON() { return new SlowButton_object('a[href="/apis"]', this.page); }
+  get KEYS_NAVIAGTION_BUTTON() { return new Button_object('a[href="/keys"]', this.page); }
+  get POLICIES_NAVIAGTION_BUTTON() { return new Button_object('a[href="/policies"]', this.page); }
+  get USERS_NAVIAGTION_BUTTON() { return new Button_object('a[href="/users"]', this.page); }
+  get SETTINGS_NAVIAGTION_BUTTON() { return new Button_object('a[href="/portal-configuration"]', this.page); }
+  get TIB_NAVIGATION_BUTTON() { return new Button_object('a[href="/tib/profiles"]', this.page); }
+  get WEBHOOKS_NAVIGATION_BUTTON() { return new Button_object('a[href="/webhooks"]', this.page); }
+  get CATALOGUE_NAVIGATION_BUTTON() { return new Button_object('a[href="/portal-catalogue"]', this.page); }
 
 
   async openAPIs() {
@@ -51,7 +51,7 @@ export class Main_page extends Template_Page {
     await this.WEBHOOKS_NAVIGATION_BUTTON.click();
   }
   
-  async openCatalogue(){
+  async openCatalogue() {
     await this.CATALOGUE_NAVIGATION_BUTTON.click();
   }
 

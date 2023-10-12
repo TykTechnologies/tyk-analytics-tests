@@ -1,12 +1,11 @@
 import { Locator, Page, expect } from '@playwright/test';
-import { assert } from 'console';
 import { Wrapper } from '@wrappers/Wrapper';
 
 export class Template_Page {
   readonly page: Page;  
   
-  get SUCCESS_POP_UPS_LIST() {return this.page.locator('.tyk-message--success');}
-  get ERROR_POP_UPS_LIST() {return this.page.locator('.tyk-message--danger');}
+  get SUCCESS_POP_UPS_LIST() { return this.page.locator('.tyk-message--success'); }
+  get ERROR_POP_UPS_LIST() { return this.page.locator('.tyk-message--danger'); }
 
   constructor(page: Page) {
     this.page = page;
@@ -18,7 +17,7 @@ export class Template_Page {
   }
 
   async waitUntilPageLoaded(webElementOnPage: Locator | Wrapper, timeout = 10000) {
-    return await webElementOnPage.waitFor({ timeout: timeout});
+    return await webElementOnPage.waitFor({ timeout: timeout });
   }
   
   async checkIfSuccessPopupDisplayedWithText(text: string): Promise<void> {
@@ -66,7 +65,7 @@ export class Template_Page {
     for (const popUp of popUps) {
       console.debug(`>>> error popup text: ${await popUp.textContent()}`);
       errorText.push(await popUp.textContent());
-      }
+    }
     return errorText;
   }
 }
