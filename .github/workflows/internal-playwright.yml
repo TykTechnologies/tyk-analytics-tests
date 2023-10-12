@@ -177,7 +177,7 @@ jobs:
       uses: mshick/add-pr-comment@v1
       with:
         message: |
-          **UI tests result: ${{ steps.test_execution.outcome }}** ${{ env.STATUS }} 
+          **UI playwright tests result: ${{ steps.test_execution.outcome }}** ${{ env.STATUS }} 
           Branch used: ${{ github.ref }}
           Commit: ${{ github.event.after }} ${{ github.event.commits[0].message }}
           Triggered by: ${{ github.event_name }} (@${{ github.actor }})
