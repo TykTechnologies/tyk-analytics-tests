@@ -1,3 +1,7 @@
+# !!WARNING!!
+Code from this repository was moved to tyk-analytics repo.
+Any changes in the Playwright framework should be introduced as PR in tyk-analytics repo.
+
 # UI Automated Tests
 
 [Test coverage](coverage.md)
