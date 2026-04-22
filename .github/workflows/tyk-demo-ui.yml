@@ -31,6 +31,14 @@ jobs:
     runs-on: ${{ matrix.platform }}
     
     steps:
+    - name: Generate GitHub App token
+      id: app-token
+      uses: actions/create-github-app-token@d72941d797fd3113feb6b93fd0dec494b13a2547 # v1
+      with:
+        app-id: ${{ secrets.PROBE_APP_ID }}
+        private-key: ${{ secrets.PROBE_APP_PRIVATE_KEY }}
+        owner: TykTechnologies
+
     - name: Install Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2.4.1
       with:
@@ -38,7 +46,7 @@ jobs:
 
     - name: Fix private module deps
       env:
-        TOKEN: '${{ secrets.ORG_GH_TOKEN }}'
+        TOKEN: '${{ steps.app-token.outputs.token }}'
       run: >
         git config --global url."https://${TOKEN}@github.com".insteadOf "https://github.com"
 
