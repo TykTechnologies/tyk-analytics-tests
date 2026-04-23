@@ -42,7 +42,7 @@ jobs:
       env:
         TOKEN: '${{ steps.app-token.outputs.token }}'
       run: >
-        git config --global url."https://${TOKEN}@github.com".insteadOf "https://github.com"
+        git config --global url."https://x-access-token:${TOKEN}@github.com/".insteadOf "https://github.com/"
     
     - name: Checkout of Framework
       uses: actions/checkout@v2
